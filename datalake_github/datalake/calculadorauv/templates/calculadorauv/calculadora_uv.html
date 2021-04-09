@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block title %}Calculadora UV{% endblock %}
+
+{% block content %}
+
+<div class="content-section">
+    <form method="GET" action="{% url 'cal_uv' %}">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Calculadora de Unidad Vecinal</legend>
+                <input placeholder="Nombre de Calle" name='nombre_calle' id='id_nombre_calle'>
+                <input placeholder="Numero de Calle" name='numero_calle' id='id_nombre_calle'>
+        </fieldset> 
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Calcular UV</button>
+        </div>
+    </form>
+    <h2>{{uv}}</h2>
+</div>
+
+<script>
+$(function() {
+$( "#id_nombre_calle" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});
+});
+</script>
+
+
+
+{% endblock %}

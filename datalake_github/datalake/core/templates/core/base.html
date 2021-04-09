@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}{% endblock %} | DataLake</title>
+
+    {% load static %}
+
+    <!-- Bootstrap -->
+    <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link href="{% static 'core/css/datalake.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>DataLake</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <p><a href="{% url 'core-home' %}">{{user.username}}</a></p>
+            <li class="active">
+                <a href="#Departamento 1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">OMIL</a>
+                <ul id="Departamento 1">
+                    <li>
+                        <a href="{% url 'formularioomil-create' %}">Formulario OMIL</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="#Departamento 2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Seguridad</a>
+                <ul id="Departamento 2">
+                    <li>
+                        <a href="{% url 'seguridad-create' %}">Formulario Seguridad</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="#Departamento 3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Farmacia</a>
+                <ul id="Departamento 3">
+                    <li>
+                        <a href="{% url 'farmacia-create' %}">Formulario Farmacia</a>
+                    </li>
+                </ul>
+            </li>
+
+        <ul class="list-unstyled CTAs">
+            
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'profile' %}" class="download">Perfil</a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}" class="article">Cerrar Sesion</a>
+                </li>
+                <li>
+                    <a href="{% url 'calculadorauv' %}" class="download">Calculadra UV</a>
+                </li>
+                <li>
+                   <a href="{% url 'vis' %}" class="article">Visualizacion</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'login' %}" class="download">Iniciar Sesion</a>
+                </li>
+                <li>
+                    <a href="{% url 'register' %}" class="article">Registrarse</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'core-home' %}">Pagina Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core-quienes' %}">Quienes Somos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core-qya' %}">Preguntas y Respuestas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ request.META.HTTP_REFERER }}">Atras</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>     
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{message}}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% block content %} {% endblock %} 
+
+    </div>
+</div>    
+    <!-- Bootstrap core JavaScript 
+    <script src="{% static 'core/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'core/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    -->
+    
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+</body>
+
+</html>

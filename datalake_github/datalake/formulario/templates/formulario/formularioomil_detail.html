@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Edicion Formulario{% endblock %}
+
+{% block content %}
+
+<div>
+    <h2>{{object.nombre_formulario}}</h2>
+    <h3>Creador del formulario: {{ object.autor }}</h3>
+    <h4>Fecha de creacion: {{object.created|date:"d/m/Y"}}</h4>
+    {% if object.autor == user %}
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'formularioomil-update' object.id %}">Editar</a>
+    {% endif %}
+    <hr>
+    <h5>Nombre: {{ object.nombre }} {{ object.apellido }}</h5>
+    <br>
+    <h5>Numero de Indinteficiacion: {{ object.numero_identificacion }}</h5>  
+    <br>
+    <h5>Pais de Origen: {{ object.p_origen }}</h5> 
+    <br>
+    <h5>Direccion: {{ object.direccion }} {{ object.numero_calle }}</h5>  
+    <br>
+    <h3>Unidad Vecinal: {{ object.uv }}</h3>  
+    <hr>
+    <h3>texto1:</h3>
+    <p>{{ object.texto1 }} </p>  
+    <br>
+    <h3>texto2:</h3>
+    <p>{{ object.texto2 }} </p>  
+    <br>
+    <h3>texto3:</h3>
+    <p>{{ object.texto3 }} </p>  
+    <br>
+    <h3>texto4:</h3>
+    <p>{{ object.texto4 }} </p>  
+    <br>
+</div>
+
+{% endblock %}
+
+{% block script %} 
+
+{% endblock %}

@@ -1,0 +1,38 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<title>Independencia | Data View</title>
+<!-- Load d3.js and the geo projection plugin -->
+<!-- <script src="https://sdk.amazonaws.com/js/aws-sdk-2.782.0.min.js"></script> -->
+<!-- <script src="../js/hsluv.min.js"></script> -->
+
+<script src="alasql.min.js"></script>
+<script type='module' src="sql.js"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="utils.js"></script>
+
+<body>
+
+  <label for="time-range">Rango Temporal:</label>
+  <input type="text" id="time-range" readonly style="border:0; color:#aaa; font-weight:bold; width:600px">
+  <div id="slider-range"></div>
+
+  <div id='filters'>
+    <button type='button' id='addFilterBtn' onClick='addFilterInput()'>Añadir filtro</button><br>
+  </div>
+  <a href="#" onclick="downloadTableAsCsv('table');">Descargar</a>
+  <svg id="map" width="600" height="600" position='absolute'></svg>
+</body>
+
+<script type='module' src="coropleth-db.js"></script>
+<script src="coropleth-non-sdk.js"></script>
