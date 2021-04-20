@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Personales
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
+    'farmacia.apps.FarmaciaConfig',
     'formulario.apps.FormularioConfig',
     'calculadorauv.apps.CalculadorauvConfig',
     'vis.apps.VisConfig',
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Chile/Continental'
 
 USE_I18N = True
 

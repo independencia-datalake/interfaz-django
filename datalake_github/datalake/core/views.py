@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView
-from formulario.models import FormularioOMIL
+from formulario.models import FormularioBase
 from django.contrib.auth.admin import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
 
-class ListaFormularioOMIL(ListView):
-  model = FormularioOMIL
+class ListaFormularioBase(ListView):
+  model = FormularioBase
   template_name = 'core/home.html'
   context_object_name = 'formularios'
   ordering = ['-created']

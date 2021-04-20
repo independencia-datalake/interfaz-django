@@ -9,16 +9,16 @@
     <h3>Creador del formulario: {{ object.autor }}</h3>
     <h4>Fecha de creacion: {{object.created|date:"d/m/Y"}}</h4>
     {% if object.autor == user %}
-        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'farmacia-update' object.id %}">Editar</a>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'denuncia-update' object.id %}">Editar</a>
     {% endif %}
     <hr>
-    <h5>Nombre: {{ object.nombre }} {{ object.apellido }}</h5>
+    <h5>Nombre Solicitante: {{ object.nombre }} {{ object.apellido_p }} {{ object.apellido_m }}</h5>
     <br>
-    <h5>Direccion: {{ object.direccion }} {{ object.numero_calle }}</h5>  
+    <h5>Numero de Indinteficiacion Solicitante: {{ object.numero_identificacion }}</h5>  
     <br>
-    <h3>Unidad Vecinal: {{ object.uv }}</h3>
+    <h5>Direccion Solicitante: {{ object.direccion }} {{ object.numero_calle }}</h5>  
     <br>
-    <h3>Numero de Telefono: +{{ object.c_telefono }} {{ object.n_telefono }}</h3>  
+    <h3>Unidad Vecinal Solicitante: {{ object.uv }}</h3>  
     <hr>
 </div>
 

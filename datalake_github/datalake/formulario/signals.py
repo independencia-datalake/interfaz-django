@@ -2,13 +2,13 @@ import re
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import (
-    FormularioOMIL,
-    CallesCondiciones,
-    Seguridad,
-    Farmacia,
+from .models import *
+from .admin import (
+    FormularioBaseExport,
+    DenunciaExport,
+    ControlDePlagaExport,
+    EsterilizacionExport,
 )
-from .admin import FormularioOMILExport
 
 def calculo_de_UV(sender, instance, **kwargs):
     calle_condiciones = []
@@ -108,30 +108,55 @@ def calculo_de_UV(sender, instance, **kwargs):
 
     instance.uv = getUV(instance.direccion,instance.numero_calle, getConditions(data))
 
-#FORMULARIO OMIL - FORMULARIO BASE, EXPORTAR A CSV Y CALCULO DE UV AUTOMATICA
+#FORMULARIO BASE - EXPORTAR A CSV Y CALCULO DE UV AUTOMATICA
 
-@receiver(post_save, sender=FormularioOMIL)
-def exportar_formularioomil(sender, instance, **kwargs):
-    dataset = FormularioOMILExport().export()
-    f = open("formularioomil.csv", "w")
+@receiver(post_save, sender=FormularioBase)
+def exportar_formulariobase(sender, instance, **kwargs):
+    dataset = FormularioBaseExport().export()
+    f = open("formulariobase.csv", "w")
     f.write(dataset.csv)
     f.close()
 
-@receiver(pre_save, sender=FormularioOMIL)
-def calculo_uv_formularioomil(sender, instance, **kwargs):
+@receiver(pre_save, sender=FormularioBase)
+def calculo_uv_formulariobase(sender, instance, **kwargs):
     calculo_de_UV(sender, instance, **kwargs)
 
-#FORMULARIO SEGURIDAD
+#DENUNCIA - EXPORTAR A CSV Y CALCULO DE UV AUTOMATICA
 
-@receiver(pre_save, sender=Seguridad)
-def calculo_uv_seguridad(sender, instance, **kwargs):
+@receiver(post_save, sender=Denuncia)
+def exportar_denuncia(sender, instance, **kwargs):
+    dataset = DenunciaExport().export()
+    f = open("denuncia.csv", "w")
+    f.write(dataset.csv)
+    f.close()
+
+@receiver(pre_save, sender=Denuncia)
+def calculo_uv_denuncia(sender, instance, **kwargs):
     calculo_de_UV(sender, instance, **kwargs)
 
-#FORMULARIO DE FARMACIA
+#CONTROL DE PLAGAS - EXPORTAR A CSV Y CALCULO DE UV AUTOMATICA
 
-@receiver(pre_save, sender=Farmacia)
-def calculo_uv_farmacia(sender, instance, **kwargs):
+@receiver(post_save, sender=ControlDePlaga)
+def exportar_controldeplaga(sender, instance, **kwargs):
+    dataset = ControlDePlagaExport().export()
+    f = open("controldeplaga.csv", "w")
+    f.write(dataset.csv)
+    f.close()
+
+@receiver(pre_save, sender=ControlDePlaga)
+def calculo_uv_controldeplaga(sender, instance, **kwargs):
     calculo_de_UV(sender, instance, **kwargs)
 
+#ESTERILIZACION - EXPORTAR A CSV Y CALCULO DE UV AUTOMATICA
 
+@receiver(post_save, sender=Esterilizacion)
+def exportar_esterilizacion(sender, instance, **kwargs):
+    dataset = EsterilizacionExport().export()
+    f = open("esterilizacion.csv", "w")
+    f.write(dataset.csv)
+    f.close()
+
+@receiver(pre_save, sender=Esterilizacion)
+def calculo_uv_esterilizacion(sender, instance, **kwargs):
+    calculo_de_UV(sender, instance, **kwargs)
 

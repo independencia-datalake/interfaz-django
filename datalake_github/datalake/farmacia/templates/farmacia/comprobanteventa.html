@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Comprobante de Venta en Farmacia{% endblock %}
+
+{% block content %}
+
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Holiwi</legend>
+            {{ c_form|crispy }}
+            {{ pv_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Terminar</button>
+        </div>
+    </form>
+</div>
+
+{% comment %} <script>
+$(function() {
+$( "#id_direccion" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});
+});
+</script> {% endcomment %}
+
+
+
+{% endblock %}

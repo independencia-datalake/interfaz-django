@@ -12,7 +12,7 @@
                 <div>
                     <p>{{ formulario.autor }}</p>
                 </div>
-                <h2><a href="{% url 'formularioomil-detail' formulario.id %}">{{formulario.nombre_formulario}} - {{formulario.created|date:"d/m/Y"}} - {{ formulario.numero_identificacion }}</a></h2>
+                <h2><a href="{% url 'formulariobase-detail' formulario.id %}">{{formulario.nombre_formulario}} - {{formulario.created|date:"d/m/Y"}} - {{ formulario.numero_identificacion }}</a></h2>
             </div>
         </div>
     {% endif %}

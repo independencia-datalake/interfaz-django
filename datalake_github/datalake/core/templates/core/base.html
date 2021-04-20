@@ -38,36 +38,33 @@
     
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>DataLake</h3>
+            <h3>DataLake - Interfaz</h3>
         </div>
 
         <ul class="list-unstyled components">
             <p><a href="{% url 'core-home' %}">{{user.username}}</a></p>
             <li class="active">
-                <a href="#Departamento 1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">OMIL</a>
+                <a href="#Departamento 1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Base</a>
                 <ul id="Departamento 1">
                     <li>
-                        <a href="{% url 'formularioomil-create' %}">Formulario OMIL</a>
+                        <a href="{% url 'formulariobase-create' %}">Formulario Base</a>
                     </li>
                 </ul>
             </li>
             <li class="active">
-                <a href="#Departamento 2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Seguridad</a>
+                <a href="#Departamento 2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">DIMAP</a>
                 <ul id="Departamento 2">
                     <li>
-                        <a href="{% url 'seguridad-create' %}">Formulario Seguridad</a>
+                        <a href="{% url 'denuncia-create' %}">Denuncia</a>
                     </li>
-                </ul>
-            </li>
-            <li class="active">
-                <a href="#Departamento 3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Farmacia</a>
-                <ul id="Departamento 3">
                     <li>
-                        <a href="{% url 'farmacia-create' %}">Formulario Farmacia</a>
+                        <a href="{% url 'controldeplaga-create' %}">Control De Plaga</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'esterilizacion-create' %}">Esterilizacion</a>
                     </li>
                 </ul>
             </li>
-
         <ul class="list-unstyled CTAs">
             
             {% if user.is_authenticated %}

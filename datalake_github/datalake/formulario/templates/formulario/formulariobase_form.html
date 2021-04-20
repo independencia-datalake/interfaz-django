@@ -1,13 +1,13 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Formulario Seguridad{% endblock %}
+{% block title %}Formulario OMIL{% endblock %}
 
 {% block content %}
 <div class="content-section">
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Formulario Seguridad</legend>
+            <legend class="border-bottom mb-4">Formulario Base</legend>
             {{ form|crispy }}
         </fieldset>
         <div class="form-group">
