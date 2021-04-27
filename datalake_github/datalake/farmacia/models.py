@@ -20,13 +20,15 @@ class ProductoFarmacia(models.Model):
         return f'{self.marca_producto} {self.p_a} {self.dosis} {self.precentacion}'
 
 class ComprobanteVenta(models.Model):     
-    numero_identificacion = models.CharField(default="", max_length=30)
-    
+    numero_identificacion = models.CharField(default="", max_length=30, blank=True)
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT)
     
     class Meta:
         verbose_name = "Comprobante Venta"
         verbose_name_plural = "Comprobantes de Venta"
+
+    def __str__(self):
+        return f'{self.numero_identificacion}'
 
 class ProductoVendido(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")

@@ -8,6 +8,8 @@ def calculadorauv(request):
     return render(request, 'calculadorauv/calculadora_uv.html')
 
 def cal_uv(request):
+    
+
     nombre_calle = request.GET['nombre_calle']
     numero_calle = request.GET['numero_calle']
     calle_condiciones = []
@@ -107,6 +109,9 @@ def cal_uv(request):
 
     UV = getUV(nombre_calle,numero_calle, getConditions(data))
     
+    
+
+
     context = {
         'uv': UV,
     }

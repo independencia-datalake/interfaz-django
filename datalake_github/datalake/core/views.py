@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView
-from formulario.models import FormularioBase
+from formulario.models import *
 from django.contrib.auth.admin import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 

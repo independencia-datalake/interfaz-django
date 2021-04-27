@@ -10,7 +10,11 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Holiwi</legend>
             {{ c_form|crispy }}
-            {{ pv_form|crispy }}
+            {{ formset.management_form }}
+            {% for form in formset%}
+                {{ form|crispy }}
+                <hr>
+            {% endfor %}
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Terminar</button>
