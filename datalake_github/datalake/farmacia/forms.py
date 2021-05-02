@@ -8,10 +8,10 @@ class ComprobanteForm(forms.ModelForm):
 
     class Meta:
         model = ComprobanteVenta
-        fields = ['numero_identificacion', 'farmaceuta']
+        fields = ['numero_identificacion']
 
 class ProductoVendidoForm(forms.ModelForm):
 
     class Meta:
         model = ProductoVendido
-        fields = ['nombre', 'cantidad', 'n_venta', 'farmaceuta']
+        fields = ['nombre', 'cantidad']

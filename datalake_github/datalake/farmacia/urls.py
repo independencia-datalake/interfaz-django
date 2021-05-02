@@ -4,5 +4,5 @@ from .views import *
 
 urlpatterns = [
     #COMPROBANTE DE VENTA
-    path('ComprobanteDeVenta/',views.comprobante_venta, name='comprobante-venta'),
+    path('ComprobanteDeVenta/',views.comprobante_venta, name='comprobanteventa-create'),
 ]

@@ -23,12 +23,16 @@ class ComprobanteVenta(models.Model):
     numero_identificacion = models.CharField(default="", max_length=30, blank=True)
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT)
     
+
     class Meta:
         verbose_name = "Comprobante Venta"
         verbose_name_plural = "Comprobantes de Venta"
 
     def __str__(self):
-        return f'{self.numero_identificacion}'
+        return f'{self.pk}'
+    
+    # def  get_absolute_url(self):
+    #     return reverse("comprobanteventa-detail", kwargs={"pk": self.pk})  
 
 class ProductoVendido(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
@@ -43,9 +47,10 @@ class ProductoVendido(models.Model):
     class Meta:
         verbose_name = "Producto Vendido"
         verbose_name_plural = "Productos Vendidos"
-        ordering = ['n_venta']
+        ordering = ['-n_venta']
     
     def __str__(self):
-        return f'{self.n_venta} - {self.nombre}'
+        return f'{self.n_venta} - {self.nombre} - {self.cantidad}'
 
-
+    def  get_absolute_url(self):
+        return reverse("comprobanteventa-detail", kwargs={"pk": self.n_venta})
