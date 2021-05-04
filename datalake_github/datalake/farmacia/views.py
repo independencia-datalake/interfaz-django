@@ -6,13 +6,12 @@ from django.contrib.auth.models import User
 from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, DetailView, UpdateView
-from django.forms import inlineformset_factory
+
 
 @login_required
 def comprobante_venta(request):
 
     c_form = ComprobanteForm()
-    ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta, ProductoVendido, fields=('nombre', 'cantidad'))
     formset = ProductoVendidoFormset()
 
     if request.method == 'POST':

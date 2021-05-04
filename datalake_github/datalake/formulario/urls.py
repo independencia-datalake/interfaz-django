@@ -4,18 +4,22 @@ from .views import *
 
 urlpatterns = [
     #FORMULARIO BASE
+    path('formularioBase/inicio', views.inicioFormularioBase, name='formulariobase-inicio'),
     path('formularioBase/', CrearFormularioBase.as_view(), name='formulariobase-create'),
     path('formularioBase/<int:pk>/',DetalleFormularioBase.as_view(),name="formulariobase-detail"),
     path('formularioBase/<int:pk>/edicion/',EdicionFormularioBase.as_view(),name="formulariobase-update"),
     #DENUNCIA
+    path('Denuncia/inicio', views.inicioDenuncia, name='denuncia-inicio'),
     path('Denuncia/', CrearDenuncia.as_view(), name='denuncia-create'),
     path('Denuncia/<int:pk>/',DetalleDenuncia.as_view(),name="denuncia-detail"),
     path('Denuncia/<int:pk>/edicion/',EdicionDenuncia.as_view(),name="denuncia-update"),
     #CONTROL DE PLAGA
+    path('ControlDePlaga/inicio', views.inicioControlDePlaga, name='controldeplaga-inicio'),
     path('ControlDePlaga/', CrearControlDePlaga.as_view(), name='controldeplaga-create'),
     path('ControlDePlaga/<int:pk>/',DetalleControlDePlaga.as_view(),name="controldeplaga-detail"),
     path('ControlDePlaga/<int:pk>/edicion/',EdicionControlDePlaga.as_view(),name="controldeplaga-update"),
     #ESTERILIZACION
+    path('Esterilizacion/inicio', views.inicioEsterilizacion, name='esterilizacion-inicio'),
     path('Esterilizacion/', CrearEsterilizacion.as_view(), name='esterilizacion-create'),
     path('Esterilizacion/<int:pk>/',DetalleEsterilizacion.as_view(),name="esterilizacion-detail"),
     path('Esterilizacion/<int:pk>/edicion/',EdicionEsterilizacion.as_view(),name="esterilizacion-update"),

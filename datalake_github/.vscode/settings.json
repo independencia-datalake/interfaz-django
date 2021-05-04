@@ -1,5 +1,5 @@
 {
     "files.autoSave": "onWindowChange",
     "editor.fontSize": 15,
-    "python.pythonPath": "env\\Scripts\\python.exe"
+    "python.pythonPath": ".\\env\\Scripts\\python.exe"
 }

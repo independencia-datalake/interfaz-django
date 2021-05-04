@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Formulario OMIL{% endblock %}
+
+{% block content %}
+
+<h1> <a href="{% url 'controldeplaga-create' %}">Crear Formulario</a></h1>
+<hr>
+<table border = "1" cellpadding= "5" cellspacing = "5">
+    <td>Nombre formulario</td> 
+    <td>tipo_identificacion</td>
+    <td>numero_identificacion</td>
+    {%for form in form %}
+    <tr>
+        <td>{{ form.nombre_formulario }}</td>
+    </tr>
+    {%endfor%}
+
+
+{% endblock %}

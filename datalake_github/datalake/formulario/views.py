@@ -7,6 +7,14 @@ from django.http import JsonResponse
 from .models import *
 
 #FORMULARIO BASE
+def inicioFormularioBase(request):
+    form = FormularioBase.objects.all()
+
+    context = {
+        'form': form
+    }
+
+    return render(request,'formulario/formulariobase_inicio.html', context)
 
 class DetalleFormularioBase(DetailView):
   model = FormularioBase
@@ -58,6 +66,15 @@ class EdicionFormularioBase(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
         return False
 
 #DENUNCIA
+def inicioDenuncia(request):
+    form = Denuncia.objects.all()
+
+    context = {
+        'form': form
+    }
+
+    return render(request,'formulario/denuncia_inicio.html', context)
+
 
 class DetalleDenuncia(DetailView):
   model = Denuncia
@@ -143,6 +160,14 @@ class EdicionDenuncia(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
         return False
 
 #CONTROL DE PLAGA
+def inicioControlDePlaga(request):
+    form = ControlDePlaga.objects.all()
+
+    context = {
+        'form': form
+    }
+
+    return render(request,'formulario/controldeplaga_inicio.html', context)
 
 class DetalleControlDePlaga(DetailView):
   model = ControlDePlaga
@@ -204,6 +229,14 @@ class EdicionControlDePlaga(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
         return False
 
 #ESTERILIZACION
+def inicioEsterilizacion(request):
+    form = Esterilizacion.objects.all()
+
+    context = {
+        'form': form
+    }
+
+    return render(request,'formulario/esterilizacion_inicio.html', context)
 
 class DetalleEsterilizacion(DetailView):
   model = Esterilizacion

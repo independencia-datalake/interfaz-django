@@ -164,9 +164,9 @@ class ControlDePlaga(models.Model):
                                                 ('Pendiente','Pendiente'),
                                                 ('Realizado','Realizado'),
                                                 ('Anulado','Anulado'),
-                                            ),
+                                            ), 
                                             verbose_name='Estatus'
-                                          )    
+                                            )    
     ficha_numero = models.PositiveIntegerField(blank=True, default=0, verbose_name='Numero de Ficha')
     tipo_identificacion = models.CharField(default="Rut", max_length=30,
                                             choices=(

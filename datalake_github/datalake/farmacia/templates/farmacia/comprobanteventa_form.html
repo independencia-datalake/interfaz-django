@@ -10,7 +10,7 @@
                 <legend class="border-bottom mb-4">Venta en Farmacia</legend>
                 {{ c_form|crispy }}
                 {{ formset.management_form }}
-                {% for form in formset%}
+                {% for form in formset %}
                     {{ form|crispy }}
                     <hr>
                 {% endfor %}
