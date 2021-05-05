@@ -10,7 +10,7 @@ class Paises(models.Model):
     class Meta:
         verbose_name = "Pais"
         verbose_name_plural = "Paises"
-        ordering = ['-nombre']
+        ordering = ['nombre']
 
     def __str__(self):
         return self.nombre
@@ -175,7 +175,7 @@ class ControlDePlaga(models.Model):
                                                 ('Otro','Otro'),
                                             ),
                                             verbose_name='Tipo de Documento'
-                                          )
+                                            )
     numero_identificacion = models.CharField(default="", blank=True ,max_length=30, verbose_name='Numero de Documento')
     nombre = models.CharField(max_length=30, default="", verbose_name='Nombres')
     apellido_p = models.CharField(max_length=30, default="", verbose_name='Apellido Paterno')
@@ -192,7 +192,7 @@ class ControlDePlaga(models.Model):
                                             ),
                                             verbose_name='Tipo de Solicitud'
                                           )
-    fecha_coordinada = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Coordinada")
+    # fecha_coordinada = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Coordinada")
     jornada =  models.CharField(default="", max_length=30,
                                             choices=(
                                                 ('Mañana','Mañana'),
@@ -200,7 +200,7 @@ class ControlDePlaga(models.Model):
                                             ),
                                             verbose_name='Jornada de Servicio'
                                           )
-    fecha_visita = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Operacion")
+    # fecha_visita = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Operacion")
     producto =  models.CharField(default="", max_length=30,
                                             choices=(
                                                 ('RATAMIX','RATAMIX'),

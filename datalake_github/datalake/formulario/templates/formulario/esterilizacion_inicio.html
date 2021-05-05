@@ -1,18 +1,53 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Formulario OMIL{% endblock %}
+{% block title %}Esterilizacion{% endblock %}
 
 {% block content %}
 
-<h1> <a href="{% url 'esterilizacion-create' %}">Crear Formulario</a></h1>
+<h1> <a href="{% url 'esterilizacion-create' %}">Crear Formulario Esterilizacion</a></h1>
 <hr>
 <table border = "1" cellpadding= "5" cellspacing = "5">
-    <td>Nombre formulario</td> 
+    <td>estatus</td>
+    <td>created</td> 
+    <td>ficha_numero</td>
     <td>tipo_identificacion</td>
     <td>numero_identificacion</td>
+    <td>nombre</td>
+    <td>apellido_p</td>
+    <td>apellido_m</td>
+    <td>telefono</td>
+    <td>direccion</td>
+    <td>numero_calle</td>
+    <td>uv</td>
+    <td>email</td>
+    <td>mascota</td>
+    <td>nombre_mascota</td>
+    <td>sexo_mascota</td>
+    <td>fecha_cirugia</td>
+    <td>asistencia</td>
+    <td>rechazo</td>
+
     {%for form in form %}
     <tr>
-        <td>{{ form.nombre_formulario }}</td>
+        <td>{{ form.estatus }}</td>
+        <td>{{ form.created }}</td>
+        <td>{{ form.ficha_numero }}</td>
+        <td>{{ form.tipo_identificacion }}</td>
+        <td>{{ form.numero_identificacion }}</td>
+        <td>{{ form.nombre }}</td>
+        <td>{{ form.apellido_p }}</td>
+        <td>{{ form.apellido_m }}</td>
+        <td>{{ form.telefono }}</td>
+        <td>{{ form.direccion }}</td>
+        <td>{{ form.numero_calle }}</td>
+        <td>{{ form.uv }}</td>
+        <td>{{ form.email }}</td>
+        <td>{{ form.mascota }}</td>
+        <td>{{ form.nombre_mascota }}</td>
+        <td>{{ form.sexo_mascota }}</td>
+        <td>{{ form.fecha_cirugia }}</td>
+        <td>{{ form.asistencia }}</td>
+        <td>{{ form.rechazo }}</td>
     </tr>
     {%endfor%}
 

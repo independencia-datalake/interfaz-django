@@ -1,18 +1,40 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Formulario OMIL{% endblock %}
+{% block title %}Formulario Base{% endblock %}
 
 {% block content %}
 
-<h1> <a href="{% url 'formulariobase-create' %}">Crear Formulario</a></h1>
+<h1> <a href="{% url 'formulariobase-create' %}">Crear Formulario Base</a></h1>
 <hr>
 <table border = "1" cellpadding= "5" cellspacing = "5">
-    <td>Nombre formulario</td> 
+    <td>created</td> 
+    <td>p_origen</td>
     <td>tipo_identificacion</td>
     <td>numero_identificacion</td>
+    <td>nombre</td>
+    <td>apellido</td>
+    <td>direccion</td>
+    <td>numero_calle</td>
+    <td>uv</td>
+    <td>texto1</td>
+    <td>texto2</td>
+    <td>texto3</td>
+    <td>texto4</td>
     {%for form in form %}
     <tr>
-        <td>{{ form.nombre_formulario }}</td>
+        <td>{{ form.created }}</td>
+        <td>{{ form.p_origen }}</td>
+        <td>{{ form.tipo_identificacion }}</td>
+        <td>{{ form.numero_identificacion }}</td>
+        <td>{{ form.nombre }}</td>
+        <td>{{ form.apellido }}</td>
+        <td>{{ form.direccion }}</td>
+        <td>{{ form.numero_calle }}</td>
+        <td>{{ form.uv }}</td>
+        <td>{{ form.texto1 }}</td>
+        <td>{{ form.texto2 }}</td>
+        <td>{{ form.texto3 }}</td>
+        <td>{{ form.texto4 }}</td>
     </tr>
     {%endfor%}
 
