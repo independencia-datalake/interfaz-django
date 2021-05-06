@@ -1,30 +1,28 @@
 from django.urls import path
 from . import views
-from .views import (
-    CrearFormularioOMIL,
-    DetalleFormularioOMIL,
-    EdicionFormularioOMIL,
-    CrearSeguridad,
-    DetalleSeguridad,
-    EdicionSeguridad,
-    CrearFarmacia,
-    DetalleFarmacia,
-    EdicionFarmacia,
-)
+from .views import *
 
 urlpatterns = [
-    #FORMULARIO OMIL
-    path('formularioOMIL/', CrearFormularioOMIL.as_view(), name='formularioomil-create'),
-    path('formularioOMIL/<int:pk>/',DetalleFormularioOMIL.as_view(),name="formularioomil-detail"),
-    path('formularioOMIL/<int:pk>/edicion/',EdicionFormularioOMIL.as_view(),name="formularioomil-update"),
-    #FORMULARIO SEGURIDAD
-    path('formularioSeguridad/', CrearSeguridad.as_view(), name='seguridad-create'),
-    path('formularioSeguridad/<int:pk>/',DetalleSeguridad.as_view(),name="seguridad-detail"),
-    path('formularioSeguridad/<int:pk>/edicion/',EdicionSeguridad.as_view(),name="seguridad-update"),
-    #FORMULARIO FARMACIA
-    path('formularioFarmacia/', CrearFarmacia.as_view(), name='farmacia-create'),
-    path('formularioFarmacia/<int:pk>/',DetalleFarmacia.as_view(),name="farmacia-detail"),
-    path('formularioFarmacia/<int:pk>/edicion/',EdicionFarmacia.as_view(),name="farmacia-update"),
+    #FORMULARIO BASE
+    path('formularioBase/inicio', views.inicioFormularioBase, name='formulariobase-inicio'),
+    path('formularioBase/', CrearFormularioBase.as_view(), name='formulariobase-create'),
+    path('formularioBase/<int:pk>/',DetalleFormularioBase.as_view(),name="formulariobase-detail"),
+    path('formularioBase/<int:pk>/edicion/',EdicionFormularioBase.as_view(),name="formulariobase-update"),
+    #DENUNCIA
+    path('Denuncia/inicio', views.inicioDenuncia, name='denuncia-inicio'),
+    path('Denuncia/', CrearDenuncia.as_view(), name='denuncia-create'),
+    path('Denuncia/<int:pk>/',DetalleDenuncia.as_view(),name="denuncia-detail"),
+    path('Denuncia/<int:pk>/edicion/',EdicionDenuncia.as_view(),name="denuncia-update"),
+    #CONTROL DE PLAGA
+    path('ControlDePlaga/inicio', views.inicioControlDePlaga, name='controldeplaga-inicio'),
+    path('ControlDePlaga/', CrearControlDePlaga.as_view(), name='controldeplaga-create'),
+    path('ControlDePlaga/<int:pk>/',DetalleControlDePlaga.as_view(),name="controldeplaga-detail"),
+    path('ControlDePlaga/<int:pk>/edicion/',EdicionControlDePlaga.as_view(),name="controldeplaga-update"),
+    #ESTERILIZACION
+    path('Esterilizacion/inicio', views.inicioEsterilizacion, name='esterilizacion-inicio'),
+    path('Esterilizacion/', CrearEsterilizacion.as_view(), name='esterilizacion-create'),
+    path('Esterilizacion/<int:pk>/',DetalleEsterilizacion.as_view(),name="esterilizacion-detail"),
+    path('Esterilizacion/<int:pk>/edicion/',EdicionEsterilizacion.as_view(),name="esterilizacion-update"),
     #AUTOCOMPLETADO
     path('autocompletado-calles',views.autocompete_calles, name='autocompete_calles'),
     path('autocompletado-paises',views.autocompete_pais, name='autocompete_pais'),

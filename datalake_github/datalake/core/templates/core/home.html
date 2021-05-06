@@ -4,19 +4,74 @@
 
 {% block content %}
 
+<form method="GET" action="{% url 'core-home' %}">
+    <fieldset class="form-group">
+        <label for="formulario">Elige un Formulario:</label>
+        <select id="nombre_formulario" name="nombre_formulario">
+            <option value="Formulario Base">Formulario Base</option>
+            <option value="Denuncias">Denuncias</option>
+            <option value="Control de Plagas">Control de Plagas</option>
+            <option value="Esterilizacion">Esterilizacion</option>
+        </select>
+    </fieldset> 
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Filtrar</button>
+    </div>
+</form>
 
-{% for formulario in formularios %}
+{% comment %} FORMULARIO BASE {% endcomment %}
+{% for form in fb_form %}
+    {% if filtro == form.nombre_formulario %}
+        <hr>
+        <h2>Creado: {{form.created|date:"d/m/Y"}} <a href="{% url 'formulariobase-update' form.pk%}">Editar</a></h2>
+        <h4>{{ form.nombre_formulario }} - {{ form.numero_identificacion }}</h4>
+        <p>{{ form.autor }}</p>
+        <hr>
+    {% endif %}
+{% endfor %}
+{% comment %} FORMULARIO DENUNCIAS {% endcomment %}
+{% for form in d_form %}
+    {% if filtro == form.nombre_formulario %}
+        <hr>
+        <h2>Creado: {{form.created|date:"d/m/Y"}} <a href="{% url 'formulariobase-update' form.pk%}">Editar</a></h2>
+        <h4>{{ form.nombre_formulario }} - {{ form.numero_identificacion }}</h4>
+        <p>{{ form.autor }}</p>
+        <hr>
+    {% endif %}
+{% endfor %}
+{% comment %} FORMULARIO CONTROL DE PLAGAS {% endcomment %}
+{% for form in cdp_form %}
+    {% if filtro == form.nombre_formulario %}
+        <hr>
+        <h2>Creado: {{form.created|date:"d/m/Y"}} <a href="{% url 'formulariobase-update' form.pk%}">Editar</a></h2>
+        <h4>{{ form.nombre_formulario }} - {{ form.numero_identificacion }}</h4>
+        <p>{{ form.autor }}</p>
+        <hr>
+    {% endif %}
+{% endfor %}
+{% comment %} FORMULARIO ESTERILIZACION {% endcomment %}
+{% for form in e_form %}
+    {% if filtro == form.nombre_formulario %}
+        <hr>
+        <h2>Creado: {{form.created|date:"d/m/Y"}} <a href="{% url 'formulariobase-update' form.pk%}">Editar</a></h2>
+        <h4>{{ form.nombre_formulario }} - {{ form.numero_identificacion }}</h4>
+        <p>{{ form.autor }}</p>
+        <hr>
+    {% endif %}
+{% endfor %}
+
+{% comment %} {% for formulario in formularios %}
     {% if formulario.autor == user %}
         <div class="media">
             <div>
                 <div>
                     <p>{{ formulario.autor }}</p>
                 </div>
-                <h2><a href="{% url 'formularioomil-detail' formulario.id %}">{{formulario.nombre_formulario}} - {{formulario.created|date:"d/m/Y"}} - {{ formulario.numero_identificacion }}</a></h2>
+                <h2><a href="{% url 'formulariobase-detail' formulario.id %}">{{formulario.nombre_formulario}} - {{formulario.created|date:"d/m/Y"}} - {{ formulario.numero_identificacion }}</a></h2>
             </div>
         </div>
     {% endif %}
-{% endfor %}
+{% endfor %} {% endcomment %}
 
 {% endblock %}
 

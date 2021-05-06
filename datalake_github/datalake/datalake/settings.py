@@ -25,7 +25,7 @@ SECRET_KEY = 'ipqwifh56s24&(umy3!m)w#j3$i57)r=ycjdh7d1#jrero&s!#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Personales
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
+    'farmacia.apps.FarmaciaConfig',
     'formulario.apps.FormularioConfig',
     'calculadorauv.apps.CalculadorauvConfig',
     'vis.apps.VisConfig',
@@ -87,7 +88,7 @@ WSGI_APPLICATION = 'datalake.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'datalake_db',
     }
 }
 
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Chile/Continental'
 
 USE_I18N = True
 
@@ -138,3 +139,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'core-home'
 LOGIN_URL = 'login'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

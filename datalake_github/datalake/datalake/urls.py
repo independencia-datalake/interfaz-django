@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('core.urls')),
     #USUARIO
     path('usuario/', include('users.urls')),
+    #FARMACIA
+    path('farmacia/', include('farmacia.urls')),
     #FORMULARIO
     path('formularios/', include('formulario.urls')),
     #CALCULADORA DE UV

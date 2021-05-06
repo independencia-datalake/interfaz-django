@@ -1,13 +1,13 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Formulario Seguridad{% endblock %}
+{% block title %}Esterilizacion{% endblock %}
 
 {% block content %}
 <div class="content-section">
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Formulario Seguridad</legend>
+            <legend class="border-bottom mb-4">Esterilizacion</legend>
             {{ form|crispy }}
         </fieldset>
         <div class="form-group">
@@ -22,13 +22,6 @@ $( "#id_direccion" ).autocomplete({
     source: '{% url 'autocompete_calles' %}'
 });
 });
-$(function() {
-$( "#id_p_origen" ).autocomplete({
-    source: '{% url 'autocompete_pais' %}'
-});
-});
-
-
 
 </script>
 

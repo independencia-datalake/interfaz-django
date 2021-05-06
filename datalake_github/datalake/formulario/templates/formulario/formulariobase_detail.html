@@ -9,7 +9,7 @@
     <h3>Creador del formulario: {{ object.autor }}</h3>
     <h4>Fecha de creacion: {{object.created|date:"d/m/Y"}}</h4>
     {% if object.autor == user %}
-        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'formularioomil-update' object.id %}">Editar</a>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'formulariobase-update' object.id %}">Editar</a>
     {% endif %}
     <hr>
     <h5>Nombre: {{ object.nombre }} {{ object.apellido }}</h5>
