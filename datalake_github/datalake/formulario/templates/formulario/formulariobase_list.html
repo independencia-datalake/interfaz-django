@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Formulario Base{% endblock %}
+
+{% block content %}
+
+<h1> <a href="{% url 'formulariobase-create' %}">Crear Formulario Base</a></h1>
+<hr>
+<div class="container">
+    <form method="GET">
+        {{ filter.form|crispy }}
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+</div>
+<hr>
+
+<table border = "1" cellpadding= "5" cellspacing = "5">
+    <td>created</td> 
+    <td>p_origen</td>
+    <td>tipo_identificacion</td>
+    <td>numero_identificacion</td>
+    <td>nombre</td>
+    <td>apellido</td>
+    <td>direccion</td>
+    <td>numero_calle</td>
+    <td>uv</td>
+    <td>texto1</td>
+    <td>texto2</td>
+    <td>texto3</td>
+    <td>texto4</td>
+    {%for object in filter.qs %}
+    <tr>
+        <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'formulariobase-detail' object.id %}">{{ object.created }}</a></td>
+        <td>{{ object.p_origen }}</td>
+        <td>{{ object.tipo_identificacion }}</td>
+        <td>{{ object.numero_identificacion }}</td>
+        <td>{{ object.nombre }}</td>
+        <td>{{ object.apellido }}</td>
+        <td>{{ object.direccion }}</td>
+        <td>{{ object.numero_calle }}</td>
+        <td>{{ object.uv }}</td>
+        <td>{{ object.texto1 }}</td>
+        <td>{{ object.texto2 }}</td>
+        <td>{{ object.texto3 }}</td>
+        <td>{{ object.texto4 }}</td>
+    </tr>
+    {%endfor%}
+
+
+{% endblock %}

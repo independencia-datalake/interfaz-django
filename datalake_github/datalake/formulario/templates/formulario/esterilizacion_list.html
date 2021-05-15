@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Esterilizacion{% endblock %}
+
+{% block content %}
+
+<h1> <a href="{% url 'esterilizacion-create' %}">Crear Formulario Esterilizacion</a></h1>
+<hr>
+<div class="container">
+    <form method="GET">
+        {{ filter.form|crispy }}
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+</div>
+<hr>
+<table border = "1" cellpadding= "5" cellspacing = "5">
+    <td>estatus</td>
+    <td>created</td> 
+    <td>ficha_numero</td>
+    <td>tipo_identificacion</td>
+    <td>numero_identificacion</td>
+    <td>nombre</td>
+    <td>apellido_p</td>
+    <td>apellido_m</td>
+    <td>telefono</td>
+    <td>direccion</td>
+    <td>numero_calle</td>
+    <td>uv</td>
+    <td>email</td>
+    <td>mascota</td>
+    <td>nombre_mascota</td>
+    <td>sexo_mascota</td>
+    <td>fecha_cirugia</td>
+    <td>asistencia</td>
+    <td>rechazo</td>
+
+    {%for object in filter.qs %}
+    <tr>
+        <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'esterilizacion-detail' object.id %}">{{ object.estatus }}</a></td>
+        <td>{{ object.created }}</td>
+        <td>{{ object.ficha_numero }}</td>
+        <td>{{ object.tipo_identificacion }}</td>
+        <td>{{ object.numero_identificacion }}</td>
+        <td>{{ object.nombre }}</td>
+        <td>{{ object.apellido_p }}</td>
+        <td>{{ object.apellido_m }}</td>
+        <td>{{ object.telefono }}</td>
+        <td>{{ object.direccion }}</td>
+        <td>{{ object.numero_calle }}</td>
+        <td>{{ object.uv }}</td>
+        <td>{{ object.email }}</td>
+        <td>{{ object.mascota }}</td>
+        <td>{{ object.nombre_mascota }}</td>
+        <td>{{ object.sexo_mascota }}</td>
+        <td>{{ object.fecha_cirugia }}</td>
+        <td>{{ object.asistencia }}</td>
+        <td>{{ object.rechazo }}</td>
+    </tr>
+    {%endfor%}
+
+
+{% endblock %}
