@@ -28,8 +28,10 @@ class ProductoFarmacia(models.Model):
 
 class ComprobanteVenta(models.Model):     
     numero_identificacion = models.CharField(default="", max_length=30, blank=True)
-    farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT)
     
+    farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
 
     class Meta:
         verbose_name = "Comprobante Venta"
