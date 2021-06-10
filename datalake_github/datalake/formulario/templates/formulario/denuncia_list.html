@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Denuncias{% endblock %}
+
+{% block content %}
+
+<h1> <a href="{% url 'denuncia-create' %}">Crear Formulario Denuncias</a></h1>
+<hr>
+<div class="container">
+    <form method="GET">
+        {{ filter.form|crispy }}
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+</div>
+<hr>
+<table border = "1" cellpadding= "5" cellspacing = "5">
+    <td>estatus</td>
+    <td>created</td> 
+    <td>tipo_identificacion_denunciante</td>
+    <td>numero_identificacion_denunciante</td>
+    <td>nombre_denunciante</td>
+    <td>apellido_p_denunciante</td>
+    <td>apellido_m_denunciante</td>
+    <td>telefono_denunciante</td>
+    <td>direccion</td>
+    <td>numero_calle</td>
+    <td>email_denunciante</td>
+    <td>tipo_denuncia</td>
+    <td>texto_denuncia</td>
+    <td>nombre_denunciado</td>
+    <td>apellido_p_denunciado</td>
+    <td>apellido_m_denunciado</td>
+    <td>telefono_denunciado</td>
+    <td>direccion_denunciado</td>
+    <td>numero_calle_denunciado</td>
+    <td>email_denunciado</td>
+    <td>fecha_visita</td>
+    <td>lugar_de_transgresion</td>
+    <td>visita_inspectiva</td>
+    <td>texto_observacion</td>
+    <td>categoria_visita</td>
+    <td>notificacion</td>
+    <td>numero_noficacion</td>
+    <td>texto_enviado</td>
+    <td>ver_respuesta</td>
+    
+    {%for object in filter.qs %}
+    <tr>
+        <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'denuncia-detail' object.id %}">{{ object.estatus }}</a></td>
+        <td>{{ object.created }}</td>
+        <td>{{ object.tipo_identificacion_denunciante }}</td>
+        <td>{{ object.numero_identificacion_denunciante }}</td>
+        <td>{{ object.nombre_denunciante }}</td>
+        <td>{{ object.apellido_p_denunciante }}</td>
+        <td>{{ object.apellido_m_denunciante }}</td>
+        <td>{{ object.telefono_denunciante }}</td>
+        <td>{{ object.direccion }}</td>
+        <td>{{ object.numero_calle }}</td>
+        <td>{{ object.email_denunciante }}</td>
+        <td>{{ object.tipo_denuncia }}</td>
+        <td>{{ object.texto_denuncia }}</td>
+        <td>{{ object.nombre_denunciado }}</td>
+        <td>{{ object.apellido_p_denunciado }}</td>
+        <td>{{ object.apellido_m_denunciado }}</td>
+        <td>{{ object.telefono_denunciado }}</td>
+        <td>{{ object.direccion_denunciado }}</td>
+        <td>{{ object.numero_calle_denunciado }}</td>
+        <td>{{ object.email_denunciado }}</td>
+        <td>{{ object.fecha_visita }}</td>
+        <td>{{ object.lugar_de_transgresion }}</td>
+        <td>{{ object.visita_inspectiva }}</td>
+        <td>{{ object.texto_observacion }}</td>
+        <td>{{ object.categoria_visita }}</td>
+        <td>{{ object.notificacion }}</td>
+        <td>{{ object.numero_noficacion }}</td>
+        <td>{{ object.texto_enviado }}</td>
+        <td>{{ object.ver_respuesta }}</td>
+    </tr>
+    {%endfor%}
+
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+{% endblock %}

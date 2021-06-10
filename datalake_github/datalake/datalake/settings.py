@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     # De terceros
     'crispy_forms',
     'import_export',
+    # 'extra_views',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [

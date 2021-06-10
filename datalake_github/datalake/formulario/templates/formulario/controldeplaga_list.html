@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Control de Plaga{% endblock %}
+
+{% block content %}
+<button> <a href="{% url 'controldeplaga-create' %}">Crear Formulario Control de Plaga</a></button>
+<hr>
+<div class="container">
+    <form method="GET">
+        {{ filter.form|crispy }}
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+</div>
+<hr>
+<table border = "1" cellpadding= "5" cellspacing = "5">
+    <td>Estatus</td>
+    <td>created</td> 
+    <td>ficha_numero</td>
+    <td>tipo_identificacion</td>
+    <td>numero_identificacion</td>
+    <td>nombre</td>
+    <td>apellido_p</td>
+    <td>apellido_m</td>
+    <td>telefono</td>
+    <td>direccion</td>
+    <td>numero_calle</td>
+    <td>uv</td>
+    <td>email</td>
+    <td>tipo_solicitud</td>
+    <td>fecha_coordinada</td>
+    <td>jornada</td>
+    <td>fecha_visita</td>
+    <td>producto</td>
+    <td>autor</td>
+
+    {%for object in filter.qs %}
+    <tr>
+        <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'controldeplaga-detail' object.id %}">{{ object.estatus }}</a></td>
+        <td>{{ object.created }}</td>
+        <td>{{ object.ficha_numero }}</td>
+        <td>{{ object.tipo_identificacion }}</td>
+        <td>{{ object.numero_identificacion }}</td>
+        <td>{{ object.nombre }}</td>
+        <td>{{ object.apellido_p }}</td>
+        <td>{{ object.apellido_m }}</td>
+        <td>{{ object.telefono }}</td>
+        <td>{{ object.direccion }}</td>
+        <td>{{ object.numero_calle }}</td>
+        <td>{{ object.uv }}</td>
+        <td>{{ object.email }}</td>
+        <td>{{ object.tipo_solicitud }}</td>
+        <td>{{ object.fecha_coordinada }}</td>
+        <td>{{ object.jornada }}</td>
+        <td>{{ object.fecha_visita }}</td>
+        <td>{{ object.producto }}</td>
+        <td>{{ object.autor }}</td>
+    </tr>
+    {%endfor%}
+
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+{% endblock %}

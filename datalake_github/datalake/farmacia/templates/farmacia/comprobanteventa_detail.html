@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Comprobante de Venta en Farmacia{% endblock %}
+
+{% block content %}
+
+<h1> Comprobante {{ c_detail.id }}</h1>
+<hr>
+<h3>{{ c_detail.numero_identificacion }} - Editar</h3>
+<hr>
+{%for object in pv_detail %}
+<h3>{{ object.nombre }} - {{ object.cantidad }} - <a href="{% url 'productovendido-update' object.id %}">Editar</a></h3>
+<hr>
+{%endfor%}
+<hr>
+<button type="button">Confirmar</button>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}
