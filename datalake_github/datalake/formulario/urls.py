@@ -1,5 +1,11 @@
 from django.urls import path
 from . import views
+from .views import (
+    InicioFormularioBase,
+    CrearFormularioBase,
+    DetalleFormularioBase,
+    EdicionFormularioBase,
+)
 from .views import *
 
 urlpatterns = [
@@ -23,7 +29,4 @@ urlpatterns = [
     path('Esterilizacion/crear/', CrearEsterilizacion.as_view(), name='esterilizacion-create'),
     path('Esterilizacion/<int:pk>/',DetalleEsterilizacion.as_view(),name="esterilizacion-detail"),
     path('Esterilizacion/<int:pk>/edicion/',EdicionEsterilizacion.as_view(),name="esterilizacion-update"),
-    #AUTOCOMPLETADO
-    path('autocompletado-calles',views.autocompete_calles, name='autocompete_calles'),
-    path('autocompletado-paises',views.autocompete_pais, name='autocompete_pais'),
 ]

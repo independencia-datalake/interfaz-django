@@ -1,4 +1,0 @@
-django
-django-crispy-forms
-pillow
-django-import-export

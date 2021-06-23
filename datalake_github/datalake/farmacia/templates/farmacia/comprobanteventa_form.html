@@ -113,41 +113,36 @@ $('.add-new-form').click(function(e) {
 
 
 {% block content %}
+<h1>Farmacia</h1>
+<form action='' method='POST'>
+    {% csrf_token %}
+    <div class='btn-group'>
+        <input class='btn btn-primary' type='submit' value='Save' /> 
+        <a class='btn btn-link add-new-form' href='#'>+ Agregar Producto</a>
+    </div>
+    <br/>
+    <h3>Datos Territoriales</h3>
+    {{ c_form|crispy }}
+    <hr>
+    <h3>Productos</h3>
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <div class='form-row'>
+        {{ form|crispy }}
+    </div>
+    {% endfor %}
 
+    <div class='form-row' id='empty-row'>
+        {{ formset.empty_form|crispy }}
+    </div>
 
-<div class='col-sm-6 col-sm-offset-3'>
-    <h1>Farmacia</h1>
-    <form action='' method='POST'>
-        {% csrf_token %}
-        <div class='btn-group'>
-            <input class='btn btn-primary' type='submit' value='Save' /> 
-            <a class='btn btn-link add-new-form' href='#'>+ Agregar Producto</a>
-        </div>
-        <br/>
-        <h3>Datos Territoriales</h3>
-        {{ c_form|crispy }}
-        <hr>
-        <h3>Productos</h3>
-        {{ formset.management_form }}
-        {% for form in formset %}
-        <div class='form-row'>
-            {{ form|crispy }}
-        </div>
-        {% endfor %}
-
-        <div class='form-row' id='empty-row'>
-            {{ formset.empty_form|crispy }}
-        </div>
-
-        <div class='btn-group'>
-            <input class='btn btn-primary' type='submit' value='Save' /> 
-            <a class='btn btn-link add-new-form' href='#'>+ Agregar Producto</a>
-        </div>
-    </form>
-</div>
+    <div class='btn-group'>
+        <input class='btn btn-primary' type='submit' value='Save' /> 
+        <a class='btn btn-link add-new-form' href='#'>+ Agregar Producto</a>
+    </div>
+</form>
 <br/>
 <br/>
-
 
 {% endblock %}
 
