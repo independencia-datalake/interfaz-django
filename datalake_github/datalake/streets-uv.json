@@ -1,0 +1,1166 @@
+[
+    {
+        "calle": "ADOLFO IBAÑEZ",
+        "condiciones": "16"
+    },
+    {
+        "calle": "ADOLFO OSSA",
+        "condiciones": "1"
+    },
+    {
+        "calle": "ADOLFO VALDERRAMA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "AGUA SANTA",
+        "condiciones": "2"
+    },
+    {
+        "calle": "AGUSTIN MEZA",
+        "condiciones": "4"
+    },
+    {
+        "calle": "ALBERTO GUTIERREZ DE LA CUADRA",
+        "condiciones": "4"
+    },
+    {
+        "calle": "ALFREDO GUILLERMO BRAVO",
+        "condiciones": "17"
+    },
+    {
+        "calle": "ALMERIA",
+        "condiciones": "8"
+    },
+    {
+        "calle": "ALONSO DE REINOSO",
+        "condiciones": "2"
+    },
+    {
+        "calle": "ALTAMIRANO",
+        "condiciones": "18"
+    },
+    {
+        "calle": "AMALIA ERRAZURIZ",
+        "condiciones": "8"
+    },
+    {
+        "calle": "ANGOL",
+        "condiciones": "20"
+    },
+    {
+        "calle": "ANTONIA LOPEZ DE BELLO",
+        "condiciones": "9"
+    },
+    {
+        "calle": "ANTONIO JACOBO VIAL",
+        "condiciones": "5"
+    },
+    {
+        "calle": "ARIEL",
+        "condiciones": "3"
+    },
+    {
+        "calle": "ARMANDO QUEZADA ACHARAN",
+        "condiciones": "3"
+    },
+    {
+        "calle": "ARQUITECTO ARTURO BIANCHI",
+        "condiciones": "23"
+    },
+    {
+        "calle": "ARQUITECTO HERNAN OVALLE",
+        "condiciones": "7"
+    },
+    {
+        "calle": "ARQUITECTO MIGUEL DAVILA",
+        "condiciones": "7"
+    },
+    {
+        "calle": "ARQUITECTO MORALES",
+        "condiciones": "23"
+    },
+    {
+        "calle": "ARQUITECTO RICARDO MULLER",
+        "condiciones": "23"
+    },
+    {
+        "calle": "ARQUITECTO WALDO PARRAGUEZ",
+        "condiciones": "7"
+    },
+    {
+        "calle": "ARTESANOS",
+        "condiciones": "9"
+    },
+    {
+        "calle": "ARTURO",
+        "condiciones": "17"
+    },
+    {
+        "calle": "AURORA DE CHILE",
+        "condiciones": "26"
+    },
+    {
+        "calle": "BAJOS DE JIMENEZ",
+        "condiciones": "20"
+    },
+    {
+        "calle": "BALDOMERO LILLO",
+        "condiciones": "6"
+    },
+    {
+        "calle": "BARNECHEA",
+        "condiciones": "15"
+    },
+    {
+        "calle": "BARON DE JURAS REALES",
+        "condiciones": "20"
+    },
+    {
+        "calle": "BELGICA",
+        "condiciones": "4"
+    },
+    {
+        "calle": "BELTRAN MATHIEU",
+        "condiciones": "16"
+    },
+    {
+        "calle": "BEZANILLA",
+        "condiciones": "8"
+    },
+    {
+        "calle": "BLANCO FOMBONA",
+        "condiciones": "17"
+    },
+    {
+        "calle": "BOLIVIA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "BORGOÑO",
+        "condiciones": "16"
+    },
+    {
+        "calle": "BRUSELAS",
+        "condiciones": "17"
+    },
+    {
+        "calle": "BUEN ORDEN",
+        "condiciones": "17"
+    },
+    {
+        "calle": "CAMARICO",
+        "condiciones": "2"
+    },
+    {
+        "calle": "CAÑETE",
+        "condiciones": "3"
+    },
+    {
+        "calle": "CAPITAN TRONCOSO",
+        "condiciones": "18"
+    },
+    {
+        "calle": "CARLOS GARDEL",
+        "condiciones": "20"
+    },
+    {
+        "calle": "BRIGADIER CARLOS GARRIDO",
+        "condiciones": "7"
+    },
+    {
+        "calle": "CARLOS HURTADO",
+        "condiciones": "2"
+    },
+    {
+        "calle": "CARLOTA MILCHER",
+        "condiciones": "9"
+    },
+    {
+        "calle": "CATORCE DE LA FAMA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "CAZADORES",
+        "condiciones": "7"
+    },
+    {
+        "calle": "CENTRAL",
+        "condiciones": "5"
+    },
+    {
+        "calle": "CINCO DE MAYO",
+        "condiciones": "18"
+    },
+    {
+        "calle": "COLON",
+        "condiciones": "13"
+    },
+    {
+        "calle": "CONSTANCIA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "CONTRAMAESTRE BRITO",
+        "condiciones": "19"
+    },
+    {
+        "calle": "CORACEROS",
+        "condiciones": "7"
+    },
+    {
+        "calle": "CORONEL DE LA QUINTANA",
+        "condiciones": "15"
+    },
+    {
+        "calle": "COSTA RICA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "COTAPOS",
+        "condiciones": "4"
+    },
+    {
+        "calle": "CRONISTA GONGORA",
+        "condiciones": "18"
+    },
+    {
+        "calle": "CRUZ",
+        "condiciones": "13"
+    },
+    {
+        "calle": "DANIEL FELIU",
+        "condiciones": "3"
+    },
+    {
+        "calle": "DAVID ARELLANO",
+        "condiciones": "3"
+    },
+    {
+        "calle": "DAVILA BAEZA",
+        "condiciones": "9"
+    },
+    {
+        "calle": "DIANA VALDERRAMA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "DIECINUEVE NORTE",
+        "condiciones": "22"
+    },
+    {
+        "calle": "DIEZ DE MARZO",
+        "condiciones": "18"
+    },
+    {
+        "calle": "DRAGONES",
+        "condiciones": "7"
+    },
+    {
+        "calle": "ECHAZARRETA",
+        "condiciones": "13"
+    },
+    {
+        "calle": "ECHEVERRIA",
+        "condiciones": "9"
+    },
+    {
+        "calle": "ECUADOR",
+        "condiciones": "20"
+    },
+    {
+        "calle": "EINSTEIN",
+        "condiciones": "2"
+    },
+    {
+        "calle": "EL CLAVEL",
+        "condiciones": "23"
+    },
+    {
+        "calle": "EL COPIHUE",
+        "condiciones": "23"
+    },
+    {
+        "calle": "EL ESPINO",
+        "condiciones": "7"
+    },
+    {
+        "calle": "EL LIRIO",
+        "condiciones": "23"
+    },
+    {
+        "calle": "ELENA SERRANO",
+        "condiciones": "16"
+    },
+    {
+        "calle": "EMILIO OELCKERS",
+        "condiciones": "8"
+    },
+    {
+        "calle": "ENRICO FERMI",
+        "condiciones": "4"
+    },
+    {
+        "calle": "ENRIQUE RIVERA",
+        "condiciones": "18"
+    },
+    {
+        "calle": "EUGENIO MATTE",
+        "condiciones": "20"
+    },
+    {
+        "calle": "FIDEL MONJE",
+        "condiciones": "7"
+    },
+    {
+        "calle": "FIDEL MUÑOZ",
+        "condiciones": "3"
+    },
+    {
+        "calle": "FIDEL OSORIO",
+        "condiciones": "19"
+    },
+    {
+        "calle": "FREIRINA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "FUCSIAS",
+        "condiciones": "2"
+    },
+    {
+        "calle": "GASPAR OLEA",
+        "condiciones": "2"
+    },
+    {
+        "calle": "GENERAL CONCHA PEDREGAL",
+        "condiciones": "13"
+    },
+    {
+        "calle": "GENERAL SAAVEDRA",
+        "condiciones": "4"
+    },
+    {
+        "calle": "GRANADEROS",
+        "condiciones": "7"
+    },
+    {
+        "calle": "GRUMETE PANTALEON CORTES",
+        "condiciones": "19"
+    },
+    {
+        "calle": "GUARD SAENZ",
+        "condiciones": "18"
+    },
+    {
+        "calle": "HACIENDA MONTALBAN",
+        "condiciones": "4"
+    },
+    {
+        "calle": "HECTOR BOCCARDO",
+        "condiciones": "3"
+    },
+    {
+        "calle": "HINOJOSA ROBLES",
+        "condiciones": "1"
+    },
+    {
+        "calle": "HUANUCO",
+        "condiciones": "2"
+    },
+    {
+        "calle": "HUASCO",
+        "condiciones": "3"
+    },
+    {
+        "calle": "HUIDOBRO",
+        "condiciones": "1"
+    },
+    {
+        "calle": "HUSARES",
+        "condiciones": "7"
+    },
+    {
+        "calle": "IGNACIO VERDUGO",
+        "condiciones": "20"
+    },
+    {
+        "calle": "INGLATERRA",
+        "condiciones": "6"
+    },
+    {
+        "calle": "ISIDORA MELERO",
+        "condiciones": "7"
+    },
+    {
+        "calle": "ISIDORO ERRAZURIZ",
+        "condiciones": "18"
+    },
+    {
+        "calle": "JOSE BISQUERT",
+        "condiciones": "20"
+    },
+    {
+        "calle": "JOSE BERSTEIN",
+        "condiciones": "20"
+    },
+    {
+        "calle": "JULIET",
+        "condiciones": "18"
+    },
+    {
+        "calle": "JULIO MOURGUES",
+        "condiciones": "4"
+    },
+    {
+        "calle": "JUSTINIANO SOTOMAYOR",
+        "condiciones": "4"
+    },
+    {
+        "calle": "LA CAMELIA",
+        "condiciones": "23"
+    },
+    {
+        "calle": "LA ESTRELLA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "LA MONTANA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "LA OBRA",
+        "condiciones": "7"
+    },
+    {
+        "calle": "LA PAZ",
+        "condiciones": "9"
+    },
+    {
+        "calle": "LA PRIMAVERA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "LA VIÑA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "LANCEROS",
+        "condiciones": "7"
+    },
+    {
+        "calle": "LARRAIN",
+        "condiciones": "13"
+    },
+    {
+        "calle": "LAS ARAUCARIAS",
+        "condiciones": "7"
+    },
+    {
+        "calle": "LAS ENREDADERAS",
+        "condiciones": "18"
+    },
+    {
+        "calle": "LAS MARGARITAS",
+        "condiciones": "19"
+    },
+    {
+        "calle": "LAS MARIPOSAS",
+        "condiciones": "9"
+    },
+    {
+        "calle": "LEONOR CEPEDA",
+        "condiciones": "8"
+    },
+    {
+        "calle": "LEY 1838",
+        "condiciones": "22"
+    },
+    {
+        "calle": "LEY 383",
+        "condiciones": "22"
+    },
+    {
+        "calle": "LEY 308",
+        "condiciones": "21"
+    },
+    {
+        "calle": "LONGITUDINAL",
+        "condiciones": "11"
+    },
+    {
+        "calle": "LONGITUDINAL CINCO",
+        "condiciones": "21"
+    },
+    {
+        "calle": "LONGITUDINAL CUATRO",
+        "condiciones": "21"
+    },
+    {
+        "calle": "LONGITUDINAL TRES",
+        "condiciones": "22"
+    },
+    {
+        "calle": "LOS ANGELES",
+        "condiciones": "12"
+    },
+    {
+        "calle": "LOS MARROQUIES",
+        "condiciones": "18"
+    },
+    {
+        "calle": "LUIS ENRIQUE MONTT",
+        "condiciones": "6"
+    },
+    {
+        "calle": "LUIS GONZALEZ",
+        "condiciones": "7"
+    },
+    {
+        "calle": "LUIS JOHNSON",
+        "condiciones": "1"
+    },
+    {
+        "calle": "LUIS WEINSTEIN",
+        "condiciones": "17"
+    },
+    {
+        "calle": "MALAQUIAS CONCHA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "MANCO CAPAC",
+        "condiciones": "18"
+    },
+    {
+        "calle": "MANUEL CONTRERAS",
+        "condiciones": "19"
+    },
+    {
+        "calle": "MARCOS MACUADA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "MARINO DE LOBERA",
+        "condiciones": "19"
+    },
+    {
+        "calle": "MATILDE",
+        "condiciones": "18"
+    },
+    {
+        "calle": "MOISES GUZMAN",
+        "condiciones": "4"
+    },
+    {
+        "calle": "MOISES RIOS",
+        "condiciones": "21"
+    },
+    {
+        "calle": "MONTAU",
+        "condiciones": "2"
+    },
+    {
+        "calle": "NAMUR",
+        "condiciones": "17"
+    },
+    {
+        "calle": "NICANOR OPAZO",
+        "condiciones": "19"
+    },
+    {
+        "calle": "NUEVA ANDRES BELLO",
+        "condiciones": "25"
+    },
+    {
+        "calle": "NUEVA CINCO",
+        "condiciones": "26"
+    },
+    {
+        "calle": "NUEVA COLON",
+        "condiciones": "9"
+    },
+    {
+        "calle": "NUEVA DE LOPEZ",
+        "condiciones": "8"
+    },
+    {
+        "calle": "NUEVA LOS NIDOS",
+        "condiciones": "3"
+    },
+    {
+        "calle": "NUEVA MARURI",
+        "condiciones": "8"
+    },
+    {
+        "calle": "NUEVA OCHO",
+        "condiciones": "26"
+    },
+    {
+        "calle": "NUEVA SAN CRISTOBAL",
+        "condiciones": "25"
+    },
+    {
+        "calle": "NUEVA SEIS",
+        "condiciones": "26"
+    },
+    {
+        "calle": "NUEVA SIETE",
+        "condiciones": "26"
+    },
+    {
+        "calle": "NUEVA UNO",
+        "condiciones": "26"
+    },
+    {
+        "calle": "OLIVOS",
+        "condiciones": "9"
+    },
+    {
+        "calle": "ORIENTE",
+        "condiciones": "4"
+    },
+    {
+        "calle": "PADRE JOSE CIFUENTES GREZ",
+        "condiciones": "13"
+    },
+    {
+        "calle": "PADRE LAS CASAS",
+        "condiciones": "17"
+    },
+    {
+        "calle": "PALERMO",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PANTALEON VELEZ",
+        "condiciones": "2"
+    },
+    {
+        "calle": "PASAJE ADELA",
+        "condiciones": "18"
+    },
+    {
+        "calle": "PASAJE ALMERIA",
+        "condiciones": "5"
+    },
+    {
+        "calle": "PASAJE ARGENTINA",
+        "condiciones": "17"
+    },
+    {
+        "calle": "PASAJE ARQUITECTO ARANDA",
+        "condiciones": "7"
+    },
+    {
+        "calle": "PASAJE CARLOS RODRIGUEZ",
+        "condiciones": "18"
+    },
+    {
+        "calle": "PASAJE CENTRAL",
+        "condiciones": "4"
+    },
+    {
+        "calle": "PASAJE CHILE",
+        "condiciones": "17"
+    },
+    {
+        "calle": "PASAJE DOS",
+        "condiciones": "4"
+    },
+    {
+        "calle": "PASAJE EL CLAVEL",
+        "condiciones": "23"
+    },
+    {
+        "calle": "PASAJE EL LIRIO",
+        "condiciones": "23"
+    },
+    {
+        "calle": "PASAJE ESCANILLA",
+        "condiciones": "13"
+    },
+    {
+        "calle": "PASAJE INDEPENDENCIA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PASAJE LA JUSTICIA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PASAJE LA RAZON",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PASAJE LAS AMAPOLAS",
+        "condiciones": "23"
+    },
+    {
+        "calle": "PASAJE LOS NIDOS",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PASAJE TRES",
+        "condiciones": "1"
+    },
+    {
+        "calle": "PASCUAL LAZARTE",
+        "condiciones": "2"
+    },
+    {
+        "calle": "PASEO ORIENTE",
+        "condiciones": "8"
+    },
+    {
+        "calle": "PEATONES",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PEDRO BANNEN",
+        "condiciones": "3"
+    },
+    {
+        "calle": "PEREZ COTAPOS",
+        "condiciones": "1"
+    },
+    {
+        "calle": "PICARTE",
+        "condiciones": "16"
+    },
+    {
+        "calle": "PINTOR CICARELLI",
+        "condiciones": "4"
+    },
+    {
+        "calle": "PONIENTE",
+        "condiciones": "4"
+    },
+    {
+        "calle": "PRINCIPAL",
+        "condiciones": "10"
+    },
+    {
+        "calle": "RAFAEL RAMIREZ",
+        "condiciones": "1"
+    },
+    {
+        "calle": "RAZA CHILENA",
+        "condiciones": "4"
+    },
+    {
+        "calle": "RECABARREN",
+        "condiciones": "1"
+    },
+    {
+        "calle": "REINA MARIA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "REMIGIA OPAZO",
+        "condiciones": "19"
+    },
+    {
+        "calle": "RESIDENCIAL",
+        "condiciones": "9"
+    },
+    {
+        "calle": "RETIRO",
+        "condiciones": "13"
+    },
+    {
+        "calle": "RIO JACHAL",
+        "condiciones": "5"
+    },
+    {
+        "calle": "RODRIGUEZ",
+        "condiciones": "4"
+    },
+    {
+        "calle": "ROSA SALAS",
+        "condiciones": "19"
+    },
+    {
+        "calle": "ROSEMBLUTH",
+        "condiciones": "17"
+    },
+    {
+        "calle": "ROSITA",
+        "condiciones": "17"
+    },
+    {
+        "calle": "ROUGET DE LISLE",
+        "condiciones": "4"
+    },
+    {
+        "calle": "RUIZ",
+        "condiciones": "8"
+    },
+    {
+        "calle": "SALVADOR REYES",
+        "condiciones": "20"
+    },
+    {
+        "calle": "SAN ADRIAN",
+        "condiciones": "20"
+    },
+    {
+        "calle": "SAN CARLOS",
+        "condiciones": "17"
+    },
+    {
+        "calle": "SAN DANIEL",
+        "condiciones": "13"
+    },
+    {
+        "calle": "SAN JOSE",
+        "condiciones": "6"
+    },
+    {
+        "calle": "SAN LUIS",
+        "condiciones": "8"
+    },
+    {
+        "calle": "SANTIAGO ARCOS",
+        "condiciones": "17"
+    },
+    {
+        "calle": "SANTOS DUMONT",
+        "condiciones": "9"
+    },
+    {
+        "calle": "SARA GAJARDO",
+        "condiciones": "10"
+    },
+    {
+        "calle": "SEIS NORTE",
+        "condiciones": "11"
+    },
+    {
+        "calle": "SEVERINO CAZORZO",
+        "condiciones": "4"
+    },
+    {
+        "calle": "SEVILLA",
+        "condiciones": "5"
+    },
+    {
+        "calle": "SIMONA MARTINEZ",
+        "condiciones": "16"
+    },
+    {
+        "calle": "SOBERANIA",
+        "condiciones": "23"
+    },
+    {
+        "calle": "TACORA",
+        "condiciones": "20"
+    },
+    {
+        "calle": "TARMA RAMBO",
+        "condiciones": "20"
+    },
+    {
+        "calle": "TORIBIO ROBINET",
+        "condiciones": "19"
+    },
+    {
+        "calle": "TRECE NORTE",
+        "condiciones": "22"
+    },
+    {
+        "calle": "TRES DE DICIEMBRE",
+        "condiciones": "20"
+    },
+    {
+        "calle": "TRES DE MAYO",
+        "condiciones": "20"
+    },
+    {
+        "calle": "TRISTAN CORNEJO",
+        "condiciones": "2"
+    },
+    {
+        "calle": "URUGUAY",
+        "condiciones": "20"
+    },
+    {
+        "calle": "VALLENAR",
+        "condiciones": "3"
+    },
+    {
+        "calle": "VEINTE NORTE",
+        "condiciones": "22"
+    },
+    {
+        "calle": "VEINTIUNO DE MAYO",
+        "condiciones": "18"
+    },
+    {
+        "calle": "VENECIA",
+        "condiciones": "3"
+    },
+    {
+        "calle": "VICENTE IZQUIERDO",
+        "condiciones": "18"
+    },
+    {
+        "calle": "VICTORIANO STELLA",
+        "condiciones": "2"
+    },
+    {
+        "calle": "WALTER LIHN",
+        "condiciones": "7"
+    },
+    {
+        "calle": "ALCALDE GERMAN DOMINGUEZ",
+        "condiciones": "/ SI Nº es > 1090 -> UV es 21 / SI Nº es > 800 < 1090 -> UV es 22"
+    },
+    {
+        "calle": "AMUNATEGUI",
+        "condiciones": "/ SI Nº es PAR -> UV es 23 / SI Nº es IMPAR -> UV es 25"
+    },
+    {
+        "calle": "BALDOMERO FLORES",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 11 / SI Nº es PAR -> UV es 12"
+    },
+    {
+        "calle": "BELISARIO PRATS",
+        "condiciones": "/ SI Nº es > 1700 -> UV es 4 / SI Nº es < 1700 -> UV es 6"
+    },
+    {
+        "calle": "BRAVO DE SARAVIA",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 19 / SI Nº es PAR -> UV es 26"
+    },
+    {
+        "calle": "CADIZ",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 5 / SI Nº es PAR -> UV es 8"
+    },
+    {
+        "calle": "CAPITAN BYNON",
+        "condiciones": "/ SI Nº es = (1037 1068 1076 1109 1119 1125 1131 1143 1150 1164 1179 1184 1189 1197 1198 1221 1224 1238 1250 1259 1260 1277 1290) -> UV es 17 / SI Nº es = (1321 1322) -> UV es 18 / SI Nº es = (1205 1216 1217 1223 1228 1229 1234 1235 1240 1241 1244 1246 1252 1253 1256 1258 1259 1265 1268 1270) -> UV es 25"
+    },
+    {
+        "calle": "CARLOS MEDINA",
+        "condiciones": "/ SI Nº es PAR -> UV es 11 / SI Nº es IMPAR -> UV es 12"
+    },
+    {
+        "calle": "CARRION",
+        "condiciones": "/ SI Nº es >= 1700 -> UV es 7 / SI Nº es < 1700 -> UV es 8"
+    },
+    {
+        "calle": "CATORCE NORTE",
+        "condiciones": "/ SI Nº es > 1090 -> UV es 21 / SI Nº es > 800 < 1090 -> UV es 22"
+    },
+    {
+        "calle": "CHILLAN",
+        "condiciones": "/ SI Nº es > 2140 < 2600 -> UV es 18 / SI Nº es > 2600 -> UV es 19"
+    },
+    {
+        "calle": "CINCO NORTE",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es < 800 -> UV es 12"
+    },
+    {
+        "calle": "COMANDANTE CANALES",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 12 / SI Nº es PAR -> UV es 14"
+    },
+    {
+        "calle": "CORONEL ALVARADO",
+        "condiciones": "/ SI Nº es PAR < 2600 -> UV es 18 / SI Nº es PAR > 2600 -> UV es 19 / SI Nº es IMPAR -> UV es 20"
+    },
+    {
+        "calle": "CUATRO NORTE",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es < 800 -> UV es 12"
+    },
+    {
+        "calle": "DIECIOCHO NORTE",
+        "condiciones": "/ SI Nº es > 1090 -> UV es 21 / SI Nº es > 800 < 1090 -> UV es 22"
+    },
+    {
+        "calle": "DIECISEIS NORTE",
+        "condiciones": "/ SI Nº es > 1090 -> UV es 21 / SI Nº es > 800 < 1090 -> UV es 22"
+    },
+    {
+        "calle": "DIECISIETE NORTE",
+        "condiciones": "/ SI Nº es > 1090 -> UV es 21 / SI Nº es > 800 < 1090 -> UV es 22"
+    },
+    {
+        "calle": "DOMINGO SANTA MARIA",
+        "condiciones": "/ SI Nº es IMPAR > 1300 < 1800 -> UV es 5 / SI Nº es < 1300 -> UV es 6 / SI Nº es PAR > 1300 < 1800 -> UV es 8 / SI Nº es = (1839 2167 2177 2185 2191 2201 2215 2237 2251 2273 2305 2319 2331 2343 2355 2365 2365 2367 2377 2389 2393 2417 2435 2445 2451 2473 2481 2507 2535 2559 2565 2571 2601 2605 2609 2611 2617 2619 2627 2637 2647 2675 2691 2697 2699) -> UV es 17 / SI Nº es PAR > 2200 -> UV es 21 / SI Nº es PAR > 1970 < 2200 -> UV es 23 / SI Nº es PAR > 1800 < 1970 -> UV es 25 / SI Nº es = (2365 2401 2425 2431 2441 2459 2465 2475 2477 2483 2505 2511 2515 2519 2529 2531 2537 2543 2549 2563 2575 2577 2579 2585 2595) -> UV es 26"
+    },
+    {
+        "calle": "DOS NORTE",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es < 800 -> UV es 12"
+    },
+    {
+        "calle": "EDUARDO FREI MONTALVA",
+        "condiciones": "/ SI Nº es = (2205 641 681 691 ) -> UV es 10 / SI Nº es > 1600 < 2000 -> UV es 14 / SI Nº es > 2000 -> UV es 20 / SI Nº es > 800 < 1200 -> UV es 22 / SI Nº es = 721 -> UV es 24 / SI Nº es > 1200 < 1800 -> UV es 26"
+    },
+    {
+        "calle": "EL MOLINO",
+        "condiciones": "/ SI Nº es PAR -> UV es 7 / SI Nº es IMPAR -> UV es 25"
+    },
+    {
+        "calle": "EL PINO",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es < 800 -> UV es 12"
+    },
+    {
+        "calle": "ENRIQUE SORO",
+        "condiciones": "/ SI Nº es PAR > 1100 < 1200 -> UV es 21 / SI Nº es PAR < 1100 -> UV es 22 / SI Nº es IMPAR > 1100 < 1200 -> UV es 23 / SI Nº es IMPAR < 1100 -> UV es 24"
+    },
+    {
+        "calle": "ESCANILLA",
+        "condiciones": "/ SI Nº es > 1800 -> UV es 3 / SI Nº es > 1300 < 1800 -> UV es 5 / SI Nº es > 900 < 1300 -> UV es 8 / SI Nº es > 525 < 900 -> UV es 13 / SI Nº es < 525 -> UV es 15"
+    },
+    {
+        "calle": "FERMIN VIVACETA",
+        "condiciones": "/ SI Nº es IMPAR < 1800 -> UV es 3 / SI Nº es IMPAR > 1300 < 1800 -> UV es 5 / SI Nº es PAR > 900 > 1100 -> UV es 7 / SI Nº es IMPAR > 900 < 1300 -> UV es 8 / SI Nº es PAR > 800 < 900 -> UV es 11 / SI Nº es PAR > 600 < 800 -> UV es 12 / SI Nº es IMPAR > 600 < 900 -> UV es 13 / SI Nº es 400 600 -> UV es 14 / SI Nº es IMPAR > 400 < 600 -> UV es 15 / SI Nº es = (1092 1114 1114 1122 1128 1136 1154 1174 1198 1218 1226 1250 1264 1274 1284 1298 1310 1356 1380) -> UV es 17 / SI Nº es ( PAR > 1400 < 2400 ) -> UV es 18 /SI Nº es = (1302 1316 1320 1328) -> UV es 18 / SI Nº es PAR > 2400 -> UV es 20 / SI Nº es = (1018 1092 1108 1130 1136 1146 1190 1202 1212 1224 1230 1234 1238 1246 1246 1246 1246 1246 1246 1246 1246 1248 1258 1260 1266 1276 1288 1294) -> UV es 25"
+    },
+    {
+        "calle": "FRANCIA",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 4 / SI Nº es PAR -> UV es 6"
+    },
+    {
+        "calle": "GAMERO",
+        "condiciones": "/ SI Nº es IMPAR > 1700 < 1900 -> UV es 7 / SI Nº es IMPAR > 1200 < 1700 -> UV es 8 / SI Nº es > 2700 -> UV es 10 / SI Nº es (PAR > 1700 < 1900 ) -> UV es 11 /SI Nº es ( >1800 <=2700 ) -> UV es 11 / SI Nº es PAR > 1200 < 1700 -> UV es 13 / SI Nº es > 500 < 700 -> UV es 22"
+    },
+    {
+        "calle": "GENERAL PRIETO",
+        "condiciones": "/ SI Nº es > 1310 -> UV es 15 / SI Nº es > 1100 < 1310 -> UV es 16"
+    },
+    {
+        "calle": "GRUMETE BUSTOS",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es > 600 < 800 -> UV es 12 / SI Nº es > 400 < 600 -> UV es 14"
+    },
+    {
+        "calle": "GUANACO",
+        "condiciones": "/ SI Nº es = 2750 -> UV es 1 / SI Nº es > 2400 < 2700 -> UV es 2 / SI Nº es < 2200 -> UV es 4"
+    },
+    {
+        "calle": "HIPODROMO CHILE",
+        "condiciones": "/ SI Nº es > 1400 -> UV es 3 / SI Nº es < 1400 -> UV es 4"
+    },
+    {
+        "calle": "INDEPENDENCIA",
+        "condiciones": "/ SI Nº es IMPAR > 2700 -> UV es 1 / SI Nº es IMPAR > 2200 < 2700 -> UV es 2 / SI Nº es PAR > 1800 -> UV es 3 / SI Nº es IMPAR > 1700 < 2200 -> UV es 4 / SI Nº es PAR > 1300 < 1800 -> UV es 5 / SI Nº es IMPAR > 900 < 1700 -> UV es 6 / SI Nº es PAR > 900 < 1300 -> UV es 8 / SI Nº es IMPAR < 900 -> UV es 9 / SI Nº es PAR > 500 > 900 -> UV es 13 / SI Nº es PAR < 500 -> UV es 16"
+    },
+    {
+        "calle": "LAFAYETTE",
+        "condiciones": "/ SI Nº es > 1700 -> UV es 4 / SI Nº es < 1700 -> UV es 6"
+    },
+    {
+        "calle": "LAS CAÑAS",
+        "condiciones": "/ SI Nº es < 1200 -> UV es 17 / SI Nº es > 1200 -> UV es 19"
+    },
+    {
+        "calle": "LASTRA",
+        "condiciones": "/ SI Nº es < 1100 -> UV es 9 / SI Nº es > 1300 -> UV es 15 / SI Nº es > 1100 < 1300 -> UV es 16"
+    },
+    {
+        "calle": "LONGITUDINAL SEIS",
+        "condiciones": "/ SI Nº es < 800 -> UV es 21 / SI Nº es > 1200 -> UV es 23"
+    },
+    {
+        "calle": "CORONEL LOPEZ DE ALCAZAR",
+        "condiciones": "/ SI Nº es > 500 -> UV es 13 / SI Nº es PAR < 500 -> UV es 15 / SI Nº es IMPAR < 500 -> UV es 16"
+    },
+    {
+        "calle": "LOS NIDOS",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 3 / SI Nº es PAR -> UV es 5"
+    },
+    {
+        "calle": "LUIS GALDAMES",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 18 / SI Nº es PAR -> UV es 19"
+    },
+    {
+        "calle": "MALAGA",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 5 / SI Nº es PAR -> UV es 8"
+    },
+    {
+        "calle": "MARURI",
+        "condiciones": "/ SI Nº es > 1300 -> UV es 5 / SI Nº es > 900 < 1300 -> UV es 8 / SI Nº es > 500 < 900 -> UV es 13 / SI Nº es < 500 -> UV es 16"
+    },
+    {
+        "calle": "MEXICO",
+        "condiciones": "/ SI Nº es < 1300 -> UV es 4 / SI Nº es > 2700 -> UV es 20"
+    },
+    {
+        "calle": "NAVARRETE Y LOPEZ",
+        "condiciones": "/ SI Nº es > 1800 -> UV es 3 / SI Nº es < 1800 -> UV es 5"
+    },
+    {
+        "calle": "NUEVA CUATRO",
+        "condiciones": "/ SI Nº es < 1100 -> UV es 4 / SI Nº es > 1300 -> UV es 26"
+    },
+    {
+        "calle": "NUEVA DE MATTE",
+        "condiciones": "/ SI Nº es < 2000 -> UV es 3 / SI Nº es > 2000 < 2600 -> UV es 18 / SI Nº es > 2600 -> UV es 19"
+    },
+    {
+        "calle": "NUEVA DOS",
+        "condiciones": "/ SI Nº es < 1100 -> UV es 4 / SI Nº es > 1300 -> UV es 26"
+    },
+    {
+        "calle": "NUEVA TRES",
+        "condiciones": "/ SI Nº es < 1100 -> UV es 4 / SI Nº es > 1300 -> UV es 26"
+    },
+    {
+        "calle": "OBISPO CARLOS SAN MARTIN",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 19 / SI Nº es PAR -> UV es 26"
+    },
+    {
+        "calle": "PABLO URZUA",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 1 / SI Nº es PAR -> UV es 2"
+    },
+    {
+        "calle": "PADRE FAUSTINO GAZZIERO",
+        "condiciones": "/ SI Nº es PAR -> UV es 17 / SI Nº es IMPAR < 2650 -> UV es 18 / SI Nº es IMPAR > 2650 -> UV es 19"
+    },
+    {
+        "calle": "PASAJE UNO",
+        "condiciones": "/ SI Nº es < 2000 -> UV es 1 / SI Nº es > 2000 -> UV es 4"
+    },
+    {
+        "calle": "ANIBAL PINTO",
+        "condiciones": "/ SI Nº es > 1600 -> UV es 15 / SI Nº es < 1600 -> UV es 16"
+    },
+    {
+        "calle": "PROFESOR ZAÑARTU",
+        "condiciones": "/ SI Nº es > 1100 -> UV es 6 / SI Nº es < 1100 -> UV es 9"
+    },
+    {
+        "calle": "QUINCE NORTE",
+        "condiciones": "/ SI Nº es > 1090 -> UV es 21 / SI Nº es > 800 < 1090 -> UV es 22"
+    },
+    {
+        "calle": "RIVERA",
+        "condiciones": "/ SI Nº es ( IMPAR < 1750 ) -> UV es 13/ SI Nº es = ( 2000 ) -> UV es 13 / SI Nº es IMPAR > 1750   -> UV es 14/ SI Nº es = ( 2006 2008 ) -> UV es 14 / SI Nº es PAR > 1600 < 2000 -> UV es 15 / SI Nº es PAR < 1600 -> UV es 16"
+    },
+    {
+        "calle": "SALOMON SACK",
+        "condiciones": "/ SI Nº es IMPAR > 500 -> UV es 21 / SI Nº es PAR > 500 -> UV es 22 / SI Nº es IMPAR < 500 -> UV es 23 / SI Nº es PAR < 500 -> UV es 24"
+    },
+    {
+        "calle": "SAN RAFAEL",
+        "condiciones": "/ SI Nº es < 1600 -> UV es 13 / SI Nº es > 2700 -> UV es 20"
+    },
+    {
+        "calle": "SANTA LAURA",
+        "condiciones": "/ SI Nº es IMPAR -> UV es 2 / SI Nº es PAR -> UV es 4"
+    },
+    {
+        "calle": "SANTA MARIA",
+        "condiciones": "/ SI Nº es < 1000 -> UV es 17 / SI Nº es > 1000 -> UV es 25"
+    },
+    {
+        "calle": "TENIENTE BISSON",
+        "condiciones": "/ SI Nº es > 900 -> UV es 7 / SI Nº es > 800 < 900 -> UV es 11 / SI Nº es > 600 < 800 -> UV es 12 / SI Nº es < 600 -> UV es 14"
+    },
+    {
+        "calle": "TRES NORTE",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es < 800 -> UV es 12"
+    },
+    {
+        "calle": "UNO NORTE",
+        "condiciones": "/ SI Nº es > 800 -> UV es 11 / SI Nº es < 800 -> UV es 12"
+    }
+]

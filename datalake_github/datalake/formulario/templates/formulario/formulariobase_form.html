@@ -16,7 +16,21 @@
     </form>
 </div>
 
+<script>
+$(function() {
+$( "#id_direccion" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});
+});
+$(function() {
+$( "#id_p_origen" ).autocomplete({
+    source: '{% url 'autocompete_pais' %}'
+});
+});
 
+
+
+</script>
 
 
 

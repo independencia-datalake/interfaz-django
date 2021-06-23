@@ -16,7 +16,14 @@
     </form>
 </div>
 
+<script>
+$(function() {
+$( "#id_direccion" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});
+});
 
+</script>
 
 {% endblock %}
 
@@ -38,6 +45,11 @@
             });
         });
 
-
+        $(function() {
+        $( "#id_direccion" ).autocomplete({
+            source: '{% url 'autocompete_calles' %}'
+        });
+        });
+    </script>
 
 {% endblock %}
