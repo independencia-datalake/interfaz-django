@@ -40,8 +40,8 @@ class ComprobanteVenta(models.Model):
     def __str__(self):
         return f'{self.pk}'
     
-    # def  get_absolute_url(self):
-    #     return reverse("comprobanteventa-detail", kwargs={"pk": self.pk})  
+    def  get_absolute_url(self):
+        return reverse("comprobanteventa-detail", kwargs={"pk": self.pk})  
 
 class ProductoVendido(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")

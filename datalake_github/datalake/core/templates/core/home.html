@@ -1,13 +1,15 @@
 {% extends 'core/base.html' %}
-{% load crispy_forms_tags %}
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
 
-HOLIWI
+<h1>Farmacia</h1>
+<hr>
+<a href="{% url 'comprobanteventa-inicio' %}">Venta</a>
+<a href="{% url 'productofarmacia-inicio' %}">Productos</a>
+<hr>
 
 {% endblock %}
 
 {% block script %} 
-
 {% endblock %}

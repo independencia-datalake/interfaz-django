@@ -35,4 +35,4 @@ class ProductoVendidoForm(forms.ModelForm):
     class Meta:
         model = ProductoVendido
         fields = ['nombre', 'cantidad']
-ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,ProductoVendido,form=ProductoVendidoForm, extra=10)
+ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,ProductoVendido,form=ProductoVendidoForm, extra=1)

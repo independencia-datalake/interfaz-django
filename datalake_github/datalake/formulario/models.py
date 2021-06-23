@@ -298,4 +298,6 @@ class Esterilizacion(models.Model):
         return f'{self.created} - {self.numero_identificacion} - {self.nombre_formulario}'
         
     def  get_absolute_url(self):
-        return reverse("esterilizacion-detail", kwargs={"pk": self.pk})    
+        return reverse("esterilizacion-detail", kwargs={"pk": self.pk}) 
+
+

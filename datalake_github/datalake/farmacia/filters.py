@@ -1,9 +1,11 @@
 import django_filters
 from .models import (
-    ProductoFarmacia
+    ComprobanteVenta,
+    ProductoFarmacia,
+    ProductoVendido
 )
 
-class ProductofarmaciaFilter(django_filters.FilterSet):
+class ProductoFarmaciaFilter(django_filters.FilterSet):
     OPCIONES = (
         ('ascendente','Ascendente'),
         ('descendente','Descendente'),
@@ -21,3 +23,12 @@ class ProductofarmaciaFilter(django_filters.FilterSet):
     def filter_by_order(self, queryset, name, value):
         expression = 'precio' if value == 'ascendente' else '-precio'
         return queryset.order_by(expression)
+
+class ComprobanteVentaFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = ComprobanteVenta
+        fields = {
+            'numero_identificacion' : ['icontains'],
+            'farmaceuta' : ['exact'],
+        }

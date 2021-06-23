@@ -3,7 +3,7 @@
 {% block title %}Control de Plaga{% endblock %}
 
 {% block content %}
-<h1> <a href="{% url 'controldeplaga-create' %}">Crear Formulario Control de Plaga</a></h1>
+<button> <a href="{% url 'controldeplaga-create' %}">Crear Formulario Control de Plaga</a></button>
 <hr>
 <div class="container">
     <form method="GET">
@@ -13,7 +13,7 @@
 </div>
 <hr>
 <table border = "1" cellpadding= "5" cellspacing = "5">
-    <td>estatus</td>
+    <td>Estatus</td>
     <td>created</td> 
     <td>ficha_numero</td>
     <td>tipo_identificacion</td>
@@ -57,5 +57,26 @@
     </tr>
     {%endfor%}
 
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
 
 {% endblock %}

@@ -3,4 +3,6 @@ django-crispy-forms
 pillow
 django-import-export
 django-filter
-django-extra-views
+pandas
+numpy
+django-pandas

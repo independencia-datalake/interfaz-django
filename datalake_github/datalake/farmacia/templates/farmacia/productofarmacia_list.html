@@ -5,22 +5,22 @@
 {% block content %}
 <h1> <a href="{% url 'productofarmacia-create' %}">Crear Producto de Farmacia</a></h1>
 <hr>
-<div class="container">
+<div>
     <form method="GET">
         {{ filter.form|crispy }}
         <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
 </div>
 <hr>
-<table border = "1" cellpadding= "5" cellspacing = "5">
-    <td>marca_producto</td>
-    <td>p_a</td> 
-    <td>dosis</td>
-    <td>precentacion</td>
-    <td>f_ven</td>
-    <td>precio</td>
-    <td>n_lote</td>
-
+<div>
+    <table border = "1" cellpadding= "5" cellspacing = "5">
+        <td>marca_producto</td>
+        <td>p_a</td> 
+        <td>dosis</td>
+        <td>presentacion</td>
+        <td>f_ven</td>
+        <td>precio</td>
+        <td>n_lote</td>
     {%for object in filter.qs %}
     <tr>
         <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'productofarmacia-detail' object.id %}">{{ object.marca_producto }}</a></td>
@@ -32,6 +32,14 @@
         <td>{{ object.n_lote }}</td>
     </tr>
     {%endfor%}
+</div>
+{% endblock %}
 
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 
 {% endblock %}

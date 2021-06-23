@@ -28,7 +28,6 @@ class InicioFormularioBase(ListView):
     model = FormularioBase
     ordering = ['-created']
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = FormularioBaseFilter(self.request.GET, queryset=self.get_queryset())
@@ -162,22 +161,7 @@ class EdicionEsterilizacion(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
             return True
         return False
 
-#AUTOCOMPLETADO
-def autocompete_calles(request):
-    if 'term' in request.GET:
-        qs = CallesCondiciones.objects.filter(calle__contains=request.GET.get('term'))
-        calles = list()
-        for calle in qs:
-            calles.append(calle.calle)
-        return JsonResponse(calles, safe=False)
 
-def autocompete_pais(request):  
-    if 'term' in request.GET:
-        qs = Paises.objects.filter(nombre__contains=request.GET.get('term'))
-        paises = list()
-        for pais in qs:
-            paises.append(pais.nombre)
-        return JsonResponse(paises, safe=False)
 
 
 
