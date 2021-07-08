@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from datetime import datetime
 
 class Paises(models.Model): 
     id = models.PositiveIntegerField(primary_key=True, editable=False)
@@ -104,7 +105,7 @@ class Denuncia(models.Model):
     direccion_denunciado = models.CharField(blank=True, default="", max_length=30, verbose_name='Calle Denunciado')
     numero_calle_denunciado = models.PositiveIntegerField(blank=True, default=0, verbose_name='Numero Calle Denunciado')
     email_denunciado = models.EmailField(blank=True, max_length=30, verbose_name='Email de Contacto Denunciado')
-    fecha_visita = models.DateField(auto_now_add=False, auto_now=False, blank=True,verbose_name="Fecha de Visita Inspectiva")
+    fecha_visita = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha de Visita Inspectiva")
     lugar_de_transgresion =  models.CharField(default="", max_length=30,
                                             choices=(
                                                 ('Via Publica','Via Publica'),
@@ -191,7 +192,7 @@ class ControlDePlaga(models.Model):
                                             ),
                                             verbose_name='Tipo de Solicitud'
                                           )
-    fecha_coordinada = models.DateField(auto_now_add=False, auto_now=False, blank=True,verbose_name="Fecha Coordinada", null=True)
+    # fecha_coordinada = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Coordinada")
     jornada =  models.CharField(default="", max_length=30,
                                             choices=(
                                                 ('Mañana','Mañana'),
@@ -199,7 +200,7 @@ class ControlDePlaga(models.Model):
                                             ),
                                             verbose_name='Jornada de Servicio'
                                           )
-    fecha_visita = models.DateField(auto_now_add=False, auto_now=False, blank=True,verbose_name="Fecha Operacion", null=True)
+    # fecha_visita = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Operacion")
     producto =  models.CharField(default="", max_length=30,
                                             choices=(
                                                 ('RATAMIX','RATAMIX'),
@@ -266,7 +267,7 @@ class Esterilizacion(models.Model):
                                             ),
                                             verbose_name='Sexo de Mascota'
                                           )
-    fecha_cirugia = models.DateField(auto_now_add=False, auto_now=False, blank=True,verbose_name="Fecha Coordinada")
+    fecha_cirugia = models.DateField(default=datetime.now, blank=True,verbose_name="Fecha Coordinada")
     clinica =  models.CharField(default="", max_length=30,
                                             choices=(
                                                 ('Municipal (movil)','Municipal (movil)'),
@@ -298,6 +299,4 @@ class Esterilizacion(models.Model):
         return f'{self.created} - {self.numero_identificacion} - {self.nombre_formulario}'
         
     def  get_absolute_url(self):
-        return reverse("esterilizacion-detail", kwargs={"pk": self.pk}) 
-
-
+        return reverse("esterilizacion-detail", kwargs={"pk": self.pk})    

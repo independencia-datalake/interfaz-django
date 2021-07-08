@@ -1,0 +1,2 @@
+id,nombre_formulario,p_origen,tipo_identificacion,numero_identificacion,nombre,apellido,direccion,numero_calle,uv,texto1,texto2,texto3,texto4,autor,created,updated
+1,Formulario Base,Chile,Rut,18.465.635-3,Octavio Joaquin,Montt Maray,FERMIN VIVACETA,1233,8,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet orci non odio aliquet dapibus et ut enim. Suspendisse rhoncus mi sit amet enim varius lobortis. Duis non odio nulla. Fusce eget faucibus nisi.",,,,1,2021-05-04 15:42:03,2021-05-04 15:42:03
