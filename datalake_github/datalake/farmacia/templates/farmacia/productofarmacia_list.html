@@ -3,17 +3,17 @@
 {% block title %}Productos Farmacia{% endblock %}
 
 {% block content %}
-<h1> <a href="{% url 'productofarmacia-create' %}">Crear Producto de Farmacia</a></h1>
+<a href="{% url 'productofarmacia-create' %}"><button class="btn btn-outline-info">Nuevo Producto de farmacia</button></a>
 <hr>
 <div>
     <form method="GET">
         {{ filter.form|crispy }}
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <button type="submit" class="btn btn-outline-info">Buscar</button>
     </form>
 </div>
 <hr>
 <div>
-    <table border = "1" cellpadding= "5" cellspacing = "5">
+    <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
         <td>marca_producto</td>
         <td>p_a</td> 
         <td>dosis</td>
@@ -21,17 +21,20 @@
         <td>f_ven</td>
         <td>precio</td>
         <td>n_lote</td>
+        <td>------------</td>
     {%for object in filter.qs %}
     <tr>
-        <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'productofarmacia-detail' object.id %}">{{ object.marca_producto }}</a></td>
+        <td>{{ object.marca_producto }}</td>
         <td>{{ object.p_a }}</td>
         <td>{{ object.dosis }}</td>
         <td>{{ object.precentacion }}</td>
         <td>{{ object.f_ven }}</td>
         <td>{{ object.precio }}</td>
         <td>{{ object.n_lote }}</td>
+        <td><a href="{% url 'productofarmacia-detail' object.id %}">BOTON EDITAR</a> - <a href="{% url 'productofarmacia-delete' object.id %}">BOTON BORRAR</a></td>
     </tr>
     {%endfor%}
+    </table>
 </div>
 {% endblock %}
 

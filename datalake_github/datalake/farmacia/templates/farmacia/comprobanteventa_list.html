@@ -3,26 +3,31 @@
 {% block title %}Productos Vendidos{% endblock %}
 
 {% block content %}
-
-<h1><a href="{% url 'comprobanteventa-create' %}">Crear Comprobante de Venta</a></h1>
+<a href="{% url 'comprobanteventa-create' %}"><button class="btn btn-outline-info">Nueva Venta</button></a>
+<hr>
 <form method="GET">
     {{ filter.form|crispy }}
-    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="submit" class="btn btn-outline-info">Buscar</button>
 </form>
-
+<hr>
 <div>
-    <table border = "1" cellpadding= "5" cellspacing = "5">
-        <td>Comprobante de Venta</td>
-        <td>numero_identificacion</td> 
-        <td>farmaceuta</td>
+    <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+        <td>N° de Venta</td>
+        <td>N° de Identidad de la Persona</td> 
+        <td>Profesional</td>
+        <td>---------</td>
     {%for object in filter.qs %}
     <tr>
-        <td>{{ object.id }} - <a href="{% url 'comprobanteventa-detail' object.id %}">editar</a></td>
+        <td>{{ object.id }}</td>
         <td>{{ object.numero_identificacion }}</td>
         <td>{{ object.farmaceuta }}</td>
+        <td><a href="{% url 'comprobanteventa-detail' object.id %}">BOTON EDITAR</a> - <a href="{% url 'comprobanteventa-delete' object.id %}">BOTON BORRAR</a></td>
     </tr>
     {%endfor%}
+    </table>
 </div>
+
+<a href="{% url 'descargar-comprobantes' %}"><button class="btn btn-outline-info">Descargar Excel</button></a>
 
 {% endblock %}
 

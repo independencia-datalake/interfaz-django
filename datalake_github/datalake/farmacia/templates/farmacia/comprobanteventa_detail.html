@@ -4,16 +4,16 @@
 
 {% block content %}
 
-<h1> Comprobante {{ c_detail.id }}</h1>
+<h1> N° de Venta: {{ c_detail.id }}</h1>
 <hr>
-<h3>{{ c_detail.numero_identificacion }} - Editar</h3>
+<h4>Identificacion: {{ c_detail.tipo_identificacion }} - {{ c_detail.numero_identificacion }} | <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></h4>
 <hr>
 {%for object in pv_detail %}
-<h3>{{ object.nombre }} - {{ object.cantidad }} - <a href="{% url 'productovendido-update' object.id %}">Editar</a></h3>
+<h6>{{ object.nombre }} - {{ object.cantidad }} - <a href="{% url 'productovendido-update' object.id %}"><button>Editar</button></a></h6>
 <hr>
 {%endfor%}
 <hr>
-<button type="button">Confirmar</button>
+<button type="button"><a href="{% url 'comprobanteventa-inicio' %}">Confirmar Venta</a></button>
 {% endblock %}
 
 {% block jQuery %}

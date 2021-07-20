@@ -10,14 +10,7 @@
     {% if object.autor == user %}
         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'productofarmacia-update' object.id %}">Editar</a>
     {% endif %}
-    <hr>
-    <h5>Nombre Solicitante: {{ object.nombre }} {{ object.apellido_p }} {{ object.apellido_m }}</h5>
-    <br>
-    <h5>Numero de Indinteficiacion Solicitante: {{ object.numero_identificacion }}</h5>  
-    <br>
-    <h5>Direccion Solicitante: {{ object.direccion }} {{ object.numero_calle }}</h5>  
-    <br>
-    <h3>Unidad Vecinal Solicitante: {{ object.uv }}</h3>  
+
     <hr>
 </div>
 

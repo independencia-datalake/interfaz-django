@@ -6,7 +6,7 @@
 <div class="content-section">
     <form method="GET" action="{% url 'cal_uv' %}">
         <fieldset class="form-group">
-            <legend class="legend-content mb-4">Calculadora de Unidad Vecinal</legend>
+            <legend class="border-bottom mb-4">Calculadora de Unidad Vecinal</legend>
                 <input placeholder="Nombre de Calle" name='nombre_calle' id='id_nombre_calle'>
                 <input placeholder="Numero de Calle" name='numero_calle' id='id_nombre_calle'>
         </fieldset> 
@@ -16,15 +16,12 @@
     </form>
     <h2>{{uv}}</h2>
 </div>
+{% endblock %}
 
 <script>
-$(function() {
+{% block script %}
 $( "#id_nombre_calle" ).autocomplete({
     source: '{% url 'autocompete_calles' %}'
-});
-});
-</script>
-
-
-
+});     
 {% endblock %}
+</script>

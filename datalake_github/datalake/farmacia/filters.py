@@ -2,7 +2,6 @@ import django_filters
 from .models import (
     ComprobanteVenta,
     ProductoFarmacia,
-    ProductoVendido
 )
 
 class ProductoFarmaciaFilter(django_filters.FilterSet):
