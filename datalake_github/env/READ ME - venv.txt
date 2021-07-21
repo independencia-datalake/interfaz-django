@@ -1,0 +1,25 @@
+Iniciar maquina virtual
+source env/Scripts/activate
+
+Instalar Python3
+brew install python3
+
+Instalar Brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install python3
+
+Instalar PIP
+sudo easy_install pip
+
+Descargar Python3
+https://www.python.org/downloads/mac-osx/
+
+Paquetes en django
+pip install django
+pip install django-crispy-forms
+pip install pillow
+pip install django-import-export
+pip install django-filter
+pip install pandas
+pip install numpy
+pip install django-pandas
