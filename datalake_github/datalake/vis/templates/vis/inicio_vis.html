@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block title %}Inicio{% endblock %}
+
+{% block styles %}
+<link href="core/css/datalake.css3" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap">  
+  <div class="botonera" style="background-color: white">
+    <h1>Elija la tabla que desea visualizar</h1> 
+    <div class="botones">
+      <a href="{% url 'vis' %}">Denuncias</a>
+      <a href="{% url 'vis' %}">Control de Plaga</a>
+      <a href="{% url 'vis' %}">Esterilizacion</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+{% endblock %}

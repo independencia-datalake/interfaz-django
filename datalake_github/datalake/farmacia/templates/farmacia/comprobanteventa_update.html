@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Comprobante de Venta Edicion{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap"> 
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Editar Producto</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Confirmar Cambios</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

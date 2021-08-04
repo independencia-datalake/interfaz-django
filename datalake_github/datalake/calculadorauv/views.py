@@ -1,8 +1,9 @@
-# import re
 import pandas as pd
 from django.shortcuts import render
 from formulario.models import CallesCondiciones
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 @login_required
 def calculadorauv(request):   
@@ -85,3 +86,12 @@ def validar_conjunto(numero, validacion):
   if str(numero) in conjunto:
     return validacion['uv']
 
+#AUTOCOMPLETADO
+
+def autocompete_calles(request):
+    if 'term' in request.GET:
+        qs = CallesCondiciones.objects.filter(calle__contains=request.GET.get('term'))
+        calles = list()
+        for calle in qs:
+            calles.append(calle.calle)
+        return JsonResponse(calles, safe=False)

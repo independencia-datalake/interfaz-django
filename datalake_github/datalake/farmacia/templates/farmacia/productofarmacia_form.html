@@ -3,18 +3,73 @@
 {% block title %}Producto Farmacia{% endblock %}
 
 {% block content %}
-<div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Producto Farmacia Nuevo</legend>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Subir Producto </button>
+
+<div class="container cabecera-interior-tablas margin-bottom-30">
+    <div class="row">
+        <div class="col vertical-align-middle">
+            <h3>Nuevo Producto</h3>
         </div>
-    </form>
+        <div class="col vertical-align-middle">
+        </div>
+    </div>
 </div>
+
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+    <div class="container contenedor-wrap"> 
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="div_id_marca_producto" class="form-group">
+                        <label for="id_marca_producto" class=" requiredField">Marca del Producto<span class="asteriskField">*</span></label>
+                        <div class=""> <input type="text" name="marca_producto" maxlength="20" class="textinput textInput form-control" required="" id="id_marca_producto">
+                        </div>
+                    </div>
+                    <div id="div_id_p_a" class="form-group">
+                        <label for="id_p_a" class=" requiredField">Componente Activo<span class="asteriskField">*</span></label>
+                        <div class=""> <input type="text" name="p_a" maxlength="20" class="textinput textInput form-control" required="" id="id_p_a">
+                        </div>
+                    </div>
+                    <div id="div_id_dosis" class="form-group">
+                        <label for="id_dosis" class=" requiredField">Dosis del Producto<span class="asteriskField">*</span></label>
+                        <div class="">
+                            <input type="text" name="dosis" maxlength="10" class="textinput textInput form-control" required="" id="id_dosis">
+                        </div>
+                    </div>
+                    <div id="div_id_precentacion" class="form-group">
+                        <label for="id_precentacion" class=" requiredField">Presentacion del Producto<span class="asteriskField">*</span></label>
+                        <div class="">
+                            <input type="text" name="precentacion" maxlength="10" class="textinput textInput form-control" required="" id="id_precentacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="div_id_f_ven" class="form-group">
+                        <label for="id_f_ven" class=" requiredField">Fecha de vencimiento<span class="asteriskField">*</span></label>
+                        <div class=""> <input type="date" name="f_ven" class="dateinput form-control" required="" id="id_f_ven">
+                        </div>
+                    </div>
+                    <div id="div_id_precio" class="form-group">
+                        <label for="id_precio" class=" requiredField">Precio Producto<span class="asteriskField">*</span></label>
+                        <div class="">
+                            <input type="number" name="precio" value="1" min="0" class="numberinput form-control" required="" id="id_precio">
+                        </div>
+                    </div>
+                    <div id="div_id_n_lote" class="form-group">
+                        <label for="id_n_lote" class=" requiredField">Numero de Lote<span class="asteriskField">*</span></label>
+                        <div class=""> <input type="number" name="n_lote" value="1" min="0" class="numberinput form-control" required="" id="id_n_lote">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="form-group align-right">
+                <button class="btn btn-outline-info" type="submit">Subir Producto</button>
+            </div>
+        </div>
+    </div>
+    </fieldset>
+</form>
 
 {% endblock %}
 

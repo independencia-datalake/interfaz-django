@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Eliminar{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap ">
+  <div class="align-center">
+    <h2 class="delete-title">Esta seguro que quiere eliminar {{ object }}</h2>
+    <div class="pt-3">
+        <small class="text-muted">
+          <form method="POST">
+          {% csrf_token %}
+          <button class="btn btn-outline-danger" type="submit">Eliminar</button>
+          <hr>          
+          <a href="{{ request.META.HTTP_REFERER }}">Cancelar</a>
+          </form>
+        </small>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

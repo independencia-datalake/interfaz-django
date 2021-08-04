@@ -3,17 +3,19 @@
 {% block title %}Producto Vendido{% endblock %}
 
 {% block content %}
-<div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Edicion Producto Vendido</legend>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Actualizar</button>
-        </div>
-    </form>
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Edicion Producto Vendido</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Actualizar</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

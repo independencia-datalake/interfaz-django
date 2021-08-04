@@ -2,10 +2,15 @@
 {% block title %}Cerrar Sesion{% endblock %}
 
 {% block content %}
-<h2>Ya has cerrado sesion</h2>
-<div class="border-top pt-3">
-    <small class="text-muted">
-        <a href='{% url 'login' %}'>Vuelve a iniciar sesion</a>
-    </smal>
+<div class="container contenedor-wrap bg-negro">
+  <div class="align-center">
+    <h2 class="logout-title">Ya has cerrado sesión</h2>
+    <div class="pt-3">
+        <small class="text-muted">
+            <a class="over-black-link" href='{% url 'login' %}'>Vuelve a iniciar sesión</a>
+        </small>
+    </div>
+  </div>
 </div>
 {% endblock %}
+

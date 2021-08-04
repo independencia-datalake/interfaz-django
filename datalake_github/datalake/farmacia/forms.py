@@ -1,11 +1,17 @@
 from django import forms
-from django.contrib.auth.models import User
-from .models import *
-from django.forms import inlineformset_factory, widgets
-from django.utils.timezone import localdate
+from .models import (
+    ProductoFarmacia,
+    ComprobanteVenta,
+    ProductoVendido,
+)
+from django.forms import inlineformset_factory
+from django.forms.widgets import (
+    RadioSelect,
+)
 
 class DateInput(forms.DateInput):
     input_type = 'date'
+ 
 
 class ProductoFarmaciaForm(forms.ModelForm): 
 
@@ -24,15 +30,22 @@ class ProductoFarmaciaForm(forms.ModelForm):
             'f_ven' : DateInput()
         }
 
-class ComprobanteForm(forms.ModelForm):
-    
+class ComprobanteVentaForm(forms.ModelForm):
     class Meta:
         model = ComprobanteVenta
-        fields = ['numero_identificacion']
-
+        fields = ['tipo_identificacion','numero_identificacion']
+        widgets = {
+            'tipo_identificacion': RadioSelect(),
+        } 
+        
 class ProductoVendidoForm(forms.ModelForm):
 
     class Meta:
         model = ProductoVendido
         fields = ['nombre', 'cantidad']
-ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,ProductoVendido,form=ProductoVendidoForm, extra=1)
+
+ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,
+                                                ProductoVendido,
+                                                form=ProductoVendidoForm,
+                                                can_delete=False,
+                                                extra=1)

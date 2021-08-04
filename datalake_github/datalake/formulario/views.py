@@ -23,6 +23,8 @@ from .filters import (
     EsterilizacionFilter,
 )
 
+
+
 #FORMULARIO BASE
 class InicioFormularioBase(ListView):
     model = FormularioBase
