@@ -3,18 +3,15 @@
 {% block title %}Eliminar{% endblock %}
 
 {% block content %}
-<div class="container contenedor-wrap ">
-  <div class="align-center">
-    <h2 class="delete-title">Esta seguro que quiere eliminar {{ object }}</h2>
-    <div class="pt-3">
-        <small class="text-muted">
-          <form method="POST">
-          {% csrf_token %}
-          <button class="btn btn-outline-danger" type="submit">Eliminar</button>
-          <hr>          
-          <a href="{{ request.META.HTTP_REFERER }}">Cancelar</a>
-          </form>
-        </small>
+<div class="contenedor-wrap bg-negro">
+  <div class="content-section">
+    <div class="container align-center">
+      <h3 class="trash-title">¿Estás seguro que quieres eliminar {{ object }}?</h3>
+      <form method="POST">
+      {% csrf_token %}
+        <a class="btn btn-outline-info custom-link" href="{{ request.META.HTTP_REFERER }}">Cancelar</a>
+        <button class="btn btn-outline-info" type="submit">Eliminar</button>
+      </form>
     </div>
   </div>
 </div>

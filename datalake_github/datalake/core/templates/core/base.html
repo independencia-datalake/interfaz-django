@@ -46,10 +46,9 @@
         <li><a href="{% url 'profile' %}" class="ver-perfil">{{user.username}}</a></li>
         <li><a href="{% url 'logout' %}" class="logout">Cerrar Sesión</a></li>
     {% else %}
-        <li><a href="{% url 'profile' %}" class="ver-perfil">Iniciar Sesion</a></li>
-        <li><a href="{% url 'logout' %}" class="cerrar-sesion">Registrarse</a></li>
+        <li><a href="{% url 'login' %}" class="ver-perfil">Iniciar Sesion</a></li>
     {% endif %}
-        <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>   
+        <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
     </ul>
   </div>
 </div>
@@ -71,9 +70,6 @@
           <div class="collapse" id="navbarToggleExternalContent">
             <div class="content-menu p-4">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'core-home' %}">Pagina Principal</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'core-quienes' %}">Quienes Somos</a>
                     </li>
