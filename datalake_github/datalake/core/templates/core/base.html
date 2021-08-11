@@ -49,6 +49,7 @@
         <li><a href="{% url 'login' %}" class="ver-perfil">Iniciar Sesion</a></li>
     {% endif %}
         <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+        <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>   
     </ul>
   </div>
 </div>
