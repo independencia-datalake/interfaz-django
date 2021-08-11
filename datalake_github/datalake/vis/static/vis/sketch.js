@@ -35,7 +35,7 @@ function setup () {
   // PREDIOS LAYER
   layer = createGraphics(width*2,height*2);
   layer.push(), layer.translate(width / 2, height / 2);
-  layer.stroke(255), layer.noFill(),layer.strokeWeight(.1);
+  layer.stroke(255), layer.noFill(),layer.strokeWeight(.2);
   drawMapOnLayer(layer, predios); 
 
   // PREPROCESSING
@@ -126,7 +126,7 @@ function draw() {
   
   
   pop();
-  image(layer,0,0,width,height);
+  image(layer,0,0,width*2,height*2);
 
 
   // TOOLTIP
