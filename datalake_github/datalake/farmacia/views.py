@@ -122,9 +122,13 @@ def comprobante_venta_delete(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
 
     if request.method == 'POST':
-        c_venta.delete()
-        messages.success(request, f'El comporbante de venta fue eliminado con exito')
-        return redirect('comprobanteventa-inicio')
+        if request.user == c_venta.farmaceuta:
+            c_venta.delete()
+            messages.success(request, f'El comporbante de venta fue eliminado con exito')
+            return redirect('comprobanteventa-inicio')
+        else:
+            messages.warning(request, f'No esta autorizado para eliminar el comprobante de venta')
+            return redirect('comprobanteventa-inicio')
 
     context = {
         'object': c_venta,
@@ -187,9 +191,13 @@ def producto_vendido_delete(request, pk):
     n_venta = p_vendido.n_venta
 
     if request.method == 'POST':
-        p_vendido.delete()
-        messages.success(request, f'El producto vendido fue eliminado con exito')
-        return redirect('comprobanteventa-detail', pk=n_venta)
+        if request.user == p_vendido.farmaceuta:
+            p_vendido.delete()
+            messages.success(request, f'El producto vendido fue eliminado con exito')
+            return redirect('comprobanteventa-detail', pk=n_venta)
+        else:
+            messages.warning(request, f'No esta autorizado para eliminar el producto vendido')
+            return redirect('comprobanteventa-inicio')
 
     context = {
         'object': p_vendido,
@@ -203,9 +211,13 @@ def producto_vendido_delete_edicion(request, pk):
     n_venta = p_vendido.n_venta
 
     if request.method == 'POST':
-        p_vendido.delete()
-        messages.success(request, f'El producto vendido fue eliminado con exito')
-        return redirect('comprobanteventa-edicion', pk=n_venta)
+        if request.user == p_vendido.farmaceuta:
+            p_vendido.delete()
+            messages.success(request, f'El producto vendido fue eliminado con exito')
+            return redirect('comprobanteventa-detail', pk=n_venta)
+        else:
+            messages.warning(request, f'No esta autorizado para eliminar el producto vendido')
+            return redirect('comprobanteventa-inicio')
 
     context = {
         'object': p_vendido,
