@@ -30,21 +30,21 @@
   <hr>
   <div>
     <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-        <td>marca_producto</td>
-        <td>p_a</td> 
-        <td>dosis</td>
-        <td>presentacion</td>
-        <td>f_ven</td>
-        <td>precio</td>
-        <td>n_lote</td>
-        <td>------</td>
+        <td>Marca del Producto</td>
+        <td>Componente Activo</td> 
+        <td>Dosis</td>
+        <td>Presentacion</td>
+        <td>Fecha de vencimiento</td>
+        <td>Precio</td>
+        <td>N° de Lote</td>
+        <td>  </td>
     {%for object in filter.qs %}
     <tr>
         <td>{{ object.marca_producto }}</td>
         <td>{{ object.p_a }}</td>
         <td>{{ object.dosis }}</td>
         <td>{{ object.precentacion }}</td>
-        <td>{{ object.f_ven }}</td>
+        <td>{{ object.f_ven|date:"d-m-Y"}}</td>
         <td>${{ object.precio }}</td>
         <td>{{ object.n_lote }}</td>
         <td><a class="btn ver-o-editar" href="{% url 'productofarmacia-update' object.id %}">VER O EDITAR</a></td>
