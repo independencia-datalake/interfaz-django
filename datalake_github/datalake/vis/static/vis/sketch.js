@@ -15,7 +15,6 @@ let phase;
 let layer;
 let canvas;
 let timehist;
-let filename = 'DENUNCIAS SEGURIDAD TELEFONO 1469.csv'
 
 function preload() {
   data = loadTable(data_var,'header').rows;
@@ -38,12 +37,14 @@ function setup () {
   layer.stroke(255), layer.noFill(),layer.strokeWeight(.2);
   drawMapOnLayer(layer, predios); 
 
-  // PREPROCESSING
+  // PREPROCESSING 
+// Modificaciones necesarias
+
   data = data.map( a => a.obj);
-  data.forEach( a => a['uv'] = floor(random()*26)+1); // simulate uv
+  data.forEach( a => a['uv'] = floor(random()*26)+1); // simulate uv ; borrar esta linea. 
   summarize(data);
   
-  data.forEach( a => a['created'] = new Date(a['Marca temporal']));
+  data.forEach( a => a['created'] = new Date(a['created'])); // ccambiar marca temporal por created
   created = data.map( a => a.created);
   timerange = [Math.min(...created), Math.max(...created)];
   phase = data;

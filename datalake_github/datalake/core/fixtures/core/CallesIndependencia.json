@@ -1,0 +1,1787 @@
+[
+{
+    "model": "core.callesindependencia",
+    "pk": 1,
+    "fields": {
+        "calle": "ADOLFO IBA�EZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 2,
+    "fields": {
+        "calle": "ADOLFO OSSA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 3,
+    "fields": {
+        "calle": "ADOLFO VALDERRAMA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 4,
+    "fields": {
+        "calle": "AGUA SANTA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 5,
+    "fields": {
+        "calle": "AGUSTIN MEZA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 6,
+    "fields": {
+        "calle": "ALBERTO GUTIERREZ DE LA CUADRA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 7,
+    "fields": {
+        "calle": "ALFREDO GUILLERMO BRAVO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 8,
+    "fields": {
+        "calle": "ALMERIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 9,
+    "fields": {
+        "calle": "ALONSO DE REINOSO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 10,
+    "fields": {
+        "calle": "ALTAMIRANO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 11,
+    "fields": {
+        "calle": "AMALIA ERRAZURIZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 12,
+    "fields": {
+        "calle": "ANGOL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 13,
+    "fields": {
+        "calle": "ANTONIA LOPEZ DE BELLO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 14,
+    "fields": {
+        "calle": "ANTONIO JACOBO VIAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 15,
+    "fields": {
+        "calle": "ARIEL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 16,
+    "fields": {
+        "calle": "ARMANDO QUEZADA ACHARAN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 17,
+    "fields": {
+        "calle": "ARQUITECTO ARTURO BIANCHI"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 18,
+    "fields": {
+        "calle": "ARQUITECTO HERNAN OVALLE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 19,
+    "fields": {
+        "calle": "ARQUITECTO MIGUEL DAVILA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 20,
+    "fields": {
+        "calle": "ARQUITECTO MORALES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 21,
+    "fields": {
+        "calle": "ARQUITECTO RICARDO MULLER"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 22,
+    "fields": {
+        "calle": "ARQUITECTO WALDO PARRAGUEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 23,
+    "fields": {
+        "calle": "ARTESANOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 24,
+    "fields": {
+        "calle": "ARTURO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 25,
+    "fields": {
+        "calle": "AURORA DE CHILE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 26,
+    "fields": {
+        "calle": "BAJOS DE JIMENEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 27,
+    "fields": {
+        "calle": "BALDOMERO LILLO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 28,
+    "fields": {
+        "calle": "BARNECHEA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 29,
+    "fields": {
+        "calle": "BARON DE JURAS REALES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 30,
+    "fields": {
+        "calle": "BELGICA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 31,
+    "fields": {
+        "calle": "BELTRAN MATHIEU"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 32,
+    "fields": {
+        "calle": "BEZANILLA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 33,
+    "fields": {
+        "calle": "BLANCO FOMBONA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 34,
+    "fields": {
+        "calle": "BOLIVIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 35,
+    "fields": {
+        "calle": "BORGO�O"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 36,
+    "fields": {
+        "calle": "BRUSELAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 37,
+    "fields": {
+        "calle": "BUEN ORDEN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 38,
+    "fields": {
+        "calle": "CAMARICO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 39,
+    "fields": {
+        "calle": "CA�ETE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 40,
+    "fields": {
+        "calle": "CAPITAN TRONCOSO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 41,
+    "fields": {
+        "calle": "CARLOS GARDEL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 42,
+    "fields": {
+        "calle": "BRIGADIER CARLOS GARRIDO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 43,
+    "fields": {
+        "calle": "CARLOS HURTADO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 44,
+    "fields": {
+        "calle": "CARLOTA MILCHER"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 45,
+    "fields": {
+        "calle": "CATORCE DE LA FAMA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 46,
+    "fields": {
+        "calle": "CAZADORES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 47,
+    "fields": {
+        "calle": "CENTRAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 48,
+    "fields": {
+        "calle": "CINCO DE MAYO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 49,
+    "fields": {
+        "calle": "COLON"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 50,
+    "fields": {
+        "calle": "CONSTANCIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 51,
+    "fields": {
+        "calle": "CONTRAMAESTRE BRITO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 52,
+    "fields": {
+        "calle": "CORACEROS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 53,
+    "fields": {
+        "calle": "CORONEL DE LA QUINTANA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 54,
+    "fields": {
+        "calle": "COSTA RICA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 55,
+    "fields": {
+        "calle": "COTAPOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 56,
+    "fields": {
+        "calle": "CRONISTA GONGORA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 57,
+    "fields": {
+        "calle": "CRUZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 58,
+    "fields": {
+        "calle": "DANIEL FELIU"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 59,
+    "fields": {
+        "calle": "DAVID ARELLANO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 60,
+    "fields": {
+        "calle": "DAVILA BAEZA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 61,
+    "fields": {
+        "calle": "DIANA VALDERRAMA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 62,
+    "fields": {
+        "calle": "DIECINUEVE NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 63,
+    "fields": {
+        "calle": "DIEZ DE MARZO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 64,
+    "fields": {
+        "calle": "DRAGONES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 65,
+    "fields": {
+        "calle": "ECHAZARRETA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 66,
+    "fields": {
+        "calle": "ECHEVERRIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 67,
+    "fields": {
+        "calle": "ECUADOR"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 68,
+    "fields": {
+        "calle": "EINSTEIN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 69,
+    "fields": {
+        "calle": "EL CLAVEL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 70,
+    "fields": {
+        "calle": "EL COPIHUE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 71,
+    "fields": {
+        "calle": "EL ESPINO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 72,
+    "fields": {
+        "calle": "EL LIRIO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 73,
+    "fields": {
+        "calle": "ELENA SERRANO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 74,
+    "fields": {
+        "calle": "EMILIO OELCKERS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 75,
+    "fields": {
+        "calle": "ENRICO FERMI"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 76,
+    "fields": {
+        "calle": "ENRIQUE RIVERA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 77,
+    "fields": {
+        "calle": "EUGENIO MATTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 78,
+    "fields": {
+        "calle": "FIDEL MONJE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 79,
+    "fields": {
+        "calle": "FIDEL MU�OZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 80,
+    "fields": {
+        "calle": "FIDEL OSORIO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 81,
+    "fields": {
+        "calle": "FREIRINA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 82,
+    "fields": {
+        "calle": "FUCSIAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 83,
+    "fields": {
+        "calle": "GASPAR OLEA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 84,
+    "fields": {
+        "calle": "GENERAL CONCHA PEDREGAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 85,
+    "fields": {
+        "calle": "GENERAL SAAVEDRA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 86,
+    "fields": {
+        "calle": "GRANADEROS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 87,
+    "fields": {
+        "calle": "GRUMETE PANTALEON CORTES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 88,
+    "fields": {
+        "calle": "GUARD SAENZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 89,
+    "fields": {
+        "calle": "HACIENDA MONTALBAN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 90,
+    "fields": {
+        "calle": "HECTOR BOCCARDO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 91,
+    "fields": {
+        "calle": "HINOJOSA ROBLES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 92,
+    "fields": {
+        "calle": "HUANUCO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 93,
+    "fields": {
+        "calle": "HUASCO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 94,
+    "fields": {
+        "calle": "HUIDOBRO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 95,
+    "fields": {
+        "calle": "HUSARES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 96,
+    "fields": {
+        "calle": "IGNACIO VERDUGO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 97,
+    "fields": {
+        "calle": "INGLATERRA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 98,
+    "fields": {
+        "calle": "ISIDORA MELERO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 99,
+    "fields": {
+        "calle": "ISIDORO ERRAZURIZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 100,
+    "fields": {
+        "calle": "JOSE BISQUERT"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 101,
+    "fields": {
+        "calle": "JOSE BERSTEIN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 102,
+    "fields": {
+        "calle": "JULIET"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 103,
+    "fields": {
+        "calle": "JULIO MOURGUES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 104,
+    "fields": {
+        "calle": "JUSTINIANO SOTOMAYOR"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 105,
+    "fields": {
+        "calle": "LA CAMELIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 106,
+    "fields": {
+        "calle": "LA ESTRELLA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 107,
+    "fields": {
+        "calle": "LA MONTANA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 108,
+    "fields": {
+        "calle": "LA OBRA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 109,
+    "fields": {
+        "calle": "LA PAZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 110,
+    "fields": {
+        "calle": "LA PRIMAVERA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 111,
+    "fields": {
+        "calle": "LA VI�A"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 112,
+    "fields": {
+        "calle": "LANCEROS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 113,
+    "fields": {
+        "calle": "LARRAIN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 114,
+    "fields": {
+        "calle": "LAS ARAUCARIAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 115,
+    "fields": {
+        "calle": "LAS ENREDADERAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 116,
+    "fields": {
+        "calle": "LAS MARGARITAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 117,
+    "fields": {
+        "calle": "LAS MARIPOSAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 118,
+    "fields": {
+        "calle": "LEONOR CEPEDA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 119,
+    "fields": {
+        "calle": "LEY 1838"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 120,
+    "fields": {
+        "calle": "LEY 383"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 121,
+    "fields": {
+        "calle": "LEY 308"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 122,
+    "fields": {
+        "calle": "LONGITUDINAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 123,
+    "fields": {
+        "calle": "LONGITUDINAL CINCO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 124,
+    "fields": {
+        "calle": "LONGITUDINAL CUATRO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 125,
+    "fields": {
+        "calle": "LONGITUDINAL TRES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 126,
+    "fields": {
+        "calle": "LOS ANGELES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 127,
+    "fields": {
+        "calle": "LOS MARROQUIES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 128,
+    "fields": {
+        "calle": "LUIS ENRIQUE MONTT"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 129,
+    "fields": {
+        "calle": "LUIS GONZALEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 130,
+    "fields": {
+        "calle": "LUIS JOHNSON"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 131,
+    "fields": {
+        "calle": "LUIS WEINSTEIN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 132,
+    "fields": {
+        "calle": "MALAQUIAS CONCHA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 133,
+    "fields": {
+        "calle": "MANCO CAPAC"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 134,
+    "fields": {
+        "calle": "MANUEL CONTRERAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 135,
+    "fields": {
+        "calle": "MARCOS MACUADA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 136,
+    "fields": {
+        "calle": "MARINO DE LOBERA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 137,
+    "fields": {
+        "calle": "MATILDE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 138,
+    "fields": {
+        "calle": "MOISES GUZMAN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 139,
+    "fields": {
+        "calle": "MOISES RIOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 140,
+    "fields": {
+        "calle": "MONTAU"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 141,
+    "fields": {
+        "calle": "NAMUR"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 142,
+    "fields": {
+        "calle": "NICANOR OPAZO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 143,
+    "fields": {
+        "calle": "NUEVA ANDRES BELLO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 144,
+    "fields": {
+        "calle": "NUEVA CINCO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 145,
+    "fields": {
+        "calle": "NUEVA COLON"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 146,
+    "fields": {
+        "calle": "NUEVA DE LOPEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 147,
+    "fields": {
+        "calle": "NUEVA LOS NIDOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 148,
+    "fields": {
+        "calle": "NUEVA MARURI"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 149,
+    "fields": {
+        "calle": "NUEVA OCHO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 150,
+    "fields": {
+        "calle": "NUEVA SAN CRISTOBAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 151,
+    "fields": {
+        "calle": "NUEVA SEIS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 152,
+    "fields": {
+        "calle": "NUEVA SIETE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 153,
+    "fields": {
+        "calle": "NUEVA UNO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 154,
+    "fields": {
+        "calle": "OLIVOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 155,
+    "fields": {
+        "calle": "ORIENTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 156,
+    "fields": {
+        "calle": "PADRE JOSE CIFUENTES GREZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 157,
+    "fields": {
+        "calle": "PADRE LAS CASAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 158,
+    "fields": {
+        "calle": "PALERMO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 159,
+    "fields": {
+        "calle": "PANTALEON VELEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 160,
+    "fields": {
+        "calle": "PASAJE ADELA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 161,
+    "fields": {
+        "calle": "PASAJE ALMERIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 162,
+    "fields": {
+        "calle": "PASAJE ARGENTINA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 163,
+    "fields": {
+        "calle": "PASAJE ARQUITECTO ARANDA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 164,
+    "fields": {
+        "calle": "PASAJE CARLOS RODRIGUEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 165,
+    "fields": {
+        "calle": "PASAJE CENTRAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 166,
+    "fields": {
+        "calle": "PASAJE CHILE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 167,
+    "fields": {
+        "calle": "PASAJE DOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 168,
+    "fields": {
+        "calle": "PASAJE EL CLAVEL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 169,
+    "fields": {
+        "calle": "PASAJE EL LIRIO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 170,
+    "fields": {
+        "calle": "PASAJE ESCANILLA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 171,
+    "fields": {
+        "calle": "PASAJE INDEPENDENCIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 172,
+    "fields": {
+        "calle": "PASAJE LA JUSTICIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 173,
+    "fields": {
+        "calle": "PASAJE LA RAZON"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 174,
+    "fields": {
+        "calle": "PASAJE LAS AMAPOLAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 175,
+    "fields": {
+        "calle": "PASAJE LOS NIDOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 176,
+    "fields": {
+        "calle": "PASAJE TRES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 177,
+    "fields": {
+        "calle": "PASCUAL LAZARTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 178,
+    "fields": {
+        "calle": "PASEO ORIENTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 179,
+    "fields": {
+        "calle": "PEATONES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 180,
+    "fields": {
+        "calle": "PEDRO BANNEN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 181,
+    "fields": {
+        "calle": "PEREZ COTAPOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 182,
+    "fields": {
+        "calle": "PICARTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 183,
+    "fields": {
+        "calle": "PINTOR CICARELLI"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 184,
+    "fields": {
+        "calle": "PONIENTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 185,
+    "fields": {
+        "calle": "PRINCIPAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 186,
+    "fields": {
+        "calle": "RAFAEL RAMIREZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 187,
+    "fields": {
+        "calle": "RAZA CHILENA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 188,
+    "fields": {
+        "calle": "RECABARREN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 189,
+    "fields": {
+        "calle": "REINA MARIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 190,
+    "fields": {
+        "calle": "REMIGIA OPAZO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 191,
+    "fields": {
+        "calle": "RESIDENCIAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 192,
+    "fields": {
+        "calle": "RETIRO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 193,
+    "fields": {
+        "calle": "RIO JACHAL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 194,
+    "fields": {
+        "calle": "RODRIGUEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 195,
+    "fields": {
+        "calle": "ROSA SALAS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 196,
+    "fields": {
+        "calle": "ROSEMBLUTH"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 197,
+    "fields": {
+        "calle": "ROSITA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 198,
+    "fields": {
+        "calle": "ROUGET DE LISLE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 199,
+    "fields": {
+        "calle": "RUIZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 200,
+    "fields": {
+        "calle": "SALVADOR REYES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 201,
+    "fields": {
+        "calle": "SAN ADRIAN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 202,
+    "fields": {
+        "calle": "SAN CARLOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 203,
+    "fields": {
+        "calle": "SAN DANIEL"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 204,
+    "fields": {
+        "calle": "SAN JOSE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 205,
+    "fields": {
+        "calle": "SAN LUIS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 206,
+    "fields": {
+        "calle": "SANTIAGO ARCOS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 207,
+    "fields": {
+        "calle": "SANTOS DUMONT"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 208,
+    "fields": {
+        "calle": "SARA GAJARDO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 209,
+    "fields": {
+        "calle": "SEIS NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 210,
+    "fields": {
+        "calle": "SEVERINO CAZORZO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 211,
+    "fields": {
+        "calle": "SEVILLA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 212,
+    "fields": {
+        "calle": "SIMONA MARTINEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 213,
+    "fields": {
+        "calle": "SOBERANIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 214,
+    "fields": {
+        "calle": "TACORA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 215,
+    "fields": {
+        "calle": "TARMA RAMBO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 216,
+    "fields": {
+        "calle": "TORIBIO ROBINET"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 217,
+    "fields": {
+        "calle": "TRECE NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 218,
+    "fields": {
+        "calle": "TRES DE DICIEMBRE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 219,
+    "fields": {
+        "calle": "TRES DE MAYO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 220,
+    "fields": {
+        "calle": "TRISTAN CORNEJO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 221,
+    "fields": {
+        "calle": "URUGUAY"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 222,
+    "fields": {
+        "calle": "VALLENAR"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 223,
+    "fields": {
+        "calle": "VEINTE NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 224,
+    "fields": {
+        "calle": "VEINTIUNO DE MAYO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 225,
+    "fields": {
+        "calle": "VENECIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 226,
+    "fields": {
+        "calle": "VICENTE IZQUIERDO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 227,
+    "fields": {
+        "calle": "VICTORIANO STELLA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 228,
+    "fields": {
+        "calle": "WALTER LIHN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 229,
+    "fields": {
+        "calle": "AMUNATEGUI"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 230,
+    "fields": {
+        "calle": "BRAVO DE SARAVIA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 231,
+    "fields": {
+        "calle": "CARLOS MEDINA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 232,
+    "fields": {
+        "calle": "EL MOLINO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 233,
+    "fields": {
+        "calle": "SANTA LAURA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 234,
+    "fields": {
+        "calle": "LUIS GALDAMES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 235,
+    "fields": {
+        "calle": "OBISPO CARLOS SAN MARTIN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 236,
+    "fields": {
+        "calle": "ALCALDE GERMAN DOMINGUEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 237,
+    "fields": {
+        "calle": "CARRION"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 238,
+    "fields": {
+        "calle": "CHILLAN"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 239,
+    "fields": {
+        "calle": "CUATRO NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 240,
+    "fields": {
+        "calle": "DIECISEIS NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 241,
+    "fields": {
+        "calle": "DOS NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 242,
+    "fields": {
+        "calle": "ESCANILLA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 243,
+    "fields": {
+        "calle": "TRES NORTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 244,
+    "fields": {
+        "calle": "GENERAL PRIETO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 245,
+    "fields": {
+        "calle": "GUANACO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 246,
+    "fields": {
+        "calle": "HIPODROMO CHILE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 247,
+    "fields": {
+        "calle": "LAS CA�AS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 248,
+    "fields": {
+        "calle": "LONGITUDINAL SEIS"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 249,
+    "fields": {
+        "calle": "MARURI"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 250,
+    "fields": {
+        "calle": "NAVARRETE Y LOPEZ"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 251,
+    "fields": {
+        "calle": "NUEVA DE MATTE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 252,
+    "fields": {
+        "calle": "NUEVA DOR"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 253,
+    "fields": {
+        "calle": "PASAJE UNO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 254,
+    "fields": {
+        "calle": "ANIBAL PINTO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 255,
+    "fields": {
+        "calle": "QUINCE NORTE"
+    }
+}
+]

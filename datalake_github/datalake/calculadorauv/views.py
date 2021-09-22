@@ -1,15 +1,13 @@
 import pandas as pd
 from django.shortcuts import render
-from formulario.models import CallesCondiciones
+from core.models import CallesIndependencia
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
 
-@login_required
 def calculadorauv(request):   
     return render(request, 'calculadorauv/calculadora_uv.html')
 
-@login_required
 def cal_uv(request):
 
     nombre_calle = request.GET['nombre_calle']
@@ -90,7 +88,7 @@ def validar_conjunto(numero, validacion):
 
 def autocompete_calles(request):
     if 'term' in request.GET:
-        qs = CallesCondiciones.objects.filter(calle__contains=request.GET.get('term'))
+        qs = CallesIndependencia.objects.filter(calle__contains=request.GET.get('term'))
         calles = list()
         for calle in qs:
             calles.append(calle.calle)

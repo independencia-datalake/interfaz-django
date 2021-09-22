@@ -312,7 +312,7 @@ table tr:nth-child(1) td{
 .burger-toggler {
     background: url(img/burger.png) no-repeat;
 }
-.botonera{ text-align:center; height: 50vh; background-color: black;}
+.botonera{ text-align:center;}
 .botones{
 	text-align:center;
 }
@@ -352,6 +352,12 @@ hr{
   .padding-right-30{
 	  padding-right:30%;
   }
+  .padding-right-40{
+	  padding-right:40%;
+  }
+  .padding-right-50{
+	  padding-right:50%;
+  }
 }
 .fa-trash-alt{ max-width:14px;}
 .ver-o-editar{
@@ -369,10 +375,11 @@ hr{
 a.menu-item-view{ display:inline-block; float:right; border-radius: 50px; padding: 10px 40px 10px 60px !important; background:url(img/map.png) left no-repeat #FFF; border:1px solid #fff; color:#FC3D59 !important; background-position-x: 15px; text-transform:uppercase;  }
 .card-header h5{ color:#FFF !important;}
 .card:hover .card-header { background-color:#000 !important; border:1px solid #000;}
-.cabecera-perfil{ background-color:#222; padding:20px;}
+.cabecera-perfil{ background-color:#222; padding:20px; margin-left:-15px; margin-right:-15px;}
 .media-body h2, .media-body p{ color:#fff !important;}
-.account-img{ max-width:52px; margin:0 10px; }
-.media-body{ padding-left:15px; margin-left:15px; border-left:2px solid #FC3D59;}
+.media-body h2{ font-size:1.8em; font-weight:700; }
+.account-img{ max-width:52px; margin:0 10px; float:left; }
+.media-body{ padding-left:15px; margin-left:15px; border-left:2px solid #FC3D59; float:left;}
 #div_id_numero_identificacion{ max-width:252px;}
 #div_id_productovendido_set-0-nombre{ margin-right:10px;}
 
@@ -398,6 +405,15 @@ h2.logout-title:before{
 	background:url(img/logout_img.png) center no-repeat;
 	margin:0 auto;
 }
+h3.trash-title:before{
+	content:'';
+	display:block;
+	text-align:center;
+	width:120px;
+	height:120px;
+	background:url(img/trash.png) center no-repeat;
+	margin:0 auto;
+}
 a.over-black-link{ color:#FFF;}
 a.over-black-link:hover{ text-decoration:underline;}
 .resultado_uv{ max-width:360px; margin:0 auto; padding:10px; background-color:#E5E5E5;}
@@ -410,13 +426,16 @@ a.over-black-link:hover{ text-decoration:underline;}
 }
 a.boton-lnk:hover{ background-color:#222 !important; border:1px solid #222;}
 #div_id_productovendido_set-0-DELETE{ margin-top:36px; margin-left:20px; }
-
-h2.delete-title:before{
-	content:'';
-	display:block;
-	text-align:center;
-	width:120px;
-	height:120px;
-	background:url(img/delete.png) center no-repeat;
-	margin:0 auto;
-}
+.contenidos-comprobante-venta h1{ font-weight:800; font-size:2.3em;}
+.contenidos-comprobante-venta h2{ font-weight:600; font-size:1.9em;}
+.contenidos-comprobante-venta h4{ font-weight:800; font-size:0.8em;}
+.contenidos-comprobante-venta p{ font-size:1em;}
+.confirmar-venta-div h3{font-weight:600; font-size:1.7em; color:#2D2D2D !important; margin-bottom:20px;}
+.align-right{ text-align:right;}
+.titulo-tabla{ padding:10px 30px;}
+.contenedor-wrap.bg-negro{ margin-left:-15px; margin-right:-15px; }
+.custom-link{ border-radius: 50px; padding: 10px 30px; font-size: 0.8em;}
+.custom-link:hover{ background-color:#222 !important; border:1px solid #222; }
+#menu-top ul li a.link-inicio{
+    background:url(img/inicio.png) left no-repeat;
+    }

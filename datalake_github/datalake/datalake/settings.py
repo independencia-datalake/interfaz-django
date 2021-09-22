@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     
     # De terceros
     'crispy_forms',
-    'import_export',
     'django_filters',
+    'storages',
 
 
 ]
@@ -88,23 +88,13 @@ WSGI_APPLICATION = 'datalake.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': str(BASE_DIR / 'datalake_db'),
-#    }
-#}
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'datalake_db',
-        'USER': 'datalake_master',
-        'PASSWORD': 'D4t4l4k3db.',
-        'HOST': 'datalake-db.cplck86bddfa.sa-east-1.rds.amazonaws.com',
-        'PORT': 5432
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'datalake_db',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -154,3 +144,15 @@ LOGIN_REDIRECT_URL = 'core-home'
 LOGIN_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+#CONFIGURACION DEL S3 AWS
+AWS_ACCESS_KEY_ID = "AKIARUEETZAVW7RERMGW"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "independenciabucket"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_LOCATION = 'media/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+

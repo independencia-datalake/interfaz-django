@@ -11,13 +11,16 @@ from django.forms.widgets import (
 
 class DateInput(forms.DateInput):
     input_type = 'date'
- 
+    
 
 class ProductoFarmaciaForm(forms.ModelForm): 
+    def __init__(self, *args, **kwargs):
+        super(ProductoFarmaciaForm,self).__init__(*args, **kwargs)
 
     class Meta:
         model = ProductoFarmacia
         fields = [
+            'active',
             'marca_producto',
             'p_a',
             'dosis',
@@ -27,18 +30,22 @@ class ProductoFarmaciaForm(forms.ModelForm):
             'n_lote',
         ]
         widgets = {
-            'f_ven' : DateInput()
+            'f_ven' : forms.DateInput()
         }
+
 
 class ComprobanteVentaForm(forms.ModelForm):
     class Meta:
         model = ComprobanteVenta
-        fields = ['tipo_identificacion','numero_identificacion']
+        fields = ['tipo_identificacion','numero_identificacion','receta']
         widgets = {
             'tipo_identificacion': RadioSelect(),
         } 
         
 class ProductoVendidoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductoVendidoForm,self).__init__(*args, **kwargs)
+        self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(active=True)
 
     class Meta:
         model = ProductoVendido

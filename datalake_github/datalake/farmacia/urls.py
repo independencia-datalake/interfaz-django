@@ -16,7 +16,7 @@ from .views import (
 urlpatterns = [
     #COMPROBANTE DE VENTA
     path('ComprobanteDeVenta/',InicioComprobanteVenta.as_view(), name="comprobanteventa-inicio"),
-    path('ComprobanteDeVenta/crear/',views.comprobante_venta_form, name='comprobanteventa-create'),
+    path('ComprobanteDeVenta/<int:pk>/crear/',views.comprobante_venta_form, name='comprobanteventa-create'),
     path('ComprobanteDeVenta/<int:pk>/',views.comprobante_venta_detail, name='comprobanteventa-detail'),
     path('ComprobanteDeVenta/<int:pk>/edicion-identificacion/',EdicionComprobanteVenta.as_view(), name='comprobanteventa-update'),
     path('ComprobanteDeVenta/<int:pk>/edicion/',views.comprobante_venta_edicion, name='comprobanteventa-edicion'),

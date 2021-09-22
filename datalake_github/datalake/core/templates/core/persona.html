@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Persona{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap">  
+    <h1>Nueva Venta</h1>
+    <form action='' method='POST'>
+        {% csrf_token %}
+        <div class="espaciador">	
+        <h3>Usuaria(o)</h3>
+        {{ v_persona|crispy }}
+        </div>
+        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'>
+</div>
+        <hr>
+{% endblock %}

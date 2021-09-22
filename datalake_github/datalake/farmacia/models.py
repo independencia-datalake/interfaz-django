@@ -1,15 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from core.models import(
+    Persona,
+)
+from .validators import (
+    validacion_de_palabras,
+)
 
 class ProductoFarmacia(models.Model): 
-    marca_producto = models.CharField(max_length=20, verbose_name="Marca del Producto")
+    active = models.BooleanField(default=True, verbose_name="Activo")
+    marca_producto = models.CharField(max_length=20, verbose_name="Nombre del Producto")
     p_a =  models.CharField(max_length=20, verbose_name="Componente Activo")
-    dosis = models.CharField(max_length=10, verbose_name="Dosis del Producto")
-    precentacion = models.CharField(max_length=10, verbose_name="Precentacion del Producto")
-    f_ven = models.DateTimeField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento")
+    dosis = models.CharField(max_length=20, verbose_name="Dosis del Producto")
+    precentacion = models.CharField(max_length=20, verbose_name="Presentacion del Producto")
+    f_ven = models.DateField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento")
     precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto")
-    n_lote = models.PositiveIntegerField(default=1, verbose_name="Numero de Lote")
+    n_lote = models.CharField(max_length=20, verbose_name="Lote")
     
     autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)     
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
@@ -26,15 +33,17 @@ class ProductoFarmacia(models.Model):
     def  get_absolute_url(self):
         return reverse("productofarmacia-inicio")  
 
-class ComprobanteVenta(models.Model): 
-    tipo_identificacion = models.CharField(blank=False, default='Rut', max_length=30,
+class ComprobanteVenta(models.Model):
+    comprador = models.ForeignKey(Persona, on_delete=models.PROTECT,verbose_name='Comprador') 
+    tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=30,
                                             choices=(
-                                                ('Rut','Rut'),
-                                                ('Pasaporte','Pasaporte'),
-                                                ('Otro','Otro'),
-                                            )
+                                                ('RUT','Rut'),
+                                                ('PASAPORTE','Pasaporte'),
+                                                ('OTRO','Otro'),
+                                            ),verbose_name='Tipo de Documento'
                                           )    
-    numero_identificacion = models.CharField(max_length=30, blank=True, verbose_name="Numero de Identidad")
+    numero_identificacion = models.CharField(max_length=30, blank=False, verbose_name="Número de Identidad")
+    receta = models.ImageField(default='default.jpg', upload_to='receta_medica')
     
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Profesional')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
@@ -48,7 +57,8 @@ class ComprobanteVenta(models.Model):
         return f'{self.pk}'
     
     def  get_absolute_url(self):
-        return reverse("comprobanteventa-detail", kwargs={"pk": self.pk})  
+        return reverse("comprobanteventa-detail", kwargs={"pk": self.pk})
+
 
 class ProductoVendido(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
@@ -70,3 +80,4 @@ class ProductoVendido(models.Model):
 
     def  get_absolute_url(self):
         return reverse("comprobanteventa-detail", kwargs={"pk": self.n_venta})
+

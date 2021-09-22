@@ -35,16 +35,17 @@ class InicioComprobanteVenta(ListView):
         return context
 
 @login_required
-def comprobante_venta_form(request):
-
+def comprobante_venta_form(request, pk):
+    persona = Persona.objects.get(pk=pk)
     c_form = ComprobanteVentaForm()
     formset = ProductoVendidoFormset()
-
+    
 
     if request.method == 'POST':
-        cv = ComprobanteVenta.objects.create(farmaceuta=request.user)
-        cv.numero_identificacion = request.POST.get('numero_identificacion')
-        cv.tipo_identificacion = request.POST.get('tipo_identificacion')
+        cv = ComprobanteVenta.objects.create(farmaceuta=request.user,comprador=persona)
+        cv.numero_identificacion = persona.numero_identificacion
+        cv.tipo_identificacion = persona.tipo_identificacion
+        cv.receta = request.POST.get('receta')
         formset = ProductoVendidoFormset(request.POST)
         if formset.is_valid():
             for form in formset:
@@ -61,7 +62,8 @@ def comprobante_venta_form(request):
 
     context = {
         'c_form': c_form,
-        'formset': formset
+        'formset':formset,
+        'persona':persona,
     }
 
     return render(request, 'farmacia/comprobanteventa_form.html', context)
@@ -294,8 +296,6 @@ def producto_farmacia_delete(request, pk):
 
             #FUNCIONALIDADES EXTRAS
 
-
-
 def descargar_comprobantes(request):
 
     df = pd.DataFrame(list(ComprobanteVenta.objects.all().values())).astype(str)
@@ -305,7 +305,6 @@ def descargar_comprobantes(request):
     df.to_excel(excel_writer=response, index=None)
 
     return response
-
 
 def calcular_total(productos_queryset, productos):
 
@@ -318,7 +317,6 @@ def calcular_total(productos_queryset, productos):
 
     return total
 
-
 def calcular_subtotales(productos_queryset, productos):
 
     subtotales = []
@@ -327,7 +325,5 @@ def calcular_subtotales(productos_queryset, productos):
         precio = ProductoFarmacia.objects.get(pk=producto.nombre_id).precio
         producto.v_unitario = precio
         producto.subtotal = precio*producto.cantidad
-
-    print(productos_queryset)
 
     return 0
