@@ -27,3 +27,11 @@
     <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 
 {% endblock %}
+
+<script>
+{% block script %}
+$( "#id_direccion_persona" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});     
+{% endblock %}
+</script>

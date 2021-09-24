@@ -24,7 +24,7 @@ class ProductoFarmaciaForm(forms.ModelForm):
             'marca_producto',
             'p_a',
             'dosis',
-            'precentacion',
+            'presentacion',
             'f_ven',
             'precio',
             'n_lote',

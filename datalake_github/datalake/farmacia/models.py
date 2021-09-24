@@ -9,14 +9,14 @@ from .validators import (
 )
 
 class ProductoFarmacia(models.Model): 
-    active = models.BooleanField(default=True, verbose_name="Activo")
-    marca_producto = models.CharField(max_length=20, verbose_name="Nombre del Producto")
-    p_a =  models.CharField(max_length=20, verbose_name="Componente Activo")
-    dosis = models.CharField(max_length=20, verbose_name="Dosis del Producto")
-    precentacion = models.CharField(max_length=20, verbose_name="Presentacion del Producto")
-    f_ven = models.DateField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento")
-    precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto")
-    n_lote = models.CharField(max_length=20, verbose_name="Lote")
+    active = models.BooleanField(default=True, verbose_name="Activo",null=True)
+    marca_producto = models.CharField(max_length=20, verbose_name="Nombre del Producto",null=True)
+    p_a =  models.CharField(max_length=20, verbose_name="Componente Activo",null=True)
+    dosis = models.CharField(max_length=20, verbose_name="Dosis del Producto",null=True)
+    presentacion = models.CharField(max_length=20, verbose_name="Presentacion del Producto",null=True)
+    f_ven = models.DateField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento",null=True)
+    precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True)
+    n_lote = models.CharField(max_length=20, verbose_name="Lote",null=True)
     
     autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)     
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
@@ -28,7 +28,7 @@ class ProductoFarmacia(models.Model):
         ordering = ['p_a','dosis']
 
     def __str__(self):
-        return f'{self.marca_producto} {self.p_a} {self.dosis} {self.precentacion} | Lote: {self.n_lote} | Precio: ${self.precio} '
+        return f'{self.marca_producto} {self.p_a} {self.dosis} {self.presentacion} | Lote: {self.n_lote} | Precio: ${self.precio} '
 
     def  get_absolute_url(self):
         return reverse("productofarmacia-inicio")  

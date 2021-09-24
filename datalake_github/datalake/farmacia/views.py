@@ -253,7 +253,7 @@ def crear_producto_farmacia(request):
                             marca_producto=form.cleaned_data.get('marca_producto'),
                             p_a=form.cleaned_data.get('p_a'),
                             dosis=form.cleaned_data.get('dosis'),
-                            precentacion =form.cleaned_data.get('precentacion'),
+                            presentacion =form.cleaned_data.get('presentacion'),
                             f_ven =form.cleaned_data.get('f_ven'),
                             precio=form.cleaned_data.get('precio'),
                             n_lote=form.cleaned_data.get('n_lote')).save()
