@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from . import views
 from .views import (
     #COMPROBANTE DE VENTA
@@ -14,6 +15,7 @@ from .views import (
 )
 
 urlpatterns = [
+    path('',TemplateView.as_view(template_name='farmacia/homefarmacia.html'),name="farmacia-home"),
     #COMPROBANTE DE VENTA
     path('ComprobanteDeVenta/',InicioComprobanteVenta.as_view(), name="comprobanteventa-inicio"),
     path('ComprobanteDeVenta/<int:pk>/crear/',views.comprobante_venta_form, name='comprobanteventa-create'),

@@ -2,11 +2,18 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import (
     Persona,
+    CallesIndependencia,
 )
 from .forms import (
     PersonaForm,
     PersonaVerificacionForm
 )
+
+# AUTOCOMPLETADO CALLES
+
+from django.http import JsonResponse
+
+    #ENTRADA A PREGUNTA USUARIO
 
 def persona(request):
     verificador_de_personas = PersonaVerificacionForm()
@@ -44,6 +51,10 @@ def persona(request):
 
     return render(request, 'core/persona.html', context)
 
+    
+    
+    #FORMULARIO DE CREACION DE PERSONA
+
 def persona_crear(request):
     persona = PersonaForm()
 
@@ -78,5 +89,5 @@ def persona_crear(request):
 
     return render(request, 'core/persona_form.html', context)
 
-    
+
 

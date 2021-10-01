@@ -28,7 +28,6 @@ class PersonaForm(forms.ModelForm):
     class Meta:
         model = Persona
         fields = [
-            'uv',
             'tipo_identificacion',
             'numero_identificacion',
             'nombre_persona',
