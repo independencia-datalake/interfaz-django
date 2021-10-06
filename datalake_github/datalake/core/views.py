@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import (
     Persona,
     CallesIndependencia,
@@ -15,6 +16,7 @@ from django.http import JsonResponse
 
     #ENTRADA A PREGUNTA USUARIO
 
+@login_required
 def persona(request):
     verificador_de_personas = PersonaVerificacionForm()
 
@@ -55,6 +57,7 @@ def persona(request):
     
     #FORMULARIO DE CREACION DE PERSONA
 
+@login_required
 def persona_crear(request):
     persona = PersonaForm()
 
@@ -78,7 +81,7 @@ def persona_crear(request):
                 rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
                 numero_identificacion_ver = rut
             form.save()
-            messages.success(request, f'El cliente fue creado con exito')
+            messages.success(request, f'La persona fue creado con exito')
             persona_buscada = Persona.objects.get(numero_identificacion=numero_identificacion_ver)
             pk = persona_buscada.id
             return redirect('comprobanteventa-create', pk=pk)
