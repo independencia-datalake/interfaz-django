@@ -33,6 +33,10 @@ urlpatterns = [
     path('calculadora/', include('calculadorauv.urls')),
     #VISUALIZACION
     path('vis/', include('vis.urls')),
+    #DIMAP
+    path('dimap/', include('dimap.urls')),
+    #SEGURIDAD MUNICIPAL
+    path('seguridad/', include('seguridad.urls')),
 ]
 
 if settings.DEBUG:

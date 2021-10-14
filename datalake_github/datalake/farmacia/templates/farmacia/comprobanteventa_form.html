@@ -134,10 +134,11 @@ $('.add-new-form').click(function(e) {
     </div>
 </div>
 <hr>
-<div class="container contenedor-wrap"> 
-    <form action='' method='POST'>
-        {% csrf_token %}
+<form action='' method='POST' enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="container contenedor-wrap"> 
         <h3>Productos</h3>
+        {{c_form|crispy}}
         {{ formset.management_form }}
         {% for form in formset %}
         <div class='form-row'>
@@ -154,7 +155,7 @@ $('.add-new-form').click(function(e) {
             <div style="float: left; width:50vw"></div>
             <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
         </div>
-    </form>
+</form>
     <br/>
     <br/>
 </div>

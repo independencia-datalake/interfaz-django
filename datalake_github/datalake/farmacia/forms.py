@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models.fields import CharField
 from .models import (
     ProductoFarmacia,
     ComprobanteVenta,
@@ -37,10 +38,45 @@ class ProductoFarmaciaForm(forms.ModelForm):
 class ComprobanteVentaForm(forms.ModelForm):
     class Meta:
         model = ComprobanteVenta
-        fields = ['tipo_identificacion','numero_identificacion','receta']
-        widgets = {
-            'tipo_identificacion': RadioSelect(),
-        } 
+        fields = ['receta']
+
+
+
+
+#     comprador = models.ForeignKey(Persona, on_delete=models.PROTECT,verbose_name='Comprador') 
+#     receta = models.ImageField(default='default.jpg', upload_to='receta_medica')
+#     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Profesional')
+#     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
+#     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
+
+
+
+class ComprobanteVentaModelForm(forms.ModelForm):
+    # title = forms.CharField()
+    class Meta:
+        model = ComprobanteVenta
+        fields = [
+            'receta'
+            ]
+        labels = {
+            'receta':"Receta Medica"
+        }
+    
+    # def __init__(self, *args, **kwargs):
+    #     super(ComprobanteVentaModelForm, self).__init__(*args, **kwargs)
+    #     self.fields['receta'].widget = forms.ClearableFileInput()
+
+
+    # def clean_title(self, *args, **kwargs):
+    #     title = self.cleaned_data.get('title')
+    #     return title
+
+    # def clean_receta(self, *args, **kwargs):
+    #     receta = self.cleaned_data.get('receta')
+    #     print(receta)
+    #     return receta
+
+
         
 class ProductoVendidoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

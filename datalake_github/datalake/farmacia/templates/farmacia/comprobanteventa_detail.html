@@ -25,7 +25,13 @@
                     {% comment %} <h4 class="magenta">Usuario:</h4>
                     <p>Henry Bauer Vera</p> {% endcomment %}
                     <h4 class="magenta">Nº de Identificación:</h4>
-                    <p>{{ c_detail.tipo_identificacion }} - {{ c_detail.numero_identificacion }} | <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></p>
+                    <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }} | <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></p>
+                    <h4 class="magenta">Receta:</h4>
+                    {% if c_detail.receta == "default.jpg"%}
+                    <p>Esta venta no tiene receta</p>
+                    {% else %}
+                    <p><a href="{{ c_detail.receta.url }}">Link Receta Medica</a></p>  
+                    {% endif %}
                 </div>
                 <div class="col">
                     <h2> Precio: <span class="magenta">$ {{ total }}</span></h2>

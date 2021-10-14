@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.fields import IntegerField
-from django.db.models.fields.related import ForeignKey
 
 class CallesIndependencia(models.Model):
     calle = models.CharField(max_length=30)

@@ -35,15 +35,15 @@ class ProductoFarmacia(models.Model):
 
 class ComprobanteVenta(models.Model):
     comprador = models.ForeignKey(Persona, on_delete=models.PROTECT,verbose_name='Comprador') 
-    tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=30,
-                                            choices=(
-                                                ('RUT','Rut'),
-                                                ('PASAPORTE','Pasaporte'),
-                                                ('OTRO','Otro'),
-                                            ),verbose_name='Tipo de Documento'
-                                          )    
-    numero_identificacion = models.CharField(max_length=30, blank=False, verbose_name="Número de Identidad")
-    receta = models.ImageField(default='default.jpg', upload_to='receta_medica')
+    # tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=30,
+    #                                         choices=(
+    #                                             ('RUT','Rut'),
+    #                                             ('PASAPORTE','Pasaporte'),
+    #                                             ('OTRO','Otro'),
+    #                                         ),verbose_name='Tipo de Documento'
+    #                                       )    
+    # numero_identificacion = models.CharField(max_length=30, blank=False, verbose_name="Número de Identidad")
+    receta = models.ImageField(default='default.jpg', blank=True, null=True, upload_to='receta_medica')
     
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Profesional')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)

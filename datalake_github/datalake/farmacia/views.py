@@ -11,7 +11,13 @@ import pandas as pd
 from django.http import HttpResponse
 
 from .models import *
-from .forms import *
+from .forms import (
+    ProductoFarmaciaForm,
+    ComprobanteVentaForm,
+    ComprobanteVentaModelForm,
+    ProductoVendidoForm,
+    ProductoVendidoFormset
+)
 from .filters import (
     ProductoFarmaciaFilter,
     ComprobanteVentaFilter,
@@ -34,44 +40,82 @@ class InicioComprobanteVenta(ListView):
         context['filter'] = ComprobanteVentaFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
+
 @login_required
 def comprobante_venta_form(request, pk):
     persona = Persona.objects.get(pk=pk)
-    c_form = ComprobanteVentaForm()
     formset = ProductoVendidoFormset()
-    
-
+    form = ComprobanteVentaModelForm()
     if request.method == 'POST':
-        cv = ComprobanteVenta.objects.create(farmaceuta=request.user,comprador=persona)
-        cv.numero_identificacion = persona.numero_identificacion
-        cv.tipo_identificacion = persona.tipo_identificacion
-        cv.receta = request.POST.get('receta')
+        form = ComprobanteVentaModelForm(request.POST, request.FILES)
         formset = ProductoVendidoFormset(request.POST)
-        if formset.is_valid():
+        if form.is_valid() and formset.is_valid():
+            obj = form.save(commit=False)
+            obj.comprador = persona
+            obj.farmaceuta = request.user
+            obj.save()
+            cv = obj
             for form in formset:
                 nombre = form.cleaned_data.get('nombre')
                 cantidad = form.cleaned_data.get('cantidad')
-                n_venta = cv
                 if nombre:
                     ProductoVendido(nombre=nombre,
                                     cantidad=cantidad,
-                                    n_venta=n_venta,
+                                    n_venta=cv,
                                     farmaceuta=request.user).save()
-            cv.save()
+            
             return redirect('comprobanteventa-detail',pk=cv)
 
     context = {
-        'c_form': c_form,
-        'formset':formset,
+        'c_form': form,
         'persona':persona,
+        'formset':formset,
     }
 
     return render(request, 'farmacia/comprobanteventa_form.html', context)
+    
+    # persona = Persona.objects.get(pk=pk)
+    # c_form = ComprobanteVentaForm()
+    # formset = ProductoVendidoFormset()
+    
+
+    # if request.method == 'POST':
+    #     cv = ComprobanteVenta.objects.create(farmaceuta=request.user,comprador=persona)
+    #     # cv.numero_identificacion = persona.numero_identificacion
+    #     # cv.tipo_identificacion = persona.tipo_identificacion
+    #     print(request.POST.get('receta'))
+    #     f = request.POST.get('receta')
+    #     cv.receta = request.POST.get('receta')
+    #     print(cv.receta)
+    #     formset = ProductoVendidoFormset(request.POST)
+    #     if formset.is_valid():
+    #         print(request.FILES)
+    #         # cv.receta = request.FILES
+    #         for form in formset:
+    #             nombre = form.cleaned_data.get('nombre')
+    #             cantidad = form.cleaned_data.get('cantidad')
+    #             n_venta = cv
+    #             if nombre:
+    #                 ProductoVendido(nombre=nombre,
+    #                                 cantidad=cantidad,
+    #                                 n_venta=n_venta,
+    #                                 farmaceuta=request.user).save()
+    #         cv.save()
+    #         return redirect('comprobanteventa-detail',pk=cv)
+
+    # context = {
+    #     'c_form': c_form,
+    #     'formset':formset,
+    #     'persona':persona,
+    # }
+
+    # return render(request, 'farmacia/comprobanteventa_form.html', context)
 
 @login_required
 def comprobante_venta_detail(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
     p_vendido = ProductoVendido.objects.filter(n_venta=pk)
+    persona = c_venta.comprador
 
     productos = [producto for producto in p_vendido.values()]
     total = calcular_total(p_vendido, productos)
@@ -80,7 +124,8 @@ def comprobante_venta_detail(request, pk):
     context = {
         'c_detail': c_venta,
         'pv_detail': p_vendido,
-        'total': total
+        'total': total,
+        'persona': persona
     }
 
     return render(request, 'farmacia/comprobanteventa_detail.html', context)
@@ -90,6 +135,7 @@ def comprobante_venta_detail(request, pk):
 def comprobante_venta_edicion(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
     p_vendido = ProductoVendido.objects.filter(n_venta=pk)
+    persona = c_venta.comprador
 
     productos = [producto for producto in p_vendido.values()]
     total = calcular_total(p_vendido, productos)
@@ -98,7 +144,8 @@ def comprobante_venta_edicion(request, pk):
     context = {
         'c_detail': c_venta,
         'pv_detail': p_vendido,
-        'total': total
+        'total': total,
+        'persona': persona
     }
 
     return render(request, 'farmacia/comprobanteventa_edicion.html', context)
