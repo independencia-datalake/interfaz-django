@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 import django_filters
+from core.models import(
+    Persona,
+)
 from .models import (
     ComprobanteVenta,
     ProductoFarmacia,
@@ -25,7 +28,8 @@ class ProductoFarmaciaFilter(django_filters.FilterSet):
         return queryset.order_by(expression)
 
 class ComprobanteVentaFilter(django_filters.FilterSet):
-    numero_identificacion_filtro = django_filters.CharFilter(label='Número de Identidad',field_name='numero_identificacion',lookup_expr='icontains')
+    # numero_identificacion_filtro = django_filters.CharFilter(label='Número de Identidad',field_name='comprador',lookup_expr='icontains')
+    comprador_filtro = django_filters.ModelChoiceFilter(field_name='comprador',lookup_expr='exact',queryset=Persona.objects.all(),)
     farmaceuta_filtro = django_filters.ModelChoiceFilter(field_name='farmaceuta',lookup_expr='exact',queryset=User.objects.all(),)
 
     class Meta:

@@ -28,17 +28,17 @@ def persona(request):
             numero_identificacion_ver = verificador_de_personas.cleaned_data.get('numero_identificacion')
             if tipo_identificacion_ver == "RUT":
                 ni = numero_identificacion_ver
-            if len(ni)==0:
-                None
-            elif len(ni)>10:
-                rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                numero_identificacion_ver = rut  
-            elif len(ni)==9:
-                rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                numero_identificacion_ver = rut  
-            else:
-                rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                numero_identificacion_ver = rut  
+                if len(ni)==0:
+                    None
+                elif len(ni)>10:
+                    rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+                elif len(ni)==9:
+                    rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+                else:
+                    rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
             # BUSCA PERSONA SI ES QUE EXISTE
             persona_buscada = Persona.objects.filter(numero_identificacion=numero_identificacion_ver)
             if persona_buscada:
@@ -69,17 +69,17 @@ def persona_crear(request):
             numero_identificacion_ver = form.cleaned_data.get('numero_identificacion')
             if tipo_identificacion_ver == "RUT":
                 ni = numero_identificacion_ver
-            if len(ni)==0:
-                None
-            elif len(ni)>10:
-                rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                numero_identificacion_ver = rut  
-            elif len(ni)==9:
-                rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                numero_identificacion_ver = rut  
-            else:
-                rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                numero_identificacion_ver = rut
+                if len(ni)==0:
+                    None
+                elif len(ni)>10:
+                    rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+                elif len(ni)==9:
+                    rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+                else:
+                    rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut
             form.save()
             messages.success(request, f'La persona fue creado con exito')
             persona_buscada = Persona.objects.get(numero_identificacion=numero_identificacion_ver)

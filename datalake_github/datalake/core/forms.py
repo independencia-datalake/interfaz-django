@@ -1,6 +1,7 @@
 from django import forms
-from django.forms import widgets
-from django.forms.widgets import RadioSelect
+from django.forms.widgets import (
+    RadioSelect,
+)
 
 from .models import (
     Persona,

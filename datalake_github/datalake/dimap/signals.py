@@ -2,25 +2,21 @@ import pandas as pd
 from django.db.models.signals import pre_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import (
-    Persona,
+from core.models import (
     UV,
 )
 
-#FUNCION QUE CALCULA UV EN SEÑALES
-def calculo_de_UV(sender, instance, **kwargs):
-    uv = obtener_uv(instance.direccion_persona, instance.numero_direccion)
-    instance.uv = UV.objects.get(numero_uv=uv)
+from .models import (
+  Esterilizacion,
+)
 
 
-#ENCONTRAR UV AL CREAR PERSONA
+#ENCONTRAR UV EN FORMULARIO ESTERILIZACION
 
-@receiver(pre_save, sender=Persona)
+@receiver(pre_save, sender=Esterilizacion)
 def calculo_uv_crearpersona(sender, instance, **kwargs):
-    if instance.numero_identificacion == '0':
-      instance.uv = UV.objects.get(numero_uv=0)
-    else:
-      calculo_de_UV(sender, instance, **kwargs)
+  uv = obtener_uv(instance.direccion_responsable, instance.numero_direccion)
+  instance.uv = UV.objects.get(numero_uv=uv)
 
 
 #FUNCIONES PARA CALCULAR UV

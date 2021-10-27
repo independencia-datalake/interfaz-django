@@ -14,9 +14,6 @@ class CallesIndependencia(models.Model):
 class UV(models.Model):
     numero_uv = models.PositiveIntegerField(verbose_name="Numero de U.V.")
 
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
-    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
-
     class Meta:
         verbose_name = "Unidad Vecinal"
         verbose_name_plural = "Unidades Vecinales"
@@ -56,18 +53,21 @@ class Persona(models.Model):
     def save(self, *args, **kwargs):
         if self.tipo_identificacion == "RUT":
             ni = self.numero_identificacion
-            if len(ni)==0:
-                None
-            elif len(ni)>10:
-                rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                self.numero_identificacion = rut  
-            elif len(ni)==9:
-                rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                self.numero_identificacion = rut  
+            if ni[-2] == '-':
+                return super(Persona, self).save(*args, **kwargs)
             else:
-                rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                self.numero_identificacion = rut  
-        super().save(*args, **kwargs)
+                if len(ni)==0:
+                    None
+                elif len(ni)>10:
+                    rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    self.numero_identificacion = rut  
+                elif len(ni)==9:
+                    rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    self.numero_identificacion = rut  
+                else:
+                    rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    self.numero_identificacion = rut  
+        return super(Persona, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.numero_identificacion}'

@@ -1,0 +1,22 @@
+[
+{
+    "model": "core.persona",
+    "pk": 1,
+    "fields": {
+        "uv": 1,
+        "tipo_identificacion": "OTRO",
+        "numero_identificacion": "0",
+        "nombre_persona": "N.",
+        "apellido_paterno": "A.P.",
+        "apellido_materno": "A.M.",
+        "fecha_nacimiento": "2021-01-01",
+        "direccion_persona": "LA PAZ",
+        "numero_direccion": 482,
+        "complemento_direccion": null,
+        "telefono_persona": "0",
+        "correo_persona": "independencia.datalake@gmail.com",
+        "created": "2021-10-14T14:04:18.001",
+        "updated": "2021-10-14T14:06:31.518"
+    }
+}
+]

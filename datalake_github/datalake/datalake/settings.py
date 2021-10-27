@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'farmacia.apps.FarmaciaConfig',
-    'formulario.apps.FormularioConfig',
     'calculadorauv.apps.CalculadorauvConfig',
     'vis.apps.VisConfig',
     'dimap.apps.DimapConfig',

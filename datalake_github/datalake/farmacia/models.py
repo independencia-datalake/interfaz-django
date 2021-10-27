@@ -4,9 +4,6 @@ from django.urls import reverse
 from core.models import(
     Persona,
 )
-from .validators import (
-    validacion_de_palabras,
-)
 
 class ProductoFarmacia(models.Model): 
     active = models.BooleanField(default=True, verbose_name="Activo",null=True)
@@ -35,15 +32,7 @@ class ProductoFarmacia(models.Model):
 
 class ComprobanteVenta(models.Model):
     comprador = models.ForeignKey(Persona, on_delete=models.PROTECT,verbose_name='Comprador') 
-    # tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=30,
-    #                                         choices=(
-    #                                             ('RUT','Rut'),
-    #                                             ('PASAPORTE','Pasaporte'),
-    #                                             ('OTRO','Otro'),
-    #                                         ),verbose_name='Tipo de Documento'
-    #                                       )    
-    # numero_identificacion = models.CharField(max_length=30, blank=False, verbose_name="Número de Identidad")
-    receta = models.ImageField(default='default.jpg', blank=True, null=True, upload_to='receta_medica')
+    receta = models.FileField(default='default.jpg', blank=True, null=True, upload_to='receta_medica/%Y/%m/%d/')
     
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Profesional')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)

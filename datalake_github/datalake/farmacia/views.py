@@ -6,14 +6,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
-
 import pandas as pd
 from django.http import HttpResponse
 
-from .models import *
+from core.models import(
+    Persona,
+)
+from .models import (
+    ComprobanteVenta,
+    ProductoFarmacia,
+    ProductoVendido,
+)
 from .forms import (
     ProductoFarmaciaForm,
-    ComprobanteVentaForm,
     ComprobanteVentaModelForm,
     ProductoVendidoForm,
     ProductoVendidoFormset
@@ -26,21 +31,18 @@ from .filters import (
 
 
             #COMPROVANTE VENTA
-
-
-
+#PAGINA PRINCIPAL COMPROVANTE DE VENTA TEMPLATE=comprobanteventa_list
 class InicioComprobanteVenta(ListView):
     model = ComprobanteVenta
     ordering = ['-created']
     context_object_name = 'post'
-    paginate_by = 2
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
         context['filter'] = ComprobanteVentaFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-
+#CREAR UNA NUEVA VENTA TEMPLATE=comprobanteventa_form
 @login_required
 def comprobante_venta_form(request, pk):
     persona = Persona.objects.get(pk=pk)
@@ -55,6 +57,7 @@ def comprobante_venta_form(request, pk):
             obj.farmaceuta = request.user
             obj.save()
             cv = obj
+            cv_id = obj.id
             for form in formset:
                 nombre = form.cleaned_data.get('nombre')
                 cantidad = form.cleaned_data.get('cantidad')
@@ -64,7 +67,7 @@ def comprobante_venta_form(request, pk):
                                     n_venta=cv,
                                     farmaceuta=request.user).save()
             
-            return redirect('comprobanteventa-detail',pk=cv)
+            return redirect('comprobanteventa-detail',pk=cv_id)
 
     context = {
         'c_form': form,
@@ -73,44 +76,8 @@ def comprobante_venta_form(request, pk):
     }
 
     return render(request, 'farmacia/comprobanteventa_form.html', context)
-    
-    # persona = Persona.objects.get(pk=pk)
-    # c_form = ComprobanteVentaForm()
-    # formset = ProductoVendidoFormset()
-    
 
-    # if request.method == 'POST':
-    #     cv = ComprobanteVenta.objects.create(farmaceuta=request.user,comprador=persona)
-    #     # cv.numero_identificacion = persona.numero_identificacion
-    #     # cv.tipo_identificacion = persona.tipo_identificacion
-    #     print(request.POST.get('receta'))
-    #     f = request.POST.get('receta')
-    #     cv.receta = request.POST.get('receta')
-    #     print(cv.receta)
-    #     formset = ProductoVendidoFormset(request.POST)
-    #     if formset.is_valid():
-    #         print(request.FILES)
-    #         # cv.receta = request.FILES
-    #         for form in formset:
-    #             nombre = form.cleaned_data.get('nombre')
-    #             cantidad = form.cleaned_data.get('cantidad')
-    #             n_venta = cv
-    #             if nombre:
-    #                 ProductoVendido(nombre=nombre,
-    #                                 cantidad=cantidad,
-    #                                 n_venta=n_venta,
-    #                                 farmaceuta=request.user).save()
-    #         cv.save()
-    #         return redirect('comprobanteventa-detail',pk=cv)
-
-    # context = {
-    #     'c_form': c_form,
-    #     'formset':formset,
-    #     'persona':persona,
-    # }
-
-    # return render(request, 'farmacia/comprobanteventa_form.html', context)
-
+#CONFIRMAR VENTA=comprobanteventa_detail
 @login_required
 def comprobante_venta_detail(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
@@ -153,7 +120,7 @@ def comprobante_venta_edicion(request, pk):
 
 class EdicionComprobanteVenta(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model = ComprobanteVenta    
-    form_class = ComprobanteVentaForm
+    form_class = ComprobanteVentaModelForm
     template_name='farmacia/comprobanteventa_update.html'
 
     def form_valid(self, form):

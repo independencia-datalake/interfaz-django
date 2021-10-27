@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Esterilizacion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container cabecera-interior-tablas margin-bottom-30">
+        <div class="row">
+            <div class="col-sm vertical-align-middle">
+                <h3>Confirmación de Formulario Esterilizacion</h3>
+            </div>
+            <div class="col-sm vertical-align-middle">
+            </div>
+            <div class="col-sm vertical-align-middle">
+            <a href="{% url 'esterilizacion-delete' object.id %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Eliminar</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h2> Nº de Formulario: <span class="magenta">{{ object.id }}</span></h2>
+                    <h4 class="magenta">Nº de Identificación:</h4>
+                    <p>{{ object.get_i_resp_display  }} - {{ object.numero_identificacion }}</p>
+                    <h4 class="magenta">Nombre Responsable:</h4>
+                    <p>{{ object.nombre_responsable  }}  {{ object.apellido_responsable }}</p>
+                    <h4 class="magenta">Direccion:</h4>
+                    <p>{{ object.direccion_responsable  }}  {{ object.numero_direccion }}</p>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ object.created }}</p>
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ object.created }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ object.autor }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h3>Usted está apunto de confirmar la creacion del formulario</h3>
+    <a href="{% url 'esterilizacion-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+    </div>   
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}
