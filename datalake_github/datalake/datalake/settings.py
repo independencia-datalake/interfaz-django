@@ -13,8 +13,8 @@ SECRET_KEY = 'ipqwifh56s24&(umy3!m)w#j3$i57)r=ycjdh7d1#jrero&s!#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
+#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
 
 
 # Application definition
@@ -79,23 +79,23 @@ WSGI_APPLICATION = 'datalake.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': BASE_DIR / 'datalake_db',
-   }
-}
+#DATABASES = {
+#   'default': {
+#       'ENGINE': 'django.db.backends.sqlite3',
+#       'NAME': BASE_DIR / 'datalake_db',
+#   }
+#}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'datalake_master',
-#         'PASSWORD': 'D4t4l4k3db.',
-#         'HOST': 'datalake-db.cplck86bddfa.sa-east-1.rds.amazonaws.com',
-#         'PORT': 5432
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'datalake_master',
+        'PASSWORD': 'D4t4l4k3db.',
+        'HOST': 'datalake-db.cplck86bddfa.sa-east-1.rds.amazonaws.com',
+        'PORT': 5432
+    }
+}
 
 
 # Password validation
