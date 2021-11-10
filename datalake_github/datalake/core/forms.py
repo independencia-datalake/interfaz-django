@@ -5,6 +5,9 @@ from django.forms.widgets import (
 
 from .models import (
     Persona,
+    Telefono,
+    Correo,
+    Direccion,
 )
 
 TIPOS_DE_IDENTIFICACION = [
@@ -25,7 +28,7 @@ class PersonaVerificacionForm(forms.Form):
     numero_identificacion = forms.CharField(max_length=30)                  
 
     
-class PersonaForm(forms.ModelForm):
+class PersonaModelForm(forms.ModelForm):
     class Meta:
         model = Persona
         fields = [
@@ -35,13 +38,42 @@ class PersonaForm(forms.ModelForm):
             'apellido_paterno',
             'apellido_materno',
             'fecha_nacimiento',
-            'direccion_persona',
-            'numero_direccion',
-            'complemento_direccion',
-            'telefono_persona',
-            'correo_persona',
         ]
         widgets = {
             'tipo_identificacion': RadioSelect(),
             'fecha_nacimiento' : DateInput(),
+        }
+
+class TelefonoModelForm(forms.ModelForm):
+    class Meta:
+        model = Telefono
+        fields = [
+            'tipo_telefono',
+            'telefono',
+        ]
+        widgets = {
+            'tipo_telefono': RadioSelect(),
+        }
+
+class CorreoModelForm(forms.ModelForm):
+    class Meta:
+        model = Correo
+        fields = [
+            'tipo_correo',
+            'correo',
+        ]
+        widgets = {
+            'tipo_correo': RadioSelect(),
+        }
+
+class DireccionModelForm(forms.ModelForm):
+    class Meta:
+        model = Direccion
+        fields = [
+            'calle',
+            'numero',
+            'complemento_direccion',
+        ]
+        widgets = {
+            'tipo_correo': RadioSelect(),
         }

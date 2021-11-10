@@ -22,7 +22,7 @@ class ProductoFarmacia(models.Model):
     class Meta:
         verbose_name = "Producto Farmacia"
         verbose_name_plural = "Productos de Farmacia"
-        ordering = ['p_a','dosis']
+        ordering = ['marca_producto','dosis']
 
     def __str__(self):
         return f'{self.marca_producto} {self.p_a} {self.dosis} {self.presentacion} | Lote: {self.n_lote} | Precio: ${self.precio} '

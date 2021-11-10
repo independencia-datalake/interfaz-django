@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Esterilizacion{% endblock %}
+{% block title %}Control de Plaga{% endblock %}
 
 {% block content %}
 
@@ -38,10 +38,8 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Mascota</legend>
-                {{ form_mascota|crispy }}
-                <legend class="border-bottom mb-4">Procedimiento</legend>
-                {{ form_esterilizacion|crispy }}
+                <legend class="border-bottom mb-4">Control de Plaga</legend>
+                {{ form_controldeplaga|crispy }}
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Crear</button>

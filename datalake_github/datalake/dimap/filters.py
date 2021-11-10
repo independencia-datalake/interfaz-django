@@ -2,18 +2,31 @@ from django.contrib.auth.models import User
 import django_filters
 
 from core.models import (
-    UV,
+    Persona,
+    Direccion,
 )
 from .models import (
-    Esterilizacion
+    Procedimiento,
+    ControlPlaga,
 )
 
-class EsterilizacionFilter(django_filters.FilterSet):
-    nombre_responsable_filtro = django_filters.CharFilter(label='Nombre del Responsable',field_name='nombre_responsable',lookup_expr='icontains')
+class ProcedimientoFilter(django_filters.FilterSet):
+
     autor_filtro = django_filters.ModelChoiceFilter(field_name='autor',lookup_expr='exact',queryset=User.objects.all(),)
-    uv = django_filters.ModelChoiceFilter(field_name='uv',lookup_expr='exact',queryset=UV.objects.all(),)
+
 
     class Meta:
-        model = Esterilizacion
+        model = Procedimiento
+        fields = {
+        }
+
+class ControlPlagaFilter(django_filters.FilterSet):
+
+    persona_filtro = django_filters.ModelChoiceFilter(field_name='persona',lookup_expr='exact',queryset=Persona.objects.all(),)
+    autor_filtro = django_filters.ModelChoiceFilter(field_name='autor',lookup_expr='exact',queryset=User.objects.all(),)
+
+
+    class Meta:
+        model = ControlPlaga
         fields = {
         }

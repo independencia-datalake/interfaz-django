@@ -1,0 +1,13 @@
+[
+{
+    "model": "core.correo",
+    "pk": 1,
+    "fields": {
+        "persona": 1,
+        "correo": "independenciadatalake@gmail.com",
+        "tipo_correo": "OTRO",
+        "created": "2021-11-10T17:10:40.826",
+        "updated": "2021-11-10T17:10:40.826"
+    }
+}
+]

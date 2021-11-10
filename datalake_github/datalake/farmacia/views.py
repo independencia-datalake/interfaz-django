@@ -11,6 +11,9 @@ from django.http import HttpResponse
 
 from core.models import(
     Persona,
+    Telefono,
+    Correo,
+    Direccion,
 )
 from .models import (
     ComprobanteVenta,
@@ -46,6 +49,10 @@ class InicioComprobanteVenta(ListView):
 @login_required
 def comprobante_venta_form(request, pk):
     persona = Persona.objects.get(pk=pk)
+    telefono = Telefono.objects.get(persona=persona)
+    correo = Correo.objects.get(persona=persona)
+    direccion = Direccion.objects.get(persona=persona)
+
     formset = ProductoVendidoFormset()
     form = ComprobanteVentaModelForm()
     if request.method == 'POST':
@@ -72,6 +79,9 @@ def comprobante_venta_form(request, pk):
     context = {
         'c_form': form,
         'persona':persona,
+        'telefono':telefono,
+        'correo':correo,
+        'direccion':direccion,
         'formset':formset,
     }
 
@@ -249,7 +259,7 @@ def producto_vendido_delete_edicion(request, pk):
 
 class InicioProductoFarmacia(ListView):
     model = ProductoFarmacia
-    ordering = ['-created']
+    ordering = ['marca_producto','dosis']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
