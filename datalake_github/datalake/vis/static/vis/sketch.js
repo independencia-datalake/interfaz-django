@@ -41,7 +41,8 @@ function setup () {
 // Modificaciones necesarias
 
   data = data.map( a => a.obj);
-  data.forEach( a => a['uv'] = floor(random()*26)+1); // simulate uv ; borrar esta linea. 
+  data.forEach( a => a['uv'] = floor(a['uv']))
+  // data.forEach( a => a['uv'] = floor(random()*26)+1); // simulate uv ; borrar esta linea. 
   summarize(data);
   
   data.forEach( a => a['created'] = new Date(a['created'])); // ccambiar marca temporal por created

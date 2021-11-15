@@ -86,6 +86,8 @@ def persona_crear(request, pk):
                 obj = form.save(commit=False)
                 obj.persona = persona
                 obj.save()
+            
+            persona.save()
             messages.success(request, f'La persona fue creado con exito')
             if ruta == 1:
                 return redirect('comprobanteventa-create', pk=pk)
@@ -93,6 +95,8 @@ def persona_crear(request, pk):
                 return redirect('esterilizacion-crear', pk=pk)
             elif ruta == 3:
                 return redirect('controldeplaga-crear', pk=pk)
+            elif ruta == 4:
+                return redirect('seguridad-crear', pk=pk)
             else:
                 return redirect('comprobanteventa-create', pk=pk)
 

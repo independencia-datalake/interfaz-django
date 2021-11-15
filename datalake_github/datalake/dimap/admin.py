@@ -3,6 +3,7 @@ from .models import(
     Procedimiento,
     Mascota,
     ControlPlaga,
+    SeguridadDIMAP,
 )
 
 #CREATED Y UPDETED SOLO DE LECTURA
@@ -15,7 +16,11 @@ class MascotaAdmin(admin.ModelAdmin):
 class ControlPlagaAdmin(admin.ModelAdmin):
     readonly_fields = ['created','updated']
 
+class SeguridadDIMAPAdmin(admin.ModelAdmin):
+    readonly_fields = ['uv','created','updated']
+
 #PERMITE QUE SE VEA EN EL ADMIN
 admin.site.register(Procedimiento, ProcedimientoAdmin)
 admin.site.register(Mascota, MascotaAdmin)
 admin.site.register(ControlPlaga, ControlPlagaAdmin)
+admin.site.register(SeguridadDIMAP, SeguridadDIMAPAdmin)

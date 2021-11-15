@@ -32,7 +32,7 @@ class ProductoFarmacia(models.Model):
 
 class ComprobanteVenta(models.Model):
     comprador = models.ForeignKey(Persona, on_delete=models.PROTECT,verbose_name='Comprador') 
-    receta = models.FileField(default='default.jpg', blank=True, null=True, upload_to='receta_medica/%Y/%m/%d/')
+    receta = models.FileField(blank=True, null=True, upload_to='farmacia/receta_medica/%Y/%m/%d/')
     
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Profesional')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)

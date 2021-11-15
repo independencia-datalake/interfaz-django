@@ -25,7 +25,9 @@
         background-color: rgb(255, 255, 255); text-left: center; margin: 0;
       }
       canvas {
-        vertical-align: right;
+        float: left;
+        width:40%
+        vertical-align: top;
       }
     </style>
 
@@ -115,23 +117,34 @@
 <p><a href="{% url 'inicio-vis' %}">Volver a seleccion de tablas</a></p>
 </div>
 
-<table>
+<h4>Fuente de Datos: DIMAP</h4>
+
+<br>
+
+<table style='float: right; width:60%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
+    <th>UV</th>
+    <th>Total Tramites</th>
+    <th>Control de Plaga</th>
+    <th>Esterilizacion</th>
   </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
+  {%for object in uv %}
+    <tr>
+      <td>{{ object }}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  {%endfor%}
 </table>
+
+{% comment %} 
+
+estudiar html
+
+<div style="position:">
+hdsahhdhas
+</div> {% endcomment %}
 
 <!-- script -->
     <!-- Popper.JS -->

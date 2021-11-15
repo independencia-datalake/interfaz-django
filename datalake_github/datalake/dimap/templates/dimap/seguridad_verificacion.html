@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Persona{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap">  
+  <div class="botones">
+    <h1>Verificacion Identidad (Seguridad DIMAP)</h1>
+    <hr>
+    <h6 >En caso de ser anonimo</h6><a style='width:40%' href="{% url 'seguridad-crear' 1 %}">saltar ...</a>
+  </div>
+</div>
+        <hr>
+<div class="container contenedor-wrap">  
+    <form action='' method='POST'>
+        {% csrf_token %}
+        <div class="espaciador">	
+        <h3>Usuaria(o)</h3>
+        {{ v_persona|crispy }}
+        </div>
+        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'>
+    </form>
+</div>
+{% endblock %}

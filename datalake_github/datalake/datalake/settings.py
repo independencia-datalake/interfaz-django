@@ -1,25 +1,28 @@
-from pathlib import Path, os
+import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ipqwifh56s24&(umy3!m)w#j3$i57)r=ycjdh7d1#jrero&s!#'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = 'ipqwifh56s24&(umy3!m)w#j3$i57)r=ycjdh7d1#jrero&s!#' #PASAR A ARCHIVO BASE
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
+# ALLOWED_HOSTS =['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl','54.94.42.27']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Static - whitenoise
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,11 +44,11 @@ INSTALLED_APPS = [
     'django_filters',
     'storages',
 
-
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,9 +92,9 @@ DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'postgres',
-#         'USER': 'datalake_master',
-#         'PASSWORD': 'D4t4l4k3db.',
-#         'HOST': 'datalake-db.cplck86bddfa.sa-east-1.rds.amazonaws.com',
+#         'USER': os.environ.get('DATABASES_USER'),
+#         'PASSWORD': os.environ.get('DATABASES_PASSWORD'),
+#         'HOST': os.environ.get('DATABASES_HOST'),
 #         'PORT': 5432
 #     }
 # }
@@ -119,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-CL'
 
 TIME_ZONE = 'Chile/Continental'
 #TIME_ZONE = 'UTC'
@@ -131,11 +134,27 @@ USE_L10N = True
 USE_TZ = False
 
 
+# # HTTPS CONFIGURATIONS
+
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+
+# # HSTS settings
+
+# SECURE_HSTS_SECONDS = 31536000 # 1 AÑO
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -148,9 +167,9 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 #CONFIGURACION DEL S3 AWS
-AWS_ACCESS_KEY_ID = "AKIARUEETZAVW7RERMGW"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = "independenciabucket"
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None

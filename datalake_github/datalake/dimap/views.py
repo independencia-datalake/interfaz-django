@@ -20,15 +20,18 @@ from .models import (
     Procedimiento,
     Mascota,
     ControlPlaga,
+    SeguridadDIMAP,
 )
 from .forms import (
     ProcedimientoModelForm,
     MascotaModelForm,
     ControlPlagaModelForm,
+    SeguridadDIMAPModelForm,
 )
 from .filters import (
     ProcedimientoFilter,
     ControlPlagaFilter,
+    SeguridadDIMAPFilter,
 )
 
 class InicioEsterilizacion(ListView):
@@ -273,3 +276,127 @@ def controldeplaga_delete(request, pk):
     }
 
     return render(request, 'dimap/controldeplaga_delete.html', context)
+
+
+
+
+    #           SEGURIDAD DIMAP
+
+
+
+class InicioSeguridadDIMAP(ListView):
+    model = SeguridadDIMAP
+    ordering = ['-created']
+    context_object_name = 'post'
+    template_name = 'dimap/seguridad_inicio.html'
+
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['filter'] = SeguridadDIMAPFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+@login_required
+def seguridad_verificacion_identidad(request):
+    
+    verificador_de_personas = PersonaVerificacionForm()
+
+    if request.method == 'POST':
+        verificador_de_personas = PersonaVerificacionForm(request.POST)
+        if verificador_de_personas.is_valid():
+            # INCLUYE PUNTOS Y GIONES AL RUT
+            tipo_identificacion_ver = verificador_de_personas.cleaned_data.get('tipo_identificacion')
+            numero_identificacion_ver = verificador_de_personas.cleaned_data.get('numero_identificacion')
+            if tipo_identificacion_ver == "RUT":
+                ni = numero_identificacion_ver
+                if len(ni)==0:
+                    None
+                elif len(ni)>10:
+                    rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+                elif len(ni)==9:
+                    rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+                else:
+                    rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                    numero_identificacion_ver = rut  
+            # BUSCA PERSONA SI ES QUE EXISTE
+            persona_buscada = Persona.objects.filter(numero_identificacion=numero_identificacion_ver)
+            if persona_buscada:
+                pk = persona_buscada[0].id
+                return redirect('seguridad-crear', pk=pk)
+            else:
+                # LA PK ENVIA AL FORMULARIO DE PERSONA PARA DESPUES MANDAR DE VUELTA AL FORMULARIO QUE SE QUIERE HACER
+                return redirect('persona-crear', pk=4)
+
+    context = {
+        'v_persona': verificador_de_personas,
+    }
+
+    return render(request, 'dimap/seguridad_verificacion.html', context)
+
+
+@login_required
+def seguridad_form(request,pk):
+    persona = Persona.objects.get(pk=pk)
+    telefono = Telefono.objects.get(persona=persona)
+    correo = Correo.objects.get(persona=persona)
+    direccion = Direccion.objects.get(persona=persona)
+    
+    form_seguridad = SeguridadDIMAPModelForm()
+
+    if request.method == 'POST':
+        form_seguridad = SeguridadDIMAPModelForm(request.POST, request.FILES)
+
+        if form_seguridad.is_valid():
+            seguridad = form_seguridad.save(commit=False)
+            seguridad.persona = persona
+            seguridad.autor = request.user
+ 
+            seguridad.save()
+            form_id = seguridad.id
+            messages.success(request, f'El Formulario fue creado con exito')
+            return redirect('seguridad-detail',pk=form_id)
+
+    context = {
+        'form_seguridad':form_seguridad,
+        'persona':persona,
+        'telefono':telefono,
+        'correo':correo,
+        'direccion':direccion,
+    }
+
+    return render(request, 'dimap/seguridad_form.html', context)
+
+
+def seguridad_detail(request, pk):
+    seguridad = SeguridadDIMAP.objects.get(pk=pk)
+    persona = seguridad.persona
+    direccion = Direccion.objects.get(persona=persona)  
+
+    context = {
+        'seguridad':seguridad,
+        'persona':persona,
+        'direccion':direccion,
+    }
+
+    return render(request, 'dimap/seguridad_detalle.html', context)
+
+
+@login_required
+def seguridad_delete(request, pk):
+    obj = SeguridadDIMAP.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        if request.user == obj.autor:
+            obj.delete()
+            messages.success(request, f'El formulario fue eliminado con exito')
+            return redirect('seguridad-inicio')
+        else:
+            messages.warning(request, f'No esta autorizado para eliminar el formulario')
+            return redirect('seguridad-inicio')
+
+    context = {
+        'object': obj,
+    }
+
+    return render(request, 'dimap/seguridad_delete.html', context)

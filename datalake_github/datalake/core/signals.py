@@ -1,12 +1,13 @@
-# import pandas as pd
-# from django.db.models.signals import pre_save
-# from django.contrib.auth.models import User
-# from django.dispatch import receiver
-# from .models import (
-#     Persona,
-#     UV,
-# )
-
+from django.db.models.signals import pre_save
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+from .models import (
+    Direccion,
+    Correo,
+    Telefono,
+)
+        
+        
 # #FUNCION QUE CALCULA UV EN SEÑALES
 # def calculo_de_UV(sender, instance, **kwargs):
 #     uv = obtener_uv(instance.direccion_persona, instance.numero_direccion)

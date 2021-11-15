@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.base import Model
 from core.models import (
+    obtener_uv,
     Persona,
+    UV,
 )
 
 class Mascota(models.Model):
@@ -180,6 +181,105 @@ class ControlPlaga(models.Model):
         verbose_name = "Control de Plaga"
         verbose_name_plural = "Control de Plagas"
         ordering = ['created']
+    
+    def __str__(self):
+            return f'{self.f_ingreso}' 
+
+
+class SeguridadDIMAP(models.Model):
+    persona = models.ForeignKey(Persona,on_delete=models.PROTECT, verbose_name='Denunciante')
+    f_ingreso = models.DateField(auto_now_add=True, verbose_name='Fecha de Ingreso')
+    estatus = models.CharField(
+        max_length=1,
+        default='1',
+        choices=(
+            ('1','Pendiente'),
+            ('2','Realizado'),
+            ('3','Anulado'),
+            ),
+        verbose_name='Estatus',
+        )
+    ficha = models.CharField(max_length=40,default='0',verbose_name='Ficha de Ingreso')
+    tipo_denuncia = models.CharField(
+        max_length=1,
+        choices=(
+            ('1','Zoonosis'),
+            ('2','Trm'),
+            ('3','Higiene Ambiental'),
+            ),
+        verbose_name='Tipo de Denuncia',
+        )
+    text_denuncia = models.TextField(blank=True, verbose_name='Motivo Denuncia')
+    nombre = models.CharField(null=True, blank=True, max_length=30,verbose_name='Nombre Denunciado')
+    apellido = models.CharField(null=True, blank=True, max_length=30,verbose_name='Apelledio Denunciado')
+    calle = models.CharField(null=True, blank=True, max_length=30, verbose_name='Calle Denunciado')
+    numero = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numeración')
+    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad Vecinal Demandado')
+    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Telefono Denunciado')
+    f_visita = models.DateField(verbose_name='Fecha de visita inspeccion')
+    l_transgrsion = models.CharField(
+        max_length=1,
+        choices=(
+            ('1','Via Pública'),
+            ('2','Domicilio'),
+            ),
+        verbose_name='Lugar de Transgresión',
+    )
+    i_visita = models.CharField(
+        max_length=1,
+        choices=(
+            ('1','Inspector'),
+            ('2','Profecional'),
+            ),
+        verbose_name='Visita Inspectiva',
+    )
+    obs_insp = models.TextField(null=True,blank=True,verbose_name='Observación Inspector')
+    cat_visita = models.CharField(
+        max_length=1,
+        default='',
+        blank=True,
+        choices=(
+            ('1','Se Visita, Hay Contacto'),
+            ('2','Se Visita, No Hay Contacto'),
+            ('3','Otra'),
+            ),
+        verbose_name='Categorización de Visita',
+    )
+    notificacion = models.CharField(
+        max_length=1,
+        default='',
+        blank=True,
+        choices=(
+            ('1','Con Notificacion'),
+            ('2','Sin Notificacion'),
+            ),
+        verbose_name='Notificacion',
+    )
+    n_notificacion = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numero de Notificacion')
+    respuesta = models.TextField(blank=True, verbose_name='Respuesta Denunciante')
+    img_respuesta = models.FileField(blank=True, null=True, upload_to='dimap/denuncia/%Y/%m/%d/')
+
+    autor = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Autor")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
+
+    class Meta:
+        verbose_name = "Seguridad DIMAP"
+        verbose_name_plural = "Seguridad DIMAP"
+        ordering = ['created']
+
+    def save(self, *args, **kwargs):
+        if self.calle:
+            if self.numero:
+                uv = obtener_uv(self.calle,self.numero)
+                self.uv = UV.objects.get(numero_uv=uv)
+                return super(SeguridadDIMAP, self).save(*args, **kwargs)
+            else:
+                self.uv = UV.objects.get(numero_uv=0)
+                return super(SeguridadDIMAP, self).save(*args, **kwargs)
+        else:
+            self.uv = UV.objects.get(numero_uv=0)
+            return super(SeguridadDIMAP, self).save(*args, **kwargs)
     
     def __str__(self):
             return f'{self.f_ingreso}' 

@@ -25,7 +25,9 @@
         background-color: rgb(255, 255, 255); text-left: center; margin: 0;
       }
       canvas {
-        vertical-align: right;
+        float: left;
+        width:40%
+        vertical-align: top;
       }
     </style>
 
@@ -40,7 +42,7 @@
     <script src="/static/vis/map.js"></script>
     <script src="/static/vis/sketch.js"></script>
     <script type="text/javascript">
-      var data_var = "/static/vis/data/DENUNCIAS SEGURIDAD TELEFONO 1469.csv"
+      var data_var = "/static/vis/data/FARMACIA.csv"
       var predios_var = "/static/vis/data/PREDIOS_INDEPENDENCIA.geojson"
       var unidades_var = "/static/vis/data/Unidades_Vecinales.geojson"
       var monotype_var = "/static/vis/assets/Akkurat-Mono.otf"
@@ -115,23 +117,35 @@
 <p><a href="{% url 'inicio-vis' %}">Volver a seleccion de tablas</a></p>
 </div>
 
-<table>
+<h4>Fuente de Datos: Farmacia</h4>
+
+<br>
+
+<table style='float: right; width:60%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
+    <th>UV</th>
+    <th>Total Ventas</th>
   </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
+
+  {% for key, value in contador.items %}
+    <tr>
+        <td> {{ key }} </td> 
+        <td> {{ value }} </td>
+    </tr>
+{% endfor %}
+
+  
+
+
 </table>
+
+{% comment %} 
+
+estudiar html
+
+<div style="position:">
+hdsahhdhas
+</div> {% endcomment %}
 
 <!-- script -->
     <!-- Popper.JS -->

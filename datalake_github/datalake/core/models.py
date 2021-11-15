@@ -88,7 +88,7 @@ class UV(models.Model):
         return f'{self.numero_uv}'
 
 class Persona(models.Model):
-    # uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
+    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
     tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=30,
                                             choices=(
                                                 ('RUT','Rut'),
@@ -118,6 +118,35 @@ class Persona(models.Model):
         ordering = ['created']
 
     def save(self, *args, **kwargs):
+      if self.id == None:
+        self.uv = UV.objects.get(numero_uv=0)
+        if self.tipo_identificacion == "RUT":
+          ni = self.numero_identificacion
+          if ni[-2] == '-':
+              return super(Persona, self).save(*args, **kwargs)
+          else:
+              if len(ni)==0:
+                  None
+              elif len(ni)>10:
+                  rut = ni[:-10]+'.'+ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                  self.numero_identificacion = rut  
+              elif len(ni)==9:
+                  rut = ni[-10:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                  self.numero_identificacion = rut  
+              else:
+                  rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
+                  self.numero_identificacion = rut
+          return super(Persona, self).save(*args, **kwargs)
+
+        return super(Persona, self).save(*args, **kwargs)
+          
+      
+      else:
+        direcciones = Direccion.objects.filter(persona__exact=self)
+        direccion = direcciones.get(active=True)
+        uv = direccion.uv
+        self.uv = uv
+
         if self.tipo_identificacion == "RUT":
             ni = self.numero_identificacion
             if ni[-2] == '-':
@@ -133,8 +162,11 @@ class Persona(models.Model):
                     self.numero_identificacion = rut  
                 else:
                     rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
-                    self.numero_identificacion = rut  
+                    self.numero_identificacion = rut
+            return super(Persona, self).save(*args, **kwargs)
+
         return super(Persona, self).save(*args, **kwargs)
+      
 
     def __str__(self):
         return f'{self.numero_identificacion}'
@@ -196,26 +228,25 @@ class Correo(models.Model):
             return f'{self.persona} - {self.tipo_correo} - {self.correo}' 
 
 class Direccion(models.Model):
-    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
-    uv = models.ForeignKey(UV, on_delete=models.CASCADE, verbose_name='UV')
-    calle = models.CharField(max_length=30, verbose_name="Avenida/Calle/Pasaje")
-    numero = models.PositiveIntegerField(verbose_name="Numeración")
-    complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
+  active = models.BooleanField(default=True, verbose_name="Activo",null=True)
+  persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
+  uv = models.ForeignKey(UV, on_delete=models.CASCADE, verbose_name='UV')
+  calle = models.CharField(max_length=30, verbose_name="Avenida/Calle/Pasaje")
+  numero = models.PositiveIntegerField(verbose_name="Numeración")
+  complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
 
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
-    updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
+  created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
+  updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
 
-    class Meta:
-        verbose_name = "Dirrecion Persona"
-        verbose_name_plural = "Direcciones Personas"
-        ordering = ['created']
+  class Meta:
+      verbose_name = "Dirrecion Persona"
+      verbose_name_plural = "Direcciones Personas"
+      ordering = ['created']
 
-    def save(self, *args, **kwargs):
-        if self.id == None:
-            uv = obtener_uv(self.calle,self.numero)
-            self.uv = UV.objects.get(numero_uv=uv)
-            return super(Direccion, self).save(*args, **kwargs)
-        return super(Direccion, self).save(*args, **kwargs)
+  def save(self, *args, **kwargs):
+      uv = obtener_uv(self.calle,self.numero)
+      self.uv = UV.objects.get(numero_uv=uv)
+      return super(Direccion, self).save(*args, **kwargs)
 
-    def __str__(self):
-            return f'{self.uv} - {self.calle} {self.numero}' 
+  def __str__(self):
+          return f'{self.persona} - {self.uv} - {self.calle} {self.numero} - {self.active}' 

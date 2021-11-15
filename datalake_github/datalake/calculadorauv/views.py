@@ -87,9 +87,9 @@ def validar_conjunto(numero, validacion):
 #AUTOCOMPLETADO
 
 def autocompete_calles(request):
-    if 'term' in request.GET:
-        qs = CallesIndependencia.objects.filter(calle__contains=request.GET.get('term'))
-        calles = list()
-        for calle in qs:
-            calles.append(calle.calle)
-        return JsonResponse(calles, safe=False)
+  if 'term' in request.GET:
+      qs = CallesIndependencia.objects.filter(calle__icontains=request.GET.get('term'))
+      calles = list()
+      for calle in qs:
+          calles.append(calle.calle)
+      return JsonResponse(calles, safe=False)
