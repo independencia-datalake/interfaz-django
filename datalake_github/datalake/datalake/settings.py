@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'vis.apps.VisConfig',
     'dimap.apps.DimapConfig',
     'seguridad.apps.SeguridadConfig',
+    'carga.apps.CargaConfig',
     
     # De terceros
     'crispy_forms',
