@@ -6,6 +6,7 @@ from .models import (
     Correo,
     Telefono,
 )
+
         
         
 # #FUNCION QUE CALCULA UV EN SEÑALES

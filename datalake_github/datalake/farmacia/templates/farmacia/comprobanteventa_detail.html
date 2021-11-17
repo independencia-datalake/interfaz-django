@@ -22,8 +22,6 @@
             <div class="row">
                 <div class="col">
                     <h2> Venta Nº: <span class="magenta">{{ c_detail.id }}</span></h2>
-                    {% comment %} <h4 class="magenta">Usuario:</h4>
-                    <p>Henry Bauer Vera</p> {% endcomment %}
                     <h4 class="magenta">Nº de Identificación:</h4>
                     <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }} | <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></p>
                     <h4 class="magenta">Receta:</h4>

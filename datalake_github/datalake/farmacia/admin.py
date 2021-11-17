@@ -3,6 +3,7 @@ from .models import (
     ProductoFarmacia,
     ProductoVendido,
     ComprobanteVenta,
+    CargaProducto,
 )
 
 class ProductoFarmaciaAdmin(admin.ModelAdmin):
@@ -18,3 +19,4 @@ class ComprobanteVentaAdmin(admin.ModelAdmin):
 admin.site.register(ProductoFarmacia, ProductoFarmaciaAdmin)
 admin.site.register(ProductoVendido, ProductoVendidoAdmin)
 admin.site.register(ComprobanteVenta, ComprobanteVentaAdmin) 
+admin.site.register(CargaProducto) 

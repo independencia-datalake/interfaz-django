@@ -70,3 +70,6 @@ class ProductoVendido(models.Model):
     def  get_absolute_url(self):
         return reverse("comprobanteventa-detail", kwargs={"pk": self.n_venta})
 
+class CargaProducto(models.Model):
+    carga_producto = models.FileField(blank=True, null=True, upload_to='farmacia/carga_producto/')
+

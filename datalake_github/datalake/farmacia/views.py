@@ -1,3 +1,4 @@
+from django.contrib.auth import models
 from django.db.models import query_utils
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
@@ -24,7 +25,8 @@ from .forms import (
     ProductoFarmaciaForm,
     ComprobanteVentaModelForm,
     ProductoVendidoForm,
-    ProductoVendidoFormset
+    ProductoVendidoFormset,
+    CargaProductoModelForm, #Prueba
 )
 from .filters import (
     ProductoFarmaciaFilter,
@@ -351,3 +353,20 @@ def calcular_subtotales(productos_queryset, productos):
         producto.subtotal = precio*producto.cantidad
 
     return 0
+
+
+def carga_datos(request):
+    c_producto_form = CargaProductoModelForm()
+
+    if request.method == 'POST':
+        c_producto_form = CargaProductoModelForm(request.POST,request.FILES)
+        if c_producto_form.is_valid():
+            c_producto_form.save()
+            messages.success(request, f'El archivo fue subido con exito')
+            return redirect('productofarmacia-inicio')
+        
+    context = {
+        'datos':c_producto_form
+    }
+
+    return render(request, 'farmacia/carga_datos.html', context)    

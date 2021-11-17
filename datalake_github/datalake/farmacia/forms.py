@@ -3,6 +3,7 @@ from .models import (
     ProductoFarmacia,
     ComprobanteVenta,
     ProductoVendido,
+    CargaProducto,
 )
 from django.forms import inlineformset_factory
 from django.forms.widgets import (
@@ -59,3 +60,16 @@ ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,
                                                 form=ProductoVendidoForm,
                                                 can_delete=False,
                                                 extra=1)
+
+
+
+class CargaProductoModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CargaProductoModelForm,self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = CargaProducto
+        fields = ['carga_producto']
+        labels = {
+            'carga_producto': 'Excel Productos Farmacia',
+        }

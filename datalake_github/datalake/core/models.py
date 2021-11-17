@@ -250,3 +250,4 @@ class Direccion(models.Model):
 
   def __str__(self):
           return f'{self.persona} - {self.uv} - {self.calle} {self.numero} - {self.active}' 
+
