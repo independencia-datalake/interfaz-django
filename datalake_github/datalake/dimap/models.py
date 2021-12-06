@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from core.models import (
     obtener_uv,
     Persona,
@@ -8,6 +9,7 @@ from core.models import (
 
 class Mascota(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.PROTECT, verbose_name='dueño')
+    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad vecinal')
     nombre = models.CharField(max_length=30, verbose_name="Nombre Mascota")
     sexo = models.CharField(
         max_length=1,
@@ -36,11 +38,20 @@ class Mascota(models.Model):
         verbose_name_plural = "Mascotas"
         ordering = ['nombre']
     
+    def save(self, *args, **kwargs):
+        if self.id == None:
+            uv = self.persona.uv
+            self.uv = uv
+            return super(Mascota, self).save(*args, **kwargs)
+        else:
+            return super(Mascota, self).save(*args, **kwargs)
+
     def __str__(self):
             return f'{self.nombre}' 
 
 class Procedimiento(models.Model):
     mascota = models.ForeignKey(Mascota,on_delete=models.PROTECT, verbose_name='Mascota')
+    uv = models.ForeignKey(UV,on_delete=models.PROTECT, verbose_name='Unidad vecinal')
     estatus = models.CharField(
         max_length=1,
         default='1',
@@ -88,48 +99,20 @@ class Procedimiento(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
     
-    # i_resp = models.CharField(
-    #     max_length=1,
-    #     default='3',
-    #     choices=(
-    #         ('1','Rut'),
-    #         ('2','Pasaporte'),
-    #         ('3','Otro'),
-    #         ),
-    #     verbose_name='Identificacion Responsable',
-    #     )
-    # numero_identificacion = models.CharField(max_length=30, blank=True, verbose_name="Número de Identidad Resposnsable")
-    # nombre_responsable = models.CharField(max_length=30, verbose_name="Nombre Responsable")
-    # apellido_responsable = models.CharField(max_length=30, verbose_name="Apellido Responsable")
-    # telefono_responsable = models.CharField(max_length=30, verbose_name="Teléfono Responsable")
-    # direccion_responsable = models.CharField(max_length=30, verbose_name="Avenida/Calle/Pasaje")
-    # numero_direccion = models.PositiveIntegerField(verbose_name="Numeración")
-    # correo_responsable = models.EmailField(null=True, blank=True, max_length=40, verbose_name="Email") 
-    # especie = models.CharField(
-    #     max_length=1,
-    #     default='1',
-    #     choices=(
-    #         ('1','Canino'),
-    #         ('2','Felino'),
-    #         ),
-    #     verbose_name='Especie de Mascota',
-    #     )
-    # nombre_mascota = models.CharField(max_length=30, verbose_name="Nombre de Mascota")
-    # sexo_mascota = models.CharField(
-    #     max_length=1,
-    #     default='1',
-    #     choices=(
-    #         ('1','Hembra'),
-    #         ('2','Macho'),
-    #         ),
-    #     verbose_name='Sexo de Mascota',
-    #     )
+    def save(self, *args, **kwargs):
+        if self.id == None:
+            uv = self.mascota.uv
+            self.uv = uv
+            return super(Procedimiento, self).save(*args, **kwargs)
+        else:
+            return super(Procedimiento, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.f_ingreso}'
 
 class ControlPlaga(models.Model):
     persona = models.ForeignKey(Persona,on_delete=models.PROTECT, verbose_name='Persona')
+    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad vecinal')
     estatus = models.CharField(
         max_length=1,
         default='1',
@@ -177,6 +160,14 @@ class ControlPlaga(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
 
+    def save(self, *args, **kwargs):
+        if self.id == None:
+            uv = self.persona.uv
+            self.uv = uv
+            return super(ControlPlaga, self).save(*args, **kwargs)
+        else:
+            return super(ControlPlaga, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = "Control de Plaga"
         verbose_name_plural = "Control de Plagas"
@@ -185,6 +176,8 @@ class ControlPlaga(models.Model):
     def __str__(self):
             return f'{self.f_ingreso}' 
 
+    def  get_absolute_url(self):
+        return reverse("controldeplaga-inicio")
 
 class SeguridadDIMAP(models.Model):
     persona = models.ForeignKey(Persona,on_delete=models.PROTECT, verbose_name='Denunciante')
@@ -211,7 +204,7 @@ class SeguridadDIMAP(models.Model):
         )
     text_denuncia = models.TextField(blank=True, verbose_name='Motivo Denuncia')
     nombre = models.CharField(null=True, blank=True, max_length=30,verbose_name='Nombre Denunciado')
-    apellido = models.CharField(null=True, blank=True, max_length=30,verbose_name='Apelledio Denunciado')
+    apellido = models.CharField(null=True, blank=True, max_length=30,verbose_name='Apellido Denunciado')
     calle = models.CharField(null=True, blank=True, max_length=30, verbose_name='Calle Denunciado')
     numero = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numeración')
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad Vecinal Demandado')
@@ -220,7 +213,7 @@ class SeguridadDIMAP(models.Model):
     l_transgrsion = models.CharField(
         max_length=1,
         choices=(
-            ('1','Via Pública'),
+            ('1','Vía Pública'),
             ('2','Domicilio'),
             ),
         verbose_name='Lugar de Transgresión',
@@ -229,7 +222,7 @@ class SeguridadDIMAP(models.Model):
         max_length=1,
         choices=(
             ('1','Inspector'),
-            ('2','Profecional'),
+            ('2','Profesional'),
             ),
         verbose_name='Visita Inspectiva',
     )
@@ -250,10 +243,10 @@ class SeguridadDIMAP(models.Model):
         default='',
         blank=True,
         choices=(
-            ('1','Con Notificacion'),
-            ('2','Sin Notificacion'),
+            ('1','Con Notificación'),
+            ('2','Sin Notificación'),
             ),
-        verbose_name='Notificacion',
+        verbose_name='Notificación',
     )
     n_notificacion = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numero de Notificacion')
     respuesta = models.TextField(blank=True, verbose_name='Respuesta Denunciante')
@@ -283,3 +276,6 @@ class SeguridadDIMAP(models.Model):
     
     def __str__(self):
             return f'{self.f_ingreso}' 
+
+    def  get_absolute_url(self):
+        return reverse("seguridad-inicio")

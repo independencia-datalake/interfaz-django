@@ -6,14 +6,14 @@ from core.models import(
 )
 
 class ProductoFarmacia(models.Model): 
-    active = models.BooleanField(default=True, verbose_name="Activo",null=True)
-    marca_producto = models.CharField(max_length=200, verbose_name="Nombre del Producto",null=True)
-    p_a =  models.CharField(max_length=200, verbose_name="Componente Activo",null=True)
-    dosis = models.CharField(max_length=200, verbose_name="Dosis del Producto",null=True)
-    presentacion = models.CharField(max_length=200, verbose_name="Presentacion del Producto",null=True)
-    f_ven = models.DateField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento",null=True)
-    precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True)
-    n_lote = models.CharField(max_length=200, verbose_name="Lote",null=True)
+    active = models.BooleanField(default=True, verbose_name="Activo",null=True, blank=True)
+    marca_producto = models.CharField(max_length=200, verbose_name="Nombre del Producto",null=True, blank=True)
+    p_a =  models.CharField(max_length=200, verbose_name="Componente Activo",null=True, blank=True)
+    dosis = models.CharField(max_length=200, verbose_name="Dosis del Producto",null=True, blank=True)
+    presentacion = models.CharField(max_length=200, verbose_name="Presentacion del Producto",null=True, blank=True)
+    f_ven = models.DateField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento",null=True, blank=True)
+    precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True, blank=True)
+    n_lote = models.CharField(max_length=200, verbose_name="Lote",null=True, blank=True)
     
     autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)     
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
@@ -32,7 +32,7 @@ class ProductoFarmacia(models.Model):
 
 class ComprobanteVenta(models.Model):
     comprador = models.ForeignKey(Persona, on_delete=models.PROTECT,verbose_name='Comprador') 
-    receta = models.FileField(blank=True, null=True, upload_to='farmacia/receta_medica/%Y/%m/%d/')
+    receta = models.FileField(blank=True, null=True,upload_to='farmacia/receta_medica/%Y/%m/%d/')
     
     farmaceuta = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Profesional')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
@@ -47,7 +47,6 @@ class ComprobanteVenta(models.Model):
     
     def  get_absolute_url(self):
         return reverse("comprobanteventa-detail", kwargs={"pk": self.pk})
-
 
 class ProductoVendido(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")

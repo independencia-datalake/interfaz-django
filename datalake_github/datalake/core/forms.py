@@ -16,8 +16,6 @@ TIPOS_DE_IDENTIFICACION = [
     ('OTRO','Otro'),
 ]
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
 
 class PersonaVerificacionForm(forms.Form):
     tipo_identificacion = forms.ChoiceField(
@@ -29,6 +27,9 @@ class PersonaVerificacionForm(forms.Form):
 
     
 class PersonaModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PersonaModelForm,self).__init__(*args, **kwargs)
+
     class Meta:
         model = Persona
         fields = [
@@ -41,7 +42,14 @@ class PersonaModelForm(forms.ModelForm):
         ]
         widgets = {
             'tipo_identificacion': RadioSelect(),
-            'fecha_nacimiento' : DateInput(),
+            'fecha_nacimiento' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
         }
 
 class TelefonoModelForm(forms.ModelForm):

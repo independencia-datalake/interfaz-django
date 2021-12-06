@@ -25,10 +25,10 @@
                     <h4 class="magenta">Nº de Identificación:</h4>
                     <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }}</p>
                     <h4 class="magenta">Receta:</h4>
-                    {% if c_detail.receta == "default.jpg"%}
-                    <p>Esta venta no tiene receta</p>
+                    {% if c_detail.receta %}
+                    <p><a href="{{ c_detail.receta.url }}" target="_blank">Link Receta Medica</a></p>
                     {% else %}
-                    <p><a href="{{ c_detail.receta.url }}">Link Receta Medica</a> - <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></p>  
+                    <p>Esta venta no tiene receta</p>
                     {% endif %}
                 </div>
                 <div class="col">

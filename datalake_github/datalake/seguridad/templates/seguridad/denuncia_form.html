@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Denuncia{% endblock %}
+
+{% block content %}
+
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Denuncia</legend>
+                {{ form_req|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Crear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+{% block script %}
+$( "#id_calle" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});      
+{% endblock %}
+</script>
+

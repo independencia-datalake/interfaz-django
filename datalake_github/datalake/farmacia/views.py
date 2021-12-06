@@ -34,9 +34,9 @@ from .filters import (
 )
 
 
+# COMPROVANTE VENTA
 
-            #COMPROVANTE VENTA
-#PAGINA PRINCIPAL COMPROVANTE DE VENTA TEMPLATE=comprobanteventa_list
+
 class InicioComprobanteVenta(ListView):
     model = ComprobanteVenta
     ordering = ['-created']
@@ -47,7 +47,6 @@ class InicioComprobanteVenta(ListView):
         context['filter'] = ComprobanteVentaFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-#CREAR UNA NUEVA VENTA TEMPLATE=comprobanteventa_form
 @login_required
 def comprobante_venta_form(request, pk):
     persona = Persona.objects.get(pk=pk)
@@ -70,6 +69,7 @@ def comprobante_venta_form(request, pk):
             for form in formset:
                 nombre = form.cleaned_data.get('nombre')
                 cantidad = form.cleaned_data.get('cantidad')
+                print(nombre)
                 if nombre:
                     ProductoVendido(nombre=nombre,
                                     cantidad=cantidad,
@@ -89,7 +89,6 @@ def comprobante_venta_form(request, pk):
 
     return render(request, 'farmacia/comprobanteventa_form.html', context)
 
-#CONFIRMAR VENTA=comprobanteventa_detail
 @login_required
 def comprobante_venta_detail(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
@@ -109,7 +108,6 @@ def comprobante_venta_detail(request, pk):
 
     return render(request, 'farmacia/comprobanteventa_detail.html', context)
 
-
 @login_required
 def comprobante_venta_edicion(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
@@ -128,7 +126,6 @@ def comprobante_venta_edicion(request, pk):
     }
 
     return render(request, 'farmacia/comprobanteventa_edicion.html', context)
-
 
 class EdicionComprobanteVenta(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model = ComprobanteVenta    
@@ -165,10 +162,7 @@ def comprobante_venta_delete(request, pk):
     return render(request, 'farmacia/delete.html', context)
 
 
-
-            #PRODUCTO VENDIDO
-
-
+# PRODUCTO VENDIDO
 
 
 @login_required
@@ -258,6 +252,8 @@ def producto_vendido_delete_edicion(request, pk):
             #PRODUCTO FARMACIA
 
 
+# PRODUCTO FARMACIA
+
 
 class InicioProductoFarmacia(ListView):
     model = ProductoFarmacia
@@ -322,6 +318,10 @@ def producto_farmacia_delete(request, pk):
 
             #FUNCIONALIDADES EXTRAS
 
+
+# FUNCIONALIDADES
+
+
 def descargar_comprobantes(request):
 
     df = pd.DataFrame(list(ComprobanteVenta.objects.all().values())).astype(str)
@@ -354,7 +354,7 @@ def calcular_subtotales(productos_queryset, productos):
 
     return 0
 
-
+@login_required
 def carga_datos(request):
     c_producto_form = CargaProductoModelForm()
 

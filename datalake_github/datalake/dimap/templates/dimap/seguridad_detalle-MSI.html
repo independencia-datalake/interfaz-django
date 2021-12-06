@@ -1,0 +1,182 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Denuncia DIMAP{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container cabecera-interior-tablas margin-bottom-30">
+        <div class="row">
+            <div class="col-sm vertical-align-middle">
+                <h3>Confirmación de Denuncia</h3>
+            </div>
+            <div class="col-sm vertical-align-middle">
+            </div>
+            <div class="col-sm vertical-align-middle">
+            <a href="{% url 'seguridad-delete' seguridad.id %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Eliminar</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Nº de Identificación:</h4>
+                    <h2>{{ persona.tipo_identificacion  }} - {{ persona.numero_identificacion }}</h2>
+                    <h4 class="magenta">Nombre Responsable:</h4>
+                    <h2>{{ persona.nombre_persona  }}  {{ persona.apellido_paterno }} {{ persona.apellido_materno }}</h2>
+                    <h4 class="magenta">Direccion:</h4>
+                    <h2>{{ direccion.calle  }}  {{ direccion.numero }} | {{ direccion.uv}}</h2>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ seguridad.created }}</p>
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ seguridad.created }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ seguridad.autor }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Denunciado: </h4>
+                    {% if seguridad.nombre == None %}
+                        <h2>No se tiene el nombre del denunciado</h2>
+                        <hr>
+                    {% else %}
+                        <h2>{{ seguridad.nombre }} {{ seguridad.apellido }}</h2>
+                        <hr>
+                    {% endif %}
+                    <h4 class="magenta">Direccion denunciado: </h4>
+                    {% if seguridad.calle == None %}
+                        <h2>No se tiene la direccion del denunciado</h2>
+                        <hr>
+                    {% else %}
+                        <h2>{{ seguridad.calle }} {{ seguridad.numero }}</h2>
+                        <hr>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Telefono: </h4>
+                    {% if seguridad.telefono == None %}
+                        <h2>No se tiene el telefono del denunciado.</h2>
+                        <hr>
+                    {% else %}
+                        <h2>{{ seguridad.telefono }}</h2>
+                        <hr>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <hr>
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Estatus</h4>
+                    <h2>{{ seguridad.get_estatus_display  }}</h2>
+                    <hr>
+                    <h4 class="magenta">Folio: </h4>
+                    <h2>{{ seguridad.ficha  }}</h2>
+                    <hr>
+                    <h4 class="magenta">Fecha de Visita: </h4>
+                    <h2>{{ seguridad.f_visita }}</h2>
+                    <hr>
+                    <h4 class="magenta"> Inspeccion </h4>
+                    <h2>{{ seguridad.get_i_visita_display }}</h2>
+                    <hr>
+                    <h4 class="magenta">Categoria de Visita:</h4>
+                    {% if seguridad.cat_visita %}
+                        <h2>{{ seguridad.get_cat_visita_display }}</h2>
+                        <hr>
+                    {% else %}
+                        <h2>No hay categoria</h2>
+                        <hr>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Tipo de Denuncia:</h4>
+                    <h2>{{ seguridad.get_tipo_denuncia_display }}</h2>
+                    <hr>
+                    <h4 class="magenta">Lugar de Transgrecion:</h4>
+                    {% if seguridad.l_transgrsion %}
+                        <h2>{{ seguridad.get_l_transgrsion_display }}</h2>
+                        <hr>
+                    {% else %}
+                        <h2>No se tiene el lugar de transgrecion</h2>
+                        <hr>
+                    {% endif %}
+                    <h4 class="magenta">Respuesta:</h4>
+                    {% if seguridad.respuesta %}
+                        <p>{{ seguridad.respuesta }}</p>
+                        <hr>
+                    {% else %}
+                        <p>No se tiene respuesta</p>
+                        <hr>
+                    {% endif %}
+                    <h4 class="magenta">Imagen Respuesta:</h4>
+                    {% if seguridad.img_respuesta %}
+                        <h2><a href="{{ seguridad.img_respuesta.url }}">Link Img Respuesta</a></h2>
+                        <hr>
+                    {% else %}
+                        <h2>No se ha gurdado una imagen</h2>
+                        <hr>
+                    {% endif %}
+                    <h4 class="magenta">Notificacion: </h4>
+                    {% if seguridad.notificacion %}
+                        <h2>{{ seguridad.get_notificacion_display }}
+                        {% if seguridad.n_notificacion %}
+                             - {{ seguridad.n_notificacion }}</h2>
+                        {% else %}
+                            </h2>
+                        {% endif %}
+                        <hr>
+                    {% else %}
+                        <h2>No hay notifiacion</h2>
+                        <hr>
+                    {% endif %}
+                    <hr>
+                </div>
+            </div>
+            <hr>
+            <h4 class="magenta">Texto de Denuncia:</h4>
+            {% if seguridad.text_denuncia %}
+                <p>{{ seguridad.text_denuncia }}</path>
+                <hr>
+            {% else %}
+                <p>No hay texto</p>
+                <hr>
+            {% endif %}
+            <h4 class="magenta">Observacion Inspector </h4>
+            {% if seguridad.obs_insp %}
+                <p>{{ seguridad.obs_insp }}</p>
+                <hr>
+            {% else %}
+                <p>No hay observacion</p>
+                <hr>
+            {% endif %}
+            <br>
+            <h3>Usted está apunto de confirmar la creacion del formulario</h3>
+            <a href="{% url 'seguridad-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

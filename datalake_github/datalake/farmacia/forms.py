@@ -10,9 +10,6 @@ from django.forms.widgets import (
     RadioSelect,
 )
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-    
 
 class ProductoFarmaciaForm(forms.ModelForm): 
     def __init__(self, *args, **kwargs):
@@ -31,7 +28,14 @@ class ProductoFarmaciaForm(forms.ModelForm):
             'n_lote',
         ]
         widgets = {
-            'f_ven' : forms.DateInput()
+            'f_ven' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
         }
 
 

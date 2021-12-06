@@ -125,7 +125,7 @@
                     {% endif %}
                     <h4 class="magenta">Imagen Respuesta:</h4>
                     {% if seguridad.img_respuesta %}
-                        <h2><a href="{{ seguridad.img_respuesta.url }}">Link Img Respuesta</a></h2>
+                        <h2><a href="{{ seguridad.img_respuesta.url }}" target="_blank">Link Img Respuesta</a></h2>
                         <hr>
                     {% else %}
                         <h2>No se ha gurdado una imagen</h2>
@@ -167,6 +167,7 @@
             <br>
             <h3>Usted está apunto de confirmar la creacion del formulario</h3>
             <a href="{% url 'seguridad-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+            <a href="{% url 'seguridad-crear' persona.id %}"><button type="button" class="btn-outline-info btn">Hacer otra deuncia</button></a>
         </div>
     </div>
 </div>

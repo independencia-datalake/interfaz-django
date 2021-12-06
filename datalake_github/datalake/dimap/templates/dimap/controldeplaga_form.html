@@ -50,11 +50,5 @@
 
 {% endblock %}
 
-<script>
-{% block script %}
-$( "#id_direccion_responsable" ).autocomplete({
-    source: '{% url 'autocompete_calles' %}'
-});      
-{% endblock %}
-</script>
+
 

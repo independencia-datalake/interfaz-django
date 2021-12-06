@@ -2,9 +2,6 @@ from django import forms
 from django.forms.widgets import (
     RadioSelect,
 )
-from core.forms import (
-    DateInput,
-)
 from .models import (
     Mascota,
     Procedimiento,
@@ -42,7 +39,14 @@ class ProcedimientoModelForm(forms.ModelForm):
             'clinica': RadioSelect(),
             'asistencia': RadioSelect(),
             'ejecucion_cirugia': RadioSelect(),
-            'f_cirugia' : DateInput(),
+            'f_cirugia' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
         }
 
 
@@ -63,8 +67,41 @@ class ControlPlagaModelForm(forms.ModelForm):
             'tipo_control': RadioSelect(),
             'jornada_servicio':RadioSelect(),
             'producto': RadioSelect(),
-            'f_coordinacion' : DateInput(),
-            'f_operacion': DateInput(),
+            'f_coordinacion' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
+            'f_operacion': forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
+        }
+
+class ControlPlagaForm(forms.ModelForm):
+    class Meta:
+        model = ControlPlaga
+        fields = [
+            'estatus',
+            'ficha',
+            'tipo_control',
+            'f_coordinacion',
+            'jornada_servicio',
+            'f_operacion',
+            'producto',
+        ]
+        widgets = {
+            'estatus': RadioSelect(),
+            'tipo_control': RadioSelect(),
+            'jornada_servicio':RadioSelect(),
+            'producto': RadioSelect(),
         }
 
 class SeguridadDIMAPModelForm(forms.ModelForm):
@@ -97,5 +134,12 @@ class SeguridadDIMAPModelForm(forms.ModelForm):
             'i_visita': RadioSelect(),
             'cat_visita': RadioSelect(),
             'notificacion': RadioSelect(),
-            'f_visita' : DateInput(),
+            'f_visita' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
         }

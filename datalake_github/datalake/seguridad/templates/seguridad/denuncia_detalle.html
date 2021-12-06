@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Denuncia{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container cabecera-interior-tablas margin-bottom-30">
+        <div class="row">
+            <div class="col-sm vertical-align-middle">
+                <h3>Confirmación de Denuncia</h3>
+            </div>
+            <div class="col-sm vertical-align-middle">
+            </div>
+            <div class="col-sm vertical-align-middle">
+            <a href="{% url 'denuncia-delete' req.id %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Eliminar</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Identificacion:</h4>
+                    <h2>{{ req.get_identidad_display  }} | {{ req.numero_identificacion }}</h2>
+                    <h4 class="magenta">Nombre Responsable:</h4>
+                    <h2>{{ req.nombre  }}  {{ req.apellido }}</h2>
+                    <h4 class="magenta">Direccion:</h4>
+                    <h2>{{ req.calle  }}  {{ req.numero }}</h2>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ req.created }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ req.autor }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Estatus</h4>
+                    <h2>{{ req.get_estatus_display  }}</h2>
+                    <hr>
+                    <h4 class="magenta">Prioridad: </h4>
+                    <h2>{{ req.get_prioridad_display }}</h2>
+                    <hr>
+                    <h4 class="magenta"> Resoución: </h4>
+                    <h2>{{ req.get_resolucion_display }}</h2>
+                    <hr>
+                    <h4 class="magenta">¿Cuál?:</h4>
+                    {% if req.des_resolucion %}
+                        <h2>{{ req.des_resolucion }}</h2>
+                        <hr>
+                    {% else %}
+                        <h2>No se necesita</h2>
+                        <hr>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h4 class="magenta">N° de Requerimiento: </h4>
+                    <h2>{{ req.n_requerimiento  }}</h2>
+                    <hr>
+                    {% if req.delito_social %}
+                    <h4 class="magenta">Delito social:</h4>
+                    <h2>{{ req.get_delito_social_display }}</h2>
+                    <hr>
+                    {% elif req.violencia_intrafamiliar %}
+                    <h4 class="magenta">Violencia Intrafamiliar:</h4>
+                    <h2>{{ req.get_violencia_intrafamiliar_display }}</h2>
+                    <hr>
+                    {% elif req.incivilidades %}
+                    <h4 class="magenta">Incivilidades:</h4>
+                    <h2>{{ req.get_incivilidades_display }}</h2>
+                    <hr>
+                    {% elif req.abuso_sexual%}
+                    <h4 class="magenta">Abuso Sexual:</h4>
+                    <h2>{{ req.get_abuso_sexual_display }}</h2>
+                    <hr>
+                    {% elif req.accidente%}
+                    <h4 class="magenta">Accidente:</h4>
+                    <h2>{{ req.get_accidente_display }}</h2>
+                    <hr>
+                    {% endif %}
+                    <h4 class="magenta">Comentario:</h4>
+                    {% if req.comentario %}
+                        <p>{{ req.comentario }}</p>
+                        <hr>
+                    {% else %}
+                        <p>No se tiene comentario</p>
+                        <hr>
+                    {% endif %}
+                    <hr>
+                </div>
+            </div>
+            <hr>
+            <h3>Usted está apunto de confirmar la creacion del formulario</h3>
+            <a href="{% url 'denuncia-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+            <a href="{% url 'denuncia-crear' req.n_requerimiento %}"><button type="button" class="btn-outline-info btn">Hacer otra deuncia</button></a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

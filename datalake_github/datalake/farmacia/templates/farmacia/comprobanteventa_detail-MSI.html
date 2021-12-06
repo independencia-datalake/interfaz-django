@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Comprobante de Venta en Farmacia{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container cabecera-interior-tablas margin-bottom-30">
+        <div class="row">
+            <div class="col-sm vertical-align-middle">
+                <h3>Confirmación de Venta Farmacia</h3>
+            </div>
+            <div class="col-sm vertical-align-middle">
+            </div>
+            <div class="col-sm vertical-align-middle">
+            <a href="{% url 'comprobanteventa-delete' c_detail.id %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Eliminar</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h2> Venta Nº: <span class="magenta">{{ c_detail.id }}</span></h2>
+                    <h4 class="magenta">Nº de Identificación:</h4>
+                    <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }} | <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></p>
+                    <h4 class="magenta">Receta:</h4>
+                    {% if c_detail.receta == "default.jpg"%}
+                    <p>Esta venta no tiene receta</p>
+                    {% else %}
+                    <p><a href="{{ c_detail.receta.url }}">Link Receta Medica</a></p>  
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h2> Precio: <span class="magenta">$ {{ total }}</span></h2>
+                    <h4 class="magenta">Fecha de venta:</h4>
+                    <p>{{ c_detail.created }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ c_detail.farmaceuta }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h1>Ventas</h1>
+    <table style="width:100%" border="1" cellpadding="5" cellspacing="5">
+        <tbody>
+        <tr>
+            <td width="46%">Producto</td>
+            <td width="29%">Valor unitario</td>
+            <td width="10%">Cantidad</td>
+            <td width="12%">Total</td>
+            <td width="3%">&nbsp;</td>
+        </tr>
+        {%for object in pv_detail %}
+            <tr>
+                <td><a href="{% url 'productovendido-update' object.id %}">{{ object.nombre }}</a></td>
+                <td>{{ object.v_unitario}}</td>
+                <td>{{ object.cantidad }}</td>
+                <td>{{ object.subtotal }}</td>
+                {% if user == object.farmaceuta%}
+                <td><a href="{% url 'productovendido-delete' object.id %}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-trash-alt fa-w-14 fa-2x"><path fill="currentColor" d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" class=""></path></svg></a></td>
+                {% endif %}
+            </tr>
+        {%endfor%}     
+        </tbody>
+    </table>
+    <a href="{% url 'productovendido-create' c_detail.id %}"><button type="button" class="btn-outline-info btn">Agregar Producto</button></a>
+    <div class="align-center confirmar-venta-div">
+    <hr>
+    <h3>Usted está apunto de confirmar esta venta</h3>
+    <a href="{% url 'comprobanteventa-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar Venta</button></a>
+    </div>   
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

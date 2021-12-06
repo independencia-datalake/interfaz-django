@@ -52,7 +52,7 @@
 
 <script>
 {% block script %}
-$( "#id_direccion_responsable" ).autocomplete({
+$( "#id_calle" ).autocomplete({
     source: '{% url 'autocompete_calles' %}'
 });      
 {% endblock %}

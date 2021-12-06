@@ -29,6 +29,7 @@ def persona(request):
             # INCLUYE PUNTOS Y GIONES AL RUT
             tipo_identificacion_ver = verificador_de_personas.cleaned_data.get('tipo_identificacion')
             numero_identificacion_ver = verificador_de_personas.cleaned_data.get('numero_identificacion')
+            n_iden = numero_identificacion_ver
             if tipo_identificacion_ver == "RUT":
                 ni = numero_identificacion_ver
                 if len(ni)==0:
@@ -47,8 +48,10 @@ def persona(request):
             if persona_buscada:
                 pk = persona_buscada[0].id
                 return redirect('comprobanteventa-create', pk=pk)
+            # else:
+            #     return redirect('persona-crear',pk=1)
             else:
-                return redirect('persona-crear',pk=1)
+                return redirect('persona-crear',pk=1,n_iden=n_iden, ty_iden=tipo_identificacion_ver)
 
     context = {
         'v_persona': verificador_de_personas,
@@ -60,10 +63,62 @@ def persona(request):
     
     #FORMULARIO DE CREACION DE PERSONA
 
+# @login_required
+# def persona_crear(request, pk):
+#     ruta = pk
+#     persona = PersonaModelForm()
+#     telefono = TelefonoModelForm()
+#     correo = CorreoModelForm()
+#     direccion = DireccionModelForm()
+
+#     if request.method == 'POST':
+#         form_persona = PersonaModelForm(request.POST)
+#         form_telefono = TelefonoModelForm(request.POST)
+#         form_correo = CorreoModelForm(request.POST)
+#         form_direccion = DireccionModelForm(request.POST)
+#         forms = [
+#             form_telefono,
+#             form_correo,
+#             form_direccion
+#             ]
+#         if form_persona.is_valid() and form_telefono.is_valid() and form_correo.is_valid() and form_direccion.is_valid():
+#             persona = form_persona.save(commit=False)
+#             persona.save()
+#             pk = persona.id
+#             for form in forms:
+#                 obj = form.save(commit=False)
+#                 obj.persona = persona
+#                 obj.save()
+            
+#             persona.save()
+#             messages.success(request, f'La persona fue creado con exito')
+#             if ruta == 1:
+#                 return redirect('comprobanteventa-create', pk=pk)
+#             elif ruta == 2:
+#                 return redirect('esterilizacion-crear', pk=pk)
+#             elif ruta == 3:
+#                 return redirect('controldeplaga-crear', pk=pk)
+#             elif ruta == 4:
+#                 return redirect('seguridad-crear', pk=pk)
+#             else:
+#                 return redirect('comprobanteventa-create', pk=pk)
+
+#     context = {
+#         'persona': persona,
+#         'telefono':telefono,
+#         'correo':correo,
+#         'direccion':direccion,
+#     }
+
+#     return render(request, 'core/persona_form.html', context)
+
 @login_required
-def persona_crear(request, pk):
+def persona_crear(request, pk, n_iden,ty_iden):
     ruta = pk
-    persona = PersonaModelForm()
+    persona = PersonaModelForm(initial={
+        'numero_identificacion': n_iden,
+        'tipo_identificacion':ty_iden,
+        })
     telefono = TelefonoModelForm()
     correo = CorreoModelForm()
     direccion = DireccionModelForm()
@@ -98,7 +153,7 @@ def persona_crear(request, pk):
             elif ruta == 4:
                 return redirect('seguridad-crear', pk=pk)
             else:
-                return redirect('comprobanteventa-create', pk=pk)
+                return redirect('core-home')
 
     context = {
         'persona': persona,
@@ -108,6 +163,4 @@ def persona_crear(request, pk):
     }
 
     return render(request, 'core/persona_form.html', context)
-
-
 
