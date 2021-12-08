@@ -49,7 +49,6 @@ class ProcedimientoModelForm(forms.ModelForm):
                 ),
         }
 
-
 class ControlPlagaModelForm(forms.ModelForm):
     class Meta:
         model = ControlPlaga
@@ -85,7 +84,7 @@ class ControlPlagaModelForm(forms.ModelForm):
                 ),
         }
 
-class ControlPlagaForm(forms.ModelForm):
+
     class Meta:
         model = ControlPlaga
         fields = [
@@ -102,6 +101,22 @@ class ControlPlagaForm(forms.ModelForm):
             'tipo_control': RadioSelect(),
             'jornada_servicio':RadioSelect(),
             'producto': RadioSelect(),
+            'f_coordinacion': forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
+            'f_operacion': forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
         }
 
 class SeguridadDIMAPModelForm(forms.ModelForm):

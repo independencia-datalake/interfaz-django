@@ -131,7 +131,7 @@ def persona_crear(request, pk, n_iden,ty_iden):
         forms = [
             form_telefono,
             form_correo,
-            form_direccion
+            form_direccion,
             ]
         if form_persona.is_valid() and form_telefono.is_valid() and form_correo.is_valid() and form_direccion.is_valid():
             persona = form_persona.save(commit=False)
@@ -141,8 +141,7 @@ def persona_crear(request, pk, n_iden,ty_iden):
                 obj = form.save(commit=False)
                 obj.persona = persona
                 obj.save()
-            
-            persona.save()
+            # persona.save()
             messages.success(request, f'La persona fue creado con exito')
             if ruta == 1:
                 return redirect('comprobanteventa-create', pk=pk)

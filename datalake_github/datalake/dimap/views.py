@@ -32,7 +32,6 @@ from .forms import (
     MascotaModelForm,
     ControlPlagaModelForm,
     SeguridadDIMAPModelForm,
-    ControlPlagaForm,
 )
 from .filters import (
     ProcedimientoFilter,
@@ -322,7 +321,7 @@ def controldeplaga_delete(request, pk):             # FUNCION PARA ELIMINAR CONT
 
 class EdicionControlPlaga(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model = ControlPlaga
-    form_class = ControlPlagaForm
+    form_class = ControlPlagaModelForm
     template_name = 'dimap/controldeplaga_edicion.html'
 
     def form_valid(self, form):
