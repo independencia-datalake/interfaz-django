@@ -208,7 +208,7 @@ class SeguridadDIMAP(models.Model):
     calle = models.CharField(null=True, blank=True, max_length=30, verbose_name='Calle Denunciado')
     numero = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numeración')
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad Vecinal Demandado')
-    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Telefono Denunciado')
+    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Teléfono Denunciado')
     f_visita = models.DateField(verbose_name='Fecha de visita inspeccion')
     l_transgrsion = models.CharField(
         max_length=1,
@@ -248,7 +248,7 @@ class SeguridadDIMAP(models.Model):
             ),
         verbose_name='Notificación',
     )
-    n_notificacion = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numero de Notificacion')
+    n_notificacion = models.PositiveIntegerField(null=True, blank=True, verbose_name='Número de Notificacion')
     respuesta = models.TextField(blank=True, verbose_name='Respuesta Denunciante')
     img_respuesta = models.FileField(blank=True, null=True, upload_to='dimap/denuncia/%Y/%m/%d/')
 

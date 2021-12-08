@@ -69,7 +69,7 @@ class PatentesVehiculares(models.Model):
     fecha_pago = models.DateField(verbose_name="fecha de Pago")
 
 class EntregasPandemia(models.Model):
-    n_id = models.PositiveIntegerField(verbose_name="Numero ID")
+    n_id = models.PositiveIntegerField(verbose_name="Número ID")
     fecha = models.DateField(verbose_name="Fecha")
     tipo_identificacion = models.CharField(
         blank=False,

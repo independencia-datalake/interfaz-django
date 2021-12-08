@@ -22,8 +22,9 @@ class PersonaVerificacionForm(forms.Form):
         required=True,
         widget=forms.RadioSelect,
         choices=TIPOS_DE_IDENTIFICACION,
+        label='Tipo de identificación',
     )
-    numero_identificacion = forms.CharField(max_length=30)                  
+    numero_identificacion = forms.CharField(max_length=30, label='Número de identificación')                  
 
     
 class PersonaModelForm(forms.ModelForm):

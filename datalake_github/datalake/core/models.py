@@ -118,7 +118,7 @@ class CallesIndependencia(models.Model):
         return f'{self.calle}'
 
 class UV(models.Model):
-    numero_uv = models.PositiveIntegerField(verbose_name="Numero de U.V.")
+    numero_uv = models.PositiveIntegerField(verbose_name="Número de U.V.")
 
     class Meta:
         verbose_name = "Unidad Vecinal"
@@ -220,15 +220,15 @@ class Telefono(models.Model):
             ('TRABAJO','Trabajo'),
             ('OTRO','Otro'),
             ),
-        verbose_name='Tipo de Telefono'
+        verbose_name='Tipo de Teléfono'
         )
 
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
 
     class Meta:
-        verbose_name = "Telefono Persona"
-        verbose_name_plural = "Telefonos Personas"
+        verbose_name = "Teléfono Persona"
+        verbose_name_plural = "Teléfonos Personas"
         ordering = ['created']
     
     def __str__(self):
