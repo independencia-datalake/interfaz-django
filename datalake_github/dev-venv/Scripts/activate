@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\enecr\Documents\Repos\datalake\interfaz-django\datalake_github\dev-venv"
+VIRTUAL_ENV="C:\Users\octav\OneDrive\Documentos\GitHub\interfaz-django\datalake_github\dev-venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

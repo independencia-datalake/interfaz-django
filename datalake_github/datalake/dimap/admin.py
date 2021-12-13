@@ -8,13 +8,13 @@ from .models import(
 
 #CREATED Y UPDETED SOLO DE LECTURA
 class ProcedimientoAdmin(admin.ModelAdmin):
-    readonly_fields = ['created','updated']
+    readonly_fields = ['uv','created','updated']
 
 class MascotaAdmin(admin.ModelAdmin):
-    readonly_fields = ['created','updated']
+    readonly_fields = ['uv','created','updated']
 
 class ControlPlagaAdmin(admin.ModelAdmin):
-    readonly_fields = ['created','updated']
+    readonly_fields = ['uv','created','updated']
 
 class SeguridadDIMAPAdmin(admin.ModelAdmin):
     readonly_fields = ['uv','created','updated']

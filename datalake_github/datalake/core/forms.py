@@ -1,9 +1,14 @@
 from django import forms
+from django.contrib import admin
+from django.contrib.admin.widgets import(
+    AutocompleteSelect,
+)
 from django.forms.widgets import (
     RadioSelect,
 )
 
 from .models import (
+    CallesIndependencia,
     Persona,
     Telefono,
     Correo,
@@ -16,7 +21,6 @@ TIPOS_DE_IDENTIFICACION = [
     ('OTRO','Otro'),
 ]
 
-
 class PersonaVerificacionForm(forms.Form):
     tipo_identificacion = forms.ChoiceField(
         required=True,
@@ -25,8 +29,7 @@ class PersonaVerificacionForm(forms.Form):
         label='Tipo de identificación',
     )
     numero_identificacion = forms.CharField(max_length=30, label='Número de identificación')                  
-
-    
+ 
 class PersonaModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PersonaModelForm,self).__init__(*args, **kwargs)
@@ -83,6 +86,3 @@ class DireccionModelForm(forms.ModelForm):
             'numero',
             'complemento_direccion',
         ]
-        widgets = {
-            'tipo_correo': RadioSelect(),
-        }

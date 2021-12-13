@@ -248,7 +248,7 @@ class SeguridadDIMAP(models.Model):
             ),
         verbose_name='Notificación',
     )
-    n_notificacion = models.PositiveIntegerField(null=True, blank=True, verbose_name='Número de Notificacion')
+    n_notificacion = models.PositiveIntegerField(null=True, blank=True, verbose_name='Número de notificación')
     respuesta = models.TextField(blank=True, verbose_name='Respuesta Denunciante')
     img_respuesta = models.FileField(blank=True, null=True, upload_to='dimap/denuncia/%Y/%m/%d/')
 

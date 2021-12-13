@@ -13,10 +13,6 @@ from .forms import (
     DireccionModelForm,
 )
 
-# AUTOCOMPLETADO CALLES
-
-from django.http import JsonResponse
-
     #ENTRADA A PREGUNTA USUARIO
 
 @login_required
@@ -58,59 +54,6 @@ def persona(request):
     }
 
     return render(request, 'core/persona.html', context)
-
-    
-    
-    #FORMULARIO DE CREACION DE PERSONA
-
-# @login_required
-# def persona_crear(request, pk):
-#     ruta = pk
-#     persona = PersonaModelForm()
-#     telefono = TelefonoModelForm()
-#     correo = CorreoModelForm()
-#     direccion = DireccionModelForm()
-
-#     if request.method == 'POST':
-#         form_persona = PersonaModelForm(request.POST)
-#         form_telefono = TelefonoModelForm(request.POST)
-#         form_correo = CorreoModelForm(request.POST)
-#         form_direccion = DireccionModelForm(request.POST)
-#         forms = [
-#             form_telefono,
-#             form_correo,
-#             form_direccion
-#             ]
-#         if form_persona.is_valid() and form_telefono.is_valid() and form_correo.is_valid() and form_direccion.is_valid():
-#             persona = form_persona.save(commit=False)
-#             persona.save()
-#             pk = persona.id
-#             for form in forms:
-#                 obj = form.save(commit=False)
-#                 obj.persona = persona
-#                 obj.save()
-            
-#             persona.save()
-#             messages.success(request, f'La persona fue creado con exito')
-#             if ruta == 1:
-#                 return redirect('comprobanteventa-create', pk=pk)
-#             elif ruta == 2:
-#                 return redirect('esterilizacion-crear', pk=pk)
-#             elif ruta == 3:
-#                 return redirect('controldeplaga-crear', pk=pk)
-#             elif ruta == 4:
-#                 return redirect('seguridad-crear', pk=pk)
-#             else:
-#                 return redirect('comprobanteventa-create', pk=pk)
-
-#     context = {
-#         'persona': persona,
-#         'telefono':telefono,
-#         'correo':correo,
-#         'direccion':direccion,
-#     }
-
-#     return render(request, 'core/persona_form.html', context)
 
 @login_required
 def persona_crear(request, pk, n_iden,ty_iden):

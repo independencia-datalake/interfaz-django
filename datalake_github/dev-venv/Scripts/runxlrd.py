@@ -1,4 +1,4 @@
-#!c:\users\enecr\documents\repos\datalake\interfaz-django\datalake_github\dev-venv\scripts\python.exe
+#!C:\Users\octav\OneDrive\Documentos\GitHub\interfaz-django\datalake_github\dev-venv\Scripts\python.exe
 # Copyright (c) 2005-2012 Stephen John Machin, Lingfo Pty Ltd
 # This script is part of the xlrd package, which is released under a
 # BSD-style licence.

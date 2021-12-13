@@ -1,41 +1,69 @@
 from django import forms
+from django.db.models import fields
 from django.forms.widgets import (
     RadioSelect,
 )
 from .models import (
     Requerimiento,
+    Denunciante,
+    ClasificacionDelito,
+    Delito,
 )
 
-class RequerimientoModelForm(forms.ModelForm):
+class DenuncianteModelForm(forms.ModelForm):
+    class Meta:
+        model = Denunciante
+        fields = [
+            'nombre',
+            'apellido',
+            'telefono',
+            'correo',
+        ]
+
+class RequerimientoInicioModelForm(forms.ModelForm):
     class Meta:
         model = Requerimiento
         fields = [
             'estatus',
-            'identidad',
-            'numero_identificacion',
-            'nombre',
-            'apellido',
-            'calle',
-            'numero',
-            'interseccion',
-            'delito_social',
-            'violencia_intrafamiliar',
-            'incivilidades',
-            'abuso_sexual',
-            'accidente',
-            'comentario',
-            'prioridad',
-            'resolucion',
-            'des_resolucion',
+            'via_ingreso',
+            'via_ingreso_otro',
         ]
         widgets = {
             'estatus': RadioSelect(),
-            'identidad': RadioSelect(),
-            'delito_social': RadioSelect(),
-            'violencia_intrafamiliar': RadioSelect(),
-            'incivilidades': RadioSelect(),
-            'abuso_sexual': RadioSelect(),
-            'accidente': RadioSelect(),
+            'via_ingreso': RadioSelect(),
+        }
+
+class RequerimientoDelitoModelForm(forms.ModelForm):
+       
+    class Meta:
+        model = Requerimiento
+        fields = [
+            'delito',   #FK
+            'delito_otro',
+        ]
+        widgets = {
+            'delito': RadioSelect(),
+        }
+
+class RequerimientoUbicacionModelForm(forms.ModelForm):
+    class Meta:
+        model = Requerimiento
+        fields = [
+            'calle',
+            'numero',
+            'complemento_direccion',
+            'interseccion',
+        ]
+
+class RequerimientoResolucionModelForm(forms.ModelForm):
+    class Meta:
+        model = Requerimiento
+        fields = [
+            'prioridad',
+            'resolucion',
+            'resolucion_otro',
+        ]
+        widgets = {
             'prioridad': RadioSelect(),
             'resolucion':RadioSelect(),
         }
