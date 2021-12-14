@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "clasificacion_delito": 1,
-        "nombre": "Robo con violencia e intimidaciÛn"
+        "nombre": "Robo con violencia e intimidaci√≥n"
     }
 },
 {
@@ -36,7 +36,7 @@
     "pk": 5,
     "fields": {
         "clasificacion_delito": 1,
-        "nombre": "Robo de vehÌculo"
+        "nombre": "Robo de veh√≠culo"
     }
 },
 {
@@ -52,7 +52,7 @@
     "pk": 7,
     "fields": {
         "clasificacion_delito": 1,
-        "nombre": "ViolaciÛn"
+        "nombre": "Violaci√≥n"
     }
 },
 {
@@ -60,7 +60,7 @@
     "pk": 8,
     "fields": {
         "clasificacion_delito": 1,
-        "nombre": "Robo desde vehÌculo"
+        "nombre": "Robo desde veh√≠culo"
     }
 },
 {
@@ -108,7 +108,7 @@
     "pk": 14,
     "fields": {
         "clasificacion_delito": 3,
-        "nombre": "RiÒas callejeras"
+        "nombre": "Ri√±as callejeras"
     }
 },
 {
@@ -124,7 +124,7 @@
     "pk": 16,
     "fields": {
         "clasificacion_delito": 3,
-        "nombre": "Consumo de alcohol y/o drogas en la vÌa p˙blica"
+        "nombre": "Consumo de alcohol y/o drogas en la v√≠a p√∫blica"
     }
 },
 {
@@ -132,7 +132,7 @@
     "pk": 17,
     "fields": {
         "clasificacion_delito": 3,
-        "nombre": "DaÒos"
+        "nombre": "Da√±os"
     }
 },
 {
@@ -164,7 +164,7 @@
     "pk": 21,
     "fields": {
         "clasificacion_delito": 4,
-        "nombre": "Abuso sexual mayor 14 aÒos"
+        "nombre": "Abuso sexual mayor 14 a√±os"
     }
 },
 {
@@ -172,7 +172,7 @@
     "pk": 22,
     "fields": {
         "clasificacion_delito": 4,
-        "nombre": "Abuso sexual menor 14 aÒos"
+        "nombre": "Abuso sexual menor 14 a√±os"
     }
 },
 {
@@ -188,7 +188,7 @@
     "pk": 24,
     "fields": {
         "clasificacion_delito": 5,
-        "nombre": "Accidente de tr·nsito"
+        "nombre": "Accidente de tr√°nsito"
     }
 },
 {
@@ -220,7 +220,7 @@
     "pk": 28,
     "fields": {
         "clasificacion_delito": 6,
-        "nombre": "Tr·nsito"
+        "nombre": "Tr√°nsito"
     }
 },
 {

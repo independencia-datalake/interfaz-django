@@ -69,35 +69,36 @@ class PatentesVehiculares(models.Model):
     fecha_pago = models.DateField(verbose_name="fecha de Pago")
 
 class EntregasPandemia(models.Model):
-    n_id = models.PositiveIntegerField(verbose_name="Número ID")
-    fecha = models.DateField(verbose_name="Fecha")
-    tipo_identificacion = models.CharField(
-        blank=False,
-        default='RUT',
-        max_length=30,
-        choices=(
-            ('RUT','Rut'),
-            ('PASAPORTE','Pasaporte'),
-            ('OTRO','Otro'),
-            ),
-        verbose_name='Tipo de Documento'
-        )
-    nombre_persona = models.CharField(max_length=30, verbose_name="Nombre Persona")
-    apellido_paterno = models.CharField(max_length=30, verbose_name="Apellido Paterno")
-    apellido_materno = models.CharField(max_length=30, verbose_name="Apellido Materno")
-    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Teléfono')
-    calle = models.CharField(blank=True, null=True, max_length=30, verbose_name="Avenida/Calle/Pasaje")
-    numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
-    complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
-    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
-    caja_mercaderia = models.PositiveIntegerField(blank=True, null=True, verbose_name="Caja Mercaderia")
-    pañal_adulto = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal Adulto")
-    pañal_niño_m = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla M")
-    pañal_niño_g = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla G")
-    pañal_niño_xg = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla XG")
-    pañal_niño_xxg = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla XXG")
-    leche_entera = models.PositiveIntegerField(blank=True, null=True, verbose_name="Leche entera")
-    leche_descremada = models.PositiveIntegerField(blank=True, null=True, verbose_name="Leche descremada")
-    nat_100 = models.PositiveIntegerField(blank=True, null=True, verbose_name="NAT 100")
-    balon_gas = models.PositiveIntegerField(blank=True, null=True, verbose_name="Balon de gas 11 kg")
-    parafina = models.PositiveIntegerField(blank=True, null=True, verbose_name="Parafina")
+    entrega_pandemia_archivo = models.FileField(upload_to='vis/data/pandemia/', verbose_name="Entrega Pandemia")
+    # n_id = models.PositiveIntegerField(verbose_name="Número ID")
+    # fecha = models.DateField(verbose_name="Fecha")
+    # tipo_identificacion = models.CharField(
+    #     blank=False,
+    #     default='RUT',
+    #     max_length=30,
+    #     choices=(
+    #         ('RUT','Rut'),
+    #         ('PASAPORTE','Pasaporte'),
+    #         ('OTRO','Otro'),
+    #         ),
+    #     verbose_name='Tipo de Documento'
+    #     )
+    # nombre_persona = models.CharField(max_length=30, verbose_name="Nombre Persona")
+    # apellido_paterno = models.CharField(max_length=30, verbose_name="Apellido Paterno")
+    # apellido_materno = models.CharField(max_length=30, verbose_name="Apellido Materno")
+    # telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Teléfono')
+    # calle = models.CharField(blank=True, null=True, max_length=30, verbose_name="Avenida/Calle/Pasaje")
+    # numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
+    # complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
+    # uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
+    # caja_mercaderia = models.PositiveIntegerField(blank=True, null=True, verbose_name="Caja Mercaderia")
+    # pañal_adulto = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal Adulto")
+    # pañal_niño_m = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla M")
+    # pañal_niño_g = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla G")
+    # pañal_niño_xg = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla XG")
+    # pañal_niño_xxg = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla XXG")
+    # leche_entera = models.PositiveIntegerField(blank=True, null=True, verbose_name="Leche entera")
+    # leche_descremada = models.PositiveIntegerField(blank=True, null=True, verbose_name="Leche descremada")
+    # nat_100 = models.PositiveIntegerField(blank=True, null=True, verbose_name="NAT 100")
+    # balon_gas = models.PositiveIntegerField(blank=True, null=True, verbose_name="Balon de gas 11 kg")
+    # parafina = models.PositiveIntegerField(blank=True, null=True, verbose_name="Parafina")

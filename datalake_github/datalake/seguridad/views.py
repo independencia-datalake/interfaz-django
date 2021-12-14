@@ -1,22 +1,12 @@
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (
     ListView,
 )
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin, 
-    UserPassesTestMixin,
-)
-from core.models import(
-    UV,
-    obtener_uv,
-)
 from .models import(
     ClasificacionDelito,
     Delito,
-    Denunciante,
     Requerimiento,
     LlamadoSeguridad,
 )
@@ -189,6 +179,23 @@ def requermineto_edicion(request, pk):
     requerimiento = Requerimiento.objects.get(pk=pk)
     denunciante = requerimiento.denunciante
 
+    clasificacion_delito = ClasificacionDelito.objects.all()
+    diccionario = {}
+    for cla in clasificacion_delito:
+        lista_delito = []
+        delitos = Delito.objects.filter(clasificacion_delito=cla.id)
+        for delito in delitos:
+            checked = None
+            if delito == requerimiento.delito:
+                checked = 'checked'
+            delito_obj = {
+                'nombre':delito.nombre,
+                'id':int(delito.id),
+                'n':int(delito.id)-1,
+                'checked':checked
+            }
+            lista_delito.append(delito_obj)
+        diccionario[cla.nombre] = lista_delito
     form_req_inicio = RequerimientoInicioModelForm(instance=requerimiento)
     form_req_delito = RequerimientoDelitoModelForm(instance=requerimiento)
     form_denunciante = DenuncianteModelForm(instance=denunciante)
@@ -217,6 +224,7 @@ def requermineto_edicion(request, pk):
         'form_denunciante':form_denunciante,
         'form_req_ubicacion':form_req_ubicacion,
         'form_req_resolucion':form_req_resolucion,
+        'diccionario':diccionario,
 
     }
 

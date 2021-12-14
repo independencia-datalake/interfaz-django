@@ -22,7 +22,14 @@
                     <div>
                         {%for value in values %}
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" name="delito" value="{{ value.id }}" id="id_delito_{{ value.n }}">
+                            <input 
+                                type="radio" 
+                                class="form-check-input"
+                                name="delito" 
+                                value="{{ value.id }}" 
+                                id="id_delito_{{ value.n }}" 
+                                {%if value.checked %} {{ value.checked }}
+                                {%endif%}>
                             <label class="form-check-label" for="id_delito_{{ value.n }}">{{ value.nombre }}
                         </div>
                         {% endfor %}

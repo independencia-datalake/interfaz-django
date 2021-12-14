@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class VisFarmacia(models.Model):
+    farmacia_archivo = models.FileField(upload_to='vis/data/farmacia/prueba/', verbose_name="Archivo Farmacia")
+
+    def __str__(self):
+        return f'{self.id}'

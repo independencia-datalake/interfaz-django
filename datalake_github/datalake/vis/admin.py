@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import (
+    VisFarmacia,
+)
 
-# Register your models here.
+admin.site.register(VisFarmacia)
