@@ -1,4 +1,4 @@
-#!c:\users\enecr\documents\repos\datalake\interfaz-django\datalake_github\dev-venv\scripts\python.exe
+#!C:\Users\enecr\Documents\Repos\datalake\interfaz-django\datalake_github\dev-venv\Scripts\python.exe
 
 import sys
 import json
