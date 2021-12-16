@@ -28,7 +28,13 @@ def vis(request):
     return render(request,'vis/index.html')
 
 def inicio_vis(request):
-    return render(request,'vis/inicio_vis.html')
+    uv = UV.objects.all()
+    #return render(request,'vis/inicio_vis.html')
+    context = {
+        'uv':uv
+    }
+
+    return render(request,'vis/home_vis.html', context)
 
 def farmacia_vis(request):
     uv = UV.objects.all()

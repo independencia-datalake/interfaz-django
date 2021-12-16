@@ -8,6 +8,11 @@
 {% block content %}
 <div class="container contenedor-wrap">  
   <div class="botonera" style="background-color: white">
+    <select id="selector-tablas" onchange="cargar_tabla()">
+      <option>Farmacia</option>
+      <option>DIMAP</option>
+      <option>Seguridad</option>
+    </select>
     <h1>Elija la tabla que desea visualizar</h1> 
     <div class="botones">
       <a href="{% url 'farmacia-vis' %}">Farmacia</a>
@@ -18,4 +23,31 @@
 {% endblock %}
 
 {% block script %} 
+
+<script type="text/javascript">
+
+function cargar_tabla(){
+    var selector = document.detElementById("selector-tablas");
+    
+    if (selector.value == "Farmacia"){
+      alert("Farmacia");
+    }
+    
+    else if (selector.value == "DIMAP"){
+      alert("DIMAP");
+    }
+
+    else if (selector.value == "Seguridad"){
+      alert("Seguridad");
+    }
+
+    else{
+      alert("Ninguno");
+    }
+
+}
+  
+</script>
+
+
 {% endblock %}
