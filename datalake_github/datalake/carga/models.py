@@ -105,3 +105,27 @@ class EntregasPandemia(models.Model):
     # nat_100 = models.PositiveIntegerField(blank=True, null=True, verbose_name="NAT 100")
     # balon_gas = models.PositiveIntegerField(blank=True, null=True, verbose_name="Balon de gas 11 kg")
     # parafina = models.PositiveIntegerField(blank=True, null=True, verbose_name="Parafina")
+    
+class CargaEmpresas(models.Model):
+    carga_producto = models.FileField(upload_to='carga/empresas/', verbose_name="Empresas")
+
+    def __str__(self):
+            return f'Carga Empresas {self.id}' 
+
+class CargaPermisosCirculacion(models.Model):
+    carga_producto = models.FileField(upload_to='carga/permiso_circulacion/', verbose_name="Permisos Circulacion")
+
+    def __str__(self):
+            return f'Carga Permisos Circulacion {self.id}' 
+
+class CargaPatentesVehiculares(models.Model):
+    carga_producto = models.FileField(upload_to='carga/patentes_vehiculares/', verbose_name="Patentes Vehiculares")
+
+    def __str__(self):
+            return f'Carga Patentes Vehiculares {self.id}' 
+
+class CargaEntregasPandemia(models.Model):
+    carga_producto = models.FileField(upload_to='carga/pandemia/', verbose_name="Entrega Pandemia")
+
+    def __str__(self):
+            return f'Carga Entrega Pandemia {self.id}' 

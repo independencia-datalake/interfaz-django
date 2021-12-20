@@ -1,16 +1,14 @@
 import pandas as pd
 import os
-import boto3
 import json
 
 from django.shortcuts import render, redirect
 
 from .forms import(FiltroTiempo)
-from core.models import(UV,Direccion,Persona)
 from farmacia.models import(ComprobanteVenta)
 from dimap.models import(ControlPlaga,Procedimiento,SeguridadDIMAP)
 from seguridad.models import(Requerimiento)
-from carga.models import(EntregasPandemia)
+from carga.models import(EntregasPandemia, PatentesVehiculares,PermisosCirculacion,Empresas)
 
 # #CONFIGURACION DEL S3 AWS
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -247,10 +245,136 @@ def dimap_vis(request,categoria):
         return render(request,'vis/dimap_vis.html', context)
 
     if request.method == 'POST':
-        hola = ''
+        filtro_tiempo=FiltroTiempo(request.POST)
+        
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+
+        #CONTROL DE PLAGA
+
+        diccionario_tabla_controldeplaga = {}
+        query_tabla = '''select cu.numero_uv as id, f.cant
+                        from core_uv cu
+                        left join (select dc.id, cu.numero_uv as uv, count(1) as cant
+                        from dimap_controlplaga dc
+                        join core_persona cp
+                            on dc.persona_id = cp.id
+                        join core_uv cu 
+                            on cp.uv_id = cu.id
+                        group by cu.numero_uv) f
+                        on cu.numero_uv = f.uv;'''
+
+        for c in ControlPlaga.objects.raw(query_tabla):
+            diccionario_tabla_controldeplaga[c.id] = c.cant
+
+        lista_mapa_controldeplaga = []
+        query_mapa = '''select dc.id, cu.numero_uv as uc, dc.created
+                        from dimap_controlplaga dc
+                        left join core_persona cp 
+                            on dc.persona_id = cp.id
+                        left join core_uv cu
+                            on cp.uv_id = cu.id
+                        where cu.numero_uv <> 0
+                        order by dc.created asc;'''
+        
+        for c in ControlPlaga.objects.raw(query_mapa):
+            lista_mapa_controldeplaga.append({"uv":c.uv.numero_uv,"created": str(c.created)})
+
+        
+
+        # ESTERILIZACION
+
+        # diccionario_tabla_esterilizacion = {}
+        # query_tabla = '''select *
+        #                 from dimap_procedimiento dp
+        #                 left join dimap_mascota dm 
+        #                     on dp.mascota_id = dm.id
+        #                 left join core_persona cp
+        #                     on dm.persona_id = cp.id
+        #                 left join core_uv cu
+        #                     on cp.uv_id = cu.id
+        #                 where cu.numero_uv <> 0
+        #                 order by dm.created asc;'''
+
+        # for c in Procedimiento.objects.raw(query_tabla):
+        #     diccionario_tabla_esterilizacion[c.id] = c.cant
+
+        lista_mapa_esterilizacion = []
+        query_mapa = '''select *
+                        from dimap_procedimiento dp
+                        left join dimap_mascota dm 
+                            on dp.mascota_id = dm.id
+                        left join core_persona cp
+                            on dm.persona_id = cp.id
+                        left join core_uv cu
+                            on cp.uv_id = cu.id
+                        where cu.numero_uv <> 0
+                        order by dm.created asc;'''
+        
+        for c in Procedimiento.objects.raw(query_mapa):
+            lista_mapa_esterilizacion.append({"uv":c.numero_uv,"created": str(c.created)})
+
+
+        # DENUNCIA
+
+        # diccionario_tabla_seguridad = {}
+        # query_tabla = '''select *
+        #                 from dimap_seguridaddimap ds 
+        #                 left join core_persona cp 
+        #                     on ds.persona_id = cp.id
+        #                 left join core_uv cu
+        #                     on cp.uv_id = cu.id
+        #                 where cu.numero_uv <> 0
+        #                 order by ds.created asc;'''
+
+        # for c in SeguridadDIMAP.objects.raw(query_tabla):
+        #     diccionario_tabla_seguridad[c.id] = c.cant
+
+        lista_mapa_seguridad = []
+        query_mapa = '''select *
+                        from dimap_seguridaddimap ds 
+                        left join core_persona cp 
+                            on ds.persona_id = cp.id
+                        left join core_uv cu
+                            on cp.uv_id = cu.id
+                        where cu.numero_uv <> 0
+                        order by ds.created asc;'''
+        
+        for c in SeguridadDIMAP.objects.raw(query_mapa):
+            lista_mapa_seguridad.append({"uv":c.numero_uv,"created": str(c.created)})
+
+        #TOTAL FINAL
+        diccionario_tabla_total = diccionario_tabla_controldeplaga
+        lista_mapa_total = []
+        for obj in lista_mapa_seguridad:
+            lista_mapa_total.append(obj)
+        for obj in lista_mapa_controldeplaga:
+            lista_mapa_total.append(obj)
+        for obj in lista_mapa_esterilizacion:
+            lista_mapa_total.append(obj)
+
+        print(lista_mapa_total)
+
+        filtro_categoria  = categoria
+        filtro_categoria 
+
+        if filtro_mapa[filtro_categoria] == "control de plaga":
+            lista_mapa = lista_mapa_controldeplaga
+        elif filtro_mapa[filtro_categoria] == "esterilizacion":
+            lista_mapa = lista_mapa_esterilizacion
+        elif filtro_mapa[filtro_categoria] == "denuncia":
+            lista_mapa = lista_mapa_seguridad
+        elif filtro_mapa[filtro_categoria] == "total":
+            lista_mapa = lista_mapa_total
+
+        diccionario_tabla = diccionario_tabla_total
+        print(diccionario_tabla)
 
         context = {
             'filtro_tiempo':filtro_tiempo,
+            'lista_mapa': lista_mapa,
+            'diccionario_tabla': diccionario_tabla,
         }
 
         return render(request,'vis/dimap_vis.html', context)
@@ -340,11 +464,77 @@ def seguridad_vis(request, categoria):
 
         return render(request,'vis/seguridad_vis.html', context)
 
-    # if request.method == 'POST':
-    #     hola = ''
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+        
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
 
-    #     context = {
-    #         'filtro_tiempo':filtro_tiempo,
-    #     }
+        # #SEGURIDAD MUNICIPAL
 
-    #     return render(request,'vis/dimap_vis.html', context)
+        # diccionario_tabla_seguridad_municipal = {}
+        # query_tabla = '''select cu.numero_uv as id, f.cant
+        #                 from core_uv cu
+        #                 left join (select dc.id, cu.numero_uv as uv, count(1) as cant
+        #                 from dimap_controlplaga dc
+        #                 join core_persona cp
+        #                     on dc.persona_id = cp.id
+        #                 join core_uv cu 
+        #                     on cp.uv_id = cu.id
+        #                 group by cu.numero_uv) f
+        #                 on cu.numero_uv = f.uv;'''
+
+        # for c in Requerimiento.objects.raw(query_tabla):
+        #     diccionario_tabla_seguridad_municipal[c.id] = c.cant
+
+        # lista_mapa_seguridad_municipal = []
+        # query_mapa = '''select dc.id, cu.numero_uv as uc, dc.created
+        #                 from dimap_controlplaga dc
+        #                 left join core_persona cp 
+        #                     on dc.persona_id = cp.id
+        #                 left join core_uv cu
+        #                     on cp.uv_id = cu.id
+        #                 where cu.numero_uv <> 0
+        #                 order by dc.created asc;'''
+        
+        # for c in Requerimiento.objects.raw(query_mapa):
+        #     lista_mapa_seguridad_municipal.append({"uv":c.uv.numero_uv,"created": str(c.created)})
+
+        
+        #TOTAL FINAL
+        diccionario_tabla_total = {}
+        lista_mapa_total = []
+        # for obj in lista_mapa_seguridad:
+        #     lista_mapa_total.append(obj)
+        # for obj in lista_mapa_controldeplaga:
+        #     lista_mapa_total.append(obj)
+        # for obj in lista_mapa_esterilizacion:
+        #     lista_mapa_total.append(obj)
+
+        if filtro_mapa[categoria] == "Total":
+            lista_mapa = lista_mapa_total
+        # elif filtro_mapa[categoria] == "Delito de mayor connotacion social":
+        #     lista_mapa = 
+        # elif filtro_mapa[categoria] == "Violencia Intrafamiliar":
+        #     lista_mapa = 
+        # elif filtro_mapa[categoria] == "Incivilidades":
+        #     lista_mapa = 
+        # elif filtro_mapa[categoria] == "Abusos sexuales":
+        #     lista_mapa = 
+        # elif filtro_mapa[categoria] == "Accidentes e incendios":
+        #     lista_mapa = 
+        # elif filtro_mapa[categoria] == "Derivaciones":
+        #     lista_mapa = 
+        # elif filtro_mapa[categoria] == "Otro":
+        #     lista_mapa = 
+
+        print(diccionario_tabla_total)
+
+        context = {
+            'filtro_tiempo':filtro_tiempo,
+            'lista_mapa': lista_mapa,
+            'diccionario_tabla': diccionario_tabla_total,
+        }
+
+        return render(request,'vis/seguridad_vis.html', context)

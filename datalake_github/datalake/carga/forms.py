@@ -1,9 +1,9 @@
 from django import forms
 from .models import (
-    EntregasPandemia,
-    Empresas,
-    PatentesVehiculares,
-    PermisosCirculacion,    
+    CargaEntregasPandemia,
+    CargaEmpresas,
+    CargaPatentesVehiculares,
+    CargaPermisosCirculacion,    
 )
 
 
@@ -12,7 +12,7 @@ class CargaEntregaPandemiaForm(forms.ModelForm):
         super(CargaEntregaPandemiaForm,self).__init__(*args, **kwargs)
 
     class Meta:
-        model = EntregasPandemia
+        model = CargaEntregasPandemia
         fields = ['carga_producto']
         labels = {
             'carga_producto': 'Excel Entrega Pandemia',
@@ -23,7 +23,7 @@ class CargaEmpresasForm(forms.ModelForm):
         super(CargaEmpresasForm,self).__init__(*args, **kwargs)
 
     class Meta:
-        model = Empresas
+        model = CargaEmpresas
         fields = ['carga_producto']
         labels = {
             'carga_producto': 'Excel Empresas',
@@ -34,7 +34,7 @@ class CargaPatentesVehicularesForm(forms.ModelForm):
         super(CargaPatentesVehicularesForm,self).__init__(*args, **kwargs)
 
     class Meta:
-        model = PatentesVehiculares
+        model = CargaPatentesVehiculares
         fields = ['carga_producto']
         labels = {
             'carga_producto': 'Excel Patentes Vehiculares',
@@ -45,7 +45,7 @@ class CargaPermisosCirculacionForm(forms.ModelForm):
         super(CargaPermisosCirculacionForm,self).__init__(*args, **kwargs)
 
     class Meta:
-        model = PermisosCirculacion
+        model = CargaPermisosCirculacion
         fields = ['carga_producto']
         labels = {
             'carga_producto': 'Excel Permisos Circulacion',
