@@ -96,7 +96,7 @@
                         <a class="nav-link" href="{% url 'calculadorauv' %}">Calculadora UV</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link menu-item-view" href="{% url 'vis' %}">Visualización</a>
+                        <a class="nav-link menu-item-view" href="{% url 'inicio-vis' %}">Visualización</a>
                     </li>
                 </ul>
             </div>
@@ -148,16 +148,34 @@
     function cargar_tabla(value){
 
     if (value == "FARMACIA MUNICIPAL"){
-      //window.location.href = "http://www.w3schools.com";
+      alert("FARMACIA")
       window.location.href = "{% url 'farmacia-vis' %}";
     }
     
     else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
-      alert("DIMAP");
+      alert("DIMAP")
+      window.location.href = "{% url 'dimap-vis' 0 %}";
     }
 
     else if (value == "SEGURIDAD MUNICIPAL"){
       alert("Seguridad");
+      window.location.href = "{% url 'seguridad-vis' 0 %}";
+    }
+
+
+    else if (value == "IMPUESTOS Y DERECHOS"){
+      alert("IMPUESTOS");
+      window.location.href = "{% url 'impuestos-vis' %}";
+    }
+
+    else if (value == "AYUDA SOCIAL - PANDEMIA"){
+      alert("AYUDA SOCIAL - PANDEMIA");
+      window.location.href = "{% url 'ayudapandemia-vis' %}";
+    }
+
+    else if (value == "OBRAS MUNICIPALES"){
+      window.location.href = "{% url 'obrasmunicipales-vis' %}";
+      alert("OBRAS MUNICIPALES");
     }
 
     else{
@@ -165,7 +183,3 @@
     }
 }
     </script>
-
-
-  </body>
-</html>

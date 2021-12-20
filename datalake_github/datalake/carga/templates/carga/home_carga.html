@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block title %}Carga{% endblock %}
+
+{% block styles %}
+<link href="core/css/datalake.css3" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap">  
+  <div class="botonera" style="background-color: white">
+    <h1>Departamentos para carga de datos</h1> 
+    <div class="botones">
+      <a href="{% url 'ayudapandemia-carga' %}">AYUDA EN PANDEMIA</a>
+      <a href="{% url 'patentesvehiculares-carga' %}">PATENTES VEHICULARES</a>
+      <a href="{% url 'empresas-carga' %}">EMPRESAS</a>
+      <a href="{% url 'permisocirculacion-carga' %}">PERMISOS DE CIRCULACIÓN</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+{% endblock %}

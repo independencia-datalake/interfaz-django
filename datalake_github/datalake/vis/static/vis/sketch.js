@@ -39,15 +39,14 @@ function preload() {
 
 // return the url to client
 
-  data = loadTable(data_var,'header').rows;
+  data = data_var
   predios = loadJSON(predios_var);
   unidades = loadJSON(unidades_var);
   monotype = loadFont(monotype_var);
 
-  prueba = prueba_var
-  prueba_limpio = prueba.replace(/&#x27;/gi, '"');
-  prueba_limpio = JSON.parse(prueba_limpio);
-  
+  data_limpia = data.replace(/&#x27;/gi, '"');
+  data_limpia = JSON.parse(data_limpia);
+ 
 }
 
 function setup () {
@@ -71,12 +70,10 @@ function setup () {
   // data.forEach( a => a['uv'] = floor(a['uv']))
 
 
-  data = prueba_limpio.map( a => a);
+  data = data_limpia.map( a => a);
   console.log(data)
   data.forEach( a => a['uv'] = a['uv'])
   console.log(data)
-
-
 
   summarize(data);
   

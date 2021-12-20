@@ -72,3 +72,6 @@ class ProductoVendido(models.Model):
 class CargaProducto(models.Model):
     carga_producto = models.FileField(blank=True, null=True, upload_to='farmacia/carga_producto/')
 
+    def __str__(self):
+        return f'carga numero {self.id}'
+

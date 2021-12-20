@@ -42,9 +42,7 @@
     <script src="/static/vis/map.js"></script>
     <script src="/static/vis/sketch.js"></script>
     <script type="text/javascript">
-      var prueba_var = "{{ prueba_diccionario }}"
-      var data_var = "/static/vis/data/FARMACIA.csv"
-      {% comment %} var data_var = "{{ archivo.farmacia_archivo.url }}" {% endcomment %}
+      var data_var = "{{ lista_mapa }}"
       var predios_var = "/static/vis/data/PREDIOS_INDEPENDENCIA.geojson"
       var unidades_var = "/static/vis/data/Unidades_Vecinales.geojson"
       var monotype_var = "/static/vis/assets/Akkurat-Mono.otf"
@@ -53,18 +51,29 @@
 
 <body>
 <!-- Header --> 
-{{ archivo.farmacia_archivo.url }}
 <div id="menu-top" class="container-fluid">
   <div class="container">
     <ul>
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}" class="ver-perfil">{{user.username}}</a></li>
-        <li><a href="{% url 'logout' %}" class="logout">Cerrar Sesión</a></li>
-    {% else %}
-        <li><a href="{% url 'profile' %}" class="ver-perfil">Iniciar Sesion</a></li>
-        <li><a href="{% url 'logout' %}" class="cerrar-sesion">Registrarse</a></li>
-    {% endif %}
-        <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>   
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' %}" class="ver-perfil">{{user.username}}</a></li>
+      <li><a href="{% url 'logout' %}" class="logout">Cerrar Sesión</a></li>
+  {% else %}
+      <li><a href="{% url 'login' %}" class="ver-perfil">Iniciar Sesion</a></li>
+  {% endif %}
+  {% if request.user.groups.all %}
+  {% for group in request.user.groups.all %}
+      {% if group.name == 'farmacia' %}
+          <li><a href="{% url 'farmacia-home' %}" class="link-inicio">Pagina Principal</a></li>
+      {% elif group.name == 'dimap' %}
+          <li><a href="{% url 'dimap-home' %}" class="link-inicio">Pagina Principal</a></li>
+      {% else %}
+          <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+      {% endif %}
+  {% endfor %}
+  {% else %}
+      <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+      <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>
+  {% endif %}
     </ul>
   </div>
 </div>
@@ -82,13 +91,36 @@
 
 <div id="contenedor-principal" class="container-fluid">
 
-<form action='' method='POST' enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ filtro_tiempo }}
-  <div class='btn-group'>
-    <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+<!--SELECTOR-->
+<div class="row">
+  <div class="col-xs-6 col-sm-6">
+    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+      <option>FUENTE DE DATOS</option>
+      <option>FARMACIA MUNICIPAL</option>
+      <option>HIGIENTE AMBIENTAL - DIMAP</option>
+      <option>SEGURIDAD MUNICIPAL</option>
+      <option>IMPUESTOS Y DERECHOS</option>
+      <option>AYUDA SOCIAL - PANDEMIA</option>
+      <option>AYUDA SOCIAL - GSL</option>
+      <option>OBRAS MUNICIPALES</option>
+    </select>
   </div>
-</form>
+  <div class="col-xs-6 col-sm-6">
+    <form action='' method='POST' enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ filtro_tiempo }}
+      <div class='btn-group'>
+        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+<div style="height: 5vh; width: 65vw; float: right;">
+  
+</div>
+
 
 
 <br>
@@ -96,7 +128,7 @@
 <table style='float: right; width:60%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
     <th>UV</th>
-    <th>Total Ventas</th>
+    <th>Total</th>
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
@@ -126,13 +158,49 @@ hdsahhdhas
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <script>
-    $(document).ready(function(){
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-    })
-    </script>
-
+      $(document).ready(function(){
+          $('#sidebarCollapse').on('click', function () {
+              $('#sidebar').toggleClass('active');
+          });
+      })
+  
+      function cargar_tabla(value){
+  
+      if (value == "FARMACIA MUNICIPAL"){
+        alert("FARMACIA")
+        window.location.href = "{% url 'farmacia-vis' %}";
+      }
+      
+      else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
+        alert("DIMAP")
+        window.location.href = "{% url 'dimap-vis' 0 %}";
+      }
+  
+      else if (value == "SEGURIDAD MUNICIPAL"){
+        alert("Seguridad");
+        window.location.href = "{% url 'seguridad-vis' 0 %}";
+      }
+  
+  
+      else if (value == "IMPUESTOS Y DERECHOS"){
+        alert("IMPUESTOS");
+        window.location.href = "{% url 'impuestos-vis' %}";
+      }
+  
+      else if (value == "AYUDA SOCIAL - PANDEMIA"){
+        alert("AYUDA SOCIAL - PANDEMIA");
+        window.location.href = "{% url 'ayudapandemia-vis' %}";
+      }
+  
+      else if (value == "OBRAS MUNICIPALES"){
+        window.location.href = "{% url 'obrasmunicipales-vis' %}";
+        alert("OBRAS MUNICIPALES");
+      }
+  
+      else{
+        alert("Ninguno");
+      }
+  }
 
   </body>
 </html>

@@ -40,6 +40,8 @@ urlpatterns = [
     path('dimap/', include('dimap.urls')),
     #SEGURIDAD MUNICIPAL
     path('seguridad/', include('seguridad.urls')),
+    #SEGURIDAD MUNICIPAL
+    path('carga/', include('carga.urls')),
 ]
 
 if settings.DEBUG:

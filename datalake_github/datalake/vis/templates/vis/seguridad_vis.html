@@ -128,15 +128,23 @@
 <table style='float: right; width:60%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
     <th>UV</th>
-    <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
-    <th><a href="{% url 'dimap-vis' 1 %}">Control de plaga</a></th>
-    <th><a href="{% url 'dimap-vis' 2 %}">Esterilizacion</a></th>
-    <th><a href="{% url 'dimap-vis' 3 %}">Denuncia</a></th>   
+    <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+    <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+    <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+    <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+    <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+    <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+    <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+    <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>   
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
     <tr>
         <td> {{ key }} </td> 
+        <td> {{ value }} </td>
+        <td> {{ value }} </td>
+        <td> {{ value }} </td>
+        <td> {{ value }} </td>
         <td> {{ value }} </td>
         <td> {{ value }} </td>
         <td> {{ value }} </td>

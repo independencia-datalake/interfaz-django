@@ -37,7 +37,7 @@ def obtener_uv(calle, numero):
       uv = validar_conjunto(numero,row)
     elif row['condicion'] == 'IGUAL':
       uv = validar_igual(numero,row)    
-    if uv != 0:
+    if uv != None:
       return uv
   return 0
 
@@ -172,8 +172,8 @@ class Persona(models.Model):
                   rut = ni[-9:-7]+'.'+ni[-7:-4]+'.'+ni[-4:-1]+'-'+ni[-1]
                   self.numero_identificacion = rut
           return super(Persona, self).save(*args, **kwargs)
-
-        return super(Persona, self).save(*args, **kwargs)
+        else:
+          return super(Persona, self).save(*args, **kwargs)
           
       
       else:
@@ -279,7 +279,10 @@ class Direccion(models.Model):
       ordering = ['created']
 
   def save(self, *args, **kwargs):
+      print(self.calle)
+      print(self.numero)
       uv = obtener_uv(self.calle,self.numero)
+      print(uv)
       self.uv = UV.objects.get(numero_uv=uv)
       return super(Direccion, self).save(*args, **kwargs)
 
