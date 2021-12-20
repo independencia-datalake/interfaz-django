@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import (
     Persona,
     CallesIndependencia,
+    Direccion,
 )
 from .forms import (
     PersonaModelForm,
@@ -85,6 +86,10 @@ def persona_crear(request, pk, n_iden,ty_iden):
                 obj.persona = persona
                 obj.save()
             # persona.save()
+            direccion_nueva = Direccion.objects.get(persona=pk)
+            uv_nueva = direccion_nueva.uv
+            persona.uv = uv_nueva
+            persona.save()
             messages.success(request, f'La persona fue creado con exito')
             if ruta == 1:
                 return redirect('comprobanteventa-create', pk=pk)

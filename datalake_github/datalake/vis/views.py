@@ -1,7 +1,12 @@
 import pandas as pd
-from django.shortcuts import render
-from .models import(
-    VisFarmacia,
+import os
+import boto3
+import json
+
+from django.shortcuts import render, redirect
+
+from .forms import(
+    FiltroTiempo,
 )
 from core.models import(
     UV,
@@ -24,6 +29,11 @@ from carga.models import(
 )
 
 
+#CONFIGURACION DEL S3 AWS
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
 def vis(request):
     return render(request,'vis/index.html')
 
@@ -37,33 +47,91 @@ def inicio_vis(request):
     return render(request,'vis/home_vis.html', context)
 
 def farmacia_vis(request):
-    uv = UV.objects.all()
-    # direccion = Direccion.objects.all()
+    
+    # archivo = VisFarmacia.objects.get(pk=1)
+
+    # s3_client = boto3.client(
+    #     's3',
+    #     aws_access_key_id = AWS_ACCESS_KEY_ID,
+    #     aws_secret_access_key = AWS_SECRET_ACCESS_KEY,
+    # )
+    # obj = s3_client.get_object(
+    #     Bucket = AWS_STORAGE_BUCKET_NAME,
+    #     # Key = 'media/vis/data/farmacia/TABLA_FARMACIA.csv',
+    #     Key = 'media/vis/data/farmacia/MAPA_FARMACIA.csv',
+    # )
+    # df_farmacia = pd.read_csv(obj['Body'])
+
+    # diccionario={}
+    # uv_cantidad = 28
+    # for uv in range(uv_cantidad):
+    #     # diccionario[f'{uv}'] = 0        #DEPENDIENDO DE QUE TIPO DE VALOR SEA UV EN DJANGO
+    #     diccionario[uv] = 0
+    # uv_df = df_farmacia['uv']
+    # df = df_farmacia['cant']
+    # for key in uv_df.index:
+    #     diccionario[key] = df[key]
+    # df_mapa = pd.read_csv(obj['Body'], encoding='utf-8')
+    # mapa_json = json.loads(df_mapa.to_json(orient="split"))
+    # comprobante_venta = ComprobanteVenta.objects.all()
     # persona = Persona.objects.all()
-    # comprobante = ComprobanteVenta.objects.all()
+    # print(ComprobanteVenta.objects.select_related('comprador').all().values())
 
-    # contador = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    # contador_dir = {'0':0,'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,'11':0,'12':0,'13':0,'14':0,'15':0,'16':0,'17':0,'18':0,'19':0,'20':0,'21':0,'22':0,'23':0,'24':0,'25':0,'26':0,'27':0}
+    filtro_tiempo=FiltroTiempo()
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+            mapa_json = []
+            for r in ComprobanteVenta.objects.raw(f"select fc.id, p.nombre_persona ,u.numero_uv, fc.created \
+                                                    from farmacia_comprobanteventa fc \
+                                                    left join core_persona p \
+                                                        on fc.comprador_id = p.id \
+                                                    left join core_uv u \
+                                                        on p.uv_id = u.id \
+                                                    where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                                    order by fc.created asc;"):
+                mapa_json.append({"uv":r.numero_uv,"created": str(r.created)})
+            prueba_diccionario = mapa_json
 
-    # for obj in comprobante:
-    #     persona = obj.comprador
-    #     direccion = Direccion.objects.get(persona=persona)
-    #     unidad_vecinal = direccion.uv
-    #     contador[unidad_vecinal.numero_uv] += 1
-    #     contador_dir[f"{unidad_vecinal}"] += 1
+            context = {
+                # 'archivo':archivo,
+                # 'diccionario':diccionario,
+                'filtro_tiempo':filtro_tiempo,
+                'prueba_diccionario':prueba_diccionario,
+                # 'contador':contador_dir
+                
+
+            }
+            
+            return render(request,'vis/farmacia_vis.html', context)
+
+
     
-    # vis_farmacia_en_s3 = VisFarmacia.objects.get(id=2)
-    # vis_farmacia_con_created = VisFarmacia.objects.get(id=3)
-    
-    # df_s3 = pd.read_csv(vis_farmacia_en_s3.farmacia_archivo)
-    # df_created = pd.read_csv(vis_farmacia_con_created.farmacia_archivo)
+    else:
+
+        mapa_json = []
+        for r in ComprobanteVenta.objects.raw('''select fc.id, p.nombre_persona ,u.numero_uv, fc.created
+                                                from farmacia_comprobanteventa fc
+                                                left join core_persona p
+                                                    on fc.comprador_id = p.id
+                                                left join core_uv u
+                                                    on p.uv_id = u.id 
+                                                order by fc.created asc;'''):
+            mapa_json.append({"uv":r.numero_uv,"created": str(r.created)})
+        prueba_diccionario = mapa_json
+
+
 
 
 
 
     context = {
-        'uv':uv,
-        # 'direccion':direccion,
+        # 'archivo':archivo,
+        # 'diccionario':diccionario,
+        'filtro_tiempo':filtro_tiempo,
+        'prueba_diccionario':prueba_diccionario,
         # 'contador':contador_dir
         
 

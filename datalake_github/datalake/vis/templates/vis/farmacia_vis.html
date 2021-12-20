@@ -42,7 +42,9 @@
     <script src="/static/vis/map.js"></script>
     <script src="/static/vis/sketch.js"></script>
     <script type="text/javascript">
+      var prueba_var = "{{ prueba_diccionario }}"
       var data_var = "/static/vis/data/FARMACIA.csv"
+      {% comment %} var data_var = "{{ archivo.farmacia_archivo.url }}" {% endcomment %}
       var predios_var = "/static/vis/data/PREDIOS_INDEPENDENCIA.geojson"
       var unidades_var = "/static/vis/data/Unidades_Vecinales.geojson"
       var monotype_var = "/static/vis/assets/Akkurat-Mono.otf"
@@ -51,6 +53,7 @@
 
 <body>
 <!-- Header --> 
+{{ archivo.farmacia_archivo.url }}
 <div id="menu-top" class="container-fluid">
   <div class="container">
     <ul>
@@ -78,46 +81,15 @@
 </div>
 
 <div id="contenedor-principal" class="container-fluid">
-    <!-- Barra Colapso  -->
-    <div class="pos-f-t">
-          <div class="collapse" id="navbarToggleExternalContent">
-            <div class="content-menu p-4">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'core-home' %}">Pagina Principal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core-quienes' %}">Quienes Somos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core-qya' %}">Preguntas y Respuestas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'calculadorauv' %}">Calculadora UV</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-item-view" href="{% url 'vis' %}">Visualización</a>
-                    </li>
-                </ul>
-            </div>
-          </div>
-          
-          <nav class="navbar nav-datalake">
-            <div class="container">
-              <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon burger-toggler"></span>
-              </button>
-            </div>
-          </nav>
-        </div>
-    </div> 
 
-<div> 
-<p><a href="{% url 'inicio-vis' %}">Volver a seleccion de tablas</a></p>
-</div>
+<form action='' method='POST' enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ filtro_tiempo }}
+  <div class='btn-group'>
+    <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+  </div>
+</form>
 
-<h4>Fuente de Datos: Farmacia</h4>
 
 <br>
 
@@ -127,7 +99,7 @@
     <th>Total Ventas</th>
   </tr>
 
-  {% for key, value in contador.items %}
+  {% for key, value in diccionario.items %}
     <tr>
         <td> {{ key }} </td> 
         <td> {{ value }} </td>
