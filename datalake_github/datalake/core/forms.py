@@ -1,9 +1,18 @@
 from django import forms
-from django.forms import widgets
-from django.forms.widgets import RadioSelect
+from django.contrib import admin
+from django.contrib.admin.widgets import(
+    AutocompleteSelect,
+)
+from django.forms.widgets import (
+    RadioSelect,
+)
 
 from .models import (
+    CallesIndependencia,
     Persona,
+    Telefono,
+    Correo,
+    Direccion,
 )
 
 TIPOS_DE_IDENTIFICACION = [
@@ -12,19 +21,19 @@ TIPOS_DE_IDENTIFICACION = [
     ('OTRO','Otro'),
 ]
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
 class PersonaVerificacionForm(forms.Form):
     tipo_identificacion = forms.ChoiceField(
         required=True,
         widget=forms.RadioSelect,
         choices=TIPOS_DE_IDENTIFICACION,
+        label='Tipo de identificación',
     )
-    numero_identificacion = forms.CharField(max_length=30)                  
+    numero_identificacion = forms.CharField(max_length=30, label='Número de identificación')                  
+ 
+class PersonaModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PersonaModelForm,self).__init__(*args, **kwargs)
 
-    
-class PersonaForm(forms.ModelForm):
     class Meta:
         model = Persona
         fields = [
@@ -34,13 +43,46 @@ class PersonaForm(forms.ModelForm):
             'apellido_paterno',
             'apellido_materno',
             'fecha_nacimiento',
-            'direccion_persona',
-            'numero_direccion',
-            'complemento_direccion',
-            'telefono_persona',
-            'correo_persona',
         ]
         widgets = {
             'tipo_identificacion': RadioSelect(),
-            'fecha_nacimiento' : DateInput(),
+            'fecha_nacimiento' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
         }
+
+class TelefonoModelForm(forms.ModelForm):
+    class Meta:
+        model = Telefono
+        fields = [
+            'tipo_telefono',
+            'telefono',
+        ]
+        widgets = {
+            'tipo_telefono': RadioSelect(),
+        }
+
+class CorreoModelForm(forms.ModelForm):
+    class Meta:
+        model = Correo
+        fields = [
+            'tipo_correo',
+            'correo',
+        ]
+        widgets = {
+            'tipo_correo': RadioSelect(),
+        }
+
+class DireccionModelForm(forms.ModelForm):
+    class Meta:
+        model = Direccion
+        fields = [
+            'calle',
+            'numero',
+            'complemento_direccion',
+        ]

@@ -118,17 +118,21 @@ $('.add-new-form').click(function(e) {
 
                 <h4 class="magenta">Nº de Identificación:</h4>
                 <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }}</p>
-                <h4 class="magenta">Nº de Telefono</h4>
-                <p>{{ persona.telefono_persona}}</p>
+                <h4 class="magenta">Nº de Teléfono</h4>
+                <p>{{ telefono.telefono}}</p>
                 <h4 class="magenta">Correo:</h4>
-                <p>{{persona.correo_persona}}</p>
+                <p>{{correo.correo}}</p>
             </div>
             <div class="col">
-                <h2> UV: <span class="magenta"> {{ persona.uv }} </span></h2>
+                <h2> UV: <span class="magenta"> {{ direccion.uv }} </span></h2>
                 <h4 class="magenta">Fecha de nacimiento:</h4>
                 <p>{{ persona.fecha_nacimiento }}</p>
                 <h4 class="magenta">Dirección:</h4>
-                <p>{{ persona.direccion_persona }}, {{persona.numero_direccion}} | {{ persona.complemento_direccion }}  </p>
+                <p>{{ direccion.calle }}, {{direccion.numero}}
+                {% if direccion.complemento_direccion %}
+                 | {{ direccion.complemento_direccion }}
+                {% endif %}
+                </p>
             </div>
         </div>
     </div>

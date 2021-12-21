@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Carga de Datos{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Carga Patentes Vehiculares</legend>
+                <h2>Instrucciones para carga de datos masiva:</h2>
+                <hr>
+                <div class="row">
+                    <div class="col">    
+                        <h5>1) El nombre del archivo debe ser carga_patentesvehiculares.xlsx </h5>
+                        <hr>
+                        <h5>2) El formato debe ser el siguente:</h5>
+                        <hr>
+                            <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+                                <th>Año_Fabricacion</th>
+                                <th>Marca</th> 
+                                <th>Placa</th>
+                                <th>CALLE</th>
+                                <th>NUMERACION</th>
+                                <th>...</th>
+                                <th>Año_del_Permiso</th>
+                                <th>Fecha de Pago</th>
+                            <tr>
+                                <td>1992</td>
+                                <td>PEUGEOT</td>
+                                <td>DR-2065</td>
+                                <td>SANTA ROSA</td>
+                                <td></td>
+                                <td>...</td>
+                                <td>2006</td>
+                                <td>28-08-2006</td>
+                            </tr>
+                            <tr>
+                                <td>1973</td>
+                                <td>CHEVROLET</td>
+                                <td>GJ-7442</td>
+                                <td>NATAL</td>
+                                <td>3267</td>
+                                <td>...</td>
+                                <td>2006</td>
+                                <td>28-08-2006</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>....</td>
+                                <td>...</td>
+                                <td>...</td>
+                            </tr>
+                            </table>
+                        <hr>
+                        <h4 class="magenta">Importante: si no se siguen las instrucciones, no se efectura la carga de datos</h4>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                {{ datos|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

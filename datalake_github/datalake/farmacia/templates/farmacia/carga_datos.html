@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Carga de Datos{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Carga de Productos Farmacia</legend>
+                <h2>Instrucciones para carga de datos masiva:</h2>
+                <hr>
+                <div class="row">
+                    <div class="col">    
+                        <h5>1) El nombre del archivo debe ser farmacia_productofarmacia.xlsx </h5>
+                        <hr>
+                        <h5>2) El formato debe ser el siguente:</h5>
+                        <hr>
+                            <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+                                <th>marca_producto</th>
+                                <th>p_a</th> 
+                                <th>dosis</th>
+                                <th>presentacion</th>
+                                <th>f_ven</th>
+                                <th>precio</th>
+                                <th>n_lote</th>
+                            <tr>
+                                <td>D VIDA GOTAS</td>
+                                <td>VITAMINA D </td>
+                                <td>3200 U.I GOTAS</td>
+                                <td></td>
+                                <td>01-02-2022</td>
+                                <td>11121</td>
+                                <td>006911</td>
+                            </tr>
+                            <tr>
+                                <td>GLIFORTEX XR 500 X 30</td>
+                                <td>METFORMINA XR </td>
+                                <td>500 X 30</td>
+                                <td></td>
+                                <td>01-05-2022</td>
+                                <td>4169</td>
+                                <td>F19088A</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>....</td>
+                                <td>...</td>
+                            </tr>
+                            </table>
+                        <hr>
+                        <h4 class="magenta">Importante: si no se siguen las instrucciones, no se efectura la carga de datos</h4>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                {{ datos|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

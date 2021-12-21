@@ -1,0 +1,242 @@
+[
+{
+    "model": "seguridad.delito",
+    "pk": 1,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Robo con violencia e intimidación"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 2,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Robo en lugar no habitado"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 3,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Hurto"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 4,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Robo por sorpresa"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 5,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Robo de vehículo"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 6,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Homicidio"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 7,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Violación"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 8,
+    "fields": {
+        "clasificacion_delito": 1,
+        "nombre": "Robo desde vehículo"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 9,
+    "fields": {
+        "clasificacion_delito": 2,
+        "nombre": "VIF contra mujer"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 10,
+    "fields": {
+        "clasificacion_delito": 2,
+        "nombre": "VIF contra hombre"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 11,
+    "fields": {
+        "clasificacion_delito": 2,
+        "nombre": "VIF contra NNA"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 12,
+    "fields": {
+        "clasificacion_delito": 2,
+        "nombre": "VIF contra adulto/a mayor"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 13,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Amenaza"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 14,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Riñas callejeras"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 15,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Comercio informal"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 16,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Consumo de alcohol y/o drogas en la vía pública"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 17,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Daños"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 18,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Desordenes"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 19,
+    "fields": {
+        "clasificacion_delito": 3,
+        "nombre": "Ruidos molestos"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 20,
+    "fields": {
+        "clasificacion_delito": 4,
+        "nombre": "Abuso sexual"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 21,
+    "fields": {
+        "clasificacion_delito": 4,
+        "nombre": "Abuso sexual mayor 14 años"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 22,
+    "fields": {
+        "clasificacion_delito": 4,
+        "nombre": "Abuso sexual menor 14 años"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 23,
+    "fields": {
+        "clasificacion_delito": 4,
+        "nombre": "Otros delitos sexuales"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 24,
+    "fields": {
+        "clasificacion_delito": 5,
+        "nombre": "Accidente de tránsito"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 25,
+    "fields": {
+        "clasificacion_delito": 5,
+        "nombre": "Incendio"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 26,
+    "fields": {
+        "clasificacion_delito": 6,
+        "nombre": "DIMAP"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 27,
+    "fields": {
+        "clasificacion_delito": 6,
+        "nombre": "Salud"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 28,
+    "fields": {
+        "clasificacion_delito": 6,
+        "nombre": "Tránsito"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 29,
+    "fields": {
+        "clasificacion_delito": 6,
+        "nombre": "DOM"
+    }
+},
+{
+    "model": "seguridad.delito",
+    "pk": 30,
+    "fields": {
+        "clasificacion_delito": 7,
+        "nombre": "Otro"
+    }
+}
+]

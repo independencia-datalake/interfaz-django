@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container contenedor-wrap">  
-    <h1>Nueva Venta</h1>
+    <h1>Verificación Identidad</h1>
     <form action='' method='POST'>
         {% csrf_token %}
         <div class="espaciador">	
@@ -17,7 +17,7 @@
 
 <div class="container contenedor-wrap">  
     <div class="botones">
-      <a href="{% url 'comprobanteventa-create' 2 %}">continuar ...</a>
+      <a href="{% url 'comprobanteventa-create' 1 %}">saltar ...</a>
     </div>
 </div>
 {% endblock %}

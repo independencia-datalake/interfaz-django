@@ -42,7 +42,7 @@
       {%for object in filter.qs %}
       <tr>
           <td>{{ object.id }}</td>
-          <td>{{ object.numero_identificacion }}</td>
+          <td>{{ object.comprador }}</td>
           <td>{{ object.farmaceuta }}</td>
           <td><a class="btn ver-o-editar" href="{% url 'comprobanteventa-edicion' object.id %}">VER O EDITAR</a></td>
           {% if user == object.farmaceuta%}

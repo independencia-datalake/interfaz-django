@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Esterilizacion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container cabecera-interior-tablas margin-bottom-30">
+        <div class="row">
+            <div class="col-sm vertical-align-middle">
+                <h3>Confirmación de Formulario Esterilizacion</h3>
+            </div>
+            <div class="col-sm vertical-align-middle">
+            </div>
+            <div class="col-sm vertical-align-middle">
+            <a href="{% url 'esterilizacion-delete' esterilizacion.id %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Eliminar</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Nº de Identificación:</h4>
+                    <h2>{{ persona.tipo_identificacion  }} - {{ persona.numero_identificacion }}</h2>
+                    <h4 class="magenta">Nombre Responsable:</h4>
+                    <h2>{{ persona.nombre_persona  }}  {{ persona.apellido_paterno }} {{ persona.apellido_materno }}</h2>
+                    <h4 class="magenta">Direccion:</h4>
+                    <h2>{{ direccion.calle  }}  {{ direccion.numero }} | {{ direccion.uv}}</h2>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ esterilizacion.created }}</p>
+                    <h4 class="magenta">Fecha de creacion:</h4>
+                    <p>{{ esterilizacion.created }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ esterilizacion.autor }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h4 class="magenta">Nombre mascota:</h4>
+                    <h2>{{ mascota.nombre  }}</h2>
+                    <hr>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Sexo mascota:</h4>
+                    <h2>{{ mascota.get_sexo_display  }}</h2>
+                    <hr>
+                    <h4 class="magenta">Especie mascota</h4>
+                    <h2>{{ mascota.get_especie_display  }}</h2>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h2> Nº de Formulario: <span class="magenta">{{ esterilizacion.id }}</span></h2>
+                    <hr>
+                    <h4 class="magenta">Sexo mascota:</h4>
+                    <h2>{{ esterilizacion.get_estatus_display  }}</h2>
+                    <hr>
+                    <h4 class="magenta">Especie mascota</h4>
+                    <h2>{{ esterilizacion.get_clinica_display  }}</h2>
+                    <hr>
+                    <h4 class="magenta">Ejecucion de cirugia</h4>
+                    {% if esterilizacion.ejecucion_cirugia == '' %}
+                        <h2>-------</h2>
+                        <hr>
+                    {% else %}
+                        <h2>{{ esterilizacion.get_ejecucion_cirugia_display }}</h2>
+                        <hr>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Asistencia:</h4>
+                    <h2>{{ esterilizacion.get_asistencia_display }}</h2>
+                    <hr>
+                    <h4 class="magenta">Fecha de Ingreso:</h4>
+                    <p>{{ esterilizacion.f_ingreso }}</p>
+                    <h4 class="magenta">Fecha de Cirugia:</h4>
+                    <p>{{ esterilizacion.f_cirugia }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ esterilizacion.autor }}</p>
+                    <hr>
+                </div>
+            </div>
+            <br>
+            <h4 class="magenta">Motivo del rechazo:</h4>
+            {% if esterilizacion.motivo_rechazo == '' %}
+                <p>no hay motivo de rechazo</p>
+                <br>
+            {% else %}
+                <p>{{ esterilizacion.motivo_rechazo }}</p>
+                <br>
+            {% endif %}
+        </div>
+    </div>   
+
+     <h3>Usted está apunto de confirmar la creacion del formulario</h3>
+    <a href="{% url 'esterilizacion-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+    
+    </div>
+</div>
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

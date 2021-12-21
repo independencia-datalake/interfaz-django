@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Denuncia{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Denuncia Seguridad Muncipal</legend>
+                {{ form_req_inicio|crispy }}
+                <legend class="border-bottom mb-4">Individualización</legend>
+                {{ form_denunciante|crispy }}
+                <legend class="border-bottom mb-4">Requerimiento</legend>
+                <div id="div_id_delito" class="form-group">
+                    {%for key,values in diccionario.items %}
+                    <label for="id_delito_0" class=" requiredField">{{ key }}</label>
+                    <div>
+                        {%for value in values %}
+                        <div class="form-check">
+                            <input 
+                                type="radio" 
+                                class="form-check-input"
+                                name="delito" 
+                                value="{{ value.id }}" 
+                                id="id_delito_{{ value.n }}" 
+                                {%if value.checked %} {{ value.checked }}
+                                {%endif%}>
+                            <label class="form-check-label" for="id_delito_{{ value.n }}">{{ value.nombre }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    {% endfor%}
+                </div>
+                <div id="div_id_delito_otro" class="form-group">
+                    <label for="id_delito_otro">Comentario</label>
+                    <div>
+                        <textarea name="delito_otro" cols="40" rows="5" class="textarea form-control" id="id_delito_otro" spellcheck="false"></textarea>
+                    </div>
+                </div>
+                <legend class="border-bottom mb-4">Ubicación</legend>
+                {{ form_req_ubicacion|crispy }}
+                <legend class="border-bottom mb-4">Resolución</legend>
+                {{ form_req_resolucion|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Crear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+{% block script %}
+$( "#id_calle" ).autocomplete({
+    source: '{% url 'autocompete_calles' %}'
+});      
+{% endblock %}
+</script>
+

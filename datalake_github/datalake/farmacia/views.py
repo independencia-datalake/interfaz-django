@@ -1,3 +1,4 @@
+from django.contrib.auth import models
 from django.db.models import query_utils
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
@@ -6,17 +7,26 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
-
 import pandas as pd
 from django.http import HttpResponse
 
-from .models import *
+from core.models import(
+    Persona,
+    Telefono,
+    Correo,
+    Direccion,
+)
+from .models import (
+    ComprobanteVenta,
+    ProductoFarmacia,
+    ProductoVendido,
+)
 from .forms import (
     ProductoFarmaciaForm,
-    ComprobanteVentaForm,
     ComprobanteVentaModelForm,
     ProductoVendidoForm,
-    ProductoVendidoFormset
+    ProductoVendidoFormset,
+    CargaProductoModelForm, #Prueba
 )
 from .filters import (
     ProductoFarmaciaFilter,
@@ -24,26 +34,26 @@ from .filters import (
 )
 
 
-
-            #COMPROVANTE VENTA
-
+# COMPROVANTE VENTA
 
 
 class InicioComprobanteVenta(ListView):
     model = ComprobanteVenta
     ordering = ['-created']
     context_object_name = 'post'
-    paginate_by = 2
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
         context['filter'] = ComprobanteVentaFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-
 @login_required
 def comprobante_venta_form(request, pk):
     persona = Persona.objects.get(pk=pk)
+    telefono = Telefono.objects.get(persona=persona)
+    correo = Correo.objects.get(persona=persona)
+    direccion = Direccion.objects.get(persona=persona)
+
     formset = ProductoVendidoFormset()
     form = ComprobanteVentaModelForm()
     if request.method == 'POST':
@@ -55,61 +65,29 @@ def comprobante_venta_form(request, pk):
             obj.farmaceuta = request.user
             obj.save()
             cv = obj
+            cv_id = obj.id
             for form in formset:
                 nombre = form.cleaned_data.get('nombre')
                 cantidad = form.cleaned_data.get('cantidad')
+                print(nombre)
                 if nombre:
                     ProductoVendido(nombre=nombre,
                                     cantidad=cantidad,
                                     n_venta=cv,
                                     farmaceuta=request.user).save()
             
-            return redirect('comprobanteventa-detail',pk=cv)
+            return redirect('comprobanteventa-detail',pk=cv_id)
 
     context = {
         'c_form': form,
         'persona':persona,
+        'telefono':telefono,
+        'correo':correo,
+        'direccion':direccion,
         'formset':formset,
     }
 
     return render(request, 'farmacia/comprobanteventa_form.html', context)
-    
-    # persona = Persona.objects.get(pk=pk)
-    # c_form = ComprobanteVentaForm()
-    # formset = ProductoVendidoFormset()
-    
-
-    # if request.method == 'POST':
-    #     cv = ComprobanteVenta.objects.create(farmaceuta=request.user,comprador=persona)
-    #     # cv.numero_identificacion = persona.numero_identificacion
-    #     # cv.tipo_identificacion = persona.tipo_identificacion
-    #     print(request.POST.get('receta'))
-    #     f = request.POST.get('receta')
-    #     cv.receta = request.POST.get('receta')
-    #     print(cv.receta)
-    #     formset = ProductoVendidoFormset(request.POST)
-    #     if formset.is_valid():
-    #         print(request.FILES)
-    #         # cv.receta = request.FILES
-    #         for form in formset:
-    #             nombre = form.cleaned_data.get('nombre')
-    #             cantidad = form.cleaned_data.get('cantidad')
-    #             n_venta = cv
-    #             if nombre:
-    #                 ProductoVendido(nombre=nombre,
-    #                                 cantidad=cantidad,
-    #                                 n_venta=n_venta,
-    #                                 farmaceuta=request.user).save()
-    #         cv.save()
-    #         return redirect('comprobanteventa-detail',pk=cv)
-
-    # context = {
-    #     'c_form': c_form,
-    #     'formset':formset,
-    #     'persona':persona,
-    # }
-
-    # return render(request, 'farmacia/comprobanteventa_form.html', context)
 
 @login_required
 def comprobante_venta_detail(request, pk):
@@ -130,7 +108,6 @@ def comprobante_venta_detail(request, pk):
 
     return render(request, 'farmacia/comprobanteventa_detail.html', context)
 
-
 @login_required
 def comprobante_venta_edicion(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
@@ -150,10 +127,9 @@ def comprobante_venta_edicion(request, pk):
 
     return render(request, 'farmacia/comprobanteventa_edicion.html', context)
 
-
 class EdicionComprobanteVenta(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model = ComprobanteVenta    
-    form_class = ComprobanteVentaForm
+    form_class = ComprobanteVentaModelForm
     template_name='farmacia/comprobanteventa_update.html'
 
     def form_valid(self, form):
@@ -186,10 +162,7 @@ def comprobante_venta_delete(request, pk):
     return render(request, 'farmacia/delete.html', context)
 
 
-
-            #PRODUCTO VENDIDO
-
-
+# PRODUCTO VENDIDO
 
 
 @login_required
@@ -279,10 +252,12 @@ def producto_vendido_delete_edicion(request, pk):
             #PRODUCTO FARMACIA
 
 
+# PRODUCTO FARMACIA
+
 
 class InicioProductoFarmacia(ListView):
     model = ProductoFarmacia
-    ordering = ['-created']
+    ordering = ['marca_producto','dosis']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -343,6 +318,10 @@ def producto_farmacia_delete(request, pk):
 
             #FUNCIONALIDADES EXTRAS
 
+
+# FUNCIONALIDADES
+
+
 def descargar_comprobantes(request):
 
     df = pd.DataFrame(list(ComprobanteVenta.objects.all().values())).astype(str)
@@ -374,3 +353,20 @@ def calcular_subtotales(productos_queryset, productos):
         producto.subtotal = precio*producto.cantidad
 
     return 0
+
+@login_required
+def carga_datos(request):
+    c_producto_form = CargaProductoModelForm()
+
+    if request.method == 'POST':
+        c_producto_form = CargaProductoModelForm(request.POST,request.FILES)
+        if c_producto_form.is_valid():
+            c_producto_form.save()
+            messages.success(request, f'El archivo fue subido con exito')
+            return redirect('productofarmacia-inicio')
+        
+    context = {
+        'datos':c_producto_form
+    }
+
+    return render(request, 'farmacia/carga_datos.html', context)    

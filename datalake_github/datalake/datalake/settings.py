@@ -1,8 +1,8 @@
-from pathlib import Path, os
+import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -16,10 +16,11 @@ DEBUG = True
 #ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    # Static - whitenoise
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,22 +32,22 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'farmacia.apps.FarmaciaConfig',
-    'formulario.apps.FormularioConfig',
     'calculadorauv.apps.CalculadorauvConfig',
     'vis.apps.VisConfig',
     'dimap.apps.DimapConfig',
     'seguridad.apps.SeguridadConfig',
+    'carga.apps.CargaConfig',
     
     # De terceros
     'crispy_forms',
     'django_filters',
     'storages',
 
-
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -120,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-CL'
 
 TIME_ZONE = 'Chile/Continental'
 #TIME_ZONE = 'UTC'
@@ -132,11 +133,27 @@ USE_L10N = True
 USE_TZ = False
 
 
+# # HTTPS CONFIGURATIONS
+
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+
+# # HSTS settings
+
+# SECURE_HSTS_SECONDS = 31536000 # 1 AÑO
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -149,9 +166,9 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 #CONFIGURACION DEL S3 AWS
-AWS_ACCESS_KEY_ID = "AKIARUEETZAVW7RERMGW"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = "independenciabucket"
+AWS_ACCESS_KEY_ID = 'AKIARUEETZAVW7RERMGW'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'independenciabucket'
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None

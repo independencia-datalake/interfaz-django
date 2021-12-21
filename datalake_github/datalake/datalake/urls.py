@@ -13,6 +13,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf.urls import url
+from django.conf import settings
+from django.views.static import serve
+
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -27,8 +32,6 @@ urlpatterns = [
     path('usuario/', include('users.urls')),
     #FARMACIA
     path('farmacia/', include('farmacia.urls')),
-    #FORMULARIO
-    path('formularios/', include('formulario.urls')),
     #CALCULADORA DE UV
     path('calculadora/', include('calculadorauv.urls')),
     #VISUALIZACION
@@ -37,6 +40,8 @@ urlpatterns = [
     path('dimap/', include('dimap.urls')),
     #SEGURIDAD MUNICIPAL
     path('seguridad/', include('seguridad.urls')),
+    #SEGURIDAD MUNICIPAL
+    path('carga/', include('carga.urls')),
 ]
 
 if settings.DEBUG:

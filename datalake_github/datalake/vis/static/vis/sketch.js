@@ -16,11 +16,37 @@ let layer;
 let canvas;
 let timehist;
 
+// IR A BUSCAR EL CSV A AMAZON S3
+
 function preload() {
-  data = loadTable(data_var,'header').rows;
+  
+  //                               SE NESESITA NODE.JS PARA CONECTARCE A AWS
+  // const AWS = require('aws-sdk')
+  // const s3 = new AWS.S3()
+  // AWS.config.update({accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY})
+
+  // const myBucket = AWS_STORAGE_BUCKET_NAME
+  // const myKey = 'path/to/your/key/file.extension'
+  // const signedUrlExpireSeconds = 60 * 5 // your expiry time in seconds.
+
+  // const url = s3.getSignedUrl('getObject', {
+  // Bucket: myBucket,
+  // Key: myKey,
+  // Expires: signedUrlExpireSeconds
+  // })
+
+  // alert(myBucket)
+
+// return the url to client
+
+  data = data_var
   predios = loadJSON(predios_var);
   unidades = loadJSON(unidades_var);
   monotype = loadFont(monotype_var);
+
+  data_limpia = data.replace(/&#x27;/gi, '"');
+  data_limpia = JSON.parse(data_limpia);
+ 
 }
 
 function setup () {
@@ -40,8 +66,15 @@ function setup () {
   // PREPROCESSING 
 // Modificaciones necesarias
 
-  data = data.map( a => a.obj);
-  data.forEach( a => a['uv'] = floor(random()*26)+1); // simulate uv ; borrar esta linea. 
+  // data = data.map( a => a.obj);
+  // data.forEach( a => a['uv'] = floor(a['uv']))
+
+
+  data = data_limpia.map( a => a);
+  console.log(data)
+  data.forEach( a => a['uv'] = a['uv'])
+  console.log(data)
+
   summarize(data);
   
   data.forEach( a => a['created'] = new Date(a['created'])); // ccambiar marca temporal por created

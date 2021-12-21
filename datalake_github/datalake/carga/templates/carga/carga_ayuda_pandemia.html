@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Carga de Datos{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Carga Ayuda en pandemia</legend>
+                <h2>Instrucciones para carga de datos masiva:</h2>
+                <hr>
+                <div class="row">
+                    <div class="col">    
+                        <h5>1) El nombre del archivo debe ser carga_entregaspandemia.xlsx </h5>
+                        <hr>
+                        <h5>2) El formato debe ser el siguente:</h5>
+                        <hr>
+                            <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+                                <th>Nº ID</th>
+                                <th>FECHA</th> 
+                                <th>TIPO DE DOCUMENTO</th>
+                                <th>NOMBRE</th>
+                                <th>....</th>
+                                <th>BALÓN DE GAS 11KG</th>
+                                <th>PARAFINA</th>
+                            <tr>
+                                <td>263741757</td>
+                                <td>27-07-2020  13:50:16</td>
+                                <td>RUT</td>
+                                <td></td>
+                                <td>...</td>
+                                <td></td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>105786409</td>
+                                <td>29-07-2020  15:14:54</td>
+                                <td>RUT</td>
+                                <td></td>
+                                <td>...</td>
+                                <td>1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>....</td>
+                                <td>...</td>
+                            </tr>
+                            </table>
+                        <hr>
+                        <h4 class="magenta">Importante: si no se siguen las instrucciones, no se efectura la carga de datos</h4>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                {{ datos|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

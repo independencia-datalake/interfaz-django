@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Persona{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap">  
+    <h1>Verificación Identidad (Esterilizacion)</h1>
+    <form action='' method='POST'>
+        {% csrf_token %}
+        <div class="espaciador">	
+        <h3>Usuaria(o)</h3>
+        {{ v_persona|crispy }}
+        </div>
+        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'>
+</div>
+        <hr>
+
+<div class="container contenedor-wrap">  
+    <div class="botones">
+      <a href="{% url 'esterilizacion-crear' 1 %}">saltar ...</a>
+    </div>
+</div>
+{% endblock %}

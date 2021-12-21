@@ -1,0 +1,92 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Denuncia{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container cabecera-interior-tablas margin-bottom-30">
+        <div class="row">
+            <div class="col-sm vertical-align-middle">
+                <h3>Confirmación de denuncia</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h2>N° de requerimiento: <span class="magenta">{{ datos_compartidos.numero_requerimiento }}</span></h2>
+                    <hr>
+                    <h4 class="magenta">Fecha ingreso:</h4>
+                    <p>{{ llamado.fecha_ingreso }}</p>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Nombre denunciante:</h4>
+                    {% if datos_compartidos.denunciante.nombre %} 
+                        <p>{{ datos_compartidos.denunciante.nombre }}</p>
+                        {% if datos_compartidos.denunciante.apellido %}
+                            <p>{{ datos_compartidos.denunciante.nombre }} {{ datos_compartidos.denunciante.apellido }}</p>
+                        {%endif%}
+                    {% else %}
+                        <p>El denunciante es Anonimo</p>
+                    {%endif%}
+                    <h4 class="magenta">Teléfono denunciante:</h4>
+                    {% if datos_compartidos.denunciante.telefono %} 
+                        <p>{{ datos_compartidos.denunciante.telefono }}</p>
+                    {% else %}
+                        <p>No se dispone de un número telefonico</p>
+                    {%endif%}
+                        <h4 class="magenta">Correo electronico denunciante:</h4>
+                    {% if datos_compartidos.denunciante.correo %} 
+                        <p>{{ datos_compartidos.denunciante.correo }}</p>
+                    {% else %}
+                        <p>No se dispone de un correo electrónico</p>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h1>Requerimientos</h1>
+    {%for object in requerimientos %}
+    <div class="contenedor-wrap">
+        <div class="container contenidos-comprobante-venta">
+            <div class="row">
+                <div class="col">
+                    <h2>Delito: <span class="magenta">{{ object.delito }}</span></h2>
+                    <h4 class="magenta">Estatus:</h4>
+                    <p>{{ object.get_estatus_display }}</p>
+                    <h4 class="magenta">Vía de ingreso:</h4>
+                    <p>{{ object.get_via_ingreso_display }} - {{ object.via_ingreso_otro }}</p>
+                </div>
+                <div class="col">
+                    <h4 class="magenta">Prioridad:</h4>
+                    <p>{{ object.prioridad }}</p>
+                    <h4 class="magenta">Resolución:</h4>
+                    <p>{{ object.get_resolucion_display }} - {{ object.resolucion_otro }}</p>
+                    <h4 class="magenta">Atendido por:</h4>
+                    <p>{{ object.autor }}</p>
+                </div>
+            </div>
+            <a href="{% url 'denuncia-edicion' object.id %}">Editar</a>
+        </div>
+    </div>
+    <hr>
+    {%endfor%}     
+    <h3>Usted está apunto de confirmar esta venta</h3>
+    <a href="{% url 'denuncia-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+    <a href="{% url 'denuncia-crear' llamado.numero_requerimiento %}"><button type="button" class="btn-outline-info btn">Hacer otra deuncia</button></a>
+    </div>   
+</div>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

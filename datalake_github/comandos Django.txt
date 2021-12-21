@@ -1,0 +1,20 @@
+#Actualizar base de datos
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+#Crear usuario Datalake
+python3 manage.py createsuperuser
+
+#Carga de datos basicos
+python3 manage.py loaddata core/fixtures/core/CI.json
+python3 manage.py loaddata core/fixtures/core/UV.json
+python3 manage.py loaddata core/fixtures/core/P0.json
+python3 manage.py loaddata core/fixtures/core/T0.json
+python3 manage.py loaddata core/fixtures/core/C0.json
+python3 manage.py loaddata core/fixtures/core/D0.json
+
+#iniciar en produccion
+python3 manage.py runserver
+
+#Guardar datos de la base de datos en json (fixtures)
+python3 manage.py dumpdata aplicacion.modelo --indent 4 --format json > aplicacion/fixtures/aplicacion/NOMBRE.json
