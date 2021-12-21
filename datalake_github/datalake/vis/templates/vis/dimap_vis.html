@@ -129,18 +129,18 @@
   <tr>
     <th>UV</th>
     <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
-    <th><a href="{% url 'dimap-vis' 1 %}">Control de plaga</a></th>
-    <th><a href="{% url 'dimap-vis' 2 %}">Esterilizacion</a></th>
-    <th><a href="{% url 'dimap-vis' 3 %}">Denuncia</a></th>   
+    <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
+    <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
+    <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th>   
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
     <tr>
         <td> {{ key }} </td> 
-        <td> {{ value }} </td>
-        <td> {{ value }} </td>
-        <td> {{ value }} </td>
-        <td> {{ value }} </td>
+        <td> {{ value.0 }} </td>
+        <td> {{ value.1 }} </td>
+        <td> {{ value.2 }} </td>
+        <td> {{ value.3 }} </td>
     </tr>
 {% endfor %}
 
