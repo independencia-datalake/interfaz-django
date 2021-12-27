@@ -9,6 +9,7 @@ from farmacia.models import(ComprobanteVenta)
 from dimap.models import(ControlPlaga,Procedimiento,SeguridadDIMAP)
 from seguridad.models import(Requerimiento, Delito, ClasificacionDelito)
 from carga.models import(EntregasPandemia, PatentesVehiculares,PermisosCirculacion,Empresas)
+from django.contrib.auth.decorators import login_required
 
 # #CONFIGURACION DEL S3 AWS
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -16,6 +17,12 @@ from carga.models import(EntregasPandemia, PatentesVehiculares,PermisosCirculaci
 # AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 #FARMACIA
+@login_required
+def inicio_vis(request):
+    print('Cargando inicio vis')
+    return render(request, 'vis/home_vis.html')
+
+@login_required
 def farmacia_vis(request):
 
     filtro_tiempo=FiltroTiempo()
@@ -23,16 +30,17 @@ def farmacia_vis(request):
     if request.method == 'GET':
 
         diccionario_tabla = {}
-        query_tabla = '''select cu.numero_uv as id, f.cant
-                    from core_uv cu
-                    left join (select fc.id, cu.numero_uv as uv, count(1) as cant
-                        from farmacia_comprobanteventa fc
-                        join core_persona cp
-                            on fc.comprador_id = cp.id
-                        join core_uv cu 
-                            on cp.uv_id = cu.id
-                        group by cu.numero_uv) f
-                        on cu.numero_uv = f.uv;'''        
+        query_tabla = '''select cu.numero_uv as id, 
+                        coalesce(f.cant, 0) as cant
+                        from core_uv cu
+                        left join (select fc.id, cu.numero_uv as uv, count(1) as cant
+                            from farmacia_comprobanteventa fc
+                            join core_persona cp
+                                on fc.comprador_id = cp.id
+                            join core_uv cu 
+                                on cp.uv_id = cu.id
+                            group by cu.numero_uv) f
+                            on cu.numero_uv = f.uv;'''        
 
         for c in ComprobanteVenta.objects.raw(query_tabla):
             diccionario_tabla[c.id] = c.cant
@@ -69,17 +77,18 @@ def farmacia_vis(request):
             print(fecha_fin)
             
             diccionario_tabla = {}
-            query_tabla = f"select cu.numero_uv as id, f.cant \
-                    from core_uv cu \
-                    left join (select fc.id, cu.numero_uv as uv, count(1) as cant \
-                        from farmacia_comprobanteventa fc \
-                        join core_persona cp \
-                            on fc.comprador_id = cp.id \
-                        join core_uv cu \
-                            on cp.uv_id = cu.id \
-                        where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
-                        group by cu.numero_uv) f \
-                        on cu.numero_uv = f.uv;"
+            query_tabla = f"select cu.numero_uv as id, \
+                            coalesce(f.cant, 0) as cant \
+                            from core_uv cu \
+                            left join (select fc.id, cu.numero_uv as uv, count(1) as cant \
+                                from farmacia_comprobanteventa fc \
+                                join core_persona cp \
+                                    on fc.comprador_id = cp.id \
+                                join core_uv cu \
+                                    on cp.uv_id = cu.id \
+                                where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cu.numero_uv) f \
+                                on cu.numero_uv = f.uv;" 
 
             for c in ComprobanteVenta.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = c.cant
@@ -108,6 +117,7 @@ def farmacia_vis(request):
             return render(request,'vis/farmacia_vis.html', context)
 
 #DIMAP HIGIENE
+@login_required
 def dimap_vis(request,categoria):
     
     filtro_tiempo=FiltroTiempo()
@@ -386,6 +396,7 @@ def dimap_vis(request,categoria):
             return render(request,'vis/dimap_vis.html', context)
 
 #SEGURIDAD MUNICIPAL
+@login_required
 def seguridad_vis(request, categoria):
     filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [

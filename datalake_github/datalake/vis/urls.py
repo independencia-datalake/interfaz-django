@@ -3,7 +3,8 @@ from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='vis/home_vis.html'), name='inicio-vis'),
+    #path('', TemplateView.as_view(template_name='vis/home_vis.html'), name='inicio-vis'),
+    path('', views.inicio_vis, name="inicio-vis"),
     path('dimap/<int:categoria>', views.dimap_vis, name='dimap-vis'),
     path('farmacia/', views.farmacia_vis, name='farmacia-vis'),
     path('impuestosyderechos/', views.farmacia_vis, name='impuestos-vis'),

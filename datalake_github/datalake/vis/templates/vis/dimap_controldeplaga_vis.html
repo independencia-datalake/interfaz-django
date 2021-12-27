@@ -157,6 +157,40 @@ hdsahhdhas
     })
     </script>
 
+    <script>
+          $(document).ready(function(){
+              $('#sidebarCollapse').on('click', function () {
+                  $('#sidebar').toggleClass('active');
+              });
+          })
+      
+          function cargar_tabla(value){
+            if (value == "FARMACIA MUNICIPAL"){
+              window.location.href = "{% url 'farmacia-vis' %}";
+            }
+        
+            else if (value == "SEGURIDAD MUNICIPAL"){
+              window.location.href = "{% url 'seguridad-vis' 0 %}";
+            }
+        
+        
+            else if (value == "IMPUESTOS Y DERECHOS"){
+              window.location.href = "{% url 'impuestos-vis' %}";
+            }
+        
+            else if (value == "AYUDA SOCIAL - PANDEMIA"){
+              window.location.href = "{% url 'ayudapandemia-vis' %}";
+            }
+        
+            else if (value == "OBRAS MUNICIPALES"){
+              window.location.href = "{% url 'obrasmunicipales-vis' %}";
+            }
+        
+            else{
+              alert("Ninguno");
+            }
+          }
+      </script>
 
   </body>
 </html>

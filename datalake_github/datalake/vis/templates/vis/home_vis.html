@@ -147,39 +147,33 @@
 
     function cargar_tabla(value){
 
-    if (value == "FARMACIA MUNICIPAL"){
-      alert("FARMACIA")
-      window.location.href = "{% url 'farmacia-vis' %}";
-    }
-    
-    else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
-      alert("DIMAP")
-      window.location.href = "{% url 'dimap-vis' 0 %}";
-    }
+        if (value == "FARMACIA MUNICIPAL"){
+          window.location.href = "{% url 'farmacia-vis' %}";
+        }
+        
+        else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
+          window.location.href = "{% url 'dimap-vis' 0 %}";
+        }
 
-    else if (value == "SEGURIDAD MUNICIPAL"){
-      alert("Seguridad");
-      window.location.href = "{% url 'seguridad-vis' 0 %}";
-    }
+        else if (value == "SEGURIDAD MUNICIPAL"){
+          window.location.href = "{% url 'seguridad-vis' 0 %}";
+        }
 
 
-    else if (value == "IMPUESTOS Y DERECHOS"){
-      alert("IMPUESTOS");
-      window.location.href = "{% url 'impuestos-vis' %}";
-    }
+        else if (value == "IMPUESTOS Y DERECHOS"){
+          window.location.href = "{% url 'impuestos-vis' %}";
+        }
 
-    else if (value == "AYUDA SOCIAL - PANDEMIA"){
-      alert("AYUDA SOCIAL - PANDEMIA");
-      window.location.href = "{% url 'ayudapandemia-vis' %}";
-    }
+        else if (value == "AYUDA SOCIAL - PANDEMIA"){
+          window.location.href = "{% url 'ayudapandemia-vis' %}";
+        }
 
-    else if (value == "OBRAS MUNICIPALES"){
-      window.location.href = "{% url 'obrasmunicipales-vis' %}";
-      alert("OBRAS MUNICIPALES");
-    }
+        else if (value == "OBRAS MUNICIPALES"){
+          window.location.href = "{% url 'obrasmunicipales-vis' %}";
+        }
 
-    else{
-      alert("Ninguno");
+        else{
+          alert("Ninguno");
+        }
     }
-}
     </script>

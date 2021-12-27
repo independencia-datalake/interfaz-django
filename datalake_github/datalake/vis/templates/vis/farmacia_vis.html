@@ -26,7 +26,7 @@
       }
       canvas {
         float: left;
-        width:40%
+        width: 40%;
         vertical-align: top;
       }
     </style>
@@ -90,39 +90,33 @@
 </div>
 
 <div id="contenedor-principal" class="container-fluid">
-
-<!--SELECTOR-->
-
-<div class="row">
-  <div class="col-xs-6 col-sm-6">
-    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-      <option>FUENTE DE DATOS</option>
-      <option>FARMACIA MUNICIPAL</option>
-      <option>HIGIENTE AMBIENTAL - DIMAP</option>
-      <option>SEGURIDAD MUNICIPAL</option>
-      <option>IMPUESTOS Y DERECHOS</option>
-      <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>AYUDA SOCIAL - GSL</option>
-      <option>OBRAS MUNICIPALES</option>
-    </select>
+  <!--SELECTOR-->
+  <div class="row">
+    <div class="col-xs-6 col-sm-6">
+        <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+          <option>FUENTE DE DATOS</option>
+          <option>FARMACIA MUNICIPAL</option>
+          <option>HIGIENTE AMBIENTAL - DIMAP</option>
+          <option>SEGURIDAD MUNICIPAL</option>
+          <option>IMPUESTOS Y DERECHOS</option>
+          <option>AYUDA SOCIAL - PANDEMIA</option>
+          <option>AYUDA SOCIAL - GSL</option>
+          <option>OBRAS MUNICIPALES</option>
+        </select>
+    </div>
+    <div class="col-xs-6 col-sm-6">
+      <form action='' method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ filtro_tiempo }}
+        <div class='btn-group'>
+          <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="col-xs-6 col-sm-6">
-    <form action='' method='POST' enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ filtro_tiempo }}
-      <div class='btn-group'>
-        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
-      </div>
-    </form>
-  </div>
-</div>
 </div>
 
-<div style="height: 5vh; width: 65vw; float: right;">
-  
-</div>
-
-
+<div style="height: 5vh; width: 65vw; float: right;"></div>
 
 <br>
 
@@ -139,18 +133,7 @@
     </tr>
 {% endfor %}
 
-  
-
-
 </table>
-
-{% comment %} 
-
-estudiar html
-
-<div style="position:">
-hdsahhdhas
-</div> {% endcomment %}
 
 <!-- script -->
     <!-- Popper.JS -->
@@ -166,42 +149,32 @@ hdsahhdhas
       })
   
       function cargar_tabla(value){
-  
-      if (value == "FARMACIA MUNICIPAL"){
-        alert("FARMACIA")
-        window.location.href = "{% url 'farmacia-vis' %}";
-      }
-      
-      else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
-        alert("DIMAP")
-        window.location.href = "{% url 'dimap-vis' 0 %}";
-      }
-  
-      else if (value == "SEGURIDAD MUNICIPAL"){
-        alert("Seguridad");
-        window.location.href = "{% url 'seguridad-vis' 0 %}";
-      }
-  
-  
-      else if (value == "IMPUESTOS Y DERECHOS"){
-        alert("IMPUESTOS");
-        window.location.href = "{% url 'impuestos-vis' %}";
-      }
-  
-      else if (value == "AYUDA SOCIAL - PANDEMIA"){
-        alert("AYUDA SOCIAL - PANDEMIA");
-        window.location.href = "{% url 'ayudapandemia-vis' %}";
-      }
-  
-      else if (value == "OBRAS MUNICIPALES"){
-        window.location.href = "{% url 'obrasmunicipales-vis' %}";
-        alert("OBRAS MUNICIPALES");
-      }
-  
-      else{
-        alert("Ninguno");
-      }
-  }
-
+        
+        if (value == "HIGIENTE AMBIENTAL - DIMAP"){
+          window.location.href = "{% url 'dimap-vis' 0 %}";
+        }
+    
+        else if (value == "SEGURIDAD MUNICIPAL"){
+          window.location.href = "{% url 'seguridad-vis' 0 %}";
+        }
+    
+    
+        else if (value == "IMPUESTOS Y DERECHOS"){
+          window.location.href = "{% url 'impuestos-vis' %}";
+        }
+    
+        else if (value == "AYUDA SOCIAL - PANDEMIA"){
+          window.location.href = "{% url 'ayudapandemia-vis' %}";
+        }
+    
+        else if (value == "OBRAS MUNICIPALES"){
+          window.location.href = "{% url 'obrasmunicipales-vis' %}";
+        }
+    
+        else{
+          alert("Elija una opción válida.");
+        }
+    }
+  </script>
   </body>
 </html>
