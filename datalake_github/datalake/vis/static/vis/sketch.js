@@ -69,17 +69,15 @@ function setup () {
   // data = data.map( a => a.obj);
   // data.forEach( a => a['uv'] = floor(a['uv']))
 
-
-  data = data_limpia.map( a => a);
+  data = data_limpia
   console.log(data)
-  data.forEach( a => a['uv'] = a['uv'])
-  console.log(data)
-
   summarize(data);
   
   data.forEach( a => a['created'] = new Date(a['created'])); // ccambiar marca temporal por created
   created = data.map( a => a.created);
-  timerange = [Math.min(...created), Math.max(...created)];
+  console.log(created)
+  timerange = [created[0].getTime(), created[created.length-1].getTime()];
+  console.log(timerange)
   phase = data;
 
   timehist = new Array(100).fill(0);

@@ -15,12 +15,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-#<<<<<<< Updated upstream
 # ALLOWED_HOSTS =['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl','54.94.42.27']
 
-#=======
-# ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
-#>>>>>>> Stashed changes
 
 # Application definition
 
@@ -87,32 +83,19 @@ WSGI_APPLICATION = 'datalake.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-#<<<<<<< Updated upstream
    'default': {
        'ENGINE': 'django.db.backends.sqlite3',
        'NAME': BASE_DIR / 'datalake_db',
    }
-#=======
-  #'default': {
-  #    'ENGINE': 'django.db.backends.sqlite3',
-  #    'NAME': BASE_DIR / 'datalake_db',
-  #}
-#>>>>>>> Stashed changes
 }
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'postgres',
-#<<<<<<< Updated upstream
 #         'USER': os.environ.get('DATABASES_USER'),
 #         'PASSWORD': os.environ.get('DATABASES_PASSWORD'),
 #         'HOST': os.environ.get('DATABASES_HOST'),
-#=======
-#         'USER': 'datalake_master',
-#         'PASSWORD': 'D4t4l4k3db.',
-#         'HOST': 'datalake-db.cplck86bddfa.sa-east-1.rds.amazonaws.com',
-#>>>>>>> Stashed changes
 #         'PORT': 5432
 #     }
 # }
