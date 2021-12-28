@@ -1,7 +1,6 @@
 from django.db import models
 from core.models import (
     UV,
-    obtener_uv,
 )
 
 class Empresas(models.Model):
@@ -100,6 +99,70 @@ class EntregasPandemia(models.Model):
     balon_gas = models.PositiveIntegerField(blank=True, null=True, verbose_name="Balon de gas 11 kg")
     parafina = models.PositiveIntegerField(blank=True, null=True, verbose_name="Parafina")
     
+class DOM(models.Model):
+    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
+    tramite = models.CharField(null=True, blank=True, max_length=60, verbose_name='Tramite')
+    manzana = models.CharField(null=True, blank=True, max_length=30, verbose_name='Manzana')
+    predio = models.CharField(null=True, blank=True, max_length=30, verbose_name='Predio')
+    calle = models.CharField(blank=True, null=True, max_length=30, verbose_name="Avenida/Calle/Pasaje")
+    numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
+    n_permiso = models.CharField(blank=True, null=True, max_length=30, verbose_name="Numero de Permiso")
+
+class ExencionAseo(models.Model):
+    uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
+    marca_temporal = models.DateTimeField(verbose_name='Marca Temporal')
+    tipo_documento = models.CharField(
+        blank=False,
+        default='RUT',
+        max_length=30,
+        choices=(
+            ('RUT','Rut'),
+            ('PASAPORTE','Pasaporte'),
+            ('OTRO','Otro'),
+            ),
+        verbose_name='Tipo de Documento'
+        )
+    numero_identificacion = models.CharField(null=True, max_length=30, blank=True, verbose_name="Número de Identidad")
+    nombres = models.CharField(blank=True, null=True,max_length=30, verbose_name="Nombres")
+    apellido_paterno = models.CharField(blank=True, null=True,max_length=30, verbose_name="Apellido Paterno")
+    apellido_materno = models.CharField(blank=True, null=True,max_length=30, verbose_name="Apellido Materno")
+    estado_civil = models.CharField(blank=True, null=True,max_length=30, verbose_name="Estado Civil")
+    ocupacion = models.CharField(blank=True, null=True,max_length=30, verbose_name="Ocupación")
+    tramo_rsh = models.PositiveSmallIntegerField(verbose_name='Tramo RSH')
+    calle = models.CharField(blank=True, null=True, max_length=30, verbose_name="Avenida/Calle/Pasaje")
+    numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
+    complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
+    rol_propiedad = models.CharField(blank=True, null=True, max_length=50, verbose_name="Rol Propiedad")
+    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name="Teléfono")
+    paga_contribucion = models.CharField(
+        null=True,
+        blank=False,
+        max_length=5,
+        choices=(
+            ('NO','No'),
+            ('SI','Si'),
+            ('OTRO','Otro'),
+            ),
+        verbose_name='Paga Contribucioens'
+        )
+    porcentaje_exencion = models.PositiveSmallIntegerField(verbose_name="Porcentaje de Exención")
+    causal = models.CharField(null=True, blank=True, max_length=200, verbose_name="Causal de Exención")
+    adj_docu = models.URLField(max_length=200, verbose_name="Adjuntar Documentos")
+    nombre = models.CharField(blank=True, null=True,max_length=30, verbose_name="Nombres")
+    serie = models.PositiveIntegerField(verbose_name="Serie")
+
+class CargaDOM(models.Model):
+    carga_producto = models.FileField(upload_to='carga/DOM/', verbose_name="Dom - Tramites y permisos")
+
+    def __str__(self):
+            return f'Carga DOM {self.id}'
+
+class CargaExencionAseo(models.Model):
+    carga_producto = models.FileField(upload_to='carga/Exencion Aseo/', verbose_name="Exención pago derechos de aseo")
+
+    def __str__(self):
+            return f'Carga exención pago derechos de aseo {self.id}'  
+
 class CargaEmpresas(models.Model):
     carga_producto = models.FileField(upload_to='carga/empresas/', verbose_name="Empresas")
 

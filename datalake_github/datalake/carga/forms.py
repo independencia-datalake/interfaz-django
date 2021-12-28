@@ -3,7 +3,9 @@ from .models import (
     CargaEntregasPandemia,
     CargaEmpresas,
     CargaPatentesVehiculares,
-    CargaPermisosCirculacion,    
+    CargaPermisosCirculacion,
+    CargaDOM,
+    CargaExencionAseo,
 )
 
 
@@ -49,4 +51,26 @@ class CargaPermisosCirculacionForm(forms.ModelForm):
         fields = ['carga_producto']
         labels = {
             'carga_producto': 'Excel Permisos Circulacion',
+        }
+
+class CargaDOMForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CargaDOMForm,self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = CargaDOM
+        fields = ['carga_producto']
+        labels = {
+            'carga_producto': 'Excel DOM',
+        }
+
+class CargaExencionAseoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CargaExencionAseoForm,self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = CargaExencionAseo
+        fields = ['carga_producto']
+        labels = {
+            'carga_producto': 'Excel Exencion Aseo',
         }

@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Carga de Datos{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Carga DOM</legend>
+                <h2>Instrucciones para carga de datos masiva:</h2>
+                <hr>
+                <div class="row">
+                    <div class="col">    
+                        <h5>1) El nombre del archivo debe ser carga_dom.xlsx </h5>
+                        <hr>
+                        <h5>2) El formato debe ser el siguente:</h5>
+                        <hr>
+                            <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+                                <th>TRÁMITE</th>
+                                <th>MANZANA</th> 
+                                <th>PREDIO</th>
+                                <th>CALLE</th>
+                                <th>Nº</th>
+                                <th>Nº PERMISO</th>
+                            <tr>
+                                <td>REGULARIZACIONES LEY 18.591</td>
+                                <td>728</td>
+                                <td>15</td>
+                                <td>UNO  NORTE</td>
+                                <td>633 Ex 736</td>
+                                <td>810*1987</td>
+                            </tr>
+                            <tr>
+                                <td>OBRAS MENORES</td>
+                                <td>727</td>
+                                <td>5</td>
+                                <td>UNO  NORTE</td>
+                                <td>636</td>
+                                <td>55*1995</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>....</td>
+                                <td>...</td>
+                                <td>...</td>
+                            </tr>
+                            </table>
+                        <hr>
+                        <h4 class="magenta">Importante: si no se siguen las instrucciones, no se efectura la carga de datos</h4>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                {{ datos|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Carga de Datos{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap"> 
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Carga Exención Aseo</legend>
+                <h2>Instrucciones para carga de datos masiva:</h2>
+                <hr>
+                <div class="row">
+                    <div class="col">    
+                        <h5>1) El nombre del archivo debe ser carga_exencionaseo.xlsx </h5>
+                        <hr>
+                        <h5>2) El formato debe ser el siguente:</h5>
+                        <hr>
+                            <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+                                <th>Marca temporal</th>
+                                <th>TIPO DE DOCUMENTO</th> 
+                                <th>Nº DE IDENTIDAD</th>
+                                <th>NOMBRES</th>
+                                <th>...</th>
+                                <th>ADJUNTAR DOCUMENTOS</th>
+                                <th>NOMBRE</th>
+                                <th>SERIE</th>
+                            <tr>
+                                <td>02-11-2020  11:18:26</td>
+                                <td>RUT</td>
+                                <td></td>
+                                <td>MARIANELA</td>
+                                <td>...</td>
+                                <td>https://drive.google.com/open?id=1pFVmzUyckJi1OhEyhHOz7WyRgn78dIZZ</td>
+                                <td>Denisse Vasquez Hurtado</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>02-11-2020  15:33:30</td>
+                                <td>RUT</td>
+                                <td></td>
+                                <td>SARA</td>
+                                <td>...</td>
+                                <td>https://drive.google.com/open?id=1PLjF9Ypeps-X0AlI5XfrGZyogjAteaqD</td>
+                                <td>Denisse Vasquez Hurtado</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>....</td>
+                                <td>...</td>
+                                <td>...</td>
+                            </tr>
+                            </table>
+                        <hr>
+                        <h4 class="magenta">Importante: si no se siguen las instrucciones, no se efectura la carga de datos</h4>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                {{ datos|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}
