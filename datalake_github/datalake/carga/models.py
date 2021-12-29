@@ -20,7 +20,7 @@ class Empresas(models.Model):
     trabajadores_pais = models.PositiveIntegerField(verbose_name="Trabajadores pais")
     trabajadores_comuna = models.PositiveIntegerField(verbose_name="Trabajadores Comuna")
     trabajadores_patente = models.PositiveIntegerField(verbose_name="Trabajadores Patente")
-    created = models.DateField()
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
 
 class PermisosCirculacion(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
@@ -98,7 +98,7 @@ class DOM(models.Model):
     calle = models.CharField(blank=True, null=True, max_length=30, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
     n_permiso = models.CharField(blank=True, null=True, max_length=30, verbose_name="Numero de Permiso")
-    created = models.DateTimeField(verbose_name="created")
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
 
 class ExencionAseo(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
