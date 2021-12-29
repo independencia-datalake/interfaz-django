@@ -3,12 +3,19 @@ import os
 import json
 
 from django.shortcuts import render, redirect
-
 from .forms import(FiltroTiempo)
 from farmacia.models import(ComprobanteVenta)
 from dimap.models import(ControlPlaga,Procedimiento,SeguridadDIMAP)
 from seguridad.models import(Requerimiento, Delito, ClasificacionDelito)
-from carga.models import(EntregasPandemia, PatentesVehiculares,PermisosCirculacion,Empresas)
+from carga.models import(
+    EntregasPandemia,
+    PatentesVehiculares,
+    PermisosCirculacion,
+    Empresas,
+    ExencionAseo,
+    DOM
+    )
+from django.contrib.auth.decorators import login_required
 
 # #CONFIGURACION DEL S3 AWS
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -16,23 +23,30 @@ from carga.models import(EntregasPandemia, PatentesVehiculares,PermisosCirculaci
 # AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 #FARMACIA
+@login_required
+def inicio_vis(request):
+    print('Cargando inicio vis')
+    return render(request, 'vis/home_vis.html')
+
+@login_required
 def farmacia_vis(request):
 
-    filtro_tiempo=FiltroTiempo()
+    filtro_tiempo=FiltroTiempo(request.POST or None)
 
     if request.method == 'GET':
 
         diccionario_tabla = {}
-        query_tabla = '''select cu.numero_uv as id, f.cant
-                    from core_uv cu
-                    left join (select fc.id, cu.numero_uv as uv, count(1) as cant
-                        from farmacia_comprobanteventa fc
-                        join core_persona cp
-                            on fc.comprador_id = cp.id
-                        join core_uv cu 
-                            on cp.uv_id = cu.id
-                        group by cu.numero_uv) f
-                        on cu.numero_uv = f.uv;'''        
+        query_tabla = '''select cu.numero_uv as id, 
+                        coalesce(f.cant, 0) as cant
+                        from core_uv cu
+                        left join (select fc.id, cu.numero_uv as uv, count(1) as cant
+                            from farmacia_comprobanteventa fc
+                            join core_persona cp
+                                on fc.comprador_id = cp.id
+                            join core_uv cu 
+                                on cp.uv_id = cu.id
+                            group by cu.numero_uv) f
+                            on cu.numero_uv = f.uv;'''        
 
         for c in ComprobanteVenta.objects.raw(query_tabla):
             diccionario_tabla[c.id] = c.cant
@@ -57,7 +71,7 @@ def farmacia_vis(request):
 
         return render(request,'vis/farmacia_vis.html', context)
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
 
         filtro_tiempo=FiltroTiempo(request.POST)
         
@@ -69,17 +83,18 @@ def farmacia_vis(request):
             print(fecha_fin)
             
             diccionario_tabla = {}
-            query_tabla = f"select cu.numero_uv as id, f.cant \
-                    from core_uv cu \
-                    left join (select fc.id, cu.numero_uv as uv, count(1) as cant \
-                        from farmacia_comprobanteventa fc \
-                        join core_persona cp \
-                            on fc.comprador_id = cp.id \
-                        join core_uv cu \
-                            on cp.uv_id = cu.id \
-                        where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
-                        group by cu.numero_uv) f \
-                        on cu.numero_uv = f.uv;"
+            query_tabla = f"select cu.numero_uv as id, \
+                            coalesce(f.cant, 0) as cant \
+                            from core_uv cu \
+                            left join (select fc.id, cu.numero_uv as uv, count(1) as cant \
+                                from farmacia_comprobanteventa fc \
+                                join core_persona cp \
+                                    on fc.comprador_id = cp.id \
+                                join core_uv cu \
+                                    on cp.uv_id = cu.id \
+                                where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cu.numero_uv) f \
+                                on cu.numero_uv = f.uv;" 
 
             for c in ComprobanteVenta.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = c.cant
@@ -108,10 +123,16 @@ def farmacia_vis(request):
             return render(request,'vis/farmacia_vis.html', context)
 
 #DIMAP HIGIENE
+@login_required
 def dimap_vis(request,categoria):
     
-    filtro_tiempo=FiltroTiempo()
-    filtro_mapa = ["total","esterilizacion","denuncia","control de plaga"]
+    filtro_tiempo=FiltroTiempo(request.POST or None)
+    filtro_mapa = [
+        "total",
+        "esterilizacion",
+        "denuncia",
+        "control de plaga"
+    ]
 
     if request.method == 'GET':
         diccionario_tabla = {}
@@ -386,6 +407,7 @@ def dimap_vis(request,categoria):
             return render(request,'vis/dimap_vis.html', context)
 
 #SEGURIDAD MUNICIPAL
+@login_required
 def seguridad_vis(request, categoria):
     filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [
@@ -857,4 +879,1925 @@ def seguridad_vis(request, categoria):
 
             return render(request,'vis/seguridad_vis.html', context)
 
-    
+#EXENCION DE BASURA
+@login_required
+def exencion_vis(request, categoria):
+    filtro_tiempo=FiltroTiempo(request.POST or None)
+    filtro_mapa = [
+        "Total",
+        "50% de Excencion",
+        "75% de Excencion",
+        "100% de Excencion",
+    ]
+
+    if request.method == 'GET':
+
+        diccionario_tabla = {}
+        query_tabla = '''select cu.numero_uv as id,
+                            coalesce(ex50.cant, 0) + coalesce(ex75.cant, 0) + coalesce(ex1.cant, 0) as total,
+                            case when ex50.cant is null then 0 else ex50.cant end ex50,
+                            case when ex75.cant is null then 0 else ex75.cant end ex75,
+                            case when ex1.cant is null then 0 else ex1.cant end ex1
+                        from core_uv cu
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_exencionaseo ce
+                            where ce.porcentaje_exencion = 0.5
+                            group by ce.uv_id) ex50
+                            on cu.numero_uv = ex50.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_exencionaseo ce
+                            where ce.porcentaje_exencion = 0.75
+                            group by ce.uv_id) ex75
+                            on cu.numero_uv = ex75.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_exencionaseo ce
+                            where ce.porcentaje_exencion = 1
+                            group by ce.uv_id) ex1
+                            on cu.numero_uv = ex1.uv'''
+
+        for c in ExencionAseo.objects.raw(query_tabla):
+            diccionario_tabla[c.id] = [
+                c.total,
+                c.ex50,
+                c.ex75,
+                c.ex1
+            ]
+        
+
+
+        #FILTRO POR CATEGORIA 
+
+        if filtro_mapa[categoria] == "Total":
+
+            lista_mapa_total = []
+            query_mapa = '''select ce.uv_id as id,
+                                ce.marca_temporal
+                            from carga_exencionaseo ce
+                            where ce.uv_id <> 0
+                            order by ce.marca_temporal asc;'''
+            
+            for c in ExencionAseo.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.marca_temporal)})
+                
+            lista_mapa = lista_mapa_total
+
+        elif filtro_mapa[categoria] == "50% de Excencion":
+            
+            lista_mapa_50 = []
+            query_mapa = '''select ce.uv_id as id, ce.marca_temporal
+                            from carga_exencionaseo ce
+                            where ce.uv_id <> 0
+                            and ce.porcentaje_exencion = 0.5
+                            order by ce.marca_temporal asc;'''
+            
+            for c in ExencionAseo.objects.raw(query_mapa):
+                lista_mapa_50.append({"uv":c.id,"created": str(c.marca_temporal)})
+                
+            lista_mapa = lista_mapa_50
+
+        elif filtro_mapa[categoria] == "75% de Excencion":
+
+            lista_mapa_75 = []
+            query_mapa = '''select ce.uv_id as id, ce.marca_temporal
+                            from carga_exencionaseo ce
+                            where ce.uv_id <> 0
+                            and ce.porcentaje_exencion = 0.75
+                            order by ce.marca_temporal asc;'''
+            
+            for c in ExencionAseo.objects.raw(query_mapa):
+                lista_mapa_75.append({"uv":c.id,"created": str(c.marca_temporal)})
+                
+            lista_mapa = lista_mapa_75
+
+        elif filtro_mapa[categoria] == "100% de Excencion":
+
+            lista_mapa_1 = []
+            query_mapa = '''select ce.uv_id as id, ce.marca_temporal
+                            from carga_exencionaseo ce
+                            where ce.uv_id <> 0
+                            and ce.porcentaje_exencion = 1
+                            order by ce.marca_temporal asc;'''
+            
+            for c in ExencionAseo.objects.raw(query_mapa):
+                lista_mapa_1.append({"uv":c.id,"created": str(c.marca_temporal)})
+                
+            lista_mapa = lista_mapa_1
+
+        context = {
+            'filtro_tiempo':filtro_tiempo,
+            'lista_mapa':lista_mapa,
+            'diccionario_tabla': diccionario_tabla,
+        }
+
+        return render(request,'vis/exencion_basura_vis.html',context)
+
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+
+            diccionario_tabla = {}
+            query_tabla = f"select cu.numero_uv as id, \
+                                coalesce(ex50.cant, 0) + coalesce(ex75.cant, 0) + coalesce(ex1.cant, 0) as total, \
+                                case when ex50.cant is null then 0 else ex50.cant end ex50, \
+                                case when ex75.cant is null then 0 else ex75.cant end ex75, \
+                                case when ex1.cant is null then 0 else ex1.cant end ex1 \
+                            from core_uv cu \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_exencionaseo ce \
+                                where ce.porcentaje_exencion = 0.5 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) ex50 \
+                                on cu.numero_uv = ex50.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_exencionaseo ce \
+                                where ce.porcentaje_exencion = 0.75 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) ex75 \
+                                on cu.numero_uv = ex75.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_exencionaseo ce \
+                                where ce.porcentaje_exencion = 1 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) ex1 \
+                                on cu.numero_uv = ex1.uv"
+
+            for c in ExencionAseo.objects.raw(query_tabla):
+                        diccionario_tabla[c.id] = [
+                            c.total,
+                            c.ex50,
+                            c.ex75,
+                            c.ex1
+                        ]
+
+            #FILTRO POR CATEGORIA 
+
+            if filtro_mapa[categoria] == "Total":
+
+                lista_mapa_total = []
+                query_mapa = f"select ce.uv_id as id, \
+                                    ce.marca_temporal \
+                                from carga_exencionaseo ce \
+                                where ce.uv_id <> 0 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.marca_temporal asc;"
+                
+                for c in ExencionAseo.objects.raw(query_mapa):
+                    lista_mapa_total.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    
+                lista_mapa = lista_mapa_total
+
+            elif filtro_mapa[categoria] == "50% de Excencion":
+                
+                lista_mapa_50 = []
+                query_mapa = f"select ce.uv_id as id, ce.marca_temporal \
+                                from carga_exencionaseo ce \
+                                where ce.uv_id <> 0 \
+                                and ce.porcentaje_exencion = 0.5 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.marca_temporal asc;"
+                
+                for c in ExencionAseo.objects.raw(query_mapa):
+                    lista_mapa_50.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    
+                lista_mapa = lista_mapa_50
+
+            elif filtro_mapa[categoria] == "75% de Excencion":
+
+                lista_mapa_75 = []
+                query_mapa = f"select ce.uv_id as id, ce.marca_temporal \
+                                from carga_exencionaseo ce \
+                                where ce.uv_id <> 0 \
+                                and ce.porcentaje_exencion = 0.75 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.marca_temporal asc;"
+                
+                for c in ExencionAseo.objects.raw(query_mapa):
+                    lista_mapa_75.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    
+                lista_mapa = lista_mapa_75
+
+            elif filtro_mapa[categoria] == "100% de Excencion":
+
+                lista_mapa_1 = []
+                query_mapa = f"select ce.uv_id as id, ce.marca_temporal \
+                                from carga_exencionaseo ce \
+                                where ce.uv_id <> 0 \
+                                and ce.porcentaje_exencion = 1 \
+                                and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.marca_temporal asc;"
+                
+                for c in ExencionAseo.objects.raw(query_mapa):
+                    lista_mapa_1.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    
+                lista_mapa = lista_mapa_1
+            
+            context = {
+                'filtro_tiempo':filtro_tiempo,
+                'lista_mapa':lista_mapa,
+                'diccionario_tabla': diccionario_tabla,
+            }
+
+            return render(request,'vis/exencion_basura_vis.html',context)
+
+#AYUDA EN PANDEMIA
+@login_required
+def entrega_pandemia_vis(request, categoria):
+    filtro_tiempo = FiltroTiempo(request.POST or None)
+    filtro_mapa = [
+        "Total",
+        "Caja",
+        "Pañal niño",
+        "Pañal adulto",
+        "Leche",
+        "NAT100",
+        "Balon de Gas",
+        "Parafina",
+    ]
+
+    if request.method == 'GET':
+
+        diccionario_tabla = {}
+        query_tabla = '''select cu.numero_uv as id,
+                            coalesce(caja.cant, 0) + 
+                            coalesce(nino.cant, 0) + 
+                            coalesce(adulto.cant, 0) + 
+                            coalesce(leche.cant, 0) +
+                            coalesce(nat.cant, 0) +
+                            coalesce(balon.cant, 0) +
+                            coalesce(parafina.cant, 0)
+                            as total,
+                            case when caja.cant is null then 0 else caja.cant end caja,
+                            case when nino.cant is null then 0 else nino.cant end nino,
+                            case when adulto.cant is null then 0 else adulto.cant end adulto,
+                            case when leche.cant is null then 0 else leche.cant end leche,
+                            case when nat.cant is null then 0 else nat.cant end nat,
+                            case when balon.cant is null then 0 else balon.cant end balon,
+                            case when parafina.cant is null then 0 else parafina.cant end parafina
+                        from core_uv cu
+                        left join (
+                            select uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.caja_mercaderia is not null
+                            group by ce.uv_id) caja
+                            on cu.numero_uv = caja.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.pañal_niño_m is not null
+                            or ce.pañal_niño_g is not null
+                            or ce.pañal_niño_xg is not null
+                            or ce.pañal_niño_xxg is not null
+                            group by ce.uv_id) nino
+                            on cu.numero_uv = nino.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.pañal_adulto is not null
+                            group by ce.uv_id) adulto
+                            on cu.numero_uv = adulto.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.leche_entera is not null
+                            or ce.leche_descremada is not null
+                            group by ce.uv_id) leche
+                            on cu.numero_uv = leche.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.nat_100 is not null
+                            group by ce.uv_id) nat
+                            on cu.numero_uv = nat.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.balon_gas is not null
+                            group by ce.uv_id) balon
+                            on cu.numero_uv = balon.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_entregaspandemia ce
+                            where ce.parafina is not null
+                            group by ce.uv_id) parafina
+                            on cu.numero_uv = parafina.uv'''
+
+        for c in EntregasPandemia.objects.raw(query_tabla):
+            diccionario_tabla[c.id] = [
+                c.total,
+                c.caja,
+                c.nino,
+                c.adulto,
+                c.leche,
+                c.nat,
+                c.balon,
+                c.parafina,
+            ]
+        
+        #FILTRO POR CATEGORIA 
+
+        if filtro_mapa[categoria] == "Total":
+
+            lista_mapa_total = []
+            query_mapa = '''select ce.uv_id as id,
+                                ce.fecha
+                            from carga_entregaspandemia ce 
+                            where ce.uv_id <> 0
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_total
+
+        elif filtro_mapa[categoria] == "Caja":
+
+            lista_mapa_caja = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.caja_mercaderia is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_caja.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_caja
+
+        elif filtro_mapa[categoria] == "Pañal niño":
+
+            lista_mapa_pañal_niño = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.pañal_niño_m is not null
+                            or ce.pañal_niño_g is not null
+                            or ce.pañal_niño_xg is not null
+                            or ce.pañal_niño_xxg is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_pañal_niño.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_pañal_niño
+
+        elif filtro_mapa[categoria] == "Pañal adulto":
+
+            lista_mapa_pañal_adulto = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha 
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.pañal_adulto is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_pañal_adulto.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_pañal_adulto
+
+        elif filtro_mapa[categoria] == "Leche":
+
+            lista_mapa_leche = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha 
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.leche_entera is not null
+                            or ce.leche_descremada is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_leche.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_leche
+
+        elif filtro_mapa[categoria] == "NAT100":
+
+            lista_mapa_nat = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha 
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.nat_100 is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_nat.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_nat
+
+        elif filtro_mapa[categoria] == "Balon de Gas":
+
+            lista_mapa_balon = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.balon_gas is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_balon.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_balon
+
+        elif filtro_mapa[categoria] == "Parafina":
+
+            lista_mapa_total = []
+            query_mapa = '''select ce.uv_id as id, ce.fecha 
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 0
+                            and ce.parafina is not null
+                            order by ce.fecha asc;'''
+            
+            for c in EntregasPandemia.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                
+            lista_mapa = lista_mapa_total
+        
+        context = {
+            'filtro_tiempo':filtro_tiempo,
+            'lista_mapa':lista_mapa,
+            'diccionario_tabla': diccionario_tabla,
+        }
+
+        return render(request,'vis/entrega_pandemia_vis.html', context)
+
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+
+            diccionario_tabla = {}
+            query_tabla = f"select cu.numero_uv as id, \
+                                coalesce(caja.cant, 0) + \
+                                coalesce(nino.cant, 0) + \
+                                coalesce(adulto.cant, 0) + \
+                                coalesce(leche.cant, 0) + \
+                                coalesce(nat.cant, 0) + \
+                                coalesce(balon.cant, 0) + \
+                                coalesce(parafina.cant, 0) \
+                                as total, \
+                                case when caja.cant is null then 0 else caja.cant end caja, \
+                                case when nino.cant is null then 0 else nino.cant end nino, \
+                                case when adulto.cant is null then 0 else adulto.cant end adulto, \
+                                case when leche.cant is null then 0 else leche.cant end leche, \
+                                case when nat.cant is null then 0 else nat.cant end nat, \
+                                case when balon.cant is null then 0 else balon.cant end balon, \
+                                case when parafina.cant is null then 0 else parafina.cant end parafina \
+                            from core_uv cu \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.caja_mercaderia is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) caja \
+                                on cu.numero_uv = caja.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.pañal_niño_m is not null \
+                                or ce.pañal_niño_g is not null \
+                                or ce.pañal_niño_xg is not null \
+                                or ce.pañal_niño_xxg is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) nino \
+                                on cu.numero_uv = nino.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.pañal_adulto is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) adulto \
+                                on cu.numero_uv = adulto.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.leche_entera is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                or ce.leche_descremada is not null \
+                                group by ce.uv_id) leche \
+                                on cu.numero_uv = leche.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.nat_100 is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) nat \
+                                on cu.numero_uv = nat.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.balon_gas is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) balon \
+                                on cu.numero_uv = balon.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_entregaspandemia ce \
+                                where ce.parafina is not null \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) parafina \
+                                on cu.numero_uv = parafina.uv"
+
+            for c in EntregasPandemia.objects.raw(query_tabla):
+                diccionario_tabla[c.id] = [
+                    c.total,
+                    c.caja,
+                    c.nino,
+                    c.adulto,
+                    c.leche,
+                    c.nat,
+                    c.balon,
+                    c.parafina,
+                ]
+            
+            #FILTRO POR CATEGORIA 
+
+            if filtro_mapa[categoria] == "Total":
+
+                lista_mapa_total = []
+                query_mapa = f"select ce.uv_id as id, \
+                                    ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_total
+
+            elif filtro_mapa[categoria] == "Caja":
+
+                lista_mapa_caja = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.caja_mercaderia is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_caja.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_caja
+
+            elif filtro_mapa[categoria] == "Pañal niño":
+
+                lista_mapa_pañal_niño = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.pañal_niño_m is not null \
+                                or ce.pañal_niño_g is not null \
+                                or ce.pañal_niño_xg is not null \
+                                or ce.pañal_niño_xxg is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_pañal_niño.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_pañal_niño
+
+            elif filtro_mapa[categoria] == "Pañal adulto":
+
+                lista_mapa_pañal_adulto = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.pañal_adulto is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_pañal_adulto.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_pañal_adulto
+
+            elif filtro_mapa[categoria] == "Leche":
+
+                lista_mapa_leche = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.leche_entera is not null \
+                                or ce.leche_descremada is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_leche.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_leche
+
+            elif filtro_mapa[categoria] == "NAT100":
+
+                lista_mapa_nat = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.nat_100 is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_nat.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_nat
+
+            elif filtro_mapa[categoria] == "Balon de Gas":
+
+                lista_mapa_balon = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.balon_gas is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_balon.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_balon
+
+            elif filtro_mapa[categoria] == "Parafina":
+
+                lista_mapa_total = []
+                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                from carga_entregaspandemia ce \
+                                where ce.uv_id <> 0 \
+                                and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                and ce.parafina is not null \
+                                order by ce.fecha asc;"
+                
+                for c in EntregasPandemia.objects.raw(query_mapa):
+                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                    
+                lista_mapa = lista_mapa_total
+            
+            context = {
+                'filtro_tiempo':filtro_tiempo,
+                'lista_mapa':lista_mapa,
+                'diccionario_tabla': diccionario_tabla,
+            }
+
+            return render(request,'vis/entrega_pandemia_vis.html', context)
+
+#IMPUESTOS Y DERECHOS
+@login_required
+def impuestos_derechos_vis(request,categoria):
+    filtro_tiempo = FiltroTiempo(request.POST or None)
+    filtro_mapa = [
+        "Total",
+        "Patente Alcohol",
+        "Patente Comercial",
+        "Patente Profesional",
+        "Patente Industrial",
+        "Patente Microempresa",
+        "Patente Estacionada"
+    ]
+
+    if request.method == 'GET':
+        diccionario_tabla = {}
+        query_tabla = '''select cu.numero_uv as id,
+                            coalesce(alc.cant, 0) + 
+                            coalesce(com.cant, 0) + 
+                            coalesce(pro.cant, 0) +
+                            coalesce(ind.cant, 0) +
+                            coalesce(mic.cant, 0) +
+                            coalesce(est.cant, 0) as total,
+                            case when alc.cant is null then 0 else alc.cant end alc,
+                            case when com.cant is null then 0 else com.cant end com,
+                            case when pro.cant is null then 0 else pro.cant end pro,
+                            case when ind.cant is null then 0 else ind.cant end ind,
+                            case when mic.cant is null then 0 else mic.cant end mic,
+                            case when est.cant is null then 0 else est.cant end est
+                        from core_uv cu
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_empresas ce
+                            where ce.tipo = 4
+                            group by ce.uv_id) alc
+                            on cu.numero_uv = alc.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_empresas ce
+                            where ce.tipo = 2
+                            group by ce.uv_id) com
+                            on cu.numero_uv = com.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_empresas ce
+                            where ce.tipo = 3
+                            group by ce.uv_id) pro
+                            on cu.numero_uv = pro.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_empresas ce
+                            where ce.tipo = 1
+                            group by ce.uv_id) ind
+                            on cu.numero_uv = ind.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_empresas ce
+                            where ce.tipo = 9
+                            group by ce.uv_id) mic
+                            on cu.numero_uv = mic.uv
+                        left join (
+                            select ce.uv_id as uv, count(1) as cant
+                            from carga_empresas ce
+                            where ce.tipo = 5
+                            group by ce.uv_id) est
+                            on cu.numero_uv = est.uv'''
+
+        for c in Empresas.objects.raw(query_tabla):
+            diccionario_tabla[c.id] = [
+                c.total,
+                c.alc,
+                c.com,
+                c.pro,
+                c.ind,
+                c.mic,
+                c.est
+            ]
+        
+        #FILTRO POR CATEGORIA 
+
+        if filtro_mapa[categoria] == "Total":
+
+            lista_mapa_total = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_total
+
+        elif filtro_mapa[categoria] == "Patente Alcohol":
+
+            lista_mapa_alcohol = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 4
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_alcohol.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_alcohol
+
+        elif filtro_mapa[categoria] == "Patente Comercial":
+
+            lista_mapa_comercial = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 2
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_comercial.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_comercial
+
+        elif filtro_mapa[categoria] == "Patente Profesional":
+
+            lista_mapa_profesional = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 3
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_profesional.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_profesional
+
+        elif filtro_mapa[categoria] == "Patente Industrial":
+
+            lista_mapa_industial = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 1
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_industial.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_industial
+
+        elif filtro_mapa[categoria] == "Patente Microempresa":
+
+            lista_mapa_micro = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 9
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_micro.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_micro
+
+        elif filtro_mapa[categoria] == "Patente Estacionada":
+
+            lista_mapa_estacionada = []
+            query_mapa ='''select ce.uv_id as id,
+                                ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 5
+                            order by ce.created asc;'''
+            
+            for c in Empresas.objects.raw(query_mapa):
+                lista_mapa_estacionada.append({"uv":c.id,"created": str(c.created)})
+                
+            lista_mapa = lista_mapa_estacionada
+
+        context = {
+            'filtro_tiempo':filtro_tiempo,
+            'lista_mapa':lista_mapa,
+            'diccionario_tabla': diccionario_tabla,
+        }
+
+        return render(request,'vis/impuestos_derechos_vis.html', context)
+
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+
+            diccionario_tabla = {}
+            query_tabla = f"select cu.numero_uv as id, \
+                                coalesce(alc.cant, 0) +  \
+                                coalesce(com.cant, 0) +  \
+                                coalesce(pro.cant, 0) + \
+                                coalesce(ind.cant, 0) + \
+                                coalesce(mic.cant, 0) + \
+                                coalesce(est.cant, 0) as total, \
+                                case when alc.cant is null then 0 else alc.cant end alc, \
+                                case when com.cant is null then 0 else com.cant end com, \
+                                case when pro.cant is null then 0 else pro.cant end pro, \
+                                case when ind.cant is null then 0 else ind.cant end ind, \
+                                case when mic.cant is null then 0 else mic.cant end mic, \
+                                case when est.cant is null then 0 else est.cant end est \
+                            from core_uv cu \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_empresas ce \
+                                where ce.tipo = 4 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) alc \
+                                on cu.numero_uv = alc.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_empresas ce \
+                                where ce.tipo = 2 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) com \
+                                on cu.numero_uv = com.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_empresas ce \
+                                where ce.tipo = 3 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) pro \
+                                on cu.numero_uv = pro.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_empresas ce \
+                                where ce.tipo = 1 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) ind \
+                                on cu.numero_uv = ind.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_empresas ce \
+                                where ce.tipo = 9 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) mic \
+                                on cu.numero_uv = mic.uv \
+                            left join ( \
+                                select ce.uv_id as uv, count(1) as cant \
+                                from carga_empresas ce \
+                                where ce.tipo = 5 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by ce.uv_id) est \
+                                on cu.numero_uv = est.uv"
+
+            for c in Empresas.objects.raw(query_tabla):
+                diccionario_tabla[c.id] = [
+                    c.total,
+                    c.alc,
+                    c.com,
+                    c.pro,
+                    c.ind,
+                    c.mic,
+                    c.est
+                ]
+            
+            #FILTRO POR CATEGORIA 
+
+            if filtro_mapa[categoria] == "Total":
+
+                lista_mapa_total = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_total
+
+            elif filtro_mapa[categoria] == "Patente Alcohol":
+
+                lista_mapa_alcohol = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.tipo = 4 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_alcohol.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_alcohol
+
+            elif filtro_mapa[categoria] == "Patente Comercial":
+
+                lista_mapa_comercial = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.tipo = 2 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_comercial.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_comercial
+
+            elif filtro_mapa[categoria] == "Patente Profesional":
+
+                lista_mapa_profesional = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.tipo = 3 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_profesional.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_profesional
+
+            elif filtro_mapa[categoria] == "Patente Industrial":
+
+                lista_mapa_industial = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.tipo = 1 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_industial.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_industial
+
+            elif filtro_mapa[categoria] == "Patente Microempresa":
+
+                lista_mapa_micro = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.tipo = 9 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_micro.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_micro
+
+            elif filtro_mapa[categoria] == "Patente Estacionada":
+
+                lista_mapa_estacionada = []
+                query_mapa =f"select ce.uv_id as id, \
+                                    ce.created \
+                                from carga_empresas ce \
+                                where ce.uv_id <> 0 \
+                                and ce.tipo = 5 \
+                                and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by ce.created asc;"
+                
+                for c in Empresas.objects.raw(query_mapa):
+                    lista_mapa_estacionada.append({"uv":c.id,"created": str(c.created)})
+                    
+                lista_mapa = lista_mapa_estacionada
+
+            context = {
+                'filtro_tiempo':filtro_tiempo,
+                'lista_mapa':lista_mapa,
+                'diccionario_tabla': diccionario_tabla,
+            }
+
+            return render(request,'vis/impuestos_derechos_vis.html', context)
+
+#TRANSITO 
+@login_required
+def transito_vis(request, categoria):
+    filtro_tiempo = FiltroTiempo(request.POST or None)
+    filtro_mapa = [
+        "Total",
+        "Permisos de Circulación",
+        "Patente Vehicular",
+    ]
+
+    if request.method == 'GET':
+
+        diccionario_tabla = {}
+        query_tabla = "hola"
+
+        for c in PatentesVehiculares.objects.raw(query_tabla):
+            diccionario_tabla[c.id] = [
+                c.total,
+                c.pc,
+                c.pv,
+            ]
+
+        #FILTRO POR CATEGORIA 
+
+        if filtro_mapa[categoria] == "Total":
+
+            lista_mapa_total = []
+            query_mapa = "hola"
+
+            for c in PatentesVehiculares.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+
+            lista_mapa = lista_mapa_total
+
+        elif filtro_mapa[categoria] == "Permisos de Circulación":
+
+            lista_mapa_circulacion = []
+            query_mapa = "hola"
+
+            for c in PermisosCirculacion.objects.raw(query_mapa):
+                lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
+
+            lista_mapa = lista_mapa_circulacion
+
+        elif filtro_mapa[categoria] == "Patente Vehicular":
+
+            lista_mapa_vehicular = []
+            query_mapa = "hola"
+
+            for c in PatentesVehiculares.objects.raw(query_mapa):
+                lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
+
+            lista_mapa = lista_mapa_vehicular
+
+        context = {
+            'filtro_tiempo':filtro_tiempo,
+            'lista_mapa':lista_mapa,
+            'diccionario_tabla': diccionario_tabla,
+        }
+
+        return render(request,'vis/transito_vis.html',context)
+
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+
+            diccionario_tabla = {}
+            query_tabla = "hola"
+
+            for c in PatentesVehiculares.objects.raw(query_tabla):
+                diccionario_tabla[c.id] = [
+                    c.total,
+                    c.pc,
+                    c.pv,
+                ]
+
+            #FILTRO POR CATEGORIA 
+
+            if filtro_mapa[categoria] == "Total":
+
+                lista_mapa_total = []
+                query_mapa = "hola"
+
+                for c in PatentesVehiculares.objects.raw(query_mapa):
+                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+
+                lista_mapa = lista_mapa_total
+
+            elif filtro_mapa[categoria] == "Permisos de Circulación":
+
+                lista_mapa_circulacion = []
+                query_mapa = "hola"
+
+                for c in PermisosCirculacion.objects.raw(query_mapa):
+                    lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
+
+                lista_mapa = lista_mapa_circulacion
+
+            elif filtro_mapa[categoria] == "Patente Vehicular":
+
+                lista_mapa_vehicular = []
+                query_mapa = "hola"
+
+                for c in PatentesVehiculares.objects.raw(query_mapa):
+                    lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
+
+                lista_mapa = lista_mapa_vehicular
+
+            context = {
+                'filtro_tiempo':filtro_tiempo,
+                'lista_mapa':lista_mapa,
+                'diccionario_tabla': diccionario_tabla,
+            }
+
+            return render(request,'vis/transito_vis.html',context)
+
+#OBRAS MUNICIPALES (DOM)
+@login_required
+def obras_municipales_vis(request,categoria):
+    filtro_tiempo = FiltroTiempo(request.POST or None)
+    filtro_mapa = [
+        "Total",
+        "ANEXIÓN",
+        "ANTIGUAS",
+        "ANULACION",
+        "CAMBIO DE DESTINO",
+        "FUSIÓN",
+        "LEY 20,898",
+        "OBRAS MENORES",
+        "PERMISO DE EDIFICACIÓN",
+        "RECEPCIÓN FINAL",
+        "REGULARIZACIONES",
+        "REGULARIZACIONES LEY 18.591",
+        "RESOLUCIÓN",
+        "SUBDIVISIONES",
+        "VENTA POR PISO",
+    ]
+
+    if request.method == 'GET':
+        diccionario_tabla = {}
+        query_tabla ='''select cu.numero_uv as id,
+                            coalesce(anx.cant, 0) + 
+                            coalesce(ant.cant, 0) + 
+                            coalesce(anu.cant, 0) +
+                            coalesce(cdd.cant, 0) +
+                            coalesce(cdd.cant, 0) +
+                            coalesce(fsn.cant, 0) +
+                            coalesce(ley.cant, 0) +
+                            coalesce(oms.cant, 0) +
+                            coalesce(pde.cant, 0) +
+                            coalesce(rfl.cant, 0) +
+                            coalesce(rgl.cant, 0) +
+                            coalesce(rley.cant, 0) +
+                            coalesce(rsl.cant, 0) +
+                            coalesce(sdv.cant, 0) +
+                            coalesce(vpp.cant, 0) as total,
+                            case when anx.cant is null then 0 else anx.cant end anx,
+                            case when ant.cant is null then 0 else ant.cant end ant,
+                            case when anu.cant is null then 0 else anu.cant end anu,
+                            case when cdd.cant is null then 0 else cdd.cant end cdd,
+                            case when fsn.cant is null then 0 else fsn.cant end fsn,
+                            case when ley.cant is null then 0 else ley.cant end ley,
+                            case when oms.cant is null then 0 else oms.cant end oms,
+                            case when pde.cant is null then 0 else pde.cant end pde,
+                            case when rfl.cant is null then 0 else rfl.cant end rfl,
+                            case when rgl.cant is null then 0 else rgl.cant end rgl,
+                            case when rley.cant is null then 0 else rley.cant end rley,
+                            case when rsl.cant is null then 0 else rsl.cant end rsl,
+                            case when sdv.cant is null then 0 else sdv.cant end sdv,
+                            case when vpp.cant is null then 0 else vpp.cant end vpp
+                        from core_uv cu
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'ANEXIÓN'
+                            group by cd.uv_id) anx
+                            on cu.numero_uv = anx.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'ANTIGUAS'
+                            group by cd.uv_id) ant
+                            on cu.numero_uv = ant.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'ANULACION'
+                            group by cd.uv_id) anu
+                            on cu.numero_uv = anu.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'CAMBIO DE DESTINO'
+                            group by cd.uv_id) cdd
+                            on cu.numero_uv = cdd.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'FUSIÓN'
+                            group by cd.uv_id) fsn
+                            on cu.numero_uv = fsn.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'LEY 20,898'
+                            group by cd.uv_id) ley
+                            on cu.numero_uv = ley.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'OBRAS MENORES'
+                            group by cd.uv_id) oms
+                            on cu.numero_uv = oms.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'PERMISO DE EDIFICACIÓN'
+                            group by cd.uv_id) pde
+                            on cu.numero_uv = pde.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'RECEPCIÓN FINAL'
+                            group by cd.uv_id) rfl
+                            on cu.numero_uv = rfl.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'REGULARIZACIONES'
+                            group by cd.uv_id) rgl
+                            on cu.numero_uv = rgl.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'REGULARIZACIONES LEY 18.591'
+                            group by cd.uv_id) rley
+                            on cu.numero_uv = rley.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'RESOLUCIÓN'
+                            group by cd.uv_id) rsl
+                            on cu.numero_uv = rsl.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'SUBDIVISIONES'
+                            group by cd.uv_id) sdv
+                            on cu.numero_uv = sdv.uv
+                        left join (select cd.uv_id as uv, count(1) as cant
+                            from carga_dom cd 
+                            where cd.tramite = 'VENTA POR PISO'
+                            group by cd.uv_id) vpp
+                            on cu.numero_uv = vpp.uv'''
+
+        for c in DOM.objects.raw(query_tabla):
+            diccionario_tabla[c.id] = [
+                c.total,
+                c.anx,
+                c.ant,
+                c.anu,
+                c.cdd,
+                c.fsn,
+                c.ley,
+                c.oms,
+                c.pde,
+                c.rfl,
+                c.rgl,
+                c.rley,
+                c.rsl,
+                c.sdv,
+                c.vpp,
+            ]
+
+        #FILTRO POR CATEGORIA 
+
+        if filtro_mapa[categoria] == "Total":
+            lista_mapa_total = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_total
+
+        elif filtro_mapa[categoria] == "ANEXIÓN":
+            lista_mapa_anexion = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'ANEXIÓN'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_anexion.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_anexion
+
+        elif filtro_mapa[categoria] == "ANTIGUAS":
+            lista_mapa_antiguas = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'ANTIGUAS'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_antiguas.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_antiguas
+
+        elif filtro_mapa[categoria] == "ANULACION":
+            lista_mapa_anulacion = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'ANULACION'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_anulacion.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_anulacion
+
+        elif filtro_mapa[categoria] == "CAMBIO DE DESTINO":
+            lista_mapa_cambio = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'CAMBIO DE DESTINO'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_cambio.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_cambio
+
+        elif filtro_mapa[categoria] == "FUSIÓN":
+            lista_mapa_fusion = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'FUSIÓN'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_fusion.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_fusion
+
+        elif filtro_mapa[categoria] == "LEY 20,898":
+            lista_mapa_ley = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'LEY 20,898'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_ley.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_ley
+
+        elif filtro_mapa[categoria] == "OBRAS MENORES":
+            lista_mapa_obras = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'OBRAS MENORES'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_obras.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_obras
+
+        elif filtro_mapa[categoria] == "PERMISO DE EDIFICACIÓN":
+            lista_mapa_edificacion = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'PERMISO DE EDIFICACIÓN'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_edificacion.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_edificacion
+
+        elif filtro_mapa[categoria] == "RECEPCIÓN FINAL":
+            lista_mapa_recepcion = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'RECEPCIÓN FINAL'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_recepcion.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_recepcion
+
+        elif filtro_mapa[categoria] == "REGULARIZACIONES":
+            lista_mapa_regularizaciones = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'REGULARIZACIONES'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_regularizaciones.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_regularizaciones
+
+        elif filtro_mapa[categoria] == "REGULARIZACIONES LEY 18.591":
+            lista_mapa_reg_ley = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'REGULARIZACIONES LEY 18.591'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_reg_ley.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_reg_ley
+
+        elif filtro_mapa[categoria] == "RESOLUCIÓN":
+            lista_mapa_resolucion = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'RESOLUCIÓN'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_resolucion.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_resolucion
+
+        elif filtro_mapa[categoria] == "SUBDIVISIONES":
+            lista_mapa_subdivisiones = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'SUBDIVISIONES'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_subdivisiones.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_subdivisiones
+
+        elif filtro_mapa[categoria] == "VENTA POR PISO":
+            lista_mapa_venta = []
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'VENTA POR PISO'
+                            order by cd.created asc;'''
+
+            for c in DOM.objects.raw(query_mapa):
+                lista_mapa_venta.append({"uv":c.id,"created": str(c.created)})
+
+            lista_mapa = lista_mapa_venta
+
+        context = {
+            'filtro_tiempo':filtro_tiempo,
+            'lista_mapa':lista_mapa,
+            'diccionario_tabla': diccionario_tabla,
+        }
+
+        return render (request,'vis/dom_vis.html', context)
+
+    if request.method == 'POST':
+        filtro_tiempo=FiltroTiempo(request.POST)
+
+        if filtro_tiempo.is_valid():
+            fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
+            fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
+
+            diccionario_tabla = {}
+            query_tabla =f"select cu.numero_uv as id, \
+                                coalesce(anx.cant, 0) + \
+                                coalesce(ant.cant, 0) + \
+                                coalesce(anu.cant, 0) + \
+                                coalesce(cdd.cant, 0) + \
+                                coalesce(cdd.cant, 0) + \
+                                coalesce(fsn.cant, 0) + \
+                                coalesce(ley.cant, 0) + \
+                                coalesce(oms.cant, 0) + \
+                                coalesce(pde.cant, 0) + \
+                                coalesce(rfl.cant, 0) + \
+                                coalesce(rgl.cant, 0) + \
+                                coalesce(rley.cant, 0) + \
+                                coalesce(rsl.cant, 0) + \
+                                coalesce(sdv.cant, 0) + \
+                                coalesce(vpp.cant, 0) as total, \
+                                case when anx.cant is null then 0 else anx.cant end anx, \
+                                case when ant.cant is null then 0 else ant.cant end ant, \
+                                case when anu.cant is null then 0 else anu.cant end anu, \
+                                case when cdd.cant is null then 0 else cdd.cant end cdd, \
+                                case when fsn.cant is null then 0 else fsn.cant end fsn, \
+                                case when ley.cant is null then 0 else ley.cant end ley, \
+                                case when oms.cant is null then 0 else oms.cant end oms, \
+                                case when pde.cant is null then 0 else pde.cant end pde, \
+                                case when rfl.cant is null then 0 else rfl.cant end rfl, \
+                                case when rgl.cant is null then 0 else rgl.cant end rgl, \
+                                case when rley.cant is null then 0 else rley.cant end rley,  \
+                                case when rsl.cant is null then 0 else rsl.cant end rsl, \
+                                case when sdv.cant is null then 0 else sdv.cant end sdv, \
+                                case when vpp.cant is null then 0 else vpp.cant end vpp \
+                            from core_uv cu \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'ANEXIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) anx \
+                                on cu.numero_uv = anx.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'ANTIGUAS' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) ant \
+                                on cu.numero_uv = ant.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'ANULACION' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) anu  \
+                                on cu.numero_uv = anu.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'CAMBIO DE DESTINO' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) cdd \
+                                on cu.numero_uv = cdd.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'FUSIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) fsn \
+                                on cu.numero_uv = fsn.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'LEY 20,898' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) ley \
+                                on cu.numero_uv = ley.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'OBRAS MENORES' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) oms \
+                                on cu.numero_uv = oms.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'PERMISO DE EDIFICACIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) pde \
+                                on cu.numero_uv = pde.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'RECEPCIÓN FINAL' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) rfl \
+                                on cu.numero_uv = rfl.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'REGULARIZACIONES' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) rgl \
+                                on cu.numero_uv = rgl.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'REGULARIZACIONES LEY 18.591' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) rley \
+                                on cu.numero_uv = rley.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'RESOLUCIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) rsl \
+                                on cu.numero_uv = rsl.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd \
+                                where cd.tramite = 'SUBDIVISIONES' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) sdv \
+                                on cu.numero_uv = sdv.uv \
+                            left join (select cd.uv_id as uv, count(1) as cant \
+                                from carga_dom cd  \
+                                where cd.tramite = 'VENTA POR PISO' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                group by cd.uv_id) vpp \
+                                on cu.numero_uv = vpp.uv"
+
+            for c in DOM.objects.raw(query_tabla):
+                diccionario_tabla[c.id] = [
+                    c.total,
+                    c.anx,
+                    c.ant,
+                    c.anu,
+                    c.cdd,
+                    c.fsn,
+                    c.ley,
+                    c.oms,
+                    c.pde,
+                    c.rfl,
+                    c.rgl,
+                    c.rley,
+                    c.rsl,
+                    c.sdv,
+                    c.vpp,
+                ]
+
+            #FILTRO POR CATEGORIA 
+
+            if filtro_mapa[categoria] == "Total":
+                lista_mapa_total = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_total
+
+            elif filtro_mapa[categoria] == "ANEXIÓN":
+                lista_mapa_anexion = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'ANEXIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_anexion.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_anexion
+
+            elif filtro_mapa[categoria] == "ANTIGUAS":
+                lista_mapa_antiguas = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'ANTIGUAS' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_antiguas.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_antiguas
+
+            elif filtro_mapa[categoria] == "ANULACION":
+                lista_mapa_anulacion = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'ANULACION' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_anulacion.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_anulacion
+
+            elif filtro_mapa[categoria] == "CAMBIO DE DESTINO":
+                lista_mapa_cambio = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'CAMBIO DE DESTINO' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_cambio.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_cambio
+
+            elif filtro_mapa[categoria] == "FUSIÓN":
+                lista_mapa_fusion = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'FUSIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_fusion.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_fusion
+
+            elif filtro_mapa[categoria] == "LEY 20,898":
+                lista_mapa_ley = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'LEY 20,898' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_ley.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_ley
+
+            elif filtro_mapa[categoria] == "OBRAS MENORES":
+                lista_mapa_obras = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'OBRAS MENORES' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_obras.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_obras
+
+            elif filtro_mapa[categoria] == "PERMISO DE EDIFICACIÓN":
+                lista_mapa_edificacion = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'PERMISO DE EDIFICACIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_edificacion.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_edificacion
+
+            elif filtro_mapa[categoria] == "RECEPCIÓN FINAL":
+                lista_mapa_recepcion = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'RECEPCIÓN FINAL' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_recepcion.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_recepcion
+
+            elif filtro_mapa[categoria] == "REGULARIZACIONES":
+                lista_mapa_regularizaciones = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'REGULARIZACIONES' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_regularizaciones.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_regularizaciones
+
+            elif filtro_mapa[categoria] == "REGULARIZACIONES LEY 18.591":
+                lista_mapa_reg_ley = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'REGULARIZACIONES LEY 18.591' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_reg_ley.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_reg_ley
+
+            elif filtro_mapa[categoria] == "RESOLUCIÓN":
+                lista_mapa_resolucion = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'RESOLUCIÓN' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_resolucion.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_resolucion
+
+            elif filtro_mapa[categoria] == "SUBDIVISIONES":
+                lista_mapa_subdivisiones = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'SUBDIVISIONES' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_subdivisiones.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_subdivisiones
+
+            elif filtro_mapa[categoria] == "VENTA POR PISO":
+                lista_mapa_venta = []
+                query_mapa  =f"select cd.uv_id as id, \
+                                    cd.created  \
+                                from carga_dom cd \
+                                where cd.uv_id <> 0 \
+                                and cd.tramite = 'VENTA POR PISO' \
+                                and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                                order by cd.created asc;"
+
+                for c in DOM.objects.raw(query_mapa):
+                    lista_mapa_venta.append({"uv":c.id,"created": str(c.created)})
+
+                lista_mapa = lista_mapa_venta
+
+            context = {
+                'filtro_tiempo':filtro_tiempo,
+                'lista_mapa':lista_mapa,
+                'diccionario_tabla': diccionario_tabla,
+            }
+
+            return render (request,'vis/dom_vis.html', context)

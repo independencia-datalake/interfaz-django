@@ -101,8 +101,9 @@
       <option>SEGURIDAD MUNICIPAL</option>
       <option>IMPUESTOS Y DERECHOS</option>
       <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>AYUDA SOCIAL - GSL</option>
+      <option>EXCENCIÓN BASURA</option>
       <option>OBRAS MUNICIPALES</option>
+      <option>TRANSITO</option>
     </select>
   </div>
   <div class="col-xs-6 col-sm-6">
@@ -172,49 +173,47 @@ hdsahhdhas
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <script>
-      $(document).ready(function(){
-          $('#sidebarCollapse').on('click', function () {
-              $('#sidebar').toggleClass('active');
-          });
-      })
-  
-      function cargar_tabla(value){
-  
+    $(document).ready(function(){
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    })
+
+    function cargar_tabla(value){
+
       if (value == "FARMACIA MUNICIPAL"){
-        alert("FARMACIA")
         window.location.href = "{% url 'farmacia-vis' %}";
       }
       
       else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
-        alert("DIMAP")
         window.location.href = "{% url 'dimap-vis' 0 %}";
       }
-  
-      else if (value == "SEGURIDAD MUNICIPAL"){
-        alert("Seguridad");
-        window.location.href = "{% url 'seguridad-vis' 0 %}";
-      }
-  
-  
+
       else if (value == "IMPUESTOS Y DERECHOS"){
-        alert("IMPUESTOS");
-        window.location.href = "{% url 'impuestos-vis' %}";
+        window.location.href = "{% url 'impuestos-vis' 0 %}";
       }
-  
+
       else if (value == "AYUDA SOCIAL - PANDEMIA"){
-        alert("AYUDA SOCIAL - PANDEMIA");
-        window.location.href = "{% url 'ayudapandemia-vis' %}";
+        window.location.href = "{% url 'ayudapandemia-vis' 0 %}";
       }
-  
+
+      else if (value == "EXCENCIÓN BASURA"){
+        window.location.href = "{% url 'excencionbasura-vis' 0 %}";
+      }
+
       else if (value == "OBRAS MUNICIPALES"){
-        window.location.href = "{% url 'obrasmunicipales-vis' %}";
-        alert("OBRAS MUNICIPALES");
+        window.location.href = "{% url 'obrasmunicipales-vis' 0 %}";
       }
-  
+
+      else if (value == "TRANSITO"){
+        window.location.href = "{% url 'transito-vis' 0 %}";
+      }
+
       else{
         alert("Ninguno");
       }
   }
+    </script>
 
   </body>
 </html>

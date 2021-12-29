@@ -8,40 +8,43 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Carga Ayuda en pandemia</legend>
+                <legend class="border-bottom mb-4">Carga DOM</legend>
                 <h2>Instrucciones para carga de datos masiva:</h2>
                 <hr>
                 <div class="row">
                     <div class="col">    
-                        <h5>1) El nombre del archivo debe ser carga_entregaspandemia.xlsx </h5>
+                        <h5>1) El nombre del archivo debe ser carga_dom.xlsx </h5>
                         <hr>
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-                                <th>n_id</th>
-                                <th>fecha</th> 
-                                <th>tipo_identificacion</th>
-                                <th>nombre_persona</th>
-                                <th>....</th>
-                                <th>balon_gas</th>
-                                <th>parafina</th>
+                                <th>uv</th>
+                                <th>tramite</th>
+                                <th>manzana</th> 
+                                <th>predio</th>
+                                <th>calle</th>
+                                <th>numero</th>
+                                <th>n_permiso</th>
+                                <th>created</th>
                             <tr>
-                                <td>263741757</td>
-                                <td>27-07-2020  13:50:16</td>
-                                <td>RUT</td>
-                                <td></td>
-                                <td>...</td>
-                                <td></td>
-                                <td>1</td>
+                                <td>12</td>
+                                <td>REGULARIZACIONES LEY 18.591</td>
+                                <td>728</td>
+                                <td>15</td>
+                                <td>UNO  NORTE</td>
+                                <td>633 Ex 736</td>
+                                <td>810*1987</td>
+                                <td>02-11-2020  11:18:26</td>
                             </tr>
                             <tr>
-                                <td>105786409</td>
-                                <td>29-07-2020  15:14:54</td>
-                                <td>RUT</td>
-                                <td></td>
-                                <td>...</td>
-                                <td>1</td>
-                                <td></td>
+                                <td>12</td>
+                                <td>OBRAS MENORES</td>
+                                <td>727</td>
+                                <td>5</td>
+                                <td>UNO  NORTE</td>
+                                <td>636</td>
+                                <td>55*1995</td>
+                                <td>02-11-2020  11:18:26</td>
                             </tr>
                             <tr>
                                 <td>...</td>
@@ -50,6 +53,7 @@
                                 <td>...</td>
                                 <td>...</td>
                                 <td>....</td>
+                                <td>...</td>
                                 <td>...</td>
                             </tr>
                             </table>

@@ -26,7 +26,7 @@
       }
       canvas {
         float: left;
-        width: 40%;
+        width:40%
         vertical-align: top;
       }
     </style>
@@ -90,50 +90,79 @@
 </div>
 
 <div id="contenedor-principal" class="container-fluid">
-  <!--SELECTOR-->
-  <div class="row">
-    <div class="col-xs-6 col-sm-6">
-        <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-          <option>FUENTE DE DATOS</option>
-          <option>FARMACIA MUNICIPAL</option>
-          <option>HIGIENTE AMBIENTAL - DIMAP</option>
-          <option>SEGURIDAD MUNICIPAL</option>
-          <option>IMPUESTOS Y DERECHOS</option>
-          <option>AYUDA SOCIAL - PANDEMIA</option>
-          <option>AYUDA SOCIAL - GSL</option>
-          <option>OBRAS MUNICIPALES</option>
-        </select>
-    </div>
-    <div class="col-xs-6 col-sm-6">
-      <form action='' method='POST' enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ filtro_tiempo }}
-        <div class='btn-group'>
-          <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
-        </div>
-      </form>
-    </div>
+
+<!--SELECTOR-->
+<div class="row">
+  <div class="col-xs-6 col-sm-6">
+    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+      <option>FUENTE DE DATOS</option>
+      <option>FARMACIA MUNICIPAL</option>
+      <option>HIGIENTE AMBIENTAL - DIMAP</option>
+      <option>SEGURIDAD MUNICIPAL</option>
+      <option>IMPUESTOS Y DERECHOS</option>
+      <option>AYUDA SOCIAL - PANDEMIA</option>
+      <option>EXCENCIÓN BASURA</option>
+      <option>OBRAS MUNICIPALES</option>
+      <option>TRANSITO</option>
+    </select>
+  </div>
+  <div class="col-xs-6 col-sm-6">
+    <form action='' method='POST' enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ filtro_tiempo }}
+      <div class='btn-group'>
+        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+      </div>
+    </form>
   </div>
 </div>
+</div>
 
-<div style="height: 5vh; width: 65vw; float: right;"></div>
+<div style="height: 5vh; width: 65vw; float: right;">
+  
+</div>
+
+
 
 <br>
 
 <table style='float: right; width:60%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
     <th>UV</th>
-    <th>Total</th>
+    <th><a href="{% url 'impuestos-vis' 0 %}">Total</a></th>
+    <th><a href="{% url 'impuestos-vis' 1 %}">Patente Alcohol</a></th>
+    <th><a href="{% url 'impuestos-vis' 2 %}">Patente Comercial</a></th>
+    <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
+    <th><a href="{% url 'impuestos-vis' 4 %}">Patente Industrial</a></th>   
+    <th><a href="{% url 'impuestos-vis' 5 %}">Patente Microempresa</a></th>   
+    <th><a href="{% url 'impuestos-vis' 6 %}">Patente Estacionada</a></th>    
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
     <tr>
         <td> {{ key }} </td> 
-        <td> {{ value }} </td>
+        <td> {{ value.0 }} </td>
+        <td> {{ value.1 }} </td>
+        <td> {{ value.2 }} </td>
+        <td> {{ value.3 }} </td>
+        <td> {{ value.4 }} </td>
+        <td> {{ value.5 }} </td>
+        <td> {{ value.6 }} </td>
     </tr>
 {% endfor %}
 
+  
+
+
 </table>
+
+{% comment %} 
+
+estudiar html
+
+<div style="position:">
+hdsahhdhas
+</div> {% endcomment %}
 
 <!-- script -->
     <!-- Popper.JS -->
@@ -142,46 +171,47 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <script>
-      $(document).ready(function(){
-          $('#sidebarCollapse').on('click', function () {
-              $('#sidebar').toggleClass('active');
-          });
-      })
-  
-      function cargar_tabla(value){
-               
-        if (value == "HIGIENTE AMBIENTAL - DIMAP"){
-          window.location.href = "{% url 'dimap-vis' 0 %}";
-        }
+    $(document).ready(function(){
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    })
 
-        else if (value == "SEGURIDAD MUNICIPAL"){
-          window.location.href = "{% url 'seguridad-vis' 0 %}";
-        }
+    function cargar_tabla(value){
 
-        else if (value == "IMPUESTOS Y DERECHOS"){
-          window.location.href = "{% url 'impuestos-vis' 0 %}";
-        }
+      if (value == "FARMACIA MUNICIPAL"){
+        window.location.href = "{% url 'farmacia-vis' %}";
+      }
+      
+      else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
+        window.location.href = "{% url 'dimap-vis' 0 %}";
+      }
 
-        else if (value == "AYUDA SOCIAL - PANDEMIA"){
-          window.location.href = "{% url 'ayudapandemia-vis' 0 %}";
-        }
+      else if (value == "SEGURIDAD MUNICIPAL"){
+        window.location.href = "{% url 'seguridad-vis' 0 %}";
+      }
 
-        else if (value == "EXCENCIÓN BASURA"){
-          window.location.href = "{% url 'excencionbasura-vis' 0 %}";
-        }
+      else if (value == "AYUDA SOCIAL - PANDEMIA"){
+        window.location.href = "{% url 'ayudapandemia-vis' 0 %}";
+      }
 
-        else if (value == "OBRAS MUNICIPALES"){
-          window.location.href = "{% url 'obrasmunicipales-vis' 0 %}";
-        }
+      else if (value == "EXCENCIÓN BASURA"){
+        window.location.href = "{% url 'excencionbasura-vis' 0 %}";
+      }
 
-        else if (value == "TRANSITO"){
-          window.location.href = "{% url 'transito-vis' 0 %}";
-        }
+      else if (value == "OBRAS MUNICIPALES"){
+        window.location.href = "{% url 'obrasmunicipales-vis' 0 %}";
+      }
 
-        else{
-          alert("Ninguno");
-        }
-    }
-  </script>
+      else if (value == "TRANSITO"){
+        window.location.href = "{% url 'transito-vis' 0 %}";
+      }
+
+      else{
+        alert("Ninguno");
+      }
+  }
+    </script>
+
   </body>
 </html>

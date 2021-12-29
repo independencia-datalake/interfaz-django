@@ -6,6 +6,8 @@ from .forms import(
     CargaEmpresasForm,
     CargaPatentesVehicularesForm,
     CargaPermisosCirculacionForm,
+    CargaExencionAseoForm,
+    CargaDOMForm,
 )
 
 
@@ -75,4 +77,38 @@ def carga_datos_permiso_circulacion(request):
         'datos':carga_form
     }
 
-    return render(request, 'carga/carga_permiso_circulacion.html', context)   
+    return render(request, 'carga/carga_permiso_circulacion.html', context)
+
+@login_required
+def carga_datos_exencion_aseo(request):
+    carga_form = CargaExencionAseoForm()
+
+    if request.method == 'POST':
+        carga_form = CargaExencionAseoForm(request.POST,request.FILES)
+        if carga_form.is_valid():
+            carga_form.save()
+            messages.success(request, f'El archivo fue subido con exito')
+            return redirect('carga-home')
+        
+    context = {
+        'datos':carga_form
+    }
+
+    return render(request, 'carga/carga_exencion_aseo.html', context)
+
+@login_required
+def carga_datos_dom(request):
+    carga_form = CargaDOMForm()
+
+    if request.method == 'POST':
+        carga_form = CargaDOMForm(request.POST,request.FILES)
+        if carga_form.is_valid():
+            carga_form.save()
+            messages.success(request, f'El archivo fue subido con exito')
+            return redirect('carga-home')
+        
+    context = {
+        'datos':carga_form
+    }
+
+    return render(request, 'carga/carga_dom.html', context)

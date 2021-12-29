@@ -4,12 +4,12 @@ from core.models import CallesIndependencia
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
-
+@login_required
 def calculadorauv(request):   
     return render(request, 'calculadorauv/calculadora_uv.html')
 
+@login_required
 def cal_uv(request):
-
     nombre_calle = request.GET['nombre_calle']
     numero_calle = int(request.GET['numero_calle'])
     uv=obtener_uv(nombre_calle,numero_calle)

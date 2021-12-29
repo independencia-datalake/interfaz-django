@@ -69,16 +69,12 @@ function setup () {
   // data = data.map( a => a.obj);
   // data.forEach( a => a['uv'] = floor(a['uv']))
 
-
-  data = data_limpia.map( a => a);
-  console.log(data)
-  data.forEach( a => a['uv'] = a['uv'])
-  console.log(data)
-
+  data = data_limpia
   summarize(data);
   
   data.forEach( a => a['created'] = new Date(a['created'])); // ccambiar marca temporal por created
   created = data.map( a => a.created);
+  // timerange = [created[0].getTime(), created[created.length-1].getTime()];
   timerange = [Math.min(...created), Math.max(...created)];
   phase = data;
 
@@ -125,20 +121,20 @@ function setup () {
 function draw() {
   clear();
 
-  timehist.forEach( (a, i) => {
-    let x = 100+(width-200)/timehist.length*i;
-    stroke(timeslider.x1+100 <= x && x <= timeslider.x2+100? color('orange') : 100), strokeWeight(1);
-    line(x,height-50,x, height-50-(a/Math.max(...timehist)*40) )
-  });
+  // timehist.forEach( (a, i) => {
+  //   let x = 100+(width-200)/timehist.length*i;
+  //   stroke(timeslider.x1+100 <= x && x <= timeslider.x2+100? color('orange') : 100), strokeWeight(1);
+  //   line(x,height-50,x, height-50-(a/Math.max(...timehist)*40) )
+  // });
 
-  // TIME SLIDER
-  timeslider.draw();
-  phase = timeslider.chronophase(data);
-  summarize(phase);
+  // // TIME SLIDER
+  // timeslider.draw();
+  // phase = timeslider.chronophase(data);
+  // summarize(phase);
 
   textFont(monotype);
   //LEGEND
-  push(), translate(100,50);
+  push(), translate(100,height-150);
   let r = (width-100*2)/(colorbins+1);
   for(let i = 0; i <= colorbins; i++) {
     stroke(230,140,30), strokeWeight(.5), textSize(10), fill(lerpColor(colorscale[0],colorscale[1],i/colorbins));
