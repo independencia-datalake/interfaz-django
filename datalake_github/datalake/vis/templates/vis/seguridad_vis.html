@@ -101,8 +101,9 @@
       <option>SEGURIDAD MUNICIPAL</option>
       <option>IMPUESTOS Y DERECHOS</option>
       <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>AYUDA SOCIAL - GSL</option>
+      <option>EXCENCIÓN BASURA</option>
       <option>OBRAS MUNICIPALES</option>
+      <option>TRANSITO</option>
     </select>
   </div>
   <div class="col-xs-6 col-sm-6">
@@ -180,35 +181,38 @@ hdsahhdhas
 
     function cargar_tabla(value){
 
-        if (value == "FARMACIA MUNICIPAL"){
-          window.location.href = "{% url 'farmacia-vis' %}";
-        }
-        
-        else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
-          window.location.href = "{% url 'dimap-vis' 0 %}";
-        }
+      if (value == "FARMACIA MUNICIPAL"){
+        window.location.href = "{% url 'farmacia-vis' %}";
+      }
+      
+      else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
+        window.location.href = "{% url 'dimap-vis' 0 %}";
+      }
 
-        else if (value == "SEGURIDAD MUNICIPAL"){
-          window.location.href = "{% url 'seguridad-vis' 0 %}";
-        }
+      else if (value == "IMPUESTOS Y DERECHOS"){
+        window.location.href = "{% url 'impuestos-vis' 0 %}";
+      }
 
+      else if (value == "AYUDA SOCIAL - PANDEMIA"){
+        window.location.href = "{% url 'ayudapandemia-vis' 0 %}";
+      }
 
-        else if (value == "IMPUESTOS Y DERECHOS"){
-          window.location.href = "{% url 'impuestos-vis' %}";
-        }
+      else if (value == "EXCENCIÓN BASURA"){
+        window.location.href = "{% url 'excencionbasura-vis' 0 %}";
+      }
 
-        else if (value == "AYUDA SOCIAL - PANDEMIA"){
-          window.location.href = "{% url 'ayudapandemia-vis' %}";
-        }
+      else if (value == "OBRAS MUNICIPALES"){
+        window.location.href = "{% url 'obrasmunicipales-vis' 0 %}";
+      }
 
-        else if (value == "OBRAS MUNICIPALES"){
-          window.location.href = "{% url 'obrasmunicipales-vis' %}";
-        }
+      else if (value == "TRANSITO"){
+        window.location.href = "{% url 'transito-vis' 0 %}";
+      }
 
-        else{
-          alert("Ninguno");
-        }
-    }
+      else{
+        alert("Ninguno");
+      }
+  }
     </script>
 
   </body>

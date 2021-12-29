@@ -187,19 +187,5 @@
     "fields": {
         "numero_uv": 25
     }
-},
-{
-    "model": "core.uv",
-    "pk": 28,
-    "fields": {
-        "numero_uv": 26
-    }
-},
-{
-    "model": "core.uv",
-    "pk": 29,
-    "fields": {
-        "numero_uv": 27
-    }
 }
 ]

@@ -14,16 +14,7 @@ class Empresas(models.Model):
     tipo = models.CharField(
         null=True,
         blank=False,
-        default='',
         max_length=30,
-        choices=(
-            ('ALCOHOL','Alcohol'),
-            ('COMERCIAL','Comercial'),
-            ('ESTACIONADO','Estacionado'),
-            ('INDUSTRIAL','Industrial'),
-            ('MICROEMPRESA','Microempresa'),
-            ('PROFESIONAL','Profesional'),
-            ),
         verbose_name='Tipo Patente'
         )
     trabajadores_pais = models.PositiveIntegerField(verbose_name="Trabajadores pais")
@@ -107,6 +98,7 @@ class DOM(models.Model):
     calle = models.CharField(blank=True, null=True, max_length=30, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
     n_permiso = models.CharField(blank=True, null=True, max_length=30, verbose_name="Numero de Permiso")
+    created = models.DateTimeField(verbose_name="created")
 
 class ExencionAseo(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
@@ -158,7 +150,7 @@ class CargaDOM(models.Model):
             return f'Carga DOM {self.id}'
 
 class CargaExencionAseo(models.Model):
-    carga_producto = models.FileField(upload_to='carga/Exencion Aseo/', verbose_name="Exención pago derechos de aseo")
+    carga_producto = models.FileField(upload_to='carga/exencion_aseo/', verbose_name="Exención pago derechos de aseo")
 
     def __str__(self):
             return f'Carga exención pago derechos de aseo {self.id}'  

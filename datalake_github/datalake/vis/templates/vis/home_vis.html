@@ -122,8 +122,9 @@
     <option>SEGURIDAD MUNICIPAL</option>
     <option>IMPUESTOS Y DERECHOS</option>
     <option>AYUDA SOCIAL - PANDEMIA</option>
-    <option>AYUDA SOCIAL - GSL</option>
+    <option>EXCENCIÓN BASURA</option>
     <option>OBRAS MUNICIPALES</option>
+    <option>TRANSITO</option>
   </select>
 </div>
 
@@ -159,17 +160,24 @@
           window.location.href = "{% url 'seguridad-vis' 0 %}";
         }
 
-
         else if (value == "IMPUESTOS Y DERECHOS"){
-          window.location.href = "{% url 'impuestos-vis' %}";
+          window.location.href = "{% url 'impuestos-vis' 0 %}";
         }
 
         else if (value == "AYUDA SOCIAL - PANDEMIA"){
-          window.location.href = "{% url 'ayudapandemia-vis' %}";
+          window.location.href = "{% url 'ayudapandemia-vis' 0 %}";
+        }
+
+        else if (value == "EXCENCIÓN BASURA"){
+          window.location.href = "{% url 'excencionbasura-vis' 0 %}";
         }
 
         else if (value == "OBRAS MUNICIPALES"){
-          window.location.href = "{% url 'obrasmunicipales-vis' %}";
+          window.location.href = "{% url 'obrasmunicipales-vis' 0 %}";
+        }
+
+        else if (value == "TRANSITO"){
+          window.location.href = "{% url 'transito-vis' 0 %}";
         }
 
         else{
