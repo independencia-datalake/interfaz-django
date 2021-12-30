@@ -39,7 +39,7 @@ def farmacia_vis(request):
         query_tabla = '''select cu.numero_uv as id, 
                         coalesce(f.cant, 0) as cant
                         from core_uv cu
-                        left join (select fc.id, cu.numero_uv as uv, count(1) as cant
+                        left join (select cu.numero_uv as uv, count(1) as cant
                             from farmacia_comprobanteventa fc
                             join core_persona cp
                                 on fc.comprador_id = cp.id
@@ -86,7 +86,7 @@ def farmacia_vis(request):
             query_tabla = f"select cu.numero_uv as id, \
                             coalesce(f.cant, 0) as cant \
                             from core_uv cu \
-                            left join (select fc.id, cu.numero_uv as uv, count(1) as cant \
+                            left join (select cu.numero_uv as uv, count(1) as cant \
                                 from farmacia_comprobanteventa fc \
                                 join core_persona cp \
                                     on fc.comprador_id = cp.id \
@@ -95,6 +95,7 @@ def farmacia_vis(request):
                                 where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cu.numero_uv) f \
                                 on cu.numero_uv = f.uv;" 
+            print(query_tabla)
 
             for c in ComprobanteVenta.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = c.cant
@@ -1585,38 +1586,38 @@ def impuestos_derechos_vis(request,categoria):
                         from core_uv cu
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresas ce
-                            where ce.tipo = 4
+                            from carga_empresa ce
+                            where ce.tipo = '4'
                             group by ce.uv_id) alc
                             on cu.numero_uv = alc.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresas ce
-                            where ce.tipo = 2
+                            from carga_empresa ce
+                            where ce.tipo = '2'
                             group by ce.uv_id) com
                             on cu.numero_uv = com.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresas ce
-                            where ce.tipo = 3
+                            from carga_empresa ce
+                            where ce.tipo = '3'
                             group by ce.uv_id) pro
                             on cu.numero_uv = pro.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresas ce
-                            where ce.tipo = 1
+                            from carga_empresa ce
+                            where ce.tipo = '1'
                             group by ce.uv_id) ind
                             on cu.numero_uv = ind.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresas ce
-                            where ce.tipo = 9
+                            from carga_empresa ce
+                            where ce.tipo = '9'
                             group by ce.uv_id) mic
                             on cu.numero_uv = mic.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresas ce
-                            where ce.tipo = 5
+                            from carga_empresa ce
+                            where ce.tipo = '5'
                             group by ce.uv_id) est
                             on cu.numero_uv = est.uv'''
 
@@ -1638,7 +1639,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_total = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
                             order by ce.created asc;'''
             
@@ -1652,9 +1653,9 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_alcohol = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
-                            and ce.tipo = 4
+                            and ce.tipo = '4'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1667,9 +1668,9 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_comercial = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
-                            and ce.tipo = 2
+                            and ce.tipo = '2'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1682,9 +1683,9 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_profesional = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
-                            and ce.tipo = 3
+                            and ce.tipo = '3'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1697,9 +1698,9 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_industial = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
-                            and ce.tipo = 1
+                            and ce.tipo = '1'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1712,9 +1713,9 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_micro = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
-                            and ce.tipo = 9
+                            and ce.tipo = '9'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1727,9 +1728,9 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_estacionada = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresas ce
+                            from carga_empresa ce
                             where ce.uv_id <> 0
-                            and ce.tipo = 5
+                            and ce.tipo = '5'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1955,7 +1956,19 @@ def transito_vis(request, categoria):
     if request.method == 'GET':
 
         diccionario_tabla = {}
-        query_tabla = "hola"
+        query_tabla = '''select cu.numero_uv as id,
+                	coalesce(pat.cant, 0) + coalesce(per.cant, 0) as total,
+                	coalesce(pat.cant, 0) as pc,
+                	coalesce(per.cant, 0) as pv
+                        from core_uv cu
+                        left join (select cp.uv, count(1) as cant
+                        	from carga_patentesvehiculare cp
+                        	group by cp.uv) pat
+                        	on cu.numero_uv = pat.uv
+                        left join (select c.uv_id, count(1) as cant
+                            	from carga_permisoscirculacion c
+                            	group by c.uv_id) per
+                            	on cu.numero_uv = per.uv_id;'''
 
         for c in PatentesVehiculares.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -1969,10 +1982,13 @@ def transito_vis(request, categoria):
         if filtro_mapa[categoria] == "Total":
 
             lista_mapa_total = []
-            query_mapa = "hola"
+            query_mapa = '''select cp.uv as id, cp.fecha_pago
+                          from public.carga_patentesvehiculare cp
+                          where cp.uv <> 0
+                          order by cp.fecha_pago asc;'''
 
             for c in PatentesVehiculares.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha_pago)})
 
             lista_mapa = lista_mapa_total
 
