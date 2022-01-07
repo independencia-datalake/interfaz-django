@@ -10,12 +10,20 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Crear Perfil Persona</legend>
-                {{ persona|crispy }}
-                {{ direccion|crispy }}
-                {{ telefono|crispy }}
-                {{ correo|crispy }}
+                <div class="container formulario-crear-perfil">
+					<div class="row">
+						<div class="col">
+							{{ persona|crispy }}
+							{{ direccion|crispy }}
+						</div>
+						<div class="col">
+							{{ telefono|crispy }}
+							{{ correo|crispy }}
+						</div>
+					</div>
+				</div>
             </fieldset>
-            <div class="form-group">
+            <div class="form-group align-right">
                 <button class="btn btn-outline-info" type="submit">Siguente</button>
             </div>
         </form>

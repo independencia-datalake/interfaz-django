@@ -439,3 +439,9 @@ a.boton-lnk:hover{ background-color:#222 !important; border:1px solid #222;}
 #menu-top ul li a.link-inicio{
     background:url(img/inicio.png) left no-repeat;
     }
+.formulario-crear-perfil #div_id_numero_identificacion {
+    max-width: 100%;
+}
+.align-right{
+	text-align: right;
+}
