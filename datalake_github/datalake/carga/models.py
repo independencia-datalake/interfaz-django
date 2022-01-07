@@ -22,6 +22,11 @@ class Empresas(models.Model):
     trabajadores_patente = models.PositiveIntegerField(verbose_name="Trabajadores Patente")
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
 
+    class Meta:
+        verbose_name = "empresas"
+        verbose_name_plural = "empresas"
+        ordering = ['created']
+
 class PermisosCirculacion(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
     fecha = models.DateField(verbose_name="Fecha")
@@ -55,6 +60,11 @@ class PatentesVehiculares(models.Model):
     total_pagar = models.PositiveIntegerField(verbose_name="Total a Pagar")
     año_permiso = models.PositiveIntegerField(verbose_name="Año de Permiso")
     fecha_pago = models.DateField(verbose_name="fecha de Pago")
+
+    class Meta:
+        verbose_name = "patentesvehiculares"
+        verbose_name_plural = "patentesvehiculares"
+        ordering = ['fecha_pago']
 
 class EntregasPandemia(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
