@@ -18,33 +18,36 @@
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-                                <th>ROL</th>
-                                <th>RAZON SOCIAL</th> 
-                                <th>RUT</th>
-                                <th>GIRO</th>
-                                <th>CALLE</th>
-                                <th>NUMERACION</th>
-                                <th>ESTADO</th>
+                                <th>uv_id</th>
+                                <th>rol</th> 
+                                <th>razon_social</th>
+                                <th>rut</th>
+                                <th>giro</th>
+                                <th>calle</th>
+                                <th>numeracion</th>
                                 <th>...</th>
+                                <th>created</th>
                             <tr>
-                                <td>40433</td>
-                                <td>MARILUZ BASUALTO BARRERA</td>
-                                <td>007473085-K</td>
-                                <td>COMERCIO AL POR MENOR NO CLASIFICADO EN OTRA PARTE</td>
-                                <td>DAVILA BAEZA</td>
-                                <td>399</td>
-                                <td>V</td>
+                                <td>8</td>
+                                <td>721346</td>
+                                <td>IMP Y EXP MADERART LTDA</td>
+                                <td>078777280-3</td>
+                                <td>DISTRIBUIDORA DE MATERIALES DE CONSTRUCCION</td>
+                                <td>LEONOR CEPEDA</td>
+                                <td>951</td>
                                 <td>...</td>
+                                <td>20-12-2021  15:43:45</td>
                             </tr>
                             <tr>
-                                <td>100124</td>
-                                <td>SARMIENTO ARAYA MERCEDES</td>
-                                <td>006267520-9</td>
-                                <td>ARBOLES Y PLANTAS</td>
-                                <td>PROFESOR ZAÑARTU</td>
-                                <td>1000</td>
-                                <td>V</td>
+                                <td>16</td>
+                                <td>724976</td>
+                                <td>SANG BONG NAM</td>
+                                <td>010978699-3</td>
+                                <td>TIENDAS DE GENEROS, TELAS Y SEDAS</td>
+                                <td>INDEPENDENCIA</td>
+                                <td>484</td>
                                 <td>...</td>
+                                <td>20-12-2021  15:43:45</td>
                             </tr>
                             <tr>
                                 <td>...</td>
@@ -62,6 +65,9 @@
                     </div>
                 </div>
                 <hr>
+
+                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-empresas' %}">aqui</a></h5>
+
                 <hr>
                 {{ datos|crispy }}
             </fieldset>

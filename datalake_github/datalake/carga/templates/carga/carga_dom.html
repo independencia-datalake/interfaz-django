@@ -18,7 +18,7 @@
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-                                <th>uv</th>
+                                <th>uv_id</th>
                                 <th>tramite</th>
                                 <th>manzana</th> 
                                 <th>predio</th>
@@ -62,6 +62,9 @@
                     </div>
                 </div>
                 <hr>
+
+                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-dom' %}">aqui</a></h5>
+
                 <hr>
                 {{ datos|crispy }}
             </fieldset>

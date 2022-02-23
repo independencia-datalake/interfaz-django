@@ -58,10 +58,24 @@
         <li><a href="{% url 'profile' %}" class="ver-perfil">{{user.username}}</a></li>
         <li><a href="{% url 'logout' %}" class="logout">Cerrar Sesión</a></li>
     {% else %}
-        <li><a href="{% url 'profile' %}" class="ver-perfil">Iniciar Sesion</a></li>
-        <li><a href="{% url 'logout' %}" class="cerrar-sesion">Registrarse</a></li>
+        <li><a href="{% url 'login' %}" class="ver-perfil">Iniciar Sesion</a></li>
     {% endif %}
-        <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>   
+    {% if request.user.groups.all %}
+    {% for group in request.user.groups.all %}
+        {% if group.name == 'farmacia' %}
+          <li><a href="{% url 'farmacia-home' %}" class="link-inicio">Pagina Principal</a></li>
+        {% elif group.name == 'dimap' %}
+          <li><a href="{% url 'dimap-home' %}" class="link-inicio">Pagina Principal</a></li>
+        {% elif group.name == 'seguridad' %}
+        <li><a href="{% url 'denuncia-inicio' %}" class="link-inicio">Pagina Principal</a></li>
+        {% else %}
+          <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+        {% endif %}
+    {% endfor %}
+    {% else %}
+        <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+        <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>
+    {% endif %}
     </ul>
   </div>
 </div>
@@ -104,14 +118,27 @@
           
           <nav class="navbar nav-datalake">
             <div class="container">
-              <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                {% if request.user.groups.all %}
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'farmacia' %}
+                      <a class="nav-link" href="{% url 'farmacia-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                    {% elif group.name == 'dimap' %}
+                      <a class="nav-link" href="{% url 'dimap-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                    {% elif group.name == 'seguridad' %}
+                      <a class="nav-link" href="{% url 'denuncia-inicio' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                    {% else %}
+                      <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                    {% endif %}
+                {% endfor %}
+                {% else %}
+                <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                {% endif %}
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon burger-toggler"></span>
               </button>
             </div>
           </nav>
         </div>
-    </div> 
 
 <!--SELECTOR-->
 <div style="height: 5vh; width: 65vw; float: right;">
@@ -181,7 +208,7 @@
         }
 
         else{
-          alert("Ninguno");
+          alert("Pagina Actual");
         }
     }
     </script>

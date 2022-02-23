@@ -58,8 +58,8 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
-db.sqlite3-journal
+datalake_db
+datalake_db-journal
 
 # Flask stuff:
 instance/
@@ -108,7 +108,8 @@ celerybeat.pid
 .env
 .venv
 env/
-venv/
+datalake_github/venv/
+datalake_github/dev-venv/
 venvwin/
 ENV/
 env.bak/

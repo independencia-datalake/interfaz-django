@@ -16,7 +16,6 @@ from .forms import (
 
 @login_required
 def inicio(request):
-    print('Cargando inicio')
     return render(request, 'core/home.html')
 
     #ENTRADA A PREGUNTA USUARIO

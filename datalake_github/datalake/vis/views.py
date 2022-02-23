@@ -21,7 +21,6 @@ from django.contrib.auth.decorators import login_required
 #FARMACIA
 @login_required
 def inicio_vis(request):
-    print('Cargando inicio vis')
     return render(request, 'vis/home_vis.html')
 
 @login_required

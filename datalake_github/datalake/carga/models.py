@@ -149,7 +149,7 @@ class ExencionAseo(models.Model):
         )
     porcentaje_exencion = models.PositiveSmallIntegerField(verbose_name="Porcentaje de Exención")
     causal = models.CharField(null=True, blank=True, max_length=200, verbose_name="Causal de Exención")
-    adj_docu = models.URLField(max_length=200, verbose_name="Adjuntar Documentos")
+    adj_docu = models.URLField(max_length=200, verbose_name="Adjuntar Documentos", null=True, blank=True)
     nombre = models.CharField(blank=True, null=True,max_length=30, verbose_name="Nombres")
     serie = models.PositiveIntegerField(verbose_name="Serie")
 
