@@ -1577,37 +1577,37 @@ def impuestos_derechos_vis(request,categoria):
                         from core_uv cu
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.tipo = '4'
                             group by ce.uv_id) alc
                             on cu.numero_uv = alc.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.tipo = '2'
                             group by ce.uv_id) com
                             on cu.numero_uv = com.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.tipo = '3'
                             group by ce.uv_id) pro
                             on cu.numero_uv = pro.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.tipo = '1'
                             group by ce.uv_id) ind
                             on cu.numero_uv = ind.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.tipo = '9'
                             group by ce.uv_id) mic
                             on cu.numero_uv = mic.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.tipo = '5'
                             group by ce.uv_id) est
                             on cu.numero_uv = est.uv'''
@@ -1630,7 +1630,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_total = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             order by ce.created asc;'''
             
@@ -1644,7 +1644,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_alcohol = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             and ce.tipo = '4'
                             order by ce.created asc;'''
@@ -1659,7 +1659,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_comercial = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             and ce.tipo = '2'
                             order by ce.created asc;'''
@@ -1674,7 +1674,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_profesional = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             and ce.tipo = '3'
                             order by ce.created asc;'''
@@ -1689,7 +1689,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_industial = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             and ce.tipo = '1'
                             order by ce.created asc;'''
@@ -1704,7 +1704,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_micro = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             and ce.tipo = '9'
                             order by ce.created asc;'''
@@ -1719,7 +1719,7 @@ def impuestos_derechos_vis(request,categoria):
             lista_mapa_estacionada = []
             query_mapa ='''select ce.uv_id as id,
                                 ce.created
-                            from carga_empresa ce
+                            from carga_empresas ce
                             where ce.uv_id <> 0
                             and ce.tipo = '5'
                             order by ce.created asc;'''
@@ -1952,9 +1952,9 @@ def transito_vis(request, categoria):
                             coalesce(pat.cant, 0) as pv,
                             coalesce(per.cant, 0) as pc
                         from core_uv cu
-                        left join (select lc.uv, count(1) as cant
+                        left join (select lc.uv_id, count(1) as cant
                             from carga_licenciaconducir lc
-                            group by lc.uv) pat
+                            group by lc.uv_id) pat
                             on cu.numero_uv = pat.uv
                         left join (select c.uv_id, count(1) as cant
                                 from carga_permisoscirculacion c

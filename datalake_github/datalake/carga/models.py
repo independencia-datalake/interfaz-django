@@ -67,7 +67,7 @@ class EntregasPandemia(models.Model):
     telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name='Teléfono')
     calle = models.CharField(blank=True, null=True, max_length=200, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
-    complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
+    complemento_direccion = models.CharField(max_length=200, verbose_name='Complemento de Dirección',blank=True,null=True)
     caja_mercaderia = models.PositiveIntegerField(blank=True, null=True, verbose_name="Caja Mercaderia")
     pañal_adulto = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal Adulto")
     pañal_niño_m = models.PositiveIntegerField(blank=True, null=True, verbose_name="Pañal niño talla M")
@@ -114,7 +114,7 @@ class ExencionAseo(models.Model):
     tramo_rsh = models.PositiveSmallIntegerField(verbose_name='Tramo RSH')
     calle = models.CharField(blank=True, null=True, max_length=500, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
-    complemento_direccion = models.CharField(max_length=500, verbose_name='Complemento de Dirección',blank=True,null=True)
+    complemento_direccion = models.CharField(max_length=200, verbose_name='Complemento de Dirección',blank=True,null=True)
     rol_propiedad = models.CharField(blank=True, null=True, max_length=500, verbose_name="Rol Propiedad")
     telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name="Teléfono")
     paga_contribucion = models.CharField(
