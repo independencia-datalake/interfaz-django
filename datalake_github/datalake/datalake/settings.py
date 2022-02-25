@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ipqwifh56s24&(umy3!m)w#j3$i57)r=ycjdh7d1#jrero&s!#'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,9 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'datalake_master',
-        'PASSWORD': 'D4t4l4k3db.',
-        'HOST': 'datalake-db.cplck86bddfa.sa-east-1.rds.amazonaws.com',
+        'USER': os.environ.get('DATABASES_USER'),
+        'PASSWORD': os.environ.get('DATABASES_PASSWORD'),
+        'HOST': os.environ.get('DATABASES_HOST'),
         'PORT': 5432
     }
 }
@@ -166,9 +166,9 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 #CONFIGURACION DEL S3 AWS
-AWS_ACCESS_KEY_ID = 'AKIARUEETZAVW7RERMGW'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'independenciabucket'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None

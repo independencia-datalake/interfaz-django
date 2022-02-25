@@ -5,21 +5,21 @@ from core.models import (
 
 class Empresas(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
-    rol = models.PositiveIntegerField(verbose_name="ROL")
+    rol = models.PositiveIntegerField(verbose_name="ROL",null=True, blank=True)
     razon_social = models.CharField(max_length=60, blank=True, verbose_name="Razon social")
     rut = models.CharField(max_length=200, blank=True, verbose_name="Número de Identidad")
     giro = models.CharField(max_length=60, blank=True, verbose_name="Giro")
-    calle = models.CharField(max_length=200, verbose_name="Avenida/Calle/Pasaje")
-    numeracion = models.PositiveIntegerField(verbose_name="Numeracion")
+    calle = models.CharField(max_length=200, verbose_name="Avenida/Calle/Pasaje",null=True, blank=True)
+    numeracion = models.PositiveIntegerField(verbose_name="Numeracion",null=True, blank=True)
     tipo = models.CharField(
         null=True,
         blank=False,
         max_length=200,
-        verbose_name='Tipo Patente'
+        verbose_name='Tipo Patente',
         )
-    trabajadores_pais = models.PositiveIntegerField(verbose_name="Trabajadores pais")
-    trabajadores_comuna = models.PositiveIntegerField(verbose_name="Trabajadores Comuna")
-    trabajadores_patente = models.PositiveIntegerField(verbose_name="Trabajadores Patente")
+    trabajadores_pais = models.PositiveIntegerField(verbose_name="Trabajadores pais",null=True, blank=True)
+    trabajadores_comuna = models.PositiveIntegerField(verbose_name="Trabajadores Comuna",null=True, blank=True)
+    trabajadores_patente = models.PositiveIntegerField(verbose_name="Trabajadores Patente",null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
 
     class Meta:
@@ -29,7 +29,7 @@ class Empresas(models.Model):
 
 class PermisosCirculacion(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
-    fecha = models.DateField(verbose_name="Fecha")
+    fecha = models.DateField(verbose_name="Fecha",null=True, blank=True)
     calle = models.CharField(blank=True, null=True, max_length=200, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
 
@@ -39,7 +39,7 @@ class LicenciaConducir(models.Model):
     calle = models.CharField(blank=True, null=True, max_length=200, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
     comuna = models.CharField(blank=True, null=True, max_length=200, verbose_name="Comuna")
-    fecha = models.DateField(verbose_name="Fecha Otorgamiento")
+    fecha = models.DateField(verbose_name="Fecha Otorgamiento",null=True, blank=True)
 
     class Meta:
         verbose_name = "licenciaconducir"
@@ -48,8 +48,8 @@ class LicenciaConducir(models.Model):
 
 class EntregasPandemia(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
-    n_id = models.PositiveIntegerField(verbose_name="Número ID")
-    fecha = models.DateField(verbose_name="Fecha")
+    n_id = models.CharField(max_length=200, verbose_name="Numero ID",null=True, blank=True)
+    fecha = models.DateField(verbose_name="Fecha",null=True, blank=True)
     tipo_identificacion = models.CharField(
         blank=False,
         default='RUT',
@@ -61,9 +61,9 @@ class EntregasPandemia(models.Model):
             ),
         verbose_name='Tipo de Documento'
         )
-    nombre_persona = models.CharField(max_length=200, verbose_name="Nombre Persona")
-    apellido_paterno = models.CharField(max_length=200, verbose_name="Apellido Paterno")
-    apellido_materno = models.CharField(max_length=200, verbose_name="Apellido Materno")
+    nombre_persona = models.CharField(max_length=200, verbose_name="Nombre Persona",null=True, blank=True)
+    apellido_paterno = models.CharField(max_length=200, verbose_name="Apellido Paterno",null=True, blank=True)
+    apellido_materno = models.CharField(max_length=200, verbose_name="Apellido Materno",null=True, blank=True)
     telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name='Teléfono')
     calle = models.CharField(blank=True, null=True, max_length=200, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
@@ -92,9 +92,10 @@ class DOM(models.Model):
 
 class ExencionAseo(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
-    marca_temporal = models.DateTimeField(verbose_name='Marca Temporal')
+    marca_temporal = models.DateTimeField(verbose_name='Marca Temporal',null=True, blank=True)
     tipo_documento = models.CharField(
         blank=False,
+        null=True,
         default='RUT',
         max_length=200,
         choices=(
@@ -108,18 +109,18 @@ class ExencionAseo(models.Model):
     nombres = models.CharField(blank=True, null=True,max_length=200, verbose_name="Nombres")
     apellido_paterno = models.CharField(blank=True, null=True,max_length=200, verbose_name="Apellido Paterno")
     apellido_materno = models.CharField(blank=True, null=True,max_length=200, verbose_name="Apellido Materno")
-    estado_civil = models.CharField(blank=True, null=True,max_length=200, verbose_name="Estado Civil")
-    ocupacion = models.CharField(blank=True, null=True,max_length=200, verbose_name="Ocupación")
+    estado_civil = models.CharField(blank=True, null=True,max_length=500, verbose_name="Estado Civil")
+    ocupacion = models.CharField(blank=True, null=True,max_length=500, verbose_name="Ocupación")
     tramo_rsh = models.PositiveSmallIntegerField(verbose_name='Tramo RSH')
-    calle = models.CharField(blank=True, null=True, max_length=200, verbose_name="Avenida/Calle/Pasaje")
+    calle = models.CharField(blank=True, null=True, max_length=500, verbose_name="Avenida/Calle/Pasaje")
     numero = models.PositiveIntegerField(blank=True, null=True, verbose_name="Numeración")
-    complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
-    rol_propiedad = models.CharField(blank=True, null=True, max_length=50, verbose_name="Rol Propiedad")
+    complemento_direccion = models.CharField(max_length=500, verbose_name='Complemento de Dirección',blank=True,null=True)
+    rol_propiedad = models.CharField(blank=True, null=True, max_length=500, verbose_name="Rol Propiedad")
     telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name="Teléfono")
     paga_contribucion = models.CharField(
         null=True,
         blank=False,
-        max_length=5,
+        max_length=200,
         choices=(
             ('NO','No'),
             ('SI','Si'),
@@ -129,7 +130,7 @@ class ExencionAseo(models.Model):
         )
     porcentaje_exencion = models.PositiveSmallIntegerField(verbose_name="Porcentaje de Exención")
     causal = models.CharField(null=True, blank=True, max_length=200, verbose_name="Causal de Exención")
-    adj_docu = models.URLField(max_length=200, verbose_name="Adjuntar Documentos", null=True, blank=True)
+    adj_docu = models.URLField(max_length=1000, verbose_name="Adjuntar Documentos", null=True, blank=True)
     nombre = models.CharField(blank=True, null=True,max_length=200, verbose_name="Nombres")
     serie = models.PositiveIntegerField(verbose_name="Serie")
 

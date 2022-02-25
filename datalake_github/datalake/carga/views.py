@@ -127,7 +127,6 @@ def carga_datos_dom(request):
 def descargar_ejemplo_entrega_pandemia(request):
 
     df = pd.DataFrame(list(EntregasPandemia.objects.filter(pk=1).values())).astype(str)
-    del df['id']
     column_names = df.columns
     df_vacia = pd.DataFrame(columns = column_names)
 
@@ -140,7 +139,7 @@ def descargar_ejemplo_entrega_pandemia(request):
 @login_required
 def descargar_ejemplo_empresa(request):
     df = pd.DataFrame(list(Empresas.objects.filter(pk=1).values())).astype(str)
-    del df['id']
+    
     column_names = df.columns
     df_vacia = pd.DataFrame(columns = column_names)
 
