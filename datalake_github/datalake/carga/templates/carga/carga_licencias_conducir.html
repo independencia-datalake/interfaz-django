@@ -18,41 +18,33 @@
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-                                <th>Año_Fabricacion</th>
-                                <th>Marca</th> 
-                                <th>Placa</th>
-                                <th>CALLE</th>
-                                <th>NUMERACION</th>
-                                <th>...</th>
-                                <th>Año_del_Permiso</th>
-                                <th>Fecha de Pago</th>
+                                <th>uv_id</th>
+                                <th>folio</th> 
+                                <th>calle</th>
+                                <th>numero</th>
+                                <th>comuna</th>
+                                <th>fecha</th>
                             <tr>
-                                <td>1992</td>
-                                <td>PEUGEOT</td>
-                                <td>DR-2065</td>
-                                <td>SANTA ROSA</td>
-                                <td></td>
-                                <td>...</td>
-                                <td>2006</td>
-                                <td>28-08-2006</td>
+                                <td>7</td>
+                                <td>247825101</td>
+                                <td>PEREZ COTAPOS</td>
+                                <td>1475</td>
+                                <td>INDEPENDENCIA</td>
+                                <td>19-05-2015</td>
                             </tr>
                             <tr>
-                                <td>1973</td>
-                                <td>CHEVROLET</td>
-                                <td>GJ-7442</td>
-                                <td>NATAL</td>
-                                <td>3267</td>
-                                <td>...</td>
-                                <td>2006</td>
-                                <td>28-08-2006</td>
+                                <td>1</td>
+                                <td>598233142</td>
+                                <td>HIPODROMO CHILE</td>
+                                <td>1631</td>
+                                <td>INDEPENDENCIA</td>
+                                <td>07-01-2020</td>
                             </tr>
                             <tr>
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
-                                <td>...</td>
-                                <td>....</td>
                                 <td>...</td>
                                 <td>...</td>
                             </tr>
@@ -63,7 +55,7 @@
                 </div>
                 <hr>
 
-                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-patentes-vehiculares' %}">aqui</a></h5>
+                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-licencias-conducir' %}">aqui</a></h5>
 
                 <hr>
                 {{ datos|crispy }}

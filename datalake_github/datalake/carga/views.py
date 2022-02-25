@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from .forms import(
     CargaEntregaPandemiaForm,
     CargaEmpresasForm,
-    CargaPatentesVehicularesForm,
+    CargaLicenciasConducirForm,
     CargaPermisosCirculacionForm,
     CargaExencionAseoForm,
     CargaDOMForm,
@@ -14,7 +14,7 @@ from .forms import(
 from .models import (
     Empresas,
     PermisosCirculacion,
-    PatentesVehiculares,
+    LicenciaConducir,
     EntregasPandemia,
     DOM,
     ExencionAseo
@@ -56,11 +56,11 @@ def carga_datos_empresa(request):
     return render(request, 'carga/carga_empresas.html', context)      
 
 @login_required
-def carga_datos_patentes_vehiculares(request):
-    carga_form = CargaPatentesVehicularesForm()
+def carga_datos_licencia_conducir(request):
+    carga_form = CargaLicenciasConducirForm()
 
     if request.method == 'POST':
-        carga_form = CargaPatentesVehicularesForm(request.POST,request.FILES)
+        carga_form = CargaLicenciasConducirForm(request.POST,request.FILES)
         if carga_form.is_valid():
             carga_form.save()
             messages.success(request, f'El archivo fue subido con exito')
@@ -70,7 +70,7 @@ def carga_datos_patentes_vehiculares(request):
         'datos':carga_form
     }
 
-    return render(request, 'carga/carga_patentes_vehiculares.html', context)   
+    return render(request, 'carga/carga_licencias_conducir.html', context)   
 
 @login_required
 def carga_datos_permiso_circulacion(request):
@@ -151,14 +151,14 @@ def descargar_ejemplo_empresa(request):
     return response
 
 @login_required
-def descargar_ejemplo_patentes_vehiculares(request):
-    df = pd.DataFrame(list(PatentesVehiculares.objects.filter(pk=1).values())).astype(str)
+def descargar_ejemplo_licencia_conducir(request):
+    df = pd.DataFrame(list(LicenciaConducir.objects.filter(pk=1).values())).astype(str)
     del df['id']
     column_names = df.columns
     df_vacia = pd.DataFrame(columns = column_names)
 
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=carga_patentesvehiculares.xlsx'
+    response['Content-Disposition'] = 'attachment; filename=carga_licenciaconducir.xlsx'
     df_vacia.to_excel(excel_writer=response, index=None)
 
     return response

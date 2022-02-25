@@ -43,9 +43,9 @@ class LlamadoSeguridad(models.Model):
         return f'{self.numero_requerimiento}'
 
 class Denunciante(models.Model):
-    nombre = models.CharField(null=True, blank=True, max_length=30,verbose_name='Nombre')
-    apellido = models.CharField(null=True, blank=True, max_length=30,verbose_name='Apellido')
-    telefono = models.CharField(null=True, blank=True, max_length=30,verbose_name='Teléfono denunciante')
+    nombre = models.CharField(null=True, blank=True, max_length=200,verbose_name='Nombre')
+    apellido = models.CharField(null=True, blank=True, max_length=200,verbose_name='Apellido')
+    telefono = models.CharField(null=True, blank=True, max_length=200,verbose_name='Teléfono denunciante')
     correo = models.EmailField(null=True, blank=True, max_length=40, verbose_name="Correo electrónico")
 
     class Meta:
@@ -83,11 +83,11 @@ class Requerimiento(models.Model):
             ),
         verbose_name='Vía de Ingreso',
         )
-    via_ingreso_otro = models.CharField(null=True, blank=True, max_length=20, verbose_name=" ")
+    via_ingreso_otro = models.CharField(null=True, blank=True, max_length=200, verbose_name=" ")
     denunciante = models.ForeignKey(Denunciante, on_delete=models.PROTECT, verbose_name='denunciante')
     delito = models.ForeignKey(Delito, on_delete=models.PROTECT, verbose_name='Delito')
     delito_otro = models.TextField(null=True, blank=True, verbose_name='Comentario')
-    calle = models.CharField(max_length=30, verbose_name="Avenida/Calle/Pasaje")
+    calle = models.CharField(max_length=200, verbose_name="Avenida/Calle/Pasaje")
     numero = models.IntegerField(null=True, blank=True, verbose_name="Numeración")
     complemento_direccion = models.CharField(null=True, blank=True, max_length=50, verbose_name='Complemento de Dirección')
     interseccion = models.CharField(null=True, blank=True, max_length=50, verbose_name='Intersección',)

@@ -2,7 +2,7 @@ from django import forms
 from .models import (
     CargaEntregasPandemia,
     CargaEmpresas,
-    CargaPatentesVehiculares,
+    CargaLicenciasConducir,
     CargaPermisosCirculacion,
     CargaDOM,
     CargaExencionAseo,
@@ -31,12 +31,12 @@ class CargaEmpresasForm(forms.ModelForm):
             'carga_producto': 'Excel Empresas',
         }
 
-class CargaPatentesVehicularesForm(forms.ModelForm):
+class CargaLicenciasConducirForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(CargaPatentesVehicularesForm,self).__init__(*args, **kwargs)
+        super(CargaLicenciasConducirForm,self).__init__(*args, **kwargs)
 
     class Meta:
-        model = CargaPatentesVehiculares
+        model = CargaLicenciasConducir
         fields = ['carga_producto']
         labels = {
             'carga_producto': 'Excel Patentes Vehiculares',

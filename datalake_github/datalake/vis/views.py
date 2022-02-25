@@ -9,7 +9,7 @@ from dimap.models import(ControlPlaga,Procedimiento,SeguridadDIMAP)
 from seguridad.models import(Requerimiento, Delito, ClasificacionDelito)
 from carga.models import(
     EntregasPandemia,
-    PatentesVehiculares,
+    LicenciaConducir,
     PermisosCirculacion,
     Empresas,
     ExencionAseo,
@@ -1944,7 +1944,7 @@ def transito_vis(request, categoria):
     filtro_mapa = [
         "Total",
         "Permisos de Circulación",
-        "Patente Vehicular",
+        "Licencia de Condicir",
     ]
 
     if request.method == 'GET':
@@ -1964,7 +1964,7 @@ def transito_vis(request, categoria):
                                 group by c.uv_id) per
                                 on cu.numero_uv = per.uv_id;'''
 
-        for c in PatentesVehiculares.objects.raw(query_tabla):
+        for c in LicenciaConducir.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
                 c.total,
                 c.pc,
@@ -1982,7 +1982,7 @@ def transito_vis(request, categoria):
                           order by cp.fecha_pago asc;'''
 
 
-            for c in PatentesVehiculares.objects.raw(query_mapa):
+            for c in LicenciaConducir.objects.raw(query_mapa):
                 lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_total
@@ -1997,7 +1997,7 @@ def transito_vis(request, categoria):
 
             lista_mapa = lista_mapa_circulacion
 
-        elif filtro_mapa[categoria] == "Patente Vehicular":
+        elif filtro_mapa[categoria] == "Licencia de Condicir":
 
             lista_mapa_vehicular = []
             query_mapa = '''select cp.uv_id as id, cp.fecha_pago
@@ -2005,7 +2005,7 @@ def transito_vis(request, categoria):
                           where cp.uv <> 0
                           order by cp.fecha_pago asc;'''
 
-            for c in PatentesVehiculares.objects.raw(query_mapa):
+            for c in LicenciaConducir.objects.raw(query_mapa):
                 lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_vehicular
@@ -2041,7 +2041,7 @@ def transito_vis(request, categoria):
                                         group by c.uv_id) per \
                                         on cu.numero_uv = per.uv_id;"
 
-            for c in PatentesVehiculares.objects.raw(query_tabla):
+            for c in LicenciaConducir.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
                     c.total,
                     c.pc,
@@ -2059,7 +2059,7 @@ def transito_vis(request, categoria):
                             and cp.fecha_pago between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             order by cp.fecha_pago asc;"
 
-                for c in PatentesVehiculares.objects.raw(query_mapa):
+                for c in LicenciaConducir.objects.raw(query_mapa):
                     lista_mapa_total.append({"uv":c.id,"created": str(c.fecha_pago)})
 
                 lista_mapa = lista_mapa_total
@@ -2074,7 +2074,7 @@ def transito_vis(request, categoria):
 
                 lista_mapa = lista_mapa_circulacion
 
-            elif filtro_mapa[categoria] == "Patente Vehicular":
+            elif filtro_mapa[categoria] == "Licencia de Condicir":
 
                 lista_mapa_vehicular = []
                 query_mapa = f"select cp.uv_id as id, cp.fecha_pago \
@@ -2083,7 +2083,7 @@ def transito_vis(request, categoria):
                             and cp.fecha_pago between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             order by cp.fecha_pago asc;"
 
-                for c in PatentesVehiculares.objects.raw(query_mapa):
+                for c in LicenciaConducir.objects.raw(query_mapa):
                     lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha_pago)})
 
                 lista_mapa = lista_mapa_vehicular

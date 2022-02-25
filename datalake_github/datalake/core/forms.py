@@ -28,7 +28,7 @@ class PersonaVerificacionForm(forms.Form):
         choices=TIPOS_DE_IDENTIFICACION,
         label='Tipo de identificación',
     )
-    numero_identificacion = forms.CharField(max_length=30, label='Número de identificación')                  
+    numero_identificacion = forms.CharField(max_length=200, label='Número de identificación')                  
  
 class PersonaModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
