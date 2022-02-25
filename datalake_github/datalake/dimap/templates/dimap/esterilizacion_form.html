@@ -13,7 +13,7 @@
 
                 <h4 class="magenta">Nº de Identificación:</h4>
                 <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }}</p>
-                <h4 class="magenta">Nº de Teléfono</h4>
+                <h4 class="magenta">Nº de Telefono</h4>
                 <p>{{ telefono.telefono}}</p>
                 <h4 class="magenta">Correo:</h4>
                 <p>{{correo.correo}}</p>
@@ -38,12 +38,20 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Mascota</legend>
-                {{ form_mascota|crispy }}
-                <legend class="border-bottom mb-4">Procedimiento</legend>
-                {{ form_esterilizacion|crispy }}
+				<div class="container formulario-estirilizacion">
+					<div class="row">
+						<div class="col">
+							<legend class="border-bottom mb-4">Mascota</legend>
+                			{{ form_mascota|crispy }}
+						</div>
+						<div class="col">
+							<legend class="border-bottom mb-4">Procedimiento</legend>
+                			{{ form_esterilizacion|crispy }}
+						</div>
+					</div>
+				</div>
             </fieldset>
-            <div class="form-group">
+            <div class="form-group align-right">
                 <button class="btn btn-outline-info" type="submit">Crear</button>
             </div>
         </form>

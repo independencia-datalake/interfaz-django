@@ -8,51 +8,43 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Carga DOM</legend>
+                <legend class="border-bottom mb-4">Carga Patentes Vehiculares</legend>
                 <h2>Instrucciones para carga de datos masiva:</h2>
                 <hr>
                 <div class="row">
                     <div class="col">    
-                        <h5>1) El nombre del archivo debe ser carga_dom.xlsx </h5>
+                        <h5>1) El nombre del archivo debe ser carga_patentesvehiculares.xlsx </h5>
                         <hr>
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
                                 <th>uv_id</th>
-                                <th>tramite</th>
-                                <th>manzana</th> 
-                                <th>predio</th>
+                                <th>folio</th> 
                                 <th>calle</th>
                                 <th>numero</th>
-                                <th>n_permiso</th>
-                                <th>created</th>
+                                <th>comuna</th>
+                                <th>fecha</th>
                             <tr>
-                                <td>12</td>
-                                <td>REGULARIZACIONES LEY 18.591</td>
-                                <td>728</td>
-                                <td>15</td>
-                                <td>UNO  NORTE</td>
-                                <td>633 Ex 736</td>
-                                <td>810*1987</td>
-                                <td>02-11-2020  11:18:26</td>
+                                <td>7</td>
+                                <td>247825101</td>
+                                <td>PEREZ COTAPOS</td>
+                                <td>1475</td>
+                                <td>INDEPENDENCIA</td>
+                                <td>19-05-2015</td>
                             </tr>
                             <tr>
-                                <td>12</td>
-                                <td>OBRAS MENORES</td>
-                                <td>727</td>
-                                <td>5</td>
-                                <td>UNO  NORTE</td>
-                                <td>636</td>
-                                <td>55*1995</td>
-                                <td>02-11-2020  11:18:26</td>
+                                <td>1</td>
+                                <td>598233142</td>
+                                <td>HIPODROMO CHILE</td>
+                                <td>1631</td>
+                                <td>INDEPENDENCIA</td>
+                                <td>07-01-2020</td>
                             </tr>
                             <tr>
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
-                                <td>...</td>
-                                <td>....</td>
                                 <td>...</td>
                                 <td>...</td>
                             </tr>
@@ -63,7 +55,7 @@
                 </div>
                 <hr>
 
-                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-dom' %}">aqui</a></h5>
+                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-licencias-conducir' %}">aqui</a></h5>
 
                 <hr>
                 {{ datos|crispy }}

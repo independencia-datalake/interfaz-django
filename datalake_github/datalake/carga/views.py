@@ -1,13 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import pandas as pd
+from django.http import HttpResponse
 from .forms import(
     CargaEntregaPandemiaForm,
     CargaEmpresasForm,
-    CargaPatentesVehicularesForm,
+    CargaLicenciasConducirForm,
     CargaPermisosCirculacionForm,
     CargaExencionAseoForm,
     CargaDOMForm,
+)
+from .models import (
+    Empresas,
+    PermisosCirculacion,
+    LicenciaConducir,
+    EntregasPandemia,
+    DOM,
+    ExencionAseo
 )
 
 
@@ -46,11 +56,11 @@ def carga_datos_empresa(request):
     return render(request, 'carga/carga_empresas.html', context)      
 
 @login_required
-def carga_datos_patentes_vehiculares(request):
-    carga_form = CargaPatentesVehicularesForm()
+def carga_datos_licencia_conducir(request):
+    carga_form = CargaLicenciasConducirForm()
 
     if request.method == 'POST':
-        carga_form = CargaPatentesVehicularesForm(request.POST,request.FILES)
+        carga_form = CargaLicenciasConducirForm(request.POST,request.FILES)
         if carga_form.is_valid():
             carga_form.save()
             messages.success(request, f'El archivo fue subido con exito')
@@ -60,7 +70,7 @@ def carga_datos_patentes_vehiculares(request):
         'datos':carga_form
     }
 
-    return render(request, 'carga/carga_patentes_vehiculares.html', context)   
+    return render(request, 'carga/carga_licencias_conducir.html', context)   
 
 @login_required
 def carga_datos_permiso_circulacion(request):
@@ -112,3 +122,82 @@ def carga_datos_dom(request):
     }
 
     return render(request, 'carga/carga_dom.html', context)
+
+@login_required
+def descargar_ejemplo_entrega_pandemia(request):
+
+    df = pd.DataFrame(list(EntregasPandemia.objects.filter(pk=1).values())).astype(str)
+    del df['id']
+    column_names = df.columns
+    df_vacia = pd.DataFrame(columns = column_names)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=carga_entregaspandemia.xlsx'
+    df_vacia.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_ejemplo_empresa(request):
+    df = pd.DataFrame(list(Empresas.objects.filter(pk=1).values())).astype(str)
+    del df['id']
+    column_names = df.columns
+    df_vacia = pd.DataFrame(columns = column_names)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=carga_empresas.xlsx'
+    df_vacia.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_ejemplo_licencia_conducir(request):
+    df = pd.DataFrame(list(LicenciaConducir.objects.filter(pk=1).values())).astype(str)
+    del df['id']
+    column_names = df.columns
+    df_vacia = pd.DataFrame(columns = column_names)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=carga_licenciaconducir.xlsx'
+    df_vacia.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_ejemplo_permiso_circulacion(request):
+    df = pd.DataFrame(list(PermisosCirculacion.objects.filter(pk=1).values())).astype(str)
+    del df['id']
+    column_names = df.columns
+    df_vacia = pd.DataFrame(columns = column_names)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=carga_permisoscirculacion.xlsx'
+    df_vacia.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_ejemplo_exencion_aseo(request):
+    df = pd.DataFrame(list(ExencionAseo.objects.filter(pk=1).values())).astype(str)
+    del df['id']
+    column_names = df.columns
+    df_vacia = pd.DataFrame(columns = column_names)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=carga_exencionaseo.xlsx'
+    df_vacia.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_ejemplo_dom(request):
+    df = pd.DataFrame(list(DOM.objects.filter(pk=1).values())).astype(str)
+    del df['id']
+    column_names = df.columns
+    df_vacia = pd.DataFrame(columns = column_names)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=carga_dom.xlsx'
+    df_vacia.to_excel(excel_writer=response, index=None)
+
+    return response

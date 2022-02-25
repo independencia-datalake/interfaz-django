@@ -18,33 +18,39 @@
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+                                <th>uv_id</td>
                                 <th>marca_temporal</th>
                                 <th>tipo_documento</th> 
                                 <th>numero_identificacion</th>
                                 <th>nombres</th>
                                 <th>...</th>
-                                <th>adj_docu</th>
-                                <th>nombre</th>
-                                <th>serie</th>
+                                <th>calle</th>
+                                <th>numero</th>
+                                <th>complemento_direccion</th>
+                                <th>...</td>
                             <tr>
+                                <td>4</td>
                                 <td>02-11-2020  11:18:26</td>
                                 <td>RUT</td>
-                                <td></td>
+                                <td>NaN</td>
                                 <td>MARIANELA</td>
                                 <td>...</td>
-                                <td>https://drive.google.com/open?id=1pFVmzUyckJi1OhEyhHOz7WyRgn78dIZZ</td>
-                                <td>Denisse Vasquez Hurtado</td>
-                                <td>1</td>
+                                <td>INDEPENDENCIA</td>
+                                <td>2474</td>
+                                <td></td>
+                                <td>...</td>
                             </tr>
                             <tr>
+                                <td>5</td>
                                 <td>02-11-2020  15:33:30</td>
                                 <td>RUT</td>
-                                <td></td>
+                                <td>NaN</td>
                                 <td>SARA</td>
                                 <td>...</td>
-                                <td>https://drive.google.com/open?id=1PLjF9Ypeps-X0AlI5XfrGZyogjAteaqD</td>
-                                <td>Denisse Vasquez Hurtado</td>
-                                <td>2</td>
+                                <td>ESCANILLA</td>
+                                <td>1875</td>
+                                <td></td>
+                                <td>...</td>
                             </tr>
                             <tr>
                                 <td>...</td>
@@ -52,7 +58,9 @@
                                 <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
-                                <td>....</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
                                 <td>...</td>
                                 <td>...</td>
                             </tr>
@@ -62,6 +70,9 @@
                     </div>
                 </div>
                 <hr>
+
+                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-exencion-aseo' %}">aqui</a></h5>
+
                 <hr>
                 {{ datos|crispy }}
             </fieldset>

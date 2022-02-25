@@ -51,11 +51,13 @@
     {% if request.user.groups.all %}
     {% for group in request.user.groups.all %}
         {% if group.name == 'farmacia' %}
-            <li><a href="{% url 'farmacia-home' %}" class="link-inicio">Pagina Principal</a></li>
+          <li><a href="{% url 'farmacia-home' %}" class="link-inicio">Pagina Principal</a></li>
         {% elif group.name == 'dimap' %}
-            <li><a href="{% url 'dimap-home' %}" class="link-inicio">Pagina Principal</a></li>
+          <li><a href="{% url 'dimap-home' %}" class="link-inicio">Pagina Principal</a></li>
+        {% elif group.name == 'seguridad' %}
+            <li><a href="{% url 'denuncia-inicio' %}" class="link-inicio">Pagina Principal</a></li>
         {% else %}
-            <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+          <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
         {% endif %}
     {% endfor %}
     {% else %}
@@ -104,11 +106,13 @@
                 {% if request.user.groups.all %}
                 {% for group in request.user.groups.all %}
                     {% if group.name == 'farmacia' %}
-                        <a class="nav-link" href="{% url 'farmacia-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                      <a class="nav-link" href="{% url 'farmacia-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
                     {% elif group.name == 'dimap' %}
-                        <a class="nav-link" href="{% url 'dimap-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                      <a class="nav-link" href="{% url 'dimap-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                    {% elif group.name == 'seguridad' %}
+                      <a class="nav-link" href="{% url 'denuncia-inicio' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
                     {% else %}
-                        <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
+                      <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
                     {% endif %}
                 {% endfor %}
                 {% else %}

@@ -21,6 +21,10 @@ from .forms import(
     RequerimientoResolucionModelForm,
 )
 
+import pandas as pd
+from django.http import HttpResponse
+
+
 class InicioRequerimineto(ListView):
     model = Requerimiento
     ordering = ['-created']
@@ -229,3 +233,15 @@ def requermineto_edicion(request, pk):
     }
 
     return render(request, 'seguridad/denuncia_form.html', context)
+
+
+@login_required
+def descargar_requerimiento_seguridad(request):
+
+    df = pd.DataFrame(list(Requerimiento.objects.all().values())).astype(str)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=requerimiento_seguridad.xlsx'
+    df.to_excel(excel_writer=response, index=None)
+
+    return response

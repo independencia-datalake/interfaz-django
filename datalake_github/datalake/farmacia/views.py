@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
-import pandas as pd
 from django.http import HttpResponse
+import pandas as pd
 
 from core.models import(
     Persona,
@@ -321,7 +321,7 @@ def producto_farmacia_delete(request, pk):
 
 # FUNCIONALIDADES
 
-
+@login_required
 def descargar_comprobantes(request):
 
     df = pd.DataFrame(list(ComprobanteVenta.objects.all().values())).astype(str)

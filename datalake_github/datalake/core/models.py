@@ -107,7 +107,7 @@ def validar_igual(numero, validacion):
 # MODELO CORE
 
 class CallesIndependencia(models.Model):
-    calle = models.CharField(max_length=30)
+    calle = models.CharField(max_length=200)
 
     class Meta:
         verbose_name = "Calle "
@@ -130,18 +130,18 @@ class UV(models.Model):
 
 class Persona(models.Model):
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name="Unidad Vecinal")
-    tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=30,
+    tipo_identificacion = models.CharField(blank=False, default='RUT', max_length=200,
                                             choices=(
                                                 ('RUT','Rut'),
                                                 ('PASAPORTE','Pasaporte'),
                                                 ('OTRO','Otro'),
                                             ),verbose_name='Tipo de Documento'
                                           ) 
-    numero_identificacion = models.CharField(max_length=30, blank=True, verbose_name="Número de Identidad", unique=True)
+    numero_identificacion = models.CharField(max_length=200, blank=True, verbose_name="Número de Identidad", unique=True)
 
-    nombre_persona = models.CharField(max_length=30, verbose_name="Nombre Persona")
-    apellido_paterno = models.CharField(max_length=30, verbose_name="Apellido Paterno")
-    apellido_materno = models.CharField(max_length=30, verbose_name="Apellido Materno")
+    nombre_persona = models.CharField(max_length=200, verbose_name="Nombre Persona")
+    apellido_paterno = models.CharField(max_length=200, verbose_name="Apellido Paterno")
+    apellido_materno = models.CharField(max_length=200, verbose_name="Apellido Materno")
     fecha_nacimiento = models.DateField(verbose_name='Fecha de Nacimiento', blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
@@ -208,12 +208,12 @@ class Persona(models.Model):
 
 class Telefono(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
-    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Teléfono')
+    telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name='Teléfono')
     tipo_telefono = models.CharField(
         null=True,
         blank=False,
         default='MOVIL',
-        max_length=30,
+        max_length=200,
         choices=(
             ('MOVIL','Movil'),
             ('CASA','Casa'),
@@ -241,7 +241,7 @@ class Correo(models.Model):
         null=True,
         blank=False,
         default='PERSONAL',
-        max_length=30,
+        max_length=200,
         choices=(
             ('PERSONAL','Personal'),
             ('TRABAJO','Trabajo'),
@@ -266,7 +266,7 @@ class Direccion(models.Model):
   active = models.BooleanField(default=True, verbose_name="Activo",null=True)
   persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
   uv = models.ForeignKey(UV, on_delete=models.CASCADE, verbose_name='UV')
-  calle = models.CharField(max_length=30, verbose_name="Avenida/Calle/Pasaje")
+  calle = models.CharField(max_length=200, verbose_name="Avenida/Calle/Pasaje")
   numero = models.PositiveIntegerField(verbose_name="Numeración")
   complemento_direccion = models.CharField(max_length=50, verbose_name='Complemento de Dirección',blank=True,null=True)
 

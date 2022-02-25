@@ -13,26 +13,26 @@
                 <hr>
                 <div class="row">
                     <div class="col">    
-                        <h5>1) El nombre del archivo debe ser carga_entregaspandemia.xlsx </h5>
+                        <h5>1) El nombre del archivo debe ser carga_permisoscirculacion.xlsx </h5>
                         <hr>
                         <h5>2) El formato debe ser el siguente:</h5>
                         <hr>
                             <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-                                <th>FECHA</th>
-                                <th>RUT</th> 
-                                <th>NOMBRES</th>
-                                <th>RENOV B/FOT/ANTE</th>
+                                <th>uv_id</th>
+                                <th>fecha</th> 
+                                <th>calle</th>
+                                <th>numero</th>
                             <tr>
-                                <td>02-01-2015</td>
-                                <td>--------</td>
-                                <td>--------</td>
-                                <td>RENOV B/FOT/ANTE</td>
+                                <td>1</td>
+                                <td>2020</td>
+                                <td>SANTIAGO DE ARCOS</td>
+                                <td>2680</td>
                             </tr>
                             <tr>
-                                <td>02-01-2015</td>
-                                <td>--------</td>
-                                <td>--------</td>
-                                <td>DUPLICADO</td>
+                                <td>2</td>
+                                <td>2015</td>
+                                <td>ANTONIO JACOB VIAL</td>
+                                <td>1655</td>
                             </tr>
                             <tr>
                                 <td>...</td>
@@ -46,6 +46,9 @@
                     </div>
                 </div>
                 <hr>
+
+                <h5>Descargar Excel ejemplo - <a href="{% url 'descargar-permiso-circulacion' %}">aqui</a></h5>
+
                 <hr>
                 {{ datos|crispy }}
             </fieldset>

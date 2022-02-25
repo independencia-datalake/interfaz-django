@@ -14,4 +14,6 @@ urlpatterns = [
   path('denuncia/<int:pk>/edicion/',views.requermineto_edicion, name="denuncia-edicion"),
   path('denuncia/<int:pk>/delete/',views.requermineto_delete, name="denuncia-delete"),
 
+  path('descargarRequerimiento/',views.descargar_requerimiento_seguridad, name='descargar-requerimiento-seguridad'),
+
 ]

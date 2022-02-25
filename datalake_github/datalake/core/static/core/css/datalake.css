@@ -439,3 +439,66 @@ a.boton-lnk:hover{ background-color:#222 !important; border:1px solid #222;}
 #menu-top ul li a.link-inicio{
     background:url(img/inicio.png) left no-repeat;
     }
+.formulario-crear-perfil #div_id_numero_identificacion {
+    max-width: 100%;
+}
+.align-right{
+	text-align: right;
+}
+legend.legend-small{
+	font-size:1.6em !important;
+}
+@media (min-width: 1024px) {
+	.consola-vis-der label{
+		display: inline-block !important; 
+		width: 120px;
+	}
+	.consola-vis-der input{
+		display: inline-block !important; 
+		width: 180px;
+	}
+	.consola-vis-der input#id_fecha_inicio{
+		margin: 10px;
+	}
+	div.btn-group{
+		width: auto;
+		display: inline-block !important;
+		float: right;
+		padding-top: 10px;
+	}
+	div.btn-group input{
+		margin-left: 0;
+		padding-top: 9px;
+		padding-bottom: 10px;
+		width: auto!important;
+		display: block!important;
+	}
+	.consola-vis-izq{
+		padding: 10px;
+	}
+}
+table#datos-vis tr td{
+	padding: 3px !important;
+	
+}
+table#datos-vis{
+	overflow: auto !important;
+	overflow-y: hidden; 
+    overflow-x: auto;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+table#datos-vis.tabla-block{
+	display: block;
+}
+.content-table-vis{
+	float: right; 
+	width:60%;
+	padding-right: 10%;
+}
+canvas{
+	margin-top: -100px;
+}
+
+
+

@@ -88,35 +88,39 @@
         {% endfor %}
     {% endif %}
 </div>
+<div class="container">
+		<div id="contenedor-principal" class="container-fluid">
 
-<div id="contenedor-principal" class="container-fluid">
-
-<!--SELECTOR-->
-<div class="row">
-  <div class="col-xs-6 col-sm-6">
-    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-      <option>FUENTE DE DATOS</option>
-      <option>FARMACIA MUNICIPAL</option>
-      <option>HIGIENTE AMBIENTAL - DIMAP</option>
-      <option>SEGURIDAD MUNICIPAL</option>
-      <option>IMPUESTOS Y DERECHOS</option>
-      <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>EXCENCIÓN BASURA</option>
-      <option>OBRAS MUNICIPALES</option>
-      <option>TRANSITO</option>
-    </select>
-  </div>
-  <div class="col-xs-6 col-sm-6">
-    <form action='' method='POST' enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ filtro_tiempo }}
-      <div class='btn-group'>
-        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
-      </div>
-    </form>
-  </div>
+		<!--SELECTOR-->
+		<div class="row" id="consola-vis">
+		  <div class="col-xs-3 col-sm-3 consola-vis-izq">
+			<select id="selector-tablas" onchange="cargar_tabla(this.value)">
+			  <option>FUENTE DE DATOS</option>
+			  <option>FARMACIA MUNICIPAL</option>
+			  <option>HIGIENTE AMBIENTAL - DIMAP</option>
+			  <option>SEGURIDAD MUNICIPAL</option>
+			  <option>IMPUESTOS Y DERECHOS</option>
+			  <option>AYUDA SOCIAL - PANDEMIA</option>
+			  <option>EXCENCIÓN BASURA</option>
+			  <option>OBRAS MUNICIPALES</option>
+			  <option>TRANSITO</option>
+			</select>
+		  </div>
+		  <div class="col-xs-9 col-sm-9 consola-vis-der">
+			<form action='' method='POST' enctype="multipart/form-data">
+			  {% csrf_token %}
+			  {{ filtro_tiempo }}
+			  <div class='btn-group'>
+				<input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+			  </div>
+			</form>
+		  </div>
+		</div>
+		</div>
 </div>
-</div>
+	
+	
+	
 
 <div style="height: 5vh; width: 65vw; float: right;">
   
@@ -126,7 +130,8 @@
 
 <br>
 
-<table style='float: right; width:60%' border = "1" cellpadding= "5" cellspacing = "5">
+<div class="content-table-vis">
+<table id="datos-vis" style='width:100%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
     <th>UV</th>
     <th><a href="{% url 'impuestos-vis' 0 %}">Total</a></th>
@@ -151,11 +156,9 @@
     </tr>
 {% endfor %}
 
-  
-
-
 </table>
-
+</div>
+	
 {% comment %} 
 
 estudiar html
@@ -208,7 +211,7 @@ hdsahhdhas
       }
 
       else{
-        alert("Ninguno");
+        alert("Pagina Actual");
       }
   }
     </script>

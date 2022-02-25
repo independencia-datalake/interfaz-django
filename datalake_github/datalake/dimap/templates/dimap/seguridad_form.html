@@ -37,13 +37,145 @@
     <div class="content-section">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <fieldset class="form-group">
+            <!--<fieldset class="form-group form-denuncia">
                 <legend class="border-bottom mb-4">Denuncia</legend>
                 {{ form_seguridad|crispy }}
+            </fieldset>-->
+			
+			<fieldset class="form-group form-denuncia">
+                <legend class="border-bottom mb-4">Denuncia</legend>
+                
+					<div class="container contenidos-comprobante-venta">
+						<div class="row">
+							<div class="col col-izq">
+								<div id="div_id_estatus" class="form-group"> 
+							<label for="id_estatus_0" class=" requiredField">
+							Estatus<span class="asteriskField">*</span> </label> 
+
+							<div> <div class="form-check"> <input type="radio" class="form-check-input" name="estatus" value="1" id="id_estatus_0" required="" checked=""> <label class="form-check-label" for="id_estatus_0">
+							Pendiente
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="estatus" value="2" id="id_estatus_1" required=""> <label class="form-check-label" for="id_estatus_1">
+							Realizado
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="estatus" value="3" id="id_estatus_2" required=""> <label class="form-check-label" for="id_estatus_2">
+							Anulado
+							</label> </div> </div>
+							</div> 
+
+							<div id="div_id_ficha" class="form-group"> <label for="id_ficha" class=" requiredField">
+							Ficha de Ingreso<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="ficha" value="0" maxlength="40" class="textinput textInput form-control" required="" id="id_ficha"> </div> </div> 
+
+							<div id="div_id_tipo_denuncia" class="form-group"> <label for="id_tipo_denuncia_0" class=" requiredField">
+							Tipo de Denuncia<span class="asteriskField">*</span> </label> <div> <div class="form-check"> <input type="radio" class="form-check-input" name="tipo_denuncia" value="" id="id_tipo_denuncia_0" required="" checked=""> <label class="form-check-label" for="id_tipo_denuncia_0">
+							---------
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="tipo_denuncia" value="1" id="id_tipo_denuncia_1" required=""> <label class="form-check-label" for="id_tipo_denuncia_1">
+							Zoonosis
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="tipo_denuncia" value="2" id="id_tipo_denuncia_2" required=""> <label class="form-check-label" for="id_tipo_denuncia_2">
+							Trm
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="tipo_denuncia" value="3" id="id_tipo_denuncia_3" required=""> <label class="form-check-label" for="id_tipo_denuncia_3">
+							Higiene Ambiental
+							</label> </div> </div> </div> 
+
+							<div id="div_id_text_denuncia" class="form-group"> <label for="id_text_denuncia" class="">
+							Motivo Denuncia
+							</label> <div class=""> <textarea name="text_denuncia" cols="40" rows="10" class="textarea form-control" id="id_text_denuncia"></textarea> </div> </div> 
+
+							<div id="div_id_nombre" class="form-group"> <label for="id_nombre" class="">
+							Nombre Denunciado
+							</label> <div class=""> <input type="text" name="nombre" maxlength="30" class="textinput textInput form-control" id="id_nombre"> </div> </div> 
+
+							<div id="div_id_apellido" class="form-group"> <label for="id_apellido" class="">
+							Apellido Denunciado
+							</label> <div class=""> <input type="text" name="apellido" maxlength="30" class="textinput textInput form-control" id="id_apellido"> </div> </div> 
+
+							<div id="div_id_calle" class="form-group"> <label for="id_calle" class="">
+							Calle Denunciado
+							</label> <div class=""> <input type="text" name="calle" maxlength="30" class="textinput textInput form-control ui-autocomplete-input" id="id_calle" autocomplete="off"> </div> </div> 
+
+							<div id="div_id_numero" class="form-group"> <label for="id_numero" class="">
+							Numeración
+							</label> <div class=""> <input type="number" name="numero" min="0" class="numberinput form-control" id="id_numero"> </div> </div> 
+
+							<div id="div_id_telefono" class="form-group"> <label for="id_telefono" class="">
+							Teléfono Denunciado
+							</label> <div class=""> <input type="text" name="telefono" maxlength="30" class="textinput textInput form-control" id="id_telefono"> </div> </div> 
+
+							<div id="div_id_f_visita" class="form-group"> <label for="id_f_visita" class=" requiredField">
+							Fecha de visita inspeccion<span class="asteriskField">*</span> </label> <div class=""> <input type="date" name="f_visita" class="form-control dateinput form-control" placeholder="Select a date" required="" id="id_f_visita"> </div> </div> 
+								
+								<div id="div_id_l_transgrsion" class="form-group"> <label for="id_l_transgrsion_0" class=" requiredField">
+							Lugar de Transgresión<span class="asteriskField">*</span> </label> <div> <div class="form-check"> <input type="radio" class="form-check-input" name="l_transgrsion" value="" id="id_l_transgrsion_0" required="" checked=""> <label class="form-check-label" for="id_l_transgrsion_0">
+							---------
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="l_transgrsion" value="1" id="id_l_transgrsion_1" required=""> <label class="form-check-label" for="id_l_transgrsion_1">
+							Vía Pública
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="l_transgrsion" value="2" id="id_l_transgrsion_2" required=""> <label class="form-check-label" for="id_l_transgrsion_2">
+							Domicilio
+							</label> </div> </div> </div> 
+
+							<div id="div_id_i_visita" class="form-group"> <label for="id_i_visita_0" class=" requiredField">
+							Visita Inspectiva<span class="asteriskField">*</span> </label> <div> <div class="form-check"> <input type="radio" class="form-check-input" name="i_visita" value="" id="id_i_visita_0" required="" checked=""> <label class="form-check-label" for="id_i_visita_0">
+							---------
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="i_visita" value="1" id="id_i_visita_1" required=""> <label class="form-check-label" for="id_i_visita_1">
+							Inspector
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="i_visita" value="2" id="id_i_visita_2" required=""> <label class="form-check-label" for="id_i_visita_2">
+							Profesional
+							</label> </div> </div> </div> 
+								
+							</div>
+							<div class="col col-der">
+								
+
+							<div id="div_id_obs_insp" class="form-group"> <label for="id_obs_insp" class="">
+							Observación Inspector
+							</label> <div class=""> <textarea name="obs_insp" cols="40" rows="10" class="textarea form-control" id="id_obs_insp"></textarea> </div> </div> 
+
+							<div id="div_id_cat_visita" class="form-group"> <label for="id_cat_visita_0" class="">
+							Categorización de Visita
+							</label> <div> <div class="form-check"> <input type="radio" class="form-check-input" name="cat_visita" value="" id="id_cat_visita_0" checked=""> <label class="form-check-label" for="id_cat_visita_0">
+							---------
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="cat_visita" value="1" id="id_cat_visita_1"> <label class="form-check-label" for="id_cat_visita_1">
+							Se Visita, Hay Contacto
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="cat_visita" value="2" id="id_cat_visita_2"> <label class="form-check-label" for="id_cat_visita_2">
+							Se Visita, No Hay Contacto
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="cat_visita" value="3" id="id_cat_visita_3"> <label class="form-check-label" for="id_cat_visita_3">
+							Otra
+							</label> </div> </div> </div> 
+
+							<div id="div_id_notificacion" class="form-group"> <label for="id_notificacion_0" class="">
+							Notificación
+							</label> <div> <div class="form-check"> <input type="radio" class="form-check-input" name="notificacion" value="" id="id_notificacion_0" checked=""> <label class="form-check-label" for="id_notificacion_0">
+							---------
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="notificacion" value="1" id="id_notificacion_1"> <label class="form-check-label" for="id_notificacion_1">
+							Con Notificación
+							</label> </div> <div class="form-check"> <input type="radio" class="form-check-input" name="notificacion" value="2" id="id_notificacion_2"> <label class="form-check-label" for="id_notificacion_2">
+							Sin Notificación
+							</label> </div> </div> </div> 
+
+							<div id="div_id_n_notificacion" class="form-group"> <label for="id_n_notificacion" class="">
+							Número de notificación
+							</label> <div class=""> <input type="number" name="n_notificacion" min="0" class="numberinput form-control" id="id_n_notificacion"> </div> </div> 
+
+							<div id="div_id_respuesta" class="form-group"> <label for="id_respuesta" class="">
+							Respuesta Denunciante
+							</label> <div class=""> <textarea name="respuesta" cols="40" rows="10" class="textarea form-control" id="id_respuesta"></textarea> </div> </div> 
+
+							<div id="div_id_img_respuesta" class="form-group"> <label for="id_img_respuesta" class="">
+							Img respuesta
+							</label> <div class=""> <input type="file" name="img_respuesta" class="clearablefileinput form-control-file" id="id_img_respuesta"> </div> </div>
+							</div>
+						</div>
+					</div>
+				
+							
+
+							
+				
+
             </fieldset>
+			
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Crear</button>
+                <button style="float:right;" class="btn btn-outline-info" type="submit">Crear</button>
             </div>
+			<div style="clear:both;"></div>
         </form>
     </div>
 </div>

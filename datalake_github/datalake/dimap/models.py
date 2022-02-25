@@ -10,7 +10,7 @@ from core.models import (
 class Mascota(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.PROTECT, verbose_name='dueño')
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad vecinal')
-    nombre = models.CharField(max_length=30, verbose_name="Nombre Mascota")
+    nombre = models.CharField(max_length=200, verbose_name="Nombre Mascota")
     sexo = models.CharField(
         max_length=1,
         default='1',
@@ -203,12 +203,12 @@ class SeguridadDIMAP(models.Model):
         verbose_name='Tipo de Denuncia',
         )
     text_denuncia = models.TextField(blank=True, verbose_name='Motivo Denuncia')
-    nombre = models.CharField(null=True, blank=True, max_length=30,verbose_name='Nombre Denunciado')
-    apellido = models.CharField(null=True, blank=True, max_length=30,verbose_name='Apellido Denunciado')
-    calle = models.CharField(null=True, blank=True, max_length=30, verbose_name='Calle Denunciado')
+    nombre = models.CharField(null=True, blank=True, max_length=200,verbose_name='Nombre Denunciado')
+    apellido = models.CharField(null=True, blank=True, max_length=200,verbose_name='Apellido Denunciado')
+    calle = models.CharField(null=True, blank=True, max_length=200, verbose_name='Calle Denunciado')
     numero = models.PositiveIntegerField(null=True, blank=True, verbose_name='Numeración')
     uv = models.ForeignKey(UV, on_delete=models.PROTECT, verbose_name='Unidad Vecinal Demandado')
-    telefono = models.CharField(null=True, blank=True, max_length=30, verbose_name='Teléfono Denunciado')
+    telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name='Teléfono Denunciado')
     f_visita = models.DateField(verbose_name='Fecha de visita inspeccion')
     l_transgrsion = models.CharField(
         max_length=1,

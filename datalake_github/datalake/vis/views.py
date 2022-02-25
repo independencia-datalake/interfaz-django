@@ -1,7 +1,3 @@
-import pandas as pd
-import os
-import json
-
 from django.shortcuts import render, redirect
 from .forms import(FiltroTiempo)
 from farmacia.models import(ComprobanteVenta)
@@ -9,7 +5,7 @@ from dimap.models import(ControlPlaga,Procedimiento,SeguridadDIMAP)
 from seguridad.models import(Requerimiento, Delito, ClasificacionDelito)
 from carga.models import(
     EntregasPandemia,
-    PatentesVehiculares,
+    LicenciaConducir,
     PermisosCirculacion,
     Empresas,
     ExencionAseo,
@@ -17,15 +13,10 @@ from carga.models import(
     )
 from django.contrib.auth.decorators import login_required
 
-# #CONFIGURACION DEL S3 AWS
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 #FARMACIA
 @login_required
 def inicio_vis(request):
-    print('Cargando inicio vis')
     return render(request, 'vis/home_vis.html')
 
 @login_required
@@ -1950,27 +1941,27 @@ def transito_vis(request, categoria):
     filtro_mapa = [
         "Total",
         "Permisos de Circulación",
-        "Patente Vehicular",
+        "Licencia de Condicir",
     ]
 
     if request.method == 'GET':
 
         diccionario_tabla = {}
         query_tabla = '''select cu.numero_uv as id,
-                	coalesce(pat.cant, 0) + coalesce(per.cant, 0) as total,
-                	coalesce(pat.cant, 0) as pc,
-                	coalesce(per.cant, 0) as pv
+                            coalesce(pat.cant, 0) + coalesce(per.cant, 0) as total,
+                            coalesce(pat.cant, 0) as pv,
+                            coalesce(per.cant, 0) as pc
                         from core_uv cu
-                        left join (select cp.uv, count(1) as cant
-                        	from carga_patentesvehiculare cp
-                        	group by cp.uv) pat
-                        	on cu.numero_uv = pat.uv
+                        left join (select lc.uv, count(1) as cant
+                            from carga_licenciaconducir lc
+                            group by lc.uv) pat
+                            on cu.numero_uv = pat.uv
                         left join (select c.uv_id, count(1) as cant
-                            	from carga_permisoscirculacion c
-                            	group by c.uv_id) per
-                            	on cu.numero_uv = per.uv_id;'''
+                                from carga_permisoscirculacion c
+                                group by c.uv_id) per
+                                on cu.numero_uv = per.uv_id;'''
 
-        for c in PatentesVehiculares.objects.raw(query_tabla):
+        for c in LicenciaConducir.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
                 c.total,
                 c.pc,
@@ -1981,33 +1972,41 @@ def transito_vis(request, categoria):
 
         if filtro_mapa[categoria] == "Total":
 
+            #FALTA POT COMPLETAR
             lista_mapa_total = []
-            query_mapa = '''select cp.uv as id, cp.fecha_pago
-                          from public.carga_patentesvehiculare cp
-                          where cp.uv <> 0
-                          order by cp.fecha_pago asc;'''
+            query_mapa = '''select lc.uv_id as id, lc.fecha
+                          from carga_licenciaconducir lc
+                          where lc.uv <> 0
+                          order by lc.fecha asc;'''
 
-            for c in PatentesVehiculares.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha_pago)})
+
+            for c in LicenciaConducir.objects.raw(query_mapa):
+                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_total
 
         elif filtro_mapa[categoria] == "Permisos de Circulación":
 
             lista_mapa_circulacion = []
-            query_mapa = "hola"
+            query_mapa = '''select c.uv_id as id, c.fecha
+                          from carga_permisoscirculacion c
+                          where c.uv <> 0
+                          order by c.fecha asc;'''
 
             for c in PermisosCirculacion.objects.raw(query_mapa):
                 lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_circulacion
 
-        elif filtro_mapa[categoria] == "Patente Vehicular":
+        elif filtro_mapa[categoria] == "Licencia de Condicir":
 
             lista_mapa_vehicular = []
-            query_mapa = "hola"
+            query_mapa = '''select lc.uv_id as id, lc.fecha
+                          from carga_licenciaconducir lc
+                          where lc.uv <> 0
+                          order by lc.fecha asc;'''
 
-            for c in PatentesVehiculares.objects.raw(query_mapa):
+            for c in LicenciaConducir.objects.raw(query_mapa):
                 lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_vehicular
@@ -2028,23 +2027,43 @@ def transito_vis(request, categoria):
             fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
 
             diccionario_tabla = {}
-            query_tabla = "hola"
+            query_tabla = f"select cu.numero_uv as id, \
+                            coalesce(pat.cant, 0) + coalesce(per.cant, 0) as total, \
+                            coalesce(pat.cant, 0) as lc, \
+                            coalesce(per.cant, 0) as pc \
+                        from core_uv cu \
+                        left join (select lc.uv, count(1) as cant \
+                            from carga_licenciaconducir lc \
+                            where lc.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            group by lc.uv) pat \
+                            on cu.numero_uv = pat.uv \
+                        left join (select c.uv_id, count(1) as cant \
+                            from carga_permisoscirculacion c \
+                            where c.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            group by c.uv_id) per \
+                            on cu.numero_uv = per.uv_id;"
 
-            for c in PatentesVehiculares.objects.raw(query_tabla):
+            for c in LicenciaConducir.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
                     c.total,
                     c.pc,
-                    c.pv,
+                    c.lc,
                 ]
 
             #FILTRO POR CATEGORIA 
 
             if filtro_mapa[categoria] == "Total":
 
-                lista_mapa_total = []
-                query_mapa = "hola"
 
-                for c in PatentesVehiculares.objects.raw(query_mapa):
+                # FALTA TERMINAR
+                lista_mapa_total = []
+                query_mapa = f"select cp.uv as id, cp.fecha_pago \
+                            from carga_patentesvehiculare cp \
+                            where cp.uv <> 0 \
+                            and cp.fecha_pago between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            order by cp.fecha_pago asc;"
+
+                for c in LicenciaConducir.objects.raw(query_mapa):
                     lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_total
@@ -2052,19 +2071,27 @@ def transito_vis(request, categoria):
             elif filtro_mapa[categoria] == "Permisos de Circulación":
 
                 lista_mapa_circulacion = []
-                query_mapa = "hola"
+                query_mapa = f"select c.uv_id as id, c.fecha \
+                            from carga_permisoscirculacion c \
+                            where c.uv <> 0 \
+                            and c.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            order by c.fecha asc;"
 
                 for c in PermisosCirculacion.objects.raw(query_mapa):
                     lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_circulacion
 
-            elif filtro_mapa[categoria] == "Patente Vehicular":
+            elif filtro_mapa[categoria] == "Licencia de Condicir":
 
                 lista_mapa_vehicular = []
-                query_mapa = "hola"
+                query_mapa = f"select lc.uv_id as id, lc.fecha \
+                            from carga_licenciaconducir lc \
+                            where lc.uv <> 0 \
+                            and lc.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            order by lc.fecha asc;"
 
-                for c in PatentesVehiculares.objects.raw(query_mapa):
+                for c in LicenciaConducir.objects.raw(query_mapa):
                     lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_vehicular

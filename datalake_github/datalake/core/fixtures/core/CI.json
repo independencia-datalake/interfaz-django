@@ -2056,5 +2056,145 @@
     "fields": {
         "calle": "WALTER LIHN"
     }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 295,
+    "fields": {
+        "calle": "BANCO CENTRAL DE CHILE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 296,
+    "fields": {
+        "calle": "BARAJALES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 296,
+    "fields": {
+        "calle": "BARAJALES"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 297,
+    "fields": {
+        "calle": "DIEGO DE ALMEYDA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 298,
+    "fields": {
+        "calle": "LA MONTAÑA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 299,
+    "fields": {
+        "calle": "LEY-1838"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 300,
+    "fields": {
+        "calle": "LEY-308"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 301,
+    "fields": {
+        "calle": "LEY-5579"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 302,
+    "fields": {
+        "calle": "LEY-7600"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 303,
+    "fields": {
+        "calle": "MAC CLURE"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 304,
+    "fields": {
+        "calle": "NUEVA CARRION"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 305,
+    "fields": {
+        "calle": "TARMA TAMBO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 306,
+    "fields": {
+        "calle": "ARTURO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 307,
+    "fields": {
+        "calle": "PASAJE SALOMON SACK"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 308,
+    "fields": {
+        "calle": "DOCE DE MARZO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 309,
+    "fields": {
+        "calle": "MARIÑO DE LOBERA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 310,
+    "fields": {
+        "calle": "ARGENTINA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 311,
+    "fields": {
+        "calle": "PASAJE HUIDOBRO"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 312,
+    "fields": {
+        "calle": "PRIMAVERA"
+    }
+},
+{
+    "model": "core.callesindependencia",
+    "pk": 313,
+    "fields": {
+        "calle": "TENIENTE LUIS CAREVICH CUBILLOS"
+    }
 }
 ]
