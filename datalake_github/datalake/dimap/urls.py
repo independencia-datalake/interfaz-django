@@ -29,4 +29,9 @@ urlpatterns = [
   path('seguridad/<int:pk>/',views.seguridad_detail, name="seguridad-detail"),
   path('seguridad/<int:pk>/edicion/',EdicionSeguridadDIMAP.as_view(), name="seguridad-edicion"),
   path('seguridad/<int:pk>/delete/',views.seguridad_delete, name="seguridad-delete"),
+
+  path('descargarControlDePlaga/',views.descargar_control_plaga, name='descargar-control-plaga'),
+  path('descargarEsterilizacion/',views.descargar_esterilizacion, name='descargar-esterilizacion'),
+  path('descargarSeguridadDIMAP/',views.descargar_seguridad_dimap, name='descargar-seguridad-dimap'),
+
 ]

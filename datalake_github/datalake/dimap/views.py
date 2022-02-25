@@ -39,6 +39,9 @@ from .filters import (
     SeguridadDIMAPFilter,
 )
 
+import pandas as pd
+from django.http import HttpResponse
+
 
 #           ESTERILIZACION ( MODELO: MASCOTA Y PROCEDIEMNTO )
 
@@ -469,3 +472,37 @@ class EdicionSeguridadDIMAP(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
         if self.request.user == formulario.autor:
             return True
         return False
+
+
+@login_required
+def descargar_control_plaga(request):
+
+    df = pd.DataFrame(list(ControlPlaga.objects.all().values())).astype(str)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=control_de_plaga.xlsx'
+    df.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_esterilizacion(request):
+
+    df = pd.DataFrame(list(Procedimiento.objects.all().values())).astype(str)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=procedimiento_esterilizacion.xlsx'
+    df.to_excel(excel_writer=response, index=None)
+
+    return response
+
+@login_required
+def descargar_seguridad_dimap(request):
+
+    df = pd.DataFrame(list(SeguridadDIMAP.objects.all().values())).astype(str)
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=seguridad_DIMAP.xlsx'
+    df.to_excel(excel_writer=response, index=None)
+
+    return response
