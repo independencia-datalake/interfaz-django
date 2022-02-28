@@ -61,6 +61,9 @@ local_settings.py
 datalake_db
 datalake_db-journal
 
+datalake_github/datalake/datalake_db
+datalake_github/datalake/datalake_db-journal
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -110,7 +113,9 @@ celerybeat.pid
 env/
 datalake_github/venv/
 datalake_github/dev-venv/
-venvwin/
+datalake_github/winVenv/
+.winVenv
+winVenv/
 ENV/
 env.bak/
 venv.bak/
