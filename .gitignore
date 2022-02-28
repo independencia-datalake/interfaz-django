@@ -111,6 +111,8 @@ env/
 datalake_github/venv/
 datalake_github/dev-venv/
 venvwin/
+.winVenv
+winVenv/
 ENV/
 env.bak/
 venv.bak/
