@@ -14,7 +14,7 @@ from carga.models import(
 from django.contrib.auth.decorators import login_required
 
 
-#FARMACIA
+#FARMACIA (LISTO)
 @login_required
 def inicio_vis(request):
     return render(request, 'vis/home_vis.html')
@@ -114,7 +114,7 @@ def farmacia_vis(request):
             
             return render(request,'vis/farmacia_vis.html', context)
 
-#DIMAP HIGIENE
+#DIMAP HIGIENE (LISTO)
 @login_required
 def dimap_vis(request,categoria):
     
@@ -398,7 +398,7 @@ def dimap_vis(request,categoria):
 
             return render(request,'vis/dimap_vis.html', context)
 
-#SEGURIDAD MUNICIPAL
+#SEGURIDAD MUNICIPAL (LISTO)
 @login_required
 def seguridad_vis(request, categoria):
     filtro_tiempo=FiltroTiempo(request.POST or None)
@@ -871,7 +871,7 @@ def seguridad_vis(request, categoria):
 
             return render(request,'vis/seguridad_vis.html', context)
 
-#EXENCION DE BASURA
+#EXENCION DE BASURA (LISTO)
 @login_required
 def exencion_vis(request, categoria):
     filtro_tiempo=FiltroTiempo(request.POST or None)
@@ -896,19 +896,19 @@ def exencion_vis(request, categoria):
                             from carga_exencionaseo ce
                             where ce.porcentaje_exencion = 0.5
                             group by ce.uv_id) ex50
-                            on cu.numero_uv = ex50.uv
+                            on cu.id = ex50.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_exencionaseo ce
                             where ce.porcentaje_exencion = 0.75
                             group by ce.uv_id) ex75
-                            on cu.numero_uv = ex75.uv
+                            on cu.id = ex75.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_exencionaseo ce
                             where ce.porcentaje_exencion = 1
                             group by ce.uv_id) ex1
-                            on cu.numero_uv = ex1.uv'''
+                            on cu.id = ex1.uv'''
 
         for c in ExencionAseo.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -932,7 +932,7 @@ def exencion_vis(request, categoria):
                             order by ce.marca_temporal asc;'''
             
             for c in ExencionAseo.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.marca_temporal)})
+                lista_mapa_total.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                 
             lista_mapa = lista_mapa_total
 
@@ -946,7 +946,7 @@ def exencion_vis(request, categoria):
                             order by ce.marca_temporal asc;'''
             
             for c in ExencionAseo.objects.raw(query_mapa):
-                lista_mapa_50.append({"uv":c.id,"created": str(c.marca_temporal)})
+                lista_mapa_50.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                 
             lista_mapa = lista_mapa_50
 
@@ -960,7 +960,7 @@ def exencion_vis(request, categoria):
                             order by ce.marca_temporal asc;'''
             
             for c in ExencionAseo.objects.raw(query_mapa):
-                lista_mapa_75.append({"uv":c.id,"created": str(c.marca_temporal)})
+                lista_mapa_75.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                 
             lista_mapa = lista_mapa_75
 
@@ -974,9 +974,12 @@ def exencion_vis(request, categoria):
                             order by ce.marca_temporal asc;'''
             
             for c in ExencionAseo.objects.raw(query_mapa):
-                lista_mapa_1.append({"uv":c.id,"created": str(c.marca_temporal)})
+                lista_mapa_1.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                 
             lista_mapa = lista_mapa_1
+
+        print(f'lista_mapa:{lista_mapa}')
+        print(f'diccionario_tabla:{diccionario_tabla}')
 
         context = {
             'filtro_tiempo':filtro_tiempo,
@@ -1006,21 +1009,21 @@ def exencion_vis(request, categoria):
                                 where ce.porcentaje_exencion = 0.5 \
                                 and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) ex50 \
-                                on cu.numero_uv = ex50.uv \
+                                on cu.id = ex50.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_exencionaseo ce \
                                 where ce.porcentaje_exencion = 0.75 \
                                 and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) ex75 \
-                                on cu.numero_uv = ex75.uv \
+                                on cu.id = ex75.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_exencionaseo ce \
                                 where ce.porcentaje_exencion = 1 \
                                 and ce.marca_temporal between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) ex1 \
-                                on cu.numero_uv = ex1.uv"
+                                on cu.id = ex1.uv"
 
             for c in ExencionAseo.objects.raw(query_tabla):
                         diccionario_tabla[c.id] = [
@@ -1043,7 +1046,7 @@ def exencion_vis(request, categoria):
                                 order by ce.marca_temporal asc;"
                 
                 for c in ExencionAseo.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                     
                 lista_mapa = lista_mapa_total
 
@@ -1058,7 +1061,7 @@ def exencion_vis(request, categoria):
                                 order by ce.marca_temporal asc;"
                 
                 for c in ExencionAseo.objects.raw(query_mapa):
-                    lista_mapa_50.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    lista_mapa_50.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                     
                 lista_mapa = lista_mapa_50
 
@@ -1073,7 +1076,7 @@ def exencion_vis(request, categoria):
                                 order by ce.marca_temporal asc;"
                 
                 for c in ExencionAseo.objects.raw(query_mapa):
-                    lista_mapa_75.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    lista_mapa_75.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                     
                 lista_mapa = lista_mapa_75
 
@@ -1088,7 +1091,7 @@ def exencion_vis(request, categoria):
                                 order by ce.marca_temporal asc;"
                 
                 for c in ExencionAseo.objects.raw(query_mapa):
-                    lista_mapa_1.append({"uv":c.id,"created": str(c.marca_temporal)})
+                    lista_mapa_1.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                     
                 lista_mapa = lista_mapa_1
             
@@ -1100,7 +1103,7 @@ def exencion_vis(request, categoria):
 
             return render(request,'vis/exencion_basura_vis.html',context)
 
-#AYUDA EN PANDEMIA
+#AYUDA EN PANDEMIA (LISTO)
 @login_required
 def entrega_pandemia_vis(request, categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
@@ -1140,7 +1143,7 @@ def entrega_pandemia_vis(request, categoria):
                             from carga_entregaspandemia ce
                             where ce.caja_mercaderia is not null
                             group by ce.uv_id) caja
-                            on cu.numero_uv = caja.uv
+                            on cu.id = caja.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_entregaspandemia ce
@@ -1149,38 +1152,38 @@ def entrega_pandemia_vis(request, categoria):
                             or ce.pañal_niño_xg is not null
                             or ce.pañal_niño_xxg is not null
                             group by ce.uv_id) nino
-                            on cu.numero_uv = nino.uv
+                            on cu.id = nino.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_entregaspandemia ce
                             where ce.pañal_adulto is not null
                             group by ce.uv_id) adulto
-                            on cu.numero_uv = adulto.uv
+                            on cu.id = adulto.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_entregaspandemia ce
                             where ce.leche_entera is not null
                             or ce.leche_descremada is not null
                             group by ce.uv_id) leche
-                            on cu.numero_uv = leche.uv
+                            on cu.id = leche.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_entregaspandemia ce
                             where ce.nat_100 is not null
                             group by ce.uv_id) nat
-                            on cu.numero_uv = nat.uv
+                            on cu.id = nat.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_entregaspandemia ce
                             where ce.balon_gas is not null
                             group by ce.uv_id) balon
-                            on cu.numero_uv = balon.uv
+                            on cu.id = balon.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_entregaspandemia ce
                             where ce.parafina is not null
                             group by ce.uv_id) parafina
-                            on cu.numero_uv = parafina.uv'''
+                            on cu.id = parafina.uv'''
 
         for c in EntregasPandemia.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -1202,11 +1205,11 @@ def entrega_pandemia_vis(request, categoria):
             query_mapa = '''select ce.uv_id as id,
                                 ce.fecha
                             from carga_entregaspandemia ce 
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_total
 
@@ -1215,12 +1218,12 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_caja = []
             query_mapa = '''select ce.uv_id as id, ce.fecha
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.caja_mercaderia is not null
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_caja.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_caja.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_caja
 
@@ -1229,7 +1232,7 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_pañal_niño = []
             query_mapa = '''select ce.uv_id as id, ce.fecha
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.pañal_niño_m is not null
                             or ce.pañal_niño_g is not null
                             or ce.pañal_niño_xg is not null
@@ -1237,7 +1240,7 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_pañal_niño.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_pañal_niño.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_pañal_niño
 
@@ -1246,12 +1249,12 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_pañal_adulto = []
             query_mapa = '''select ce.uv_id as id, ce.fecha 
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.pañal_adulto is not null
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_pañal_adulto.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_pañal_adulto.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_pañal_adulto
 
@@ -1260,13 +1263,13 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_leche = []
             query_mapa = '''select ce.uv_id as id, ce.fecha 
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.leche_entera is not null
                             or ce.leche_descremada is not null
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_leche.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_leche.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_leche
 
@@ -1275,12 +1278,12 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_nat = []
             query_mapa = '''select ce.uv_id as id, ce.fecha 
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.nat_100 is not null
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_nat.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_nat.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_nat
 
@@ -1289,12 +1292,12 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_balon = []
             query_mapa = '''select ce.uv_id as id, ce.fecha
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.balon_gas is not null
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_balon.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_balon.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_balon
 
@@ -1303,12 +1306,12 @@ def entrega_pandemia_vis(request, categoria):
             lista_mapa_total = []
             query_mapa = '''select ce.uv_id as id, ce.fecha 
                             from carga_entregaspandemia ce
-                            where ce.uv_id <> 0
+                            where ce.uv_id <> 1
                             and ce.parafina is not null
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_total
         
@@ -1351,7 +1354,7 @@ def entrega_pandemia_vis(request, categoria):
                                 where ce.caja_mercaderia is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) caja \
-                                on cu.numero_uv = caja.uv \
+                                on cu.id = caja.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_entregaspandemia ce \
@@ -1361,14 +1364,14 @@ def entrega_pandemia_vis(request, categoria):
                                 or ce.pañal_niño_xxg is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) nino \
-                                on cu.numero_uv = nino.uv \
+                                on cu.id = nino.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.pañal_adulto is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) adulto \
-                                on cu.numero_uv = adulto.uv \
+                                on cu.id = adulto.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_entregaspandemia ce \
@@ -1376,28 +1379,28 @@ def entrega_pandemia_vis(request, categoria):
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 or ce.leche_descremada is not null \
                                 group by ce.uv_id) leche \
-                                on cu.numero_uv = leche.uv \
+                                on cu.id = leche.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.nat_100 is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) nat \
-                                on cu.numero_uv = nat.uv \
+                                on cu.id = nat.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.balon_gas is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) balon \
-                                on cu.numero_uv = balon.uv \
+                                on cu.id = balon.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.parafina is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) parafina \
-                                on cu.numero_uv = parafina.uv"
+                                on cu.id = parafina.uv"
 
             for c in EntregasPandemia.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
@@ -1419,12 +1422,12 @@ def entrega_pandemia_vis(request, categoria):
                 query_mapa = f"select ce.uv_id as id, \
                                     ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_total
 
@@ -1433,13 +1436,13 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_caja = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.caja_mercaderia is not null \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_caja.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_caja.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_caja
 
@@ -1448,7 +1451,7 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_pañal_niño = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.pañal_niño_m is not null \
                                 or ce.pañal_niño_g is not null \
@@ -1457,7 +1460,7 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_pañal_niño.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_pañal_niño.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_pañal_niño
 
@@ -1466,13 +1469,13 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_pañal_adulto = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.pañal_adulto is not null \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_pañal_adulto.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_pañal_adulto.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_pañal_adulto
 
@@ -1481,14 +1484,14 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_leche = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.leche_entera is not null \
                                 or ce.leche_descremada is not null \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_leche.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_leche.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_leche
 
@@ -1497,13 +1500,13 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_nat = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.nat_100 is not null \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_nat.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_nat.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_nat
 
@@ -1512,13 +1515,13 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_balon = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.balon_gas is not null \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_balon.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_balon.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_balon
 
@@ -1527,13 +1530,13 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_total = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
                                 from carga_entregaspandemia ce \
-                                where ce.uv_id <> 0 \
+                                where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 and ce.parafina is not null \
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_total
             
@@ -1545,7 +1548,7 @@ def entrega_pandemia_vis(request, categoria):
 
             return render(request,'vis/entrega_pandemia_vis.html', context)
 
-#IMPUESTOS Y DERECHOS
+#IMPUESTOS Y DERECHOS (LISTO)
 @login_required
 def impuestos_derechos_vis(request,categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
@@ -1580,37 +1583,37 @@ def impuestos_derechos_vis(request,categoria):
                             from carga_empresas ce
                             where ce.tipo = '4'
                             group by ce.uv_id) alc
-                            on cu.numero_uv = alc.uv
+                            on cu.id = alc.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
                             where ce.tipo = '2'
                             group by ce.uv_id) com
-                            on cu.numero_uv = com.uv
+                            on cu.id = com.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
                             where ce.tipo = '3'
                             group by ce.uv_id) pro
-                            on cu.numero_uv = pro.uv
+                            on cu.id = pro.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
                             where ce.tipo = '1'
                             group by ce.uv_id) ind
-                            on cu.numero_uv = ind.uv
+                            on cu.id = ind.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
                             where ce.tipo = '9'
                             group by ce.uv_id) mic
-                            on cu.numero_uv = mic.uv
+                            on cu.id = mic.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
                             where ce.tipo = '5'
                             group by ce.uv_id) est
-                            on cu.numero_uv = est.uv'''
+                            on cu.id = est.uv'''
 
         for c in Empresas.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -1635,7 +1638,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_total.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_total
 
@@ -1650,7 +1653,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_alcohol.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_alcohol.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_alcohol
 
@@ -1665,7 +1668,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_comercial.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_comercial.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_comercial
 
@@ -1680,7 +1683,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_profesional.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_profesional.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_profesional
 
@@ -1695,7 +1698,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_industial.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_industial.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_industial
 
@@ -1710,7 +1713,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_micro.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_micro.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_micro
 
@@ -1725,7 +1728,7 @@ def impuestos_derechos_vis(request,categoria):
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
-                lista_mapa_estacionada.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_estacionada.append({"uv":c.id-1,"created": str(c.created)})
                 
             lista_mapa = lista_mapa_estacionada
 
@@ -1765,42 +1768,42 @@ def impuestos_derechos_vis(request,categoria):
                                 where ce.tipo = 4 \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) alc \
-                                on cu.numero_uv = alc.uv \
+                                on cu.id = alc.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
                                 where ce.tipo = 2 \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) com \
-                                on cu.numero_uv = com.uv \
+                                on cu.id = com.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
                                 where ce.tipo = 3 \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) pro \
-                                on cu.numero_uv = pro.uv \
+                                on cu.id = pro.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
                                 where ce.tipo = 1 \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) ind \
-                                on cu.numero_uv = ind.uv \
+                                on cu.id = ind.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
                                 where ce.tipo = 9 \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) mic \
-                                on cu.numero_uv = mic.uv \
+                                on cu.id = mic.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
                                 where ce.tipo = 5 \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) est \
-                                on cu.numero_uv = est.uv"
+                                on cu.id = est.uv"
 
             for c in Empresas.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
@@ -1826,7 +1829,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_total
 
@@ -1842,7 +1845,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_alcohol.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_alcohol.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_alcohol
 
@@ -1858,7 +1861,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_comercial.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_comercial.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_comercial
 
@@ -1874,7 +1877,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_profesional.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_profesional.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_profesional
 
@@ -1890,7 +1893,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_industial.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_industial.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_industial
 
@@ -1906,7 +1909,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_micro.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_micro.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_micro
 
@@ -1922,7 +1925,7 @@ def impuestos_derechos_vis(request,categoria):
                                 order by ce.created asc;"
                 
                 for c in Empresas.objects.raw(query_mapa):
-                    lista_mapa_estacionada.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_estacionada.append({"uv":c.id-1,"created": str(c.created)})
                     
                 lista_mapa = lista_mapa_estacionada
 
@@ -1934,7 +1937,7 @@ def impuestos_derechos_vis(request,categoria):
 
             return render(request,'vis/impuestos_derechos_vis.html', context)
 
-#TRANSITO 
+#TRANSITO (LISTO)
 @login_required
 def transito_vis(request, categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
@@ -1955,11 +1958,11 @@ def transito_vis(request, categoria):
                         left join (select lc.uv_id, count(1) as cant
                             from carga_licenciaconducir lc
                             group by lc.uv_id) pat
-                            on cu.numero_uv = pat.uv
+                            on cu.numero_uv+1 = pat.uv_id
                         left join (select c.uv_id, count(1) as cant
                                 from carga_permisoscirculacion c
                                 group by c.uv_id) per
-                                on cu.numero_uv = per.uv_id;'''
+                                on cu.numero_uv+1 = per.uv_id;'''
 
         for c in LicenciaConducir.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -1972,16 +1975,19 @@ def transito_vis(request, categoria):
 
         if filtro_mapa[categoria] == "Total":
 
-            #FALTA POT COMPLETAR
             lista_mapa_total = []
-            query_mapa = '''select lc.uv_id as id, lc.fecha
+            query_mapa = '''select lc.uv_id as id, lc.fecha as fecha
                           from carga_licenciaconducir lc
-                          where lc.uv_id <> 0
-                          order by lc.fecha asc;'''
+                          where lc.uv_id <> 1
+                          union
+                          select c.uv_id as id, c.fecha
+                          from carga_permisoscirculacion c
+                          where c.uv_id <> 1
+                          order by fecha;'''
 
 
             for c in LicenciaConducir.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_total
 
@@ -1990,11 +1996,11 @@ def transito_vis(request, categoria):
             lista_mapa_circulacion = []
             query_mapa = '''select c.uv_id as id, c.fecha
                           from carga_permisoscirculacion c
-                          where c.uv_id <> 0
+                          where c.uv_id <> 1
                           order by c.fecha asc;'''
 
             for c in PermisosCirculacion.objects.raw(query_mapa):
-                lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_circulacion.append({"uv":c.id-1,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_circulacion
 
@@ -2003,13 +2009,15 @@ def transito_vis(request, categoria):
             lista_mapa_vehicular = []
             query_mapa = '''select lc.uv_id as id, lc.fecha
                           from carga_licenciaconducir lc
-                          where lc.uv_id <> 0
+                          where lc.uv_id <> 1
                           order by lc.fecha asc;'''
 
             for c in LicenciaConducir.objects.raw(query_mapa):
-                lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
+                lista_mapa_vehicular.append({"uv":c.id-1,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_vehicular
+
+        print(lista_mapa)
 
         context = {
             'filtro_tiempo':filtro_tiempo,
@@ -2059,7 +2067,7 @@ def transito_vis(request, categoria):
                 lista_mapa_total = []
                 query_mapa = f"select lc.uv_id as id, lc.fecha_pago \
                             from carga_licenciaconducir lc \
-                            where lc.uv_id <> 0 \
+                            where lc.uv_id <> 1 \
                             and lc.fecha_pago between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             order by lc.fecha_pago asc;"
 
@@ -2073,7 +2081,7 @@ def transito_vis(request, categoria):
                 lista_mapa_circulacion = []
                 query_mapa = f"select c.uv_id as id, c.fecha \
                             from carga_permisoscirculacion c \
-                            where c.uv_id <> 0 \
+                            where c.uv_id <> 1 \
                             and c.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             order by c.fecha asc;"
 
@@ -2087,7 +2095,7 @@ def transito_vis(request, categoria):
                 lista_mapa_vehicular = []
                 query_mapa = f"select lc.uv_id as id, lc.fecha \
                             from carga_licenciaconducir lc \
-                            where lc.uv_id <> 0 \
+                            where lc.uv_id <> 1 \
                             and lc.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             order by lc.fecha asc;"
 
@@ -2104,7 +2112,7 @@ def transito_vis(request, categoria):
 
             return render(request,'vis/transito_vis.html',context)
 
-#OBRAS MUNICIPALES (DOM)
+#OBRAS MUNICIPALES (DOM) (LISTO)
 @login_required
 def obras_municipales_vis(request,categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
@@ -2163,72 +2171,72 @@ def obras_municipales_vis(request,categoria):
                             from carga_dom cd 
                             where cd.tramite = 'ANEXIÓN'
                             group by cd.uv_id) anx
-                            on cu.numero_uv = anx.uv
+                            on cu.id = anx.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'ANTIGUAS'
                             group by cd.uv_id) ant
-                            on cu.numero_uv = ant.uv
+                            on cu.id = ant.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'ANULACION'
                             group by cd.uv_id) anu
-                            on cu.numero_uv = anu.uv
+                            on cu.id = anu.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'CAMBIO DE DESTINO'
                             group by cd.uv_id) cdd
-                            on cu.numero_uv = cdd.uv
+                            on cu.id = cdd.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'FUSIÓN'
                             group by cd.uv_id) fsn
-                            on cu.numero_uv = fsn.uv
+                            on cu.id = fsn.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'LEY 20,898'
                             group by cd.uv_id) ley
-                            on cu.numero_uv = ley.uv
+                            on cu.id = ley.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'OBRAS MENORES'
                             group by cd.uv_id) oms
-                            on cu.numero_uv = oms.uv
+                            on cu.id = oms.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'PERMISO DE EDIFICACIÓN'
                             group by cd.uv_id) pde
-                            on cu.numero_uv = pde.uv
+                            on cu.id = pde.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'RECEPCIÓN FINAL'
                             group by cd.uv_id) rfl
-                            on cu.numero_uv = rfl.uv
+                            on cu.id = rfl.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'REGULARIZACIONES'
                             group by cd.uv_id) rgl
-                            on cu.numero_uv = rgl.uv
+                            on cu.id = rgl.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'REGULARIZACIONES LEY 18.591'
                             group by cd.uv_id) rley
-                            on cu.numero_uv = rley.uv
+                            on cu.id = rley.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'RESOLUCIÓN'
                             group by cd.uv_id) rsl
-                            on cu.numero_uv = rsl.uv
+                            on cu.id = rsl.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'SUBDIVISIONES'
                             group by cd.uv_id) sdv
-                            on cu.numero_uv = sdv.uv
+                            on cu.id = sdv.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
                             where cd.tramite = 'VENTA POR PISO'
                             group by cd.uv_id) vpp
-                            on cu.numero_uv = vpp.uv'''
+                            on cu.id = vpp.uv'''
 
         for c in DOM.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -2260,7 +2268,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_total.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_total
 
@@ -2274,7 +2282,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_anexion.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_anexion.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_anexion
 
@@ -2288,7 +2296,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_antiguas.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_antiguas.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_antiguas
 
@@ -2302,7 +2310,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_anulacion.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_anulacion.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_anulacion
 
@@ -2316,7 +2324,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_cambio.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_cambio.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_cambio
 
@@ -2330,7 +2338,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_fusion.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_fusion.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_fusion
 
@@ -2344,7 +2352,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_ley.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_ley.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_ley
 
@@ -2358,7 +2366,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_obras.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_obras.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_obras
 
@@ -2372,7 +2380,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_edificacion.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_edificacion.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_edificacion
 
@@ -2386,7 +2394,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_recepcion.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_recepcion.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_recepcion
 
@@ -2400,7 +2408,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_regularizaciones.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_regularizaciones.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_regularizaciones
 
@@ -2414,7 +2422,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_reg_ley.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_reg_ley.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_reg_ley
 
@@ -2428,7 +2436,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_resolucion.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_resolucion.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_resolucion
 
@@ -2442,7 +2450,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_subdivisiones.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_subdivisiones.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_subdivisiones
 
@@ -2456,7 +2464,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
-                lista_mapa_venta.append({"uv":c.id,"created": str(c.created)})
+                lista_mapa_venta.append({"uv":c.id-1,"created": str(c.created)})
 
             lista_mapa = lista_mapa_venta
 
@@ -2512,85 +2520,85 @@ def obras_municipales_vis(request,categoria):
                                 where cd.tramite = 'ANEXIÓN' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) anx \
-                                on cu.numero_uv = anx.uv \
+                                on cu.id = anx.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'ANTIGUAS' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) ant \
-                                on cu.numero_uv = ant.uv \
+                                on cu.id = ant.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'ANULACION' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) anu  \
-                                on cu.numero_uv = anu.uv \
+                                on cu.id = anu.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'CAMBIO DE DESTINO' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) cdd \
-                                on cu.numero_uv = cdd.uv \
+                                on cu.id = cdd.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'FUSIÓN' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) fsn \
-                                on cu.numero_uv = fsn.uv \
+                                on cu.id = fsn.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'LEY 20,898' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) ley \
-                                on cu.numero_uv = ley.uv \
+                                on cu.id = ley.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'OBRAS MENORES' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) oms \
-                                on cu.numero_uv = oms.uv \
+                                on cu.id = oms.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'PERMISO DE EDIFICACIÓN' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) pde \
-                                on cu.numero_uv = pde.uv \
+                                on cu.id = pde.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'RECEPCIÓN FINAL' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) rfl \
-                                on cu.numero_uv = rfl.uv \
+                                on cu.id = rfl.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'REGULARIZACIONES' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) rgl \
-                                on cu.numero_uv = rgl.uv \
+                                on cu.id = rgl.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'REGULARIZACIONES LEY 18.591' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) rley \
-                                on cu.numero_uv = rley.uv \
+                                on cu.id = rley.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'RESOLUCIÓN' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) rsl \
-                                on cu.numero_uv = rsl.uv \
+                                on cu.id = rsl.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd \
                                 where cd.tramite = 'SUBDIVISIONES' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) sdv \
-                                on cu.numero_uv = sdv.uv \
+                                on cu.id = sdv.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
                                 where cd.tramite = 'VENTA POR PISO' \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) vpp \
-                                on cu.numero_uv = vpp.uv"
+                                on cu.id = vpp.uv"
 
             for c in DOM.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
@@ -2623,7 +2631,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_total
 
@@ -2638,7 +2646,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_anexion.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_anexion.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_anexion
 
@@ -2653,7 +2661,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_antiguas.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_antiguas.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_antiguas
 
@@ -2668,7 +2676,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_anulacion.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_anulacion.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_anulacion
 
@@ -2683,7 +2691,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_cambio.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_cambio.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_cambio
 
@@ -2698,7 +2706,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_fusion.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_fusion.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_fusion
 
@@ -2713,7 +2721,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_ley.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_ley.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_ley
 
@@ -2728,7 +2736,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_obras.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_obras.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_obras
 
@@ -2743,7 +2751,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_edificacion.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_edificacion.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_edificacion
 
@@ -2758,7 +2766,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_recepcion.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_recepcion.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_recepcion
 
@@ -2773,7 +2781,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_regularizaciones.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_regularizaciones.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_regularizaciones
 
@@ -2788,7 +2796,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_reg_ley.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_reg_ley.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_reg_ley
 
@@ -2803,7 +2811,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_resolucion.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_resolucion.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_resolucion
 
@@ -2818,7 +2826,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_subdivisiones.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_subdivisiones.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_subdivisiones
 
@@ -2833,7 +2841,7 @@ def obras_municipales_vis(request,categoria):
                                 order by cd.created asc;"
 
                 for c in DOM.objects.raw(query_mapa):
-                    lista_mapa_venta.append({"uv":c.id,"created": str(c.created)})
+                    lista_mapa_venta.append({"uv":c.id-1,"created": str(c.created)})
 
                 lista_mapa = lista_mapa_venta
 
