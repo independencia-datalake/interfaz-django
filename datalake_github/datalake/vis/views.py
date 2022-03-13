@@ -1958,11 +1958,11 @@ def transito_vis(request, categoria):
                         left join (select lc.uv_id, count(1) as cant
                             from carga_licenciaconducir lc
                             group by lc.uv_id) pat
-                            on cu.numero_uv+1 = pat.uv_id
+                            on cu.id = pat.uv_id
                         left join (select c.uv_id, count(1) as cant
                                 from carga_permisoscirculacion c
                                 group by c.uv_id) per
-                                on cu.numero_uv+1 = per.uv_id;'''
+                                on cu.id = per.uv_id;'''
 
         for c in LicenciaConducir.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
@@ -2044,12 +2044,12 @@ def transito_vis(request, categoria):
                             from carga_licenciaconducir lc \
                             where lc.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             group by lc.uv_id) pat \
-                            on cu.numero_uv = pat.uv \
+                            on cu.id = pat.uv \
                         left join (select c.uv_id, count(1) as cant \
                             from carga_permisoscirculacion c \
                             where c.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             group by c.uv_id) per \
-                            on cu.numero_uv = per.uv_id;"
+                            on cu.id = per.uv_id;"
 
             for c in LicenciaConducir.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
@@ -2063,16 +2063,20 @@ def transito_vis(request, categoria):
             if filtro_mapa[categoria] == "Total":
 
 
-                # FALTA TERMINAR
                 lista_mapa_total = []
-                query_mapa = f"select lc.uv_id as id, lc.fecha_pago \
+                query_mapa = f"select lc.uv_id as id, lc.fecha as fecha \
                             from carga_licenciaconducir lc \
                             where lc.uv_id <> 1 \
                             and lc.fecha_pago between \'{fecha_inicio}\' and \'{fecha_fin}\' \
-                            order by lc.fecha_pago asc;"
+                            union \
+                            select c.uv_id as id, c.fecha \
+                            from carga_permisoscirculacion c \
+                            where c.uv_id <> 1 \
+                            and c.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            order by fecha asc;"
 
                 for c in LicenciaConducir.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_total
 
@@ -2086,7 +2090,7 @@ def transito_vis(request, categoria):
                             order by c.fecha asc;"
 
                 for c in PermisosCirculacion.objects.raw(query_mapa):
-                    lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_circulacion.append({"uv":c.id-1,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_circulacion
 
@@ -2100,7 +2104,7 @@ def transito_vis(request, categoria):
                             order by lc.fecha asc;"
 
                 for c in LicenciaConducir.objects.raw(query_mapa):
-                    lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_vehicular.append({"uv":c.id-1,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_vehicular
 
