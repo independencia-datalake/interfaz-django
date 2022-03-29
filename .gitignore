@@ -110,6 +110,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+venv/
 env/
 datalake_github/venv/
 datalake_github/dev-venv/
