@@ -35,8 +35,6 @@ from .filters import (
 
 
 # COMPROVANTE VENTA
-
-
 class InicioComprobanteVenta(ListView):
     model = ComprobanteVenta
     ordering = ['-created']
@@ -163,8 +161,6 @@ def comprobante_venta_delete(request, pk):
 
 
 # PRODUCTO VENDIDO
-
-
 @login_required
 def producto_vendido_crear(request, pk):
     
@@ -253,8 +249,6 @@ def producto_vendido_delete_edicion(request, pk):
 
 
 # PRODUCTO FARMACIA
-
-
 class InicioProductoFarmacia(ListView):
     model = ProductoFarmacia
     ordering = ['marca_producto','dosis']
@@ -320,11 +314,32 @@ def producto_farmacia_delete(request, pk):
 
 
 # FUNCIONALIDADES
-
 @login_required
 def descargar_comprobantes(request):
-
-    df = pd.DataFrame(list(ComprobanteVenta.objects.all().values())).astype(str)
+    q = '''
+    SELECT fc.id AS id, 
+        cp.numero_identificacion AS ni,
+        cp.nombre_persona AS nombre,
+        cp.apellido_paterno AS ap,
+        cp.apellido_materno AS am,
+        us.username as far, 
+        fc.created AS created
+    FROM farmacia_comprobanteventa fc
+    LEFT JOIN core_persona cp 
+        ON fc.comprador_id = cp.id
+    LEFT JOIN auth_user us
+        ON fc.farmaceuta_id = us.id;
+    '''
+    comporbante_venta = []
+    for c in ComprobanteVenta.objects.raw(q):
+        comporbante_venta.append({
+            "N venta": c.id,
+            "comprador": c.nombre + ' ' + c.ap + ' ' + c.am,
+            "N identificacion": c.ni,
+            "farmaceuta": c.far,
+            "created": str(c.created)
+        })
+    df = pd.DataFrame(comporbante_venta).astype(str)
 
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=ComprobantesDeVenta.xlsx'

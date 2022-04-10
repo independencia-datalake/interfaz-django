@@ -234,7 +234,7 @@ def requermineto_edicion(request, pk):
 
     return render(request, 'seguridad/denuncia_form.html', context)
 
-
+# Manejador de descarga
 @login_required
 def descargar_requerimiento_seguridad(request):
 

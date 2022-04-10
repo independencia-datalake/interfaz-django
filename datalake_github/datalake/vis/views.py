@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect
 from .forms import(FiltroTiempo)
 from farmacia.models import(ComprobanteVenta)
-from dimap.models import(ControlPlaga,Procedimiento,SeguridadDIMAP)
-from seguridad.models import(Requerimiento, Delito, ClasificacionDelito)
+from dimap.models import(
+    ControlPlaga,
+    Procedimiento,
+    SeguridadDIMAP
+)
+from seguridad.models import(
+    Requerimiento, 
+    Delito, 
+    ClasificacionDelito
+)
 from carga.models import(
     EntregasPandemia,
     LicenciaConducir,
@@ -10,16 +18,12 @@ from carga.models import(
     Empresas,
     ExencionAseo,
     DOM
-    )
-from django.contrib.auth.decorators import login_required
+)
 
-
-#FARMACIA (LISTO)
-@login_required
 def inicio_vis(request):
     return render(request, 'vis/home_vis.html')
 
-@login_required
+#FARMACIA (LISTO)
 def farmacia_vis(request):
 
     filtro_tiempo=FiltroTiempo(request.POST or None)
@@ -115,7 +119,6 @@ def farmacia_vis(request):
             return render(request,'vis/farmacia_vis.html', context)
 
 #DIMAP HIGIENE (LISTO)
-@login_required
 def dimap_vis(request,categoria):
     
     filtro_tiempo=FiltroTiempo(request.POST or None)
@@ -399,7 +402,6 @@ def dimap_vis(request,categoria):
             return render(request,'vis/dimap_vis.html', context)
 
 #SEGURIDAD MUNICIPAL (LISTO)
-@login_required
 def seguridad_vis(request, categoria):
     filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [
@@ -872,7 +874,6 @@ def seguridad_vis(request, categoria):
             return render(request,'vis/seguridad_vis.html', context)
 
 #EXENCION DE BASURA (LISTO)
-@login_required
 def exencion_vis(request, categoria):
     filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [
@@ -1104,7 +1105,6 @@ def exencion_vis(request, categoria):
             return render(request,'vis/exencion_basura_vis.html',context)
 
 #AYUDA EN PANDEMIA (LISTO)
-@login_required
 def entrega_pandemia_vis(request, categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
@@ -1549,7 +1549,6 @@ def entrega_pandemia_vis(request, categoria):
             return render(request,'vis/entrega_pandemia_vis.html', context)
 
 #IMPUESTOS Y DERECHOS (LISTO)
-@login_required
 def impuestos_derechos_vis(request,categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
@@ -1938,7 +1937,6 @@ def impuestos_derechos_vis(request,categoria):
             return render(request,'vis/impuestos_derechos_vis.html', context)
 
 #TRANSITO (LISTO)
-@login_required
 def transito_vis(request, categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
@@ -1974,16 +1972,16 @@ def transito_vis(request, categoria):
         #FILTRO POR CATEGORIA 
 
         if filtro_mapa[categoria] == "Total":
-
+    
             lista_mapa_total = []
-            query_mapa = '''select lc.uv_id as id, lc.fecha as fecha
-                          from carga_licenciaconducir lc
-                          where lc.uv_id <> 1
-                          union
-                          select c.uv_id as id, c.fecha
-                          from carga_permisoscirculacion c
-                          where c.uv_id <> 1
-                          order by fecha;'''
+            query_mapa = '''SELECT lc.uv_id AS id, lc.fecha AS fecha
+                          FROM carga_licenciaconducir lc
+                          WHERE lc.uv_id <> 1
+                          UNION ALL
+                          SELECT c.uv_id AS id, c.fecha AS fecha
+                          FROM carga_permisoscirculacion c
+                          WHERE c.uv_id <> 1
+                          ORDER BY fecha'''
 
 
             for c in LicenciaConducir.objects.raw(query_mapa):
@@ -2044,12 +2042,12 @@ def transito_vis(request, categoria):
                             from carga_licenciaconducir lc \
                             where lc.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             group by lc.uv_id) pat \
-                            on cu.numero_uv = pat.uv \
+                            on cu.numero_uv+1 = pat.uv_id \
                         left join (select c.uv_id, count(1) as cant \
                             from carga_permisoscirculacion c \
                             where c.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                             group by c.uv_id) per \
-                            on cu.numero_uv = per.uv_id;"
+                            on cu.numero_uv+1 = per.uv_id;"
 
             for c in LicenciaConducir.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = [
@@ -2062,17 +2060,20 @@ def transito_vis(request, categoria):
 
             if filtro_mapa[categoria] == "Total":
 
-
-                # FALTA TERMINAR
                 lista_mapa_total = []
-                query_mapa = f"select lc.uv_id as id, lc.fecha_pago \
-                            from carga_licenciaconducir lc \
-                            where lc.uv_id <> 1 \
-                            and lc.fecha_pago between \'{fecha_inicio}\' and \'{fecha_fin}\' \
-                            order by lc.fecha_pago asc;"
+                query_mapa = f"SELECT lc.uv_id AS id, lc.fecha AS fecha \
+                            FROM carga_licenciaconducir lc \
+                            WHERE lc.uv_id <> 1 \
+                            AND lc.fecha BETWEEN \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            UNION ALL \
+                            SELECT c.uv_id AS id, c.fecha AS fecha \
+                            FROM carga_permisoscirculacion c \
+                            WHERE c.uv_id <> 1 \
+                            AND c.fecha BETWEEN \'{fecha_inicio}\' and \'{fecha_fin}\' \
+                            ORDER BY fecha"
 
                 for c in LicenciaConducir.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_total
 
@@ -2086,7 +2087,7 @@ def transito_vis(request, categoria):
                             order by c.fecha asc;"
 
                 for c in PermisosCirculacion.objects.raw(query_mapa):
-                    lista_mapa_circulacion.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_circulacion.append({"uv":c.id-1,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_circulacion
 
@@ -2100,7 +2101,7 @@ def transito_vis(request, categoria):
                             order by lc.fecha asc;"
 
                 for c in LicenciaConducir.objects.raw(query_mapa):
-                    lista_mapa_vehicular.append({"uv":c.id,"created": str(c.fecha)})
+                    lista_mapa_vehicular.append({"uv":c.id-1,"created": str(c.fecha)})
 
                 lista_mapa = lista_mapa_vehicular
 
@@ -2113,7 +2114,6 @@ def transito_vis(request, categoria):
             return render(request,'vis/transito_vis.html',context)
 
 #OBRAS MUNICIPALES (DOM)
-@login_required
 def obras_municipales_vis(request,categoria):
     filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
