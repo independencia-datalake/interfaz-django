@@ -73,9 +73,6 @@ def farmacia_vis(request):
         if filtro_tiempo.is_valid():
             fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
             fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
-
-            print(fecha_inicio)
-            print(fecha_fin)
             
             diccionario_tabla = {}
             query_tabla = f"select cu.numero_uv as id, \
@@ -90,7 +87,6 @@ def farmacia_vis(request):
                                 where fc.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cu.numero_uv) f \
                                 on cu.numero_uv = f.uv;" 
-            print(query_tabla)
 
             for c in ComprobanteVenta.objects.raw(query_tabla):
                 diccionario_tabla[c.id] = c.cant
@@ -978,9 +974,6 @@ def exencion_vis(request, categoria):
                 lista_mapa_1.append({"uv":c.id-1,"created": str(c.marca_temporal)})
                 
             lista_mapa = lista_mapa_1
-
-        print(f'lista_mapa:{lista_mapa}')
-        print(f'diccionario_tabla:{diccionario_tabla}')
 
         context = {
             'filtro_tiempo':filtro_tiempo,
@@ -2014,8 +2007,6 @@ def transito_vis(request, categoria):
                 lista_mapa_vehicular.append({"uv":c.id-1,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_vehicular
-
-        print(lista_mapa)
 
         context = {
             'filtro_tiempo':filtro_tiempo,
