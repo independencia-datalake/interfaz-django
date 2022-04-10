@@ -1956,11 +1956,11 @@ def transito_vis(request, categoria):
                         left join (select lc.uv_id, count(1) as cant
                             from carga_licenciaconducir lc
                             group by lc.uv_id) pat
-                            on cu.id = pat.uv_id
+                            on cu.numero_uv+1 = pat.uv_id
                         left join (select c.uv_id, count(1) as cant
-                                from carga_permisoscirculacion c
-                                group by c.uv_id) per
-                                on cu.id = per.uv_id;'''
+                            from carga_permisoscirculacion c
+                            group by c.uv_id) per
+                            on cu.numero_uv+1 = per.uv_id;'''
 
         for c in LicenciaConducir.objects.raw(query_tabla):
             diccionario_tabla[c.id] = [
