@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from .models import (
     Persona,
     CallesIndependencia,
@@ -16,7 +17,14 @@ from .forms import (
 
 @login_required
 def inicio(request):
-    return render(request, 'core/home.html')
+    if request.user.groups.filter(name='farmacia').exists():
+        return redirect('farmacia-home')
+    elif request.user.groups.filter(name='dimap').exists():
+        return redirect('dimap-home')
+    elif request.user.groups.filter(name='seguridad').exists():
+        return redirect('seguridad-home')
+    else:
+        return render(request, 'core/home.html')
 
     #ENTRADA A PREGUNTA USUARIO
 @login_required

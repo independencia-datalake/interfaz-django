@@ -46,7 +46,7 @@ function preload() {
 
   data_limpia = data.replace(/&#x27;/gi, '"');
   data_limpia = JSON.parse(data_limpia);
- 
+  console.log(data_limpia)
 }
 
 function setup () {

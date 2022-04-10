@@ -1,14 +1,11 @@
 import pandas as pd
 from django.shortcuts import render
 from core.models import CallesIndependencia
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
-@login_required
 def calculadorauv(request):   
     return render(request, 'calculadorauv/calculadora_uv.html')
 
-@login_required
 def cal_uv(request):
     nombre_calle = request.GET['nombre_calle']
     numero_calle = int(request.GET['numero_calle'])
@@ -121,10 +118,7 @@ def validar_igual(numero, validacion):
   if numero == igual:
     return validacion['uv']
 
-
-
 #AUTOCOMPLETADO
-
 def autocompete_calles(request):
   if 'term' in request.GET:
       qs = CallesIndependencia.objects.filter(calle__icontains=request.GET.get('term'))

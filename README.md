@@ -11,3 +11,7 @@ Crar usuario.
 
 
 *: para que funcione se deve tener el archivo .env con las credenciales correspondientes.
+
+Autores:
+    Jefe de proyecto: Henry Bauer 
+    Desarrolladores: Tomas Child, Octavio Montt, Ignacio Perez 
