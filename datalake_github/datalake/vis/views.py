@@ -1573,37 +1573,37 @@ def impuestos_derechos_vis(request,categoria):
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
-                            where ce.tipo = '4'
+                            where ce.tipo = 'alcohol'
                             group by ce.uv_id) alc
                             on cu.id = alc.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
-                            where ce.tipo = '2'
+                            where ce.tipo = 'comercial'
                             group by ce.uv_id) com
                             on cu.id = com.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
-                            where ce.tipo = '3'
+                            where ce.tipo = 'profesional'
                             group by ce.uv_id) pro
                             on cu.id = pro.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
-                            where ce.tipo = '1'
+                            where ce.tipo = 'industrial'
                             group by ce.uv_id) ind
                             on cu.id = ind.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
-                            where ce.tipo = '9'
+                            where ce.tipo = 'microempresa'
                             group by ce.uv_id) mic
                             on cu.id = mic.uv
                         left join (
                             select ce.uv_id as uv, count(1) as cant
                             from carga_empresas ce
-                            where ce.tipo = '5'
+                            where ce.tipo = 'estacionado'
                             group by ce.uv_id) est
                             on cu.id = est.uv'''
 
@@ -1641,7 +1641,7 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            and ce.tipo = '4'
+                            and ce.tipo = 'alcohol'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1656,7 +1656,7 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            and ce.tipo = '2'
+                            and ce.tipo = 'comercial'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1671,7 +1671,7 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            and ce.tipo = '3'
+                            and ce.tipo = 'profesional'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1686,7 +1686,7 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            and ce.tipo = '1'
+                            and ce.tipo = 'industrial'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1701,7 +1701,7 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            and ce.tipo = '9'
+                            and ce.tipo = 'microempresa'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1716,7 +1716,7 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            and ce.tipo = '5'
+                            and ce.tipo = 'estacionado'
                             order by ce.created asc;'''
             
             for c in Empresas.objects.raw(query_mapa):
@@ -1757,42 +1757,42 @@ def impuestos_derechos_vis(request,categoria):
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
-                                where ce.tipo = 4 \
+                                where ce.tipo = 'alcohol' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) alc \
                                 on cu.id = alc.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
-                                where ce.tipo = 2 \
+                                where ce.tipo = 'comercial' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) com \
                                 on cu.id = com.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
-                                where ce.tipo = 3 \
+                                where ce.tipo = 'profesional' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) pro \
                                 on cu.id = pro.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
-                                where ce.tipo = 1 \
+                                where ce.tipo = 'industrial' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) ind \
                                 on cu.id = ind.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
-                                where ce.tipo = 9 \
+                                where ce.tipo = 'microempresa' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) mic \
                                 on cu.id = mic.uv \
                             left join ( \
                                 select ce.uv_id as uv, count(1) as cant \
                                 from carga_empresas ce \
-                                where ce.tipo = 5 \
+                                where ce.tipo = 'estacionado' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) est \
                                 on cu.id = est.uv"
@@ -1832,7 +1832,7 @@ def impuestos_derechos_vis(request,categoria):
                                     ce.created \
                                 from carga_empresas ce \
                                 where ce.uv_id <> 0 \
-                                and ce.tipo = 4 \
+                                and ce.tipo = 'alcohol' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.created asc;"
                 
@@ -1848,7 +1848,7 @@ def impuestos_derechos_vis(request,categoria):
                                     ce.created \
                                 from carga_empresas ce \
                                 where ce.uv_id <> 0 \
-                                and ce.tipo = 2 \
+                                and ce.tipo = 'comercial' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.created asc;"
                 
@@ -1864,7 +1864,7 @@ def impuestos_derechos_vis(request,categoria):
                                     ce.created \
                                 from carga_empresas ce \
                                 where ce.uv_id <> 0 \
-                                and ce.tipo = 3 \
+                                and ce.tipo = 'profesional' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.created asc;"
                 
@@ -1880,7 +1880,7 @@ def impuestos_derechos_vis(request,categoria):
                                     ce.created \
                                 from carga_empresas ce \
                                 where ce.uv_id <> 0 \
-                                and ce.tipo = 1 \
+                                and ce.tipo = 'industrial' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.created asc;"
                 
@@ -1896,7 +1896,7 @@ def impuestos_derechos_vis(request,categoria):
                                     ce.created \
                                 from carga_empresas ce \
                                 where ce.uv_id <> 0 \
-                                and ce.tipo = 9 \
+                                and ce.tipo = 'microempresa' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.created asc;"
                 
@@ -1912,7 +1912,7 @@ def impuestos_derechos_vis(request,categoria):
                                     ce.created \
                                 from carga_empresas ce \
                                 where ce.uv_id <> 0 \
-                                and ce.tipo = 5 \
+                                and ce.tipo = 'estacionado' \
                                 and ce.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by ce.created asc;"
                 
