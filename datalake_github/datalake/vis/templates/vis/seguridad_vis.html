@@ -89,35 +89,34 @@
     {% endif %}
 </div>
 
-<div id="contenedor-principal" class="container-fluid">
-
-<!--SELECTOR-->
 <div class="container">
-<div class="row" id="consola-vis">
-		  <div class="col-xs-3 col-sm-3 consola-vis-izq">
-    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-      <option>FUENTE DE DATOS</option>
-      <option>FARMACIA MUNICIPAL</option>
-      <option>HIGIENTE AMBIENTAL - DIMAP</option>
-      <option>SEGURIDAD MUNICIPAL</option>
-      <option>IMPUESTOS Y DERECHOS</option>
-      <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>EXCENCIÓN BASURA</option>
-      <option>OBRAS MUNICIPALES</option>
-      <option>TRANSITO</option>
-    </select>
-  </div>
-  <div class="col-xs-9 col-sm-9 consola-vis-der">
-    <form action='' method='POST' enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ filtro_tiempo }}
-      <div class='btn-group'>
-        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+  <div id="contenedor-principal" class="container-fluid">
+    <!--SELECTOR-->
+    <div class="row" id="consola-vis">
+        <div class="col-xs-3 col-sm-3 consola-vis-izq">
+          <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+            <option>FUENTE DE DATOS</option>
+            <option>FARMACIA MUNICIPAL</option>
+            <option>HIGIENTE AMBIENTAL - DIMAP</option>
+            <option selected="selected">SEGURIDAD MUNICIPAL</option>
+            <option>IMPUESTOS Y DERECHOS</option>
+            <option>AYUDA SOCIAL - PANDEMIA</option>
+            <option>EXCENCIÓN BASURA</option>
+            <option>OBRAS MUNICIPALES</option>
+            <option>TRANSITO</option>
+          </select>
       </div>
-    </form>
+      <div class="col-xs-9 col-sm-9 consola-vis-der">
+        <form action='' method='POST' enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ filtro_tiempo }}
+          <div class='btn-group'>
+            <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </div>
 	
 <div style="height: 5vh; width: 65vw; float: right;">
@@ -132,27 +131,157 @@
 <table id="datos-vis" style='width:100%' border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
     <th>UV</th>
-    <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
-    <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
-    <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
-    <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
-    <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
-    <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
-    <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
-    <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>   
+    {% if fechas_categoria.categoria == "Total" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}" style="color:#BFBFFF;">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Delito de mayor connotacion social" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}" style="color:#BFBFFF;">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Violencia Intrafamiliar" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}" style="color:#BFBFFF;">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Incivilidades" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}" style="color:#BFBFFF;">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Abusos sexuales" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}" style="color:#BFBFFF;">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Accidentes e incendios" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}" style="color:#BFBFFF;">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Derivaciones" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}" style="color:#BFBFFF;">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}">Otro</a></th>  
+    {% elif fechas_categoria.categoria == "Otro" %}
+      <th><a href="{% url 'seguridad-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'seguridad-vis' 1 %}">Delito de mayor connotacion social</a></th>
+      <th><a href="{% url 'seguridad-vis' 2 %}">Violencia Intrafamiliar</a></th>
+      <th><a href="{% url 'seguridad-vis' 3 %}">Incivilidades</a></th>   
+      <th><a href="{% url 'seguridad-vis' 4 %}">Abusos sexuales</a></th>   
+      <th><a href="{% url 'seguridad-vis' 5 %}">Accidentes e incendios</a></th>   
+      <th><a href="{% url 'seguridad-vis' 6 %}">Derivaciones</a></th>   
+      <th><a href="{% url 'seguridad-vis' 7 %}" style="color:#BFBFFF;">Otro</a></th>  
+    {% endif %}
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
     <tr>
         <td> {{ key }} </td> 
-        <td> {{ value.0 }} </td>
-        <td> {{ value.1 }} </td>
-        <td> {{ value.2 }} </td>
-        <td> {{ value.3 }} </td>
-        <td> {{ value.4 }} </td>
-        <td> {{ value.5 }} </td>
-        <td> {{ value.6 }} </td>
-        <td> {{ value.7 }} </td>
+        {% if fechas_categoria.categoria == "Total" %}
+          <td style="background-color:#BFBFFF;"> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Delito de mayor connotacion social" %}
+          <td> {{ value.0 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Violencia Intrafamiliar" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Incivilidades" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Abusos sexuales" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Accidentes e incendios" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Derivaciones" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+        {% elif fechas_categoria.categoria == "Otro" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.7 }} </td>
+        {% endif %}
     </tr>
 {% endfor %}
 

@@ -15,9 +15,9 @@
 
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	  <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
 
     <style>
@@ -42,7 +42,7 @@
     <script src="/static/vis/map.js"></script>
     <script src="/static/vis/sketch.js"></script>
     <script type="text/javascript">
-      var data_var = "/static/vis/data/FARMACIA.csv"
+      var data_var = "{{ lista_mapa }}"
       var predios_var = "/static/vis/data/PREDIOS_INDEPENDENCIA.geojson"
       var unidades_var = "/static/vis/data/Unidades_Vecinales.geojson"
       var monotype_var = "/static/vis/assets/Akkurat-Mono.otf"
@@ -54,28 +54,26 @@
 <div id="menu-top" class="container-fluid">
   <div class="container">
     <ul>
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}" class="ver-perfil">{{user.username}}</a></li>
-        <li><a href="{% url 'logout' %}" class="logout">Cerrar Sesión</a></li>
-    {% else %}
-        <li><a href="{% url 'login' %}" class="ver-perfil">Iniciar Sesion</a></li>
-    {% endif %}
-    {% if request.user.groups.all %}
-    {% for group in request.user.groups.all %}
-        {% if group.name == 'farmacia' %}
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' %}" class="ver-perfil">{{user.username}}</a></li>
+      <li><a href="{% url 'logout' %}" class="logout">Cerrar Sesión</a></li>
+  {% else %}
+      <li><a href="{% url 'login' %}" class="ver-perfil">Iniciar Sesion</a></li>
+  {% endif %}
+  {% if request.user.groups.all %}
+  {% for group in request.user.groups.all %}
+      {% if group.name == 'farmacia' %}
           <li><a href="{% url 'farmacia-home' %}" class="link-inicio">Pagina Principal</a></li>
-        {% elif group.name == 'dimap' %}
+      {% elif group.name == 'dimap' %}
           <li><a href="{% url 'dimap-home' %}" class="link-inicio">Pagina Principal</a></li>
-        {% elif group.name == 'seguridad' %}
-        <li><a href="{% url 'denuncia-inicio' %}" class="link-inicio">Pagina Principal</a></li>
-        {% else %}
+      {% else %}
           <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
-        {% endif %}
-    {% endfor %}
-    {% else %}
-        <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
-        <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>
-    {% endif %}
+      {% endif %}
+  {% endfor %}
+  {% else %}
+      <li><a href="{% url 'core-home' %}" class="link-inicio">Pagina Principal</a></li>
+      <li><a href="{{ request.META.HTTP_REFERER }}" class="cerrar-sesion">Atras</a></li>
+  {% endif %}
     </ul>
   </div>
 </div>
@@ -91,75 +89,57 @@
     {% endif %}
 </div>
 
-<div id="contenedor-principal" class="container-fluid">
-    <!-- Barra Colapso  -->
-    <div class="pos-f-t">
-          <div class="collapse" id="navbarToggleExternalContent">
-            <div class="content-menu p-4">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'core-home' %}">Pagina Principal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core-quienes' %}">Quienes Somos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core-qya' %}">Preguntas y Respuestas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'calculadorauv' %}">Calculadora UV</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-item-view" href="{% url 'inicio-vis' %}">Visualización</a>
-                    </li>
-                </ul>
-            </div>
+<!-- INFO DE DATOS --> 
+<div class="container">
+  <div id="contenedor-principal" class="container-fluid">
+    <!--SELECTOR-->
+    <div class="row" id="consola-vis">
+        <div class="col-xs-3 col-sm-3 consola-vis-izq">
+          <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+            <option selected="selected">FUENTE DE DATOS</option>
+            <option>FARMACIA MUNICIPAL</option>
+            <option>HIGIENTE AMBIENTAL - DIMAP</option>
+            <option>SEGURIDAD MUNICIPAL</option>
+            <option>IMPUESTOS Y DERECHOS</option>
+            <option>AYUDA SOCIAL - PANDEMIA</option>
+            <option>EXCENCIÓN BASURA</option>
+            <option>OBRAS MUNICIPALES</option>
+            <option>TRANSITO</option>
+          </select>
+      </div>
+      <div class="col-xs-9 col-sm-9 consola-vis-der">
+        <form action='' method='POST' enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ filtro_tiempo }}
+          <div class='btn-group'>
+            <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
           </div>
-          
-          <nav class="navbar nav-datalake">
-            <div class="container">
-                {% if request.user.groups.all %}
-                {% for group in request.user.groups.all %}
-                    {% if group.name == 'farmacia' %}
-                      <a class="nav-link" href="{% url 'farmacia-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
-                    {% elif group.name == 'dimap' %}
-                      <a class="nav-link" href="{% url 'dimap-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
-                    {% elif group.name == 'seguridad' %}
-                      <a class="nav-link" href="{% url 'denuncia-inicio' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
-                    {% else %}
-                      <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
-                    {% endif %}
-                {% endfor %}
-                {% else %}
-                <a class="nav-link" href="{% url 'core-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
-                {% endif %}
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon burger-toggler"></span>
-              </button>
-            </div>
-          </nav>
-        </div>
-
-<!--SELECTOR-->
-<div style="height: 5vh; width: 65vw; float: right;">
-  <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-    <option>FUENTE DE DATOS</option>
-    <option>FARMACIA MUNICIPAL</option>
-    <option>HIGIENTE AMBIENTAL - DIMAP</option>
-    <option>SEGURIDAD MUNICIPAL</option>
-    <option>IMPUESTOS Y DERECHOS</option>
-    <option>AYUDA SOCIAL - PANDEMIA</option>
-    <option>EXCENCIÓN BASURA</option>
-    <option>OBRAS MUNICIPALES</option>
-    <option>TRANSITO</option>
-  </select>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+	
+<div style="height: 5vh; width: 65vw; float: right;"></div>
 
-<!--TABLAS-->
-<div style="height: 65vh; width: 65vw; float: right;">
-  
+<br>
+
+<div class="content-table-vis">
+<table id="datos-vis" style='width:100%' border = "1" cellpadding= "5" cellspacing = "5">
+  <tr>
+    <th>UV</th>
+    <th>Total</th>
+  </tr>
+
+  {% for key, value in diccionario_tabla.items %}
+    <tr>
+        <td> {{ key }} </td> 
+        <td> {{ value }} </td>
+    </tr>
+{% endfor %}
+
+</table>
 </div>
-
 <!-- script -->
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
@@ -167,18 +147,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <script>
-    $(document).ready(function(){
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-    })
-
-    function cargar_tabla(value){
+      $(document).ready(function(){
+          $('#sidebarCollapse').on('click', function () {
+              $('#sidebar').toggleClass('active');
+          });
+      })
+  
+      function cargar_tabla(value){
 
         if (value == "FARMACIA MUNICIPAL"){
           window.location.href = "{% url 'farmacia-vis' %}";
         }
-        
+
         else if (value == "HIGIENTE AMBIENTAL - DIMAP"){
           window.location.href = "{% url 'dimap-vis' 0 %}";
         }
@@ -211,4 +191,6 @@
           alert("Pagina Actual");
         }
     }
-    </script>
+  </script>
+  </body>
+</html>

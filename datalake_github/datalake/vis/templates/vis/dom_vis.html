@@ -91,86 +91,534 @@
 <div class="container">
 <div id="contenedor-principal" class="container-fluid">
 
-<!--SELECTOR-->
-<div class="row" id="consola-vis">
-		  <div class="col-xs-3 col-sm-3 consola-vis-izq">
-    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-      <option>FUENTE DE DATOS</option>
-      <option>FARMACIA MUNICIPAL</option>
-      <option>HIGIENTE AMBIENTAL - DIMAP</option>
-      <option>SEGURIDAD MUNICIPAL</option>
-      <option>IMPUESTOS Y DERECHOS</option>
-      <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>EXCENCIÓN BASURA</option>
-      <option>OBRAS MUNICIPALES</option>
-      <option>TRANSITO</option>
-    </select>
-  </div>
-  <div class="col-xs-9 col-sm-9 consola-vis-der">
-    <form action='' method='POST' enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ filtro_tiempo }}
-      <div class='btn-group'>
-        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+  <div class="container">
+    <div id="contenedor-principal" class="container-fluid">
+      <!--SELECTOR-->
+      <div class="row" id="consola-vis">
+          <div class="col-xs-3 col-sm-3 consola-vis-izq">
+            <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+              <option>FUENTE DE DATOS</option>
+              <option>FARMACIA MUNICIPAL</option>
+              <option>HIGIENTE AMBIENTAL - DIMAP</option>
+              <option>SEGURIDAD MUNICIPAL</option>
+              <option>IMPUESTOS Y DERECHOS</option>
+              <option>AYUDA SOCIAL - PANDEMIA</option>
+              <option>EXCENCIÓN BASURA</option>
+              <option selected="selected">OBRAS MUNICIPALES</option>
+              <option>TRANSITO</option>
+            </select>
+        </div>
+        <div class="col-xs-9 col-sm-9 consola-vis-der">
+          <form action='' method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ filtro_tiempo }}
+            <div class='btn-group'>
+              <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
-</div>
-</div>
-</div>
 	
 <div style="height: 5vh; width: 65vw; float: right;">
   
 </div>
 
-
-
-<br>
-
 <div class="content-table-vis">
 <table id="datos-vis" class="tabla-block" style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
   <tr>
     <th>UV</th>
-    <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
-    <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
-    <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
-    <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
-    <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
-    <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
-    <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
-    <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
-    <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
-    <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
-    <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
-    <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
-    <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
-    <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
-    <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>     
+    {% if fechas_categoria.categoria == "Total" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}" style="color:#BFBFFF">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "ANEXIÓN" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}" style="color:#BFBFFF;">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "ANTIGUAS" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}" style="color:#BFBFFF;">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "ANULACION" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}" style="color:#BFBFFF;">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "CAMBIO DE DESTINO" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}" style="color:#BFBFFF;">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "FUSIÓN" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}" style="color:#BFBFFF;">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "LEY 20,898" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}" style="color:#BFBFFF;">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "OBRAS MENORES" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}" style="color:#BFBFFF;">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "PERMISO DE EDIFICACIÓN" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}" style="color:#BFBFFF;">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "RECEPCIÓN FINAL" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}" style="color:#BFBFFF;">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "REGULARIZACIONES" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}" style="color:#BFBFFF;">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "REGULARIZACIONES LEY 18.591" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}" style="color:#BFBFFF;">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "RESOLUCIÓN" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}" style="color:#BFBFFF;">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "SUBDIVISIONES" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}" style="color:#BFBFFF;">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}">VENTA POR PISO</a></th>   
+    {% elif fechas_categoria.categoria == "VENTA POR PISO" %}
+      <th><a href="{% url 'obrasmunicipales-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 1 %}">ANEXIÓN</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 2 %}">ANTIGUAS</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 3 %}">ANULACION</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 4 %}">CAMBIO DE DESTINO</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 5 %}">FUSIÓN</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 6 %}">LEY 20,898</a></th>   
+      <th><a href="{% url 'obrasmunicipales-vis' 7 %}">OBRAS MENORES</a></th>
+      <th><a href="{% url 'obrasmunicipales-vis' 8 %}">PERMISO DE EDIFICACIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 9 %}">RECEPCIÓN FINAL</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 10 %}">REGULARIZACIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 11 %}">REGULARIZACIONES LEY 18.591</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 12 %}">RESOLUCIÓN</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 13 %}">SUBDIVISIONES</a></th>  
+      <th><a href="{% url 'obrasmunicipales-vis' 14 %}" style="color:#BFBFFF;">VENTA POR PISO</a></th>   
+    {% endif %}  
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
     <tr>
         <td> {{ key }} </td> 
-        <td> {{ value.0 }} </td>
-        <td> {{ value.1 }} </td>
-        <td> {{ value.2 }} </td>
-        <td> {{ value.3 }} </td>
-        <td> {{ value.4 }} </td>
-        <td> {{ value.5 }} </td>
-        <td> {{ value.6 }} </td>
-        <td> {{ value.7 }} </td>
-        <td> {{ value.8 }} </td>
-        <td> {{ value.9 }} </td>
-        <td> {{ value.10 }} </td>
-        <td> {{ value.11 }} </td>
-        <td> {{ value.12 }} </td>
-        <td> {{ value.13 }} </td>
-        <td> {{ value.14 }} </td>
+
+        {% if fechas_categoria.categoria == "Total" %}
+          <td style="background-color:#BFBFFF;"> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "ANEXIÓN" %}
+          <td> {{ value.0 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "ANTIGUAS" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "ANULACION" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "CAMBIO DE DESTINO" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "FUSIÓN" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "LEY 20,898" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "OBRAS MENORES" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "PERMISO DE EDIFICACIÓN" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "RECEPCIÓN FINAL" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "REGULARIZACIONES" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "REGULARIZACIONES LEY 18.591" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "RESOLUCIÓN" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "SUBDIVISIONES" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.13 }} </td>
+          <td> {{ value.14 }} </td>
+        {% elif fechas_categoria.categoria == "VENTA POR PISO" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+          <td> {{ value.4 }} </td>
+          <td> {{ value.5 }} </td>
+          <td> {{ value.6 }} </td>
+          <td> {{ value.7 }} </td>
+          <td> {{ value.8 }} </td>
+          <td> {{ value.9 }} </td>
+          <td> {{ value.10 }} </td>
+          <td> {{ value.11 }} </td>
+          <td> {{ value.12 }} </td>
+          <td> {{ value.13 }} </td>
+          <td style="background-color:#BFBFFF;"> {{ value.14 }} </td>
+        {% endif %}
     </tr>
 {% endfor %}
-
-  
-
 
 </table>
 </div>
