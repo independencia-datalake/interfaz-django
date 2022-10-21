@@ -3,9 +3,6 @@ from unicodedata import name
 from django import forms
 from .models import (
     ProductoFarmacia,
-    ComprobanteVenta,
-    ProductoVendido,
-    CargaProducto,
     BodegaVirtual,
 )
 from django.forms import inlineformset_factory

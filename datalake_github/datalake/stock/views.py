@@ -1,5 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
+from django.contrib import messages
 
+from .models import (
+    ProductoFarmacia,
+    BodegaVirtual,
+)
+from .forms import (
+    BodegaVirtualForm,
+    BodegaVirtualcrearForm
+)
+from .filters import (
+    Stockfilter,
+)
 # Create your views here.
 
 def stock(request):
