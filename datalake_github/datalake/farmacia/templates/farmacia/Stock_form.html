@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Stock{% endblock %}
+
+{% block content %}
+
+<div class="container cabecera-interior-tablas margin-bottom-30">
+    <div class="row">
+        <div class="col vertical-align-middle">
+            <h3>Nuevo Ingreso de Stock de Producto</h3>
+        </div>
+        <div class="col vertical-align-middle">
+        </div>
+    </div>
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+    <div class="container contenedor-wrap"> 
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {%for f in form %}
+                    <div>
+                        {{f.label_tag}} 
+                        <div>{{f}}</div> 
+                    </div>
+                    {%endfor%}
+
+                </div>
+                
+                </div>
+            </div> 
+            <div class="form-group align-right">
+                <button class="btn btn-outline-info" type="submit">Subir Producto</button>
+            </div>
+        </div>
+    </div>
+    </fieldset>
+</form>
+
+{% endblock %}
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+{% endblock %}

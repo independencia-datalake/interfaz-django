@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Test Stock{% endblock %}
+
+{% block content %}
+<form action"" method="POST">
+    {% csrf_token %}
+    {%for f in form %}
+    <div>
+    {{f.label_tag}} {{f}}
+    </div>
+    {%endfor%}
+    <button class="btn btn-outline-info" type="submit">Subir Producto</button>
+</form>
+{% endblock %}

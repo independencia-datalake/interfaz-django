@@ -42,6 +42,8 @@ urlpatterns = [
     path('seguridad/', include('seguridad.urls')),
     #SEGURIDAD MUNICIPAL
     path('carga/', include('carga.urls')),
+    #STOCK DE LA FARMACIA
+    path('stock/', include('stock.urls')),
 ]
 
 if settings.DEBUG:

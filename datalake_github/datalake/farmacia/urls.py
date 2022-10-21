@@ -12,6 +12,10 @@ from .views import (
     #PRODUCTO FARMACIA
     InicioProductoFarmacia,
     EdicionProductoFarmacia,
+    #STOCK
+    InicioStock,
+    EdicionStock,
+    createStock,
 )
 
 urlpatterns = [
@@ -35,4 +39,10 @@ urlpatterns = [
     path('ProductoFarmacia/crear/', views.crear_producto_farmacia, name='productofarmacia-create'),
     path('ProductoFarmacia/<int:pk>/edicion/',EdicionProductoFarmacia.as_view(),name="productofarmacia-update"),
     path('ProductoFarmacia/<int:pk>/delete/',views.producto_farmacia_delete, name='productofarmacia-delete'),
+    #STOCK DE LA FARMACIA
+    path('StockTest/',createStock.as_view()),
+    path('Stock/',InicioStock.as_view(), name="Stock-inicio"),
+    path('Stock/crear/', views.crear_producto_Stock, name='productostock-create'),
+    path('Stock/<int:pk>/edicion/',EdicionStock.as_view(),name="Stock-update"),
+    path('Stock2/',views.Stocks, name='Stock-2'),
 ]
