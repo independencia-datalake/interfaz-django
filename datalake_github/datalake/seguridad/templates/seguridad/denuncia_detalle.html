@@ -69,15 +69,59 @@
                     <p>{{ object.autor }}</p>
                 </div>
             </div>
-            <a href="{% url 'denuncia-edicion' object.id %}">Editar</a>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    {% if object.numero %} 
+                        <h4 class="magenta">Direccion:</h4>
+                        <h5>{{ object.calle }}, {{ object.numero }}</h5>
+                    {% else %}
+                        <h4 class="magenta">Direccion:</h4>
+                        <h5>{{ object.calle }}</h5>
+                    {%endif%}
+                    {% if object.interseccion %} 
+                        <h4 class="magenta">Interseccion:</h4>
+                        <h5>{{ object.interseccion }}</h5>
+                    {% else %}
+                    {%endif%}
+                </div>
+                <div class="col">
+                    {% if object.complemento_direccion %} 
+                        <h4 class="magenta">Comentario:</h4>
+                        <h5>{{ object.complemento_direccion }}</h5>
+                    {% else %}
+                        <h4 class="magenta">Comentario:</h4>
+                        <h5>No hay comentario</h5>
+                    {%endif%}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div style="width:100%; text-align:right;" class="col">
+                    <a href="{% url 'denuncia-edicion' object.id %}"><p>Editar</p></a>
+                </div>
+            </div> 
         </div>
     </div>
-    <hr>
-    {%endfor%}     
-    <h3>Usted está apunto de confirmar esta venta</h3>
-    <a href="{% url 'denuncia-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
-    <a href="{% url 'denuncia-crear' llamado.numero_requerimiento %}"><button type="button" class="btn-outline-info btn">Hacer otra deuncia</button></a>
-    </div>   
+    <br>
+    {%endfor%}
+    <div class="row">
+        <div style="width:100%; text-align:center;" class="col">
+            <h3>Usted está apunto de confirmar un requerimiento</h3>
+        </div>
+    </div> 
+    <br>
+    <div class="row">
+        <div style="width:33%; text-align:center;" class="col">
+            <a href="{% url 'denuncia-inicio' %}"><button type="button" class="btn-outline-info btn">Confirmar</button></a>
+        </div>
+        <div style="width:33%; text-align:center;" class="col">
+            <a href="{% url 'denuncia-crear' llamado.numero_requerimiento %}"><button type="button" class="btn-outline-info btn">Hacer otra deuncia</button></a>
+        </div>
+        <div style="width:33%; text-align:center;" class="col">
+            <button type="button" class="btn-outline-info btn" onclick="window.print()">Imprimir Pagina</button>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

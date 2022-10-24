@@ -2232,7 +2232,7 @@ def transito_vis(request, categoria):
                           FROM carga_licenciaconducir lc
                           WHERE lc.uv_id <> 1
                           UNION ALL
-                          SELECT c.uv_id AS id, c.fecha AS fecha
+                          SELECT c.uv_id AS id, c.fecha AS fecha, max(c.fecha) max, min(c.fecha) min
                           FROM carga_permisoscirculacion c
                           WHERE c.uv_id <> 1
                           ORDER BY fecha'''
@@ -2241,8 +2241,8 @@ def transito_vis(request, categoria):
         for c in ComprobanteVenta.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d')
 
         fechas_categoria = {
             'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),

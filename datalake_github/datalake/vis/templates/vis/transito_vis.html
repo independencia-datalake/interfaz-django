@@ -136,17 +136,17 @@
     <th>UV</th>
 
     {% if fechas_categoria.categoria == "Total" %}
-      <th><a href="{% url 'transito-vis' 0 %}" style="color:#BFBFFF;">Total</a></th>
+      <th><a href="{% url 'transito-vis' 0 %}" style="color:#fa3b58;">Total</a></th>
       <th><a href="{% url 'transito-vis' 1 %}">Permisos de Circulación</a></th>
       <th><a href="{% url 'transito-vis' 2 %}">Licencia de Condicir</a></th> 
     {% elif fechas_categoria.categoria == "Permisos de Circulación" %}
       <th><a href="{% url 'transito-vis' 0 %}">Total</a></th>
-      <th><a href="{% url 'transito-vis' 1 %}" style="color:#BFBFFF;">Permisos de Circulación</a></th>
+      <th><a href="{% url 'transito-vis' 1 %}" style="color:#fa3b58;">Permisos de Circulación</a></th>
       <th><a href="{% url 'transito-vis' 2 %}">Licencia de Condicir</a></th> 
     {% elif fechas_categoria.categoria == "Licencia de Condicir" %}
       <th><a href="{% url 'transito-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'transito-vis' 1 %}">Permisos de Circulación</a></th>
-      <th><a href="{% url 'transito-vis' 2 %}" style="color:#BFBFFF;">Licencia de Condicir</a></th> 
+      <th><a href="{% url 'transito-vis' 2 %}" style="color:#fa3b58;">Licencia de Condicir</a></th> 
     {% endif %}
 
   </tr>
@@ -156,17 +156,17 @@
         <td> {{ key }} </td> 
 
         {% if fechas_categoria.categoria == "Total" %}
-          <td style="background-color:#BFBFFF;"> {{ value.0 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
         {% elif fechas_categoria.categoria == "Permisos de Circulación" %}
           <td> {{ value.0 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.1 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
         {% elif fechas_categoria.categoria == "Licencia de Condicir" %}
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.2 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.2 }} </td>
         {% endif %}
     </tr>
 {% endfor %}

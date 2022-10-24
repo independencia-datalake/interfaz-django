@@ -182,6 +182,7 @@ def requermineto_delete(request, pk):
 def requermineto_edicion(request, pk):
     requerimiento = Requerimiento.objects.get(pk=pk)
     denunciante = requerimiento.denunciante
+    numero_requerimiento = requerimiento.numero_requerimiento
 
     clasificacion_delito = ClasificacionDelito.objects.all()
     diccionario = {}
@@ -219,7 +220,7 @@ def requermineto_edicion(request, pk):
             form_req_ubicacion.save(),
             form_req_resolucion.save(),
             messages.success(request, f'La denuncia fue actualizada con exito')
-            return redirect('denuncia-inicio')
+            return redirect('denuncia-detalle', numero_requerimiento)
         
 
     context = {

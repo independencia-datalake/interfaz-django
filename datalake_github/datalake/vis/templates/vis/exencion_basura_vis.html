@@ -135,25 +135,25 @@
     <th>UV</th>
 
     {% if fechas_categoria.categoria == "Total" %}
-      <th><a href="{% url 'excencionbasura-vis' 0 %}" style="color:#BFBFFF;">Total</a></th>
+      <th><a href="{% url 'excencionbasura-vis' 0 %}" style="color:#fa3b58;">Total</a></th>
       <th><a href="{% url 'excencionbasura-vis' 1 %}">50% de Excencion</a></th>
       <th><a href="{% url 'excencionbasura-vis' 2 %}">75% de Excencion</a></th>
       <th><a href="{% url 'excencionbasura-vis' 3 %}">100% de Excencion</a></th> 
     {% elif fechas_categoria.categoria == "50% de Excencion" %}
       <th><a href="{% url 'excencionbasura-vis' 0 %}">Total</a></th>
-      <th><a href="{% url 'excencionbasura-vis' 1 %}" style="color:#BFBFFF;">50% de Excencion</a></th>
+      <th><a href="{% url 'excencionbasura-vis' 1 %}" style="color:#fa3b58;">50% de Excencion</a></th>
       <th><a href="{% url 'excencionbasura-vis' 2 %}">75% de Excencion</a></th>
       <th><a href="{% url 'excencionbasura-vis' 3 %}">100% de Excencion</a></th> 
     {% elif fechas_categoria.categoria == "75% de Excencion"%}
       <th><a href="{% url 'excencionbasura-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'excencionbasura-vis' 1 %}">50% de Excencion</a></th>
-      <th><a href="{% url 'excencionbasura-vis' 2 %}" style="color:#BFBFFF;">75% de Excencion</a></th>
+      <th><a href="{% url 'excencionbasura-vis' 2 %}" style="color:#fa3b58;">75% de Excencion</a></th>
       <th><a href="{% url 'excencionbasura-vis' 3 %}">100% de Excencion</a></th> 
     {% elif fechas_categoria.categoria == "100% de Excencion" %}
       <th><a href="{% url 'excencionbasura-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'excencionbasura-vis' 1 %}">50% de Excencion</a></th>
       <th><a href="{% url 'excencionbasura-vis' 2 %}">75% de Excencion</a></th>
-      <th><a href="{% url 'excencionbasura-vis' 3 %}" style="color:#BFBFFF;">100% de Excencion</a></th> 
+      <th><a href="{% url 'excencionbasura-vis' 3 %}" style="color:#fa3b58;">100% de Excencion</a></th> 
     {% endif %}  
   </tr>
 
@@ -162,25 +162,25 @@
         <td> {{ key }} </td> 
 
         {% if fechas_categoria.categoria == "Total" %}
-          <td style="background-color:#BFBFFF;"> {{ value.0 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
         {% elif fechas_categoria.categoria == "50% de Excencion" %}
           <td> {{ value.0 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.1 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
         {% elif fechas_categoria.categoria == "75% de Excencion"%}
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.2 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
         {% elif fechas_categoria.categoria == "100% de Excencion" %}
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.3 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.3 }} </td>
         {% endif %}
     </tr>
 {% endfor %}
