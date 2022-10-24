@@ -220,6 +220,7 @@ def requermineto_edicion(request, pk):
             form_req_ubicacion.save(),
             form_req_resolucion.save(),
             messages.success(request, f'La denuncia fue actualizada con exito')
+
             return redirect('denuncia-detalle', numero_requerimiento)
         
 

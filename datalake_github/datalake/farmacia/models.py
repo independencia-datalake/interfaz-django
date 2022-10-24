@@ -1,3 +1,4 @@
+from email.policy import default
 from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
@@ -15,8 +16,8 @@ class ProductoFarmacia(models.Model):
     f_ven = models.DateField(auto_now_add=False, auto_now=False, verbose_name="Fecha de vencimiento",null=True, blank=True)
     precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True, blank=True)
     n_lote = models.CharField(max_length=200, verbose_name="Lote",null=True, blank=True)
-    bioequivalencia = models.BooleanField(verbose_name = "Bioequivalencia",null=True, blank=True)
-    cenabast = models.BooleanField(verbose_name = "Cenabast",null=True, blank=True)
+    bioequivalencia = models.BooleanField(verbose_name = "Bioequivalencia",null=True, blank=True, default = False)
+    cenabast = models.BooleanField(verbose_name = "Cenabast",null=True, blank=True, default = False)
     
     autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)     
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
