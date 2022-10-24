@@ -36,3 +36,4 @@ class ComprobanteVentaFilter(django_filters.FilterSet):
         model = ComprobanteVenta
         fields = {
         }
+    

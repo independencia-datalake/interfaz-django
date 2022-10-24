@@ -258,6 +258,7 @@ class InicioProductoFarmacia(ListView):
         context['filter'] = ProductoFarmaciaFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
+
 @login_required
 def crear_producto_farmacia(request):
     form = ProductoFarmaciaForm()
@@ -385,3 +386,4 @@ def carga_datos(request):
     }
 
     return render(request, 'farmacia/carga_datos.html', context)    
+
