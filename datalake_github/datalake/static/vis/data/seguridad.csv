@@ -1,0 +1,4 @@
+id,created,nombre,apellido,c_telefono,n_telefono,direccion,numero_calle,complemento_direccion,res_denuncia,tipi_reclamo,tipi_denuncia,cuadrante,n_movil,emergencias,derv_emergencias,des_caso,iden_carab,iden_aav,departamento,inf_general,nombre_formulario,uv,autor,updated
+3,2021-03-21 16:22:53,Ignacio,Pérez,569,97304263,LA PAZ,482,,,,,45,,,,,,,,,Formulario Seguridad,4,1,2021-03-20 16:22:53
+2,2021-03-20 16:22:53,Octavio,Montt,569,62288589,ANTONIO JACOBO VIAL,1710,,,,,45,,,,,,,,,Formulario Seguridad,5,1,2021-03-20 16:22:53
+1,2021-03-19 23:17:16,Patricio,Rodriguez,569,931969903,LONGITUDINAL CINCO,0,,Auto Sospechoso,autosospechoso,Auto sospechoso,45,movil n�13,,no se,Vecino informa al 14 69 sobre un auto sospecho marca suzuki color negro con cuatro individuos sospechosos en su interior y con armas de fuego. Sin mas antecedentes para aportar,no se,Maria Jose Cornejo Cornejo,no se,,Formulario Seguridad,21,1,2021-03-20 16:37:03
