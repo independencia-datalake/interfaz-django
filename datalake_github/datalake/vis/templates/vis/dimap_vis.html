@@ -91,33 +91,35 @@
 <div class="container">
 <div id="contenedor-principal" class="container-fluid contenedor-vis">
 
-<!--SELECTOR-->
-<div class="row" id="consola-vis">
-		  <div class="col-xs-3 col-sm-3 consola-vis-izq">
-    <select id="selector-tablas" onchange="cargar_tabla(this.value)">
-      <option>FUENTE DE DATOS</option>
-      <option>FARMACIA MUNICIPAL</option>
-      <option>HIGIENTE AMBIENTAL - DIMAP</option>
-      <option>SEGURIDAD MUNICIPAL</option>
-      <option>IMPUESTOS Y DERECHOS</option>
-      <option>AYUDA SOCIAL - PANDEMIA</option>
-      <option>EXCENCIÓN BASURA</option>
-      <option>OBRAS MUNICIPALES</option>
-      <option>TRANSITO</option>
-    </select>
-  </div>
-  <div class="col-xs-9 col-sm-9 consola-vis-der">
-    <form action='' method='POST' enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ filtro_tiempo }}
-      <div class='btn-group'>
-        <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+  <div class="container">
+    <div id="contenedor-principal" class="container-fluid">
+      <!--SELECTOR-->
+      <div class="row" id="consola-vis">
+          <div class="col-xs-3 col-sm-3 consola-vis-izq">
+            <select id="selector-tablas" onchange="cargar_tabla(this.value)">
+              <option>FUENTE DE DATOS</option>
+              <option>FARMACIA MUNICIPAL</option>
+              <option selected="selected">HIGIENTE AMBIENTAL - DIMAP</option>
+              <option>SEGURIDAD MUNICIPAL</option>
+              <option>IMPUESTOS Y DERECHOS</option>
+              <option>AYUDA SOCIAL - PANDEMIA</option>
+              <option>EXCENCIÓN BASURA</option>
+              <option>OBRAS MUNICIPALES</option>
+              <option>TRANSITO</option>
+            </select>
+        </div>
+        <div class="col-xs-9 col-sm-9 consola-vis-der">
+          <form action='' method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ filtro_tiempo }}
+            <div class='btn-group'>
+              <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
-</div>
-</div>
-</div>
 
 <div style="height: 5vh; width: 65vw; float: right;">
   
@@ -128,22 +130,56 @@
 <br>
 
 <div class="content-table-vis">
-<table id="datos-vis" style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
+<table id="datos-vis" style="width:100%" border = "1" cellpadding= "5" cellspacing = "5" >
   <tr>
     <th>UV</th>
-    <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
-    <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
-    <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
-    <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th>   
+    {% if fechas_categoria.categoria == "total" %}
+      <th><a href="{% url 'dimap-vis' 0 %}" style="color:#fa3b58;">Total</a></th>
+      <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
+      <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
+      <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th> 
+    {% elif fechas_categoria.categoria == "esterilizacion" %}
+      <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'dimap-vis' 1 %}" style="color:#fa3b58;">Esterilizacion</a></th>
+      <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
+      <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th> 
+    {% elif fechas_categoria.categoria == "denuncia" %}
+      <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
+      <th><a href="{% url 'dimap-vis' 2 %}" style="color:#fa3b58;">Denuncia</a></th>
+      <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th> 
+    {% elif fechas_categoria.categoria == "control de plaga" %}
+      <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
+      <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
+      <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
+      <th><a href="{% url 'dimap-vis' 3 %}" style="color:#fa3b58;">Control de Plaga</a></th> 
+    {% endif %}
   </tr>
 
   {% for key, value in diccionario_tabla.items %}
     <tr>
-        <td> {{ key }} </td> 
-        <td> {{ value.0 }} </td>
-        <td> {{ value.1 }} </td>
-        <td> {{ value.2 }} </td>
-        <td> {{ value.3 }} </td>
+        <td> {{ key }} </td>
+        {% if fechas_categoria.categoria == "total" %}
+          <td style="background-color:#f97c8e;"> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+        {% elif fechas_categoria.categoria == "esterilizacion" %}
+          <td> {{ value.0 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+        {% elif fechas_categoria.categoria == "denuncia" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.2 }} </td>
+          <td> {{ value.3 }} </td>
+        {% elif fechas_categoria.categoria == "control de plaga" %}
+          <td> {{ value.0 }} </td>
+          <td> {{ value.1 }} </td>
+          <td> {{ value.2 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.3 }} </td>
+        {% endif %}        
     </tr>
 {% endfor %}
 

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'vis.apps.VisConfig',
     'dimap.apps.DimapConfig',
     'seguridad.apps.SeguridadConfig',
+    'stock.apps.StockConfig',
     'carga.apps.CargaConfig',
     
     # De terceros

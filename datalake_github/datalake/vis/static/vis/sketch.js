@@ -127,10 +127,10 @@ function draw() {
   //   line(x,height-50,x, height-50-(a/Math.max(...timehist)*40) )
   // });
 
-  // // TIME SLIDER
-  // timeslider.draw();
-  // phase = timeslider.chronophase(data);
-  // summarize(phase);
+  // TIME SLIDER
+  timeslider.draw();
+  phase = timeslider.chronophase(data);
+  summarize(phase);
 
   textFont(monotype);
   //LEGEND

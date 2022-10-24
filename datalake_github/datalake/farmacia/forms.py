@@ -1,3 +1,5 @@
+from ast import NotIn
+from unicodedata import name
 from django import forms
 from .models import (
     ProductoFarmacia,
@@ -26,6 +28,8 @@ class ProductoFarmaciaForm(forms.ModelForm):
             'f_ven',
             'precio',
             'n_lote',
+            'bioequivalencia',
+            'cenabast',
         ]
         widgets = {
             'f_ven' : forms.DateInput(
@@ -40,6 +44,7 @@ class ProductoFarmaciaForm(forms.ModelForm):
 
 
 class ComprobanteVentaModelForm(forms.ModelForm):
+
     class Meta:
         model = ComprobanteVenta
         fields = [
@@ -70,6 +75,7 @@ ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,
 class CargaProductoModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CargaProductoModelForm,self).__init__(*args, **kwargs)
+        
 
     class Meta:
         model = CargaProducto
@@ -77,3 +83,4 @@ class CargaProductoModelForm(forms.ModelForm):
         labels = {
             'carga_producto': 'Excel Productos Farmacia',
         }
+

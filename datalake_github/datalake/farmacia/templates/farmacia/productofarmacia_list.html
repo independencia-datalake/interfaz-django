@@ -35,6 +35,8 @@
         <td>Componente Activo</td> 
         <td>Dosis</td>
         <td>Presentacion</td>
+        <td>Bioequivalencia</td>
+        <td>Cenabast</td>
         <td>Fecha de vencimiento</td>
         <td>Precio</td>
         <td>N° de Lote</td>
@@ -45,6 +47,12 @@
         <td>{{ object.p_a }}</td>
         <td>{{ object.dosis }}</td>
         <td>{{ object.presentacion }}</td>
+        {% if object.bioequivalencia == True%}
+        <td>{{ 'Si' }}</td>
+        {% else %}
+        <td>{{ 'No' }}</td>
+        {% endif %}
+        <td>{{ object.cenabast }}
         <td>{{ object.f_ven|date:"d-m-Y"}}</td>
         <td>${{ object.precio }}</td>
         <td>{{ object.n_lote }}</td>

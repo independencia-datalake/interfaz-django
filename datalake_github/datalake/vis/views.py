@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import(FiltroTiempo)
 from farmacia.models import(ComprobanteVenta)
+from datetime import datetime
 from dimap.models import(
     ControlPlaga,
     Procedimiento,
@@ -19,15 +20,29 @@ from carga.models import(
     ExencionAseo,
     DOM
 )
+import locale
+locale.setlocale(locale.LC_ALL,'es_ES.UTF-8')
+
 
 def inicio_vis(request):
-    return render(request, 'vis/home_vis.html')
+    filtro_tiempo=FiltroTiempo(request.POST or None)
+
+    lista_mapa = [{'uv': 0, 'created': '2022-03-13 15:20:40.167757'}]
+    diccionario_tabla = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0, 22: 0, 23: 0, 24: 0, 25: 0, 26: 0}
+
+
+
+    context = {
+        'filtro_tiempo':filtro_tiempo,
+        'lista_mapa':lista_mapa,
+        'diccionario_tabla': diccionario_tabla
+    }
+
+
+    return render(request, 'vis/home_vis.html', context)
 
 #FARMACIA (LISTO)
 def farmacia_vis(request):
-
-    filtro_tiempo=FiltroTiempo(request.POST or None)
-
     if request.method == 'GET':
 
         diccionario_tabla = {}
@@ -58,10 +73,36 @@ def farmacia_vis(request):
         for c in ComprobanteVenta.objects.raw(query_mapa):
             lista_mapa.append({"uv":c.numero_uv,"created": str(c.created)})
 
+
+        tiempo = []
+        query_tiempo = '''select u.id, u.numero_uv, max(fc.created) max, min(fc.created) min
+                        from farmacia_comprobanteventa fc
+                        left join core_persona p
+                            on fc.comprador_id = p.id
+                        left join core_uv u
+                            on p.uv_id = u.id 
+                        order by fc.created asc;'''
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': 'farmacia'
+        }
+        
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
         context = {
             'filtro_tiempo':filtro_tiempo,
             'lista_mapa':lista_mapa,
-            'diccionario_tabla': diccionario_tabla
+            'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/farmacia_vis.html', context)
@@ -69,7 +110,6 @@ def farmacia_vis(request):
     if request.method == 'POST':
 
         filtro_tiempo=FiltroTiempo(request.POST)
-        
         if filtro_tiempo.is_valid():
             fecha_inicio = filtro_tiempo.cleaned_data.get('fecha_inicio')
             fecha_fin = filtro_tiempo.cleaned_data.get('fecha_fin')
@@ -106,18 +146,23 @@ def farmacia_vis(request):
                 lista_mapa.append({"uv":r.numero_uv,"created": str(r.created)})
 
 
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': 'farmacia'
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
                 'diccionario_tabla': diccionario_tabla,
-                'lista_mapa': lista_mapa
+                'lista_mapa': lista_mapa,
+                'fechas_categoria': fechas_categoria
             }
             
             return render(request,'vis/farmacia_vis.html', context)
 
 #DIMAP HIGIENE (LISTO)
 def dimap_vis(request,categoria):
-    
-    filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "total",
         "esterilizacion",
@@ -245,10 +290,59 @@ def dimap_vis(request,categoria):
 
             lista_mapa = lista_mapa_total
 
+        
+        
+        tiempo = []
+        query_tiempo = '''select a.uc as id, a.created, max(a.created) max, min(a.created) min from
+                            (select cu.numero_uv as uc, dc.created
+                            from dimap_controlplaga dc
+                            left join core_persona cp 
+                                on dc.persona_id = cp.id
+                            left join core_uv cu
+                                on cp.uv_id = cu.id
+                            where cu.numero_uv <> 0
+                            union
+                            select cu.numero_uv as uv,
+                                dp.created
+                            from dimap_procedimiento dp
+                            left join dimap_mascota dm 
+                                on dp.mascota_id = dm.id
+                            left join core_persona cp
+                                on dm.persona_id = cp.id
+                            left join core_uv cu
+                                on cp.uv_id = cu.id
+                            where cu.numero_uv <> 0
+                            union
+                            select cu.numero_uv as uv, ds.created
+                            from dimap_seguridaddimap ds 
+                            left join core_persona cp 
+                                on ds.persona_id = cp.id
+                            left join core_uv cu
+                                on cp.uv_id = cu.id
+                            where cu.numero_uv <> 0) a
+                            order by created asc'''
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+        
         context = {
             'filtro_tiempo':filtro_tiempo,
             'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/dimap_vis.html', context)
@@ -389,17 +483,23 @@ def dimap_vis(request,categoria):
 
                 lista_mapa = lista_mapa_total
 
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
                 'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render(request,'vis/dimap_vis.html', context)
 
 #SEGURIDAD MUNICIPAL (LISTO)
 def seguridad_vis(request, categoria):
-    filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "Total",
         "Delito de mayor connotacion social",
@@ -622,10 +722,33 @@ def seguridad_vis(request, categoria):
                 
             lista_mapa = lista_mapa_otro
        
+        tiempo = []
+        query_tiempo = '''select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                                on sr.uv_id = cu.id
+                            where sr.uv_id <> 0
+                            order by sr.created asc'''
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
         context = {
             'filtro_tiempo':filtro_tiempo,
             'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/seguridad_vis.html', context)
@@ -861,17 +984,23 @@ def seguridad_vis(request, categoria):
                     
                 lista_mapa = lista_mapa_otro
         
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
                 'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render(request,'vis/seguridad_vis.html', context)
 
 #EXENCION DE BASURA (LISTO)
 def exencion_vis(request, categoria):
-    filtro_tiempo=FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "Total",
         "50% de Excencion",
@@ -975,10 +1104,33 @@ def exencion_vis(request, categoria):
                 
             lista_mapa = lista_mapa_1
 
+        tiempo = []
+        query_tiempo = '''select ce.uv_id as id,
+                                ce.marca_temporal, max(ce.marca_temporal) max, min(ce.marca_temporal) min
+                            from carga_exencionaseo ce
+                            where ce.uv_id <> 0
+                            order by ce.marca_temporal asc;'''
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
+
         context = {
             'filtro_tiempo':filtro_tiempo,
-            'lista_mapa':lista_mapa,
+            'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/exencion_basura_vis.html',context)
@@ -1089,17 +1241,23 @@ def exencion_vis(request, categoria):
                     
                 lista_mapa = lista_mapa_1
             
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
-                'lista_mapa':lista_mapa,
+                'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render(request,'vis/exencion_basura_vis.html',context)
 
 #AYUDA EN PANDEMIA (LISTO)
 def entrega_pandemia_vis(request, categoria):
-    filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "Total",
         "Caja",
@@ -1308,10 +1466,35 @@ def entrega_pandemia_vis(request, categoria):
                 
             lista_mapa = lista_mapa_total
         
+
+
+        tiempo = []
+        query_tiempo = '''select ce.uv_id as id,
+                                ce.fecha, max(ce.fecha) max, min(ce.fecha) min
+                            from carga_entregaspandemia ce 
+                            where ce.uv_id <> 1
+                            order by ce.fecha asc;'''
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
+
         context = {
             'filtro_tiempo':filtro_tiempo,
-            'lista_mapa':lista_mapa,
+            'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/entrega_pandemia_vis.html', context)
@@ -1533,17 +1716,23 @@ def entrega_pandemia_vis(request, categoria):
                     
                 lista_mapa = lista_mapa_total
             
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
-                'lista_mapa':lista_mapa,
+                'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render(request,'vis/entrega_pandemia_vis.html', context)
 
 #IMPUESTOS Y DERECHOS (LISTO)
 def impuestos_derechos_vis(request,categoria):
-    filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "Total",
         "Patente Alcohol",
@@ -1724,10 +1913,34 @@ def impuestos_derechos_vis(request,categoria):
                 
             lista_mapa = lista_mapa_estacionada
 
+
+        tiempo = []
+        query_tiempo = '''select ce.uv_id as id,
+                                ce.created, max(ce.created) max, min(ce.created) min
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            order by ce.created asc;'''
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
+
         context = {
             'filtro_tiempo':filtro_tiempo,
-            'lista_mapa':lista_mapa,
+            'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/impuestos_derechos_vis.html', context)
@@ -1921,17 +2134,23 @@ def impuestos_derechos_vis(request,categoria):
                     
                 lista_mapa = lista_mapa_estacionada
 
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
-                'lista_mapa':lista_mapa,
+                'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render(request,'vis/impuestos_derechos_vis.html', context)
 
 #TRANSITO (LISTO)
 def transito_vis(request, categoria):
-    filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "Total",
         "Permisos de Circulación",
@@ -2008,10 +2227,36 @@ def transito_vis(request, categoria):
 
             lista_mapa = lista_mapa_vehicular
 
+        tiempo = []
+        query_tiempo = '''SELECT lc.uv_id AS id, lc.fecha AS fecha, max(lc.fecha) max, min(lc.fecha) min
+                          FROM carga_licenciaconducir lc
+                          WHERE lc.uv_id <> 1
+                          UNION ALL
+                          SELECT c.uv_id AS id, c.fecha AS fecha, max(c.fecha) max, min(c.fecha) min
+                          FROM carga_permisoscirculacion c
+                          WHERE c.uv_id <> 1
+                          ORDER BY fecha'''
+
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
         context = {
             'filtro_tiempo':filtro_tiempo,
-            'lista_mapa':lista_mapa,
+            'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render(request,'vis/transito_vis.html',context)
@@ -2096,17 +2341,23 @@ def transito_vis(request, categoria):
 
                 lista_mapa = lista_mapa_vehicular
 
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
-                'lista_mapa':lista_mapa,
+                'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render(request,'vis/transito_vis.html',context)
 
 #OBRAS MUNICIPALES (DOM)
 def obras_municipales_vis(request,categoria):
-    filtro_tiempo = FiltroTiempo(request.POST or None)
     filtro_mapa = [
         "Total",
         "ANEXIÓN",
@@ -2459,10 +2710,34 @@ def obras_municipales_vis(request,categoria):
 
             lista_mapa = lista_mapa_venta
 
+
+        tiempo = []
+        query_tiempo = '''select cd.uv_id as id,
+                                cd.created, min(cd.created) min, max(cd.created) max
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            order by cd.created asc;'''
+
+
+        for c in ComprobanteVenta.objects.raw(query_tiempo):
+            tiempo = {"max":c.max,"min": c.min}
+
+        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        fechas_categoria = {
+            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
+            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'categoria': filtro_mapa[categoria]
+        }
+
+        filtro_tiempo=FiltroTiempo(fechas_categoria or None)
+
         context = {
             'filtro_tiempo':filtro_tiempo,
-            'lista_mapa':lista_mapa,
+            'lista_mapa': lista_mapa,
             'diccionario_tabla': diccionario_tabla,
+            'fechas_categoria': fechas_categoria
         }
 
         return render (request,'vis/dom_vis.html', context)
@@ -2836,10 +3111,17 @@ def obras_municipales_vis(request,categoria):
 
                 lista_mapa = lista_mapa_venta
 
+            fechas_categoria = {
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'categoria': filtro_mapa[categoria]
+            }
+
             context = {
                 'filtro_tiempo':filtro_tiempo,
-                'lista_mapa':lista_mapa,
+                'lista_mapa': lista_mapa,
                 'diccionario_tabla': diccionario_tabla,
+                'fechas_categoria':fechas_categoria
             }
 
             return render (request,'vis/dom_vis.html', context)
