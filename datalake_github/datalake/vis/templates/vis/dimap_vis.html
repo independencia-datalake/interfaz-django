@@ -140,19 +140,19 @@
       <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th> 
     {% elif fechas_categoria.categoria == "esterilizacion" %}
       <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
-      <th><a href="{% url 'dimap-vis' 1 %}" style="color:#BFBFFF;">Esterilizacion</a></th>
+      <th><a href="{% url 'dimap-vis' 1 %}" style="color:#fa3b58;">Esterilizacion</a></th>
       <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
       <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th> 
     {% elif fechas_categoria.categoria == "denuncia" %}
       <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
-      <th><a href="{% url 'dimap-vis' 2 %}" style="color:#BFBFFF;">Denuncia</a></th>
+      <th><a href="{% url 'dimap-vis' 2 %}" style="color:#fa3b58;">Denuncia</a></th>
       <th><a href="{% url 'dimap-vis' 3 %}">Control de Plaga</a></th> 
     {% elif fechas_categoria.categoria == "control de plaga" %}
       <th><a href="{% url 'dimap-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'dimap-vis' 1 %}">Esterilizacion</a></th>
       <th><a href="{% url 'dimap-vis' 2 %}">Denuncia</a></th>
-      <th><a href="{% url 'dimap-vis' 3 %}" style="color:#BFBFFF;">Control de Plaga</a></th> 
+      <th><a href="{% url 'dimap-vis' 3 %}" style="color:#fa3b58;">Control de Plaga</a></th> 
     {% endif %}
   </tr>
 
@@ -166,19 +166,19 @@
           <td> {{ value.3 }} </td>
         {% elif fechas_categoria.categoria == "esterilizacion" %}
           <td> {{ value.0 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.1 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
         {% elif fechas_categoria.categoria == "denuncia" %}
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.2 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
         {% elif fechas_categoria.categoria == "control de plaga" %}
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.3 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.3 }} </td>
         {% endif %}        
     </tr>
 {% endfor %}

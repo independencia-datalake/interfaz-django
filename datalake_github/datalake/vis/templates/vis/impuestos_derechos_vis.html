@@ -135,7 +135,7 @@
     <th>UV</th>
 
     {% if fechas_categoria.categoria == "Total" %}
-      <th><a href="{% url 'impuestos-vis' 0 %}" style="color:#BFBFFF;">Total</a></th>
+      <th><a href="{% url 'impuestos-vis' 0 %}" style="color:#fa3b58;">Total</a></th>
       <th><a href="{% url 'impuestos-vis' 1 %}">Patente Alcohol</a></th>
       <th><a href="{% url 'impuestos-vis' 2 %}">Patente Comercial</a></th>
       <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
@@ -144,7 +144,7 @@
       <th><a href="{% url 'impuestos-vis' 6 %}">Patente Estacionada</a></th>    
     {% elif fechas_categoria.categoria == "Patente Alcohol" %}
       <th><a href="{% url 'impuestos-vis' 0 %}">Total</a></th>
-      <th><a href="{% url 'impuestos-vis' 1 %}" style="color:#BFBFFF;">Patente Alcohol</a></th>
+      <th><a href="{% url 'impuestos-vis' 1 %}" style="color:#fa3b58;">Patente Alcohol</a></th>
       <th><a href="{% url 'impuestos-vis' 2 %}">Patente Comercial</a></th>
       <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
       <th><a href="{% url 'impuestos-vis' 4 %}">Patente Industrial</a></th>   
@@ -153,7 +153,7 @@
     {% elif fechas_categoria.categoria == "Patente Comercial" %}
       <th><a href="{% url 'impuestos-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'impuestos-vis' 1 %}">Patente Alcohol</a></th>
-      <th><a href="{% url 'impuestos-vis' 2 %}" style="color:#BFBFFF;">Patente Comercial</a></th>
+      <th><a href="{% url 'impuestos-vis' 2 %}" style="color:#fa3b58;">Patente Comercial</a></th>
       <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
       <th><a href="{% url 'impuestos-vis' 4 %}">Patente Industrial</a></th>   
       <th><a href="{% url 'impuestos-vis' 5 %}">Patente Microempresa</a></th>   
@@ -162,7 +162,7 @@
       <th><a href="{% url 'impuestos-vis' 0 %}">Total</a></th>
       <th><a href="{% url 'impuestos-vis' 1 %}">Patente Alcohol</a></th>
       <th><a href="{% url 'impuestos-vis' 2 %}">Patente Comercial</a></th>
-      <th><a href="{% url 'impuestos-vis' 3 %}" style="color:#BFBFFF;">Patente Profesional</a></th>   
+      <th><a href="{% url 'impuestos-vis' 3 %}" style="color:#fa3b58;">Patente Profesional</a></th>   
       <th><a href="{% url 'impuestos-vis' 4 %}">Patente Industrial</a></th>   
       <th><a href="{% url 'impuestos-vis' 5 %}">Patente Microempresa</a></th>   
       <th><a href="{% url 'impuestos-vis' 6 %}">Patente Estacionada</a></th>    
@@ -171,7 +171,7 @@
       <th><a href="{% url 'impuestos-vis' 1 %}">Patente Alcohol</a></th>
       <th><a href="{% url 'impuestos-vis' 2 %}">Patente Comercial</a></th>
       <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
-      <th><a href="{% url 'impuestos-vis' 4 %}" style="color:#BFBFFF;">Patente Industrial</a></th>   
+      <th><a href="{% url 'impuestos-vis' 4 %}" style="color:#fa3b58;">Patente Industrial</a></th>   
       <th><a href="{% url 'impuestos-vis' 5 %}">Patente Microempresa</a></th>   
       <th><a href="{% url 'impuestos-vis' 6 %}">Patente Estacionada</a></th>    
     {% elif fechas_categoria.categoria == "Patente Microempresa" %}
@@ -180,7 +180,7 @@
       <th><a href="{% url 'impuestos-vis' 2 %}">Patente Comercial</a></th>
       <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
       <th><a href="{% url 'impuestos-vis' 4 %}">Patente Industrial</a></th>   
-      <th><a href="{% url 'impuestos-vis' 5 %}" style="color:#BFBFFF;">Patente Microempresa</a></th>   
+      <th><a href="{% url 'impuestos-vis' 5 %}" style="color:#fa3b58;">Patente Microempresa</a></th>   
       <th><a href="{% url 'impuestos-vis' 6 %}">Patente Estacionada</a></th>    
     {% elif fechas_categoria.categoria == "Patente Estacionada" %}
       <th><a href="{% url 'impuestos-vis' 0 %}">Total</a></th>
@@ -189,7 +189,7 @@
       <th><a href="{% url 'impuestos-vis' 3 %}">Patente Profesional</a></th>   
       <th><a href="{% url 'impuestos-vis' 4 %}">Patente Industrial</a></th>   
       <th><a href="{% url 'impuestos-vis' 5 %}">Patente Microempresa</a></th>   
-      <th><a href="{% url 'impuestos-vis' 6 %}" style="color:#BFBFFF;">Patente Estacionada</a></th>    
+      <th><a href="{% url 'impuestos-vis' 6 %}" style="color:#fa3b58;">Patente Estacionada</a></th>    
     {% endif %}
 
   </tr>
@@ -199,7 +199,7 @@
         <td> {{ key }} </td> 
 
         {% if fechas_categoria.categoria == "Total" %}
-          <td style="background-color:#BFBFFF;"> {{ value.0 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
@@ -208,7 +208,7 @@
           <td> {{ value.6 }} </td>
         {% elif fechas_categoria.categoria == "Patente Alcohol" %}
           <td> {{ value.0 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.1 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
           <td> {{ value.4 }} </td>
@@ -217,7 +217,7 @@
         {% elif fechas_categoria.categoria == "Patente Comercial" %}
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.2 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
           <td> {{ value.4 }} </td>
           <td> {{ value.5 }} </td>
@@ -226,7 +226,7 @@
           <td> {{ value.0 }} </td>
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.3 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.3 }} </td>
           <td> {{ value.4 }} </td>
           <td> {{ value.5 }} </td>
           <td> {{ value.6 }} </td>
@@ -235,7 +235,7 @@
           <td> {{ value.1 }} </td>
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.4 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.4 }} </td>
           <td> {{ value.5 }} </td>
           <td> {{ value.6 }} </td>
         {% elif fechas_categoria.categoria == "Patente Microempresa" %}
@@ -244,7 +244,7 @@
           <td> {{ value.2 }} </td>
           <td> {{ value.3 }} </td>
           <td> {{ value.4 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.5 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.5 }} </td>
           <td> {{ value.6 }} </td>
         {% elif fechas_categoria.categoria == "Patente Estacionada" %}
           <td> {{ value.0 }} </td>
@@ -253,7 +253,7 @@
           <td> {{ value.3 }} </td>
           <td> {{ value.4 }} </td>
           <td> {{ value.5 }} </td>
-          <td style="background-color:#BFBFFF;"> {{ value.6 }} </td>
+          <td style="background-color:#f97c8e;"> {{ value.6 }} </td>
         {% endif %}
     </tr>
 {% endfor %}
