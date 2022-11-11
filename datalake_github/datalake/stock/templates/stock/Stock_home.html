@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %}Inicio Farmacia{% endblock %}
+{% block title %}Inicio Stock{% endblock %}
 
 {% block styles %}
 <link href="core/css/datalake.css3" rel="stylesheet">
@@ -8,12 +8,16 @@
 {% block content %}
 <div class="container contenedor-wrap">  
   <div class="botonera" style="background-color: white">
-    <h1>Farmacia</h1> 
+    <h1>Productos/Stock</h1> 
     <div class="botones">
       <!-- <a href="{% url 'comprobanteventa-inicio' %}">Venta</a> -->
-      <a href="{% url 'persona' %}">Venta</a>
-      <a href="{% url 'Stock-home' %}">Stock de Productos</a>
-      <a href="{% url 'Informes' %}">Informes</a>
+      <a href="{% url 'productofarmacia-create' %}">Nuevo Producto&nbsp</a>
+    <div>
+      <a href="{% url 'productostock-ingreso' %}">Ficha de Ingreso</a>
+    <div>
+      <a href="{% url 'productostock-salida' %}">&nbspFicha de Salida&nbsp</a>
+    <div>
+      <a href="{% url 'Stock-home' %}">&nbsp Carga masiva &nbsp</a>
     </div>
   </div>
 </div>

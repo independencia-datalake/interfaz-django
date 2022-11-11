@@ -19,42 +19,31 @@
   </div>
 
   <hr>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#filtro" aria-controls="filtro" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon burger-toggler"></span>
-  </button>
-  <div class="collapse" id="filtro">  
-    <div class="contenedor-wrap">
-      <div class="espaciador padding-right-30">
-        <h3>Buscador</h3>
-          <form method="GET">
-              {{ filter.form|crispy }}
-              <button type="submit" class="btn btn-outline-info">Buscar</button>
-          </form>
-      </div>
+  <div class="contenedor-wrap">
+    <div class="espaciador padding-right-30">
+      <h3>Buscador</h3>
+        <form method="GET">
+            {{ filter.form|crispy }}
+            <button type="submit" class="btn btn-outline-info">Buscar</button>
+        </form>
     </div>
   </div>
   <hr>
   <div>
     <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-        <td>Marca del Producto</td>
-        <td>Componente Activo</td> 
-        <td>Dosis</td>
-        <td>Presentacion</td>
-        <td>Bioequivalencia</td>
-        <td>Precio</td>
+        <td>nombre</td>
+        <td>Cantidad</td> 
+        <td>N° de venta</td>
+        <td>Fecha</td>
+
         <td>  </td>
     {%for object in filter.qs %}
     <tr>
-        <td>{{ object.marca_producto }}</td>
-        <td>{{ object.p_a }}</td>
-        <td>{{ object.dosis }}</td>
-        <td>{{ object.presentacion }}</td>
-        {% if object.bioequivalencia == True%}
-        <td>{{ 'Si' }}</td>
-        {% else %}
-        <td>{{ 'No' }}</td>
-        {% endif %}
-        <td>${{ object.precio }}</td>
+        <td>{{ object.nombre }}</td>
+        <td>{{ object.cantidad }}</td>
+        <td>{{ object.n_venta }}</td>
+        <td>{{ object.created }}</td>
+ 
         <td><a class="btn ver-o-editar" href="{% url 'productofarmacia-update' object.id %}">VER O EDITAR</a></td>
     </tr>
     {%endfor%}
@@ -71,3 +60,4 @@
     <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 
 {% endblock %}
+

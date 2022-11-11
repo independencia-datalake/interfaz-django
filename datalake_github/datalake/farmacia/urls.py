@@ -12,6 +12,8 @@ from .views import (
     #PRODUCTO FARMACIA
     InicioProductoFarmacia,
     EdicionProductoFarmacia,
+    ProductosVendidosResumen,
+
 )
 
 urlpatterns = [
@@ -30,9 +32,13 @@ urlpatterns = [
     path('ProductoVendido/<int:pk>/edicion/',EdicionProductoVendido.as_view(),name="productovendido-update"),
     path('ProductoVendido/<int:pk>/delete/',views.producto_vendido_delete, name='productovendido-delete'),
     path('ProductoVendido/<int:pk>/delete-edicion/',views.producto_vendido_delete_edicion, name='productovendido-delete-edicion'),
+    path('ProductoVendido/Resumen/',ProductosVendidosResumen.as_view(), name='productovendido-resumen'),
     #PRODUCTO FARMACIA
     path('ProductoFarmacia/', InicioProductoFarmacia.as_view(), name='productofarmacia-inicio'),
     path('ProductoFarmacia/crear/', views.crear_producto_farmacia, name='productofarmacia-create'),
     path('ProductoFarmacia/<int:pk>/edicion/',EdicionProductoFarmacia.as_view(),name="productofarmacia-update"),
     path('ProductoFarmacia/<int:pk>/delete/',views.producto_farmacia_delete, name='productofarmacia-delete'),
+    #GENERADOR DE INFORMES
+    path('Informes',views.informeinicio, name='Informes'),
+    path('InformesVentas',views.informe_ventas,name='Informe-ventas'),
 ]
