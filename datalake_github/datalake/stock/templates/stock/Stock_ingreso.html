@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Ingreso de Stock{% endblock %}
+
+{% block content %}
+
+<div class="container cabecera-interior-tablas margin-bottom-30">
+    <div class="row">
+        <div class="col vertical-align-middle">
+            <h3>Ficha de Ingreso de Stock Producto</h3>
+        </div>
+        <div class="col vertical-align-middle">
+        </div>
+    </div>
+</div>
+<form method="POST" id="form_out">
+    {% csrf_token %}
+</form>
+<form action"#" method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+    <div class="container contenedor-wrap"> 
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h4>Productos ingresados asociados a la venta N°{{ls}}</h4>
+                    <ol>
+                        {%for dict in temp %}
+                        <li>
+                            {{'Producto: '}} {{dict.producto}} {{'|| Cantidad: '}} {{dict.cantidad}}
+                        </li>
+                        {%endfor%}
+                    </ol>
+
+                    <h4>Producto a ingresar</h4>
+
+                    {{form|crispy}}
+                    
+                    <div class="form-group align-right">
+                        <button class="btn btn-outline-info" type ="submit", name ="save", value ="save " form = "form_out">Confirmar</button>
+                        <button class="btn btn-outline-info" type ="submit" name ="newItem", value ="newItem">Agregar</button>
+                        <button class="btn btn-outline-info"  type ="submit" name ="cancel", value ="cancel" form="form_out">Cancelar</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    </fieldset>
+</form>
+{% endblock %}

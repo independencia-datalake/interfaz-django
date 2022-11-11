@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block title %}Generador Informes{% endblock %}
+
+{% block styles %}
+<link href="core/css/datalake.css3" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container contenedor-wrap">  
+  <div class="botonera" style="background-color: white">
+    <h1>Informes Farmacia</h1> 
+    <div class="botones">
+      <a href="{% url 'productofarmacia-inicio' %}">Informe de Productos</a>
+    <div>
+      <a href="{% url 'Stock-inicio' %}">&nbsp       &nbsp  Informe de Stock &nbsp&nbsp      &nbsp</a>
+    <div>
+      <a href="{% url 'Informe-ventas' %}">&nbsp &nbspInforme de Ventas&nbsp &nbsp </a>
+    <div>
+      <a href="{% url 'Informes' %}">&nbsp Informe de Ingresos &nbsp</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+{% endblock %}

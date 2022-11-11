@@ -82,6 +82,21 @@ $('.add-new-form').click(function(e) {
 
 });
 
+document.getElementById("add_file").onclick=function (ev) {
+            var image = document.getElementById("files");
+    
+            var newInput = document.createElement("input");
+            newInput.type="file";
+            newInput.name = "file[]";
+    
+            var br=document.createElement("br");
+            var br1=document.createElement("br");
+    
+            image.appendChild(newInput);
+            image.appendChild(br);
+            image.appendChild(br1);
+    
+        }
 
 
 {% endblock %}
@@ -142,6 +157,11 @@ $('.add-new-form').click(function(e) {
 {% csrf_token %}
     <div class="container contenedor-wrap"> 
         <h3>Productos</h3>
+        <div id="files">
+            <input type="file" name = "file[]"><br><br>
+                </div>
+        
+            <input type ="button" name="add_file" id="add_file" value = "Add File">
         {{c_form|crispy}}
         {{ formset.management_form }}
         {% for form in formset %}

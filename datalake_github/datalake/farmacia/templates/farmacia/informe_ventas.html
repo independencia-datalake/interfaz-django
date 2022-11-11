@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Informe de ventas{% endblock %}
+
+{% block content %}
+<form method="POST" id="form_out">
+    {% csrf_token %}
+</form>
+
+<div class="container">
+    <div class="container cabecera-interior-tablas">
+      <div class="row">
+        <div class="col-sm vertical-align-middle">
+          <h3>Informe de ventas</h3>
+        </div>
+        <div class="col-sm vertical-align-middle">
+          
+        </div>
+
+      </div>
+    </div>
+
+<hr>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#filtro" aria-controls="filtro" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon burger-toggler"></span>
+</button>
+<div class="collapse" id="filtro">
+  <div class="contenedor-wrap">
+    <div class="espaciador padding-right-30">
+      <h3>Buscador</h3>
+      
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-info" name ="newItem", value ="newItem">Add data</button>
+          
+            
+        </form>
+    </div>
+  </div>
+  <hr>
+  </div>
+
+    <div class="container contenedor-wrap"> 
+        <div class="container">
+            <h4 style="text-align: center;">Grafico bonito</h4>
+            <button onclick="update_chart()" class="btn btn-outline-info" name ="update", value ="update" form = "form_out" >update</button>
+            <button type="submit" class="btn btn-outline-info" name ="clean", value ="clean" form = "form_out">Remove data</button>
+            <button onclick="update_chart(myChart)">Click me</button>
+            <canvas id="myChart" style="height:500px !important; width:600px !important;margin: 0 auto;"></canvas>
+
+        </div>
+    </div>
+    
+
+{% endblock %}
+
+
+{% block jQuery %}
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- jQuery Color for Background Animation -->
+    <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js"></script>
+
+{% endblock %}
+
+<script >
+{% block script %}
+    var myChart = new Chart(document.getElementById("myChart"), {
+        type: 'bar',
+        data: {
+        labels: [ {% for producto in lista_productos %} '{{ producto }}', {% endfor %} ],
+        datasets: [
+            {
+            label: "Productos",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: [{% for number in cantidad_productos %} '{{ number }}', {% endfor %}]
+            }
+        ]
+        },
+        options: {
+            plugins: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Ventas Por Producto'
+                },
+                responsive: false,
+                maintainAspectRatio: false,
+            }
+        }
+    });
+
+  function update_chart(chart) {
+    myChart.options.title.text = "Poggies";
+    console.log(5+6)
+    myChart.update();
+}
+{% endblock %}
+</script>
+

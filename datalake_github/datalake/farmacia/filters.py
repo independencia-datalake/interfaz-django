@@ -6,6 +6,7 @@ from core.models import(
 from .models import (
     ComprobanteVenta,
     ProductoFarmacia,
+    ProductoVendido,
 )
 
 class ProductoFarmaciaFilter(django_filters.FilterSet):
@@ -36,4 +37,22 @@ class ComprobanteVentaFilter(django_filters.FilterSet):
         model = ComprobanteVenta
         fields = {
         }
+
+class ProductosVendidosFilter(django_filters.FilterSet):
+    OPCIONES = (
+        ('ascendente','Ascendente'),
+        ('descendente','Descendente'),
+    )
+    marca_producto_filtro = django_filters.CharFilter(label='Nombre Producto',field_name='nombre',lookup_expr='icontains')
+    n_venta_filtro = django_filters.CharFilter(label='Numero de venta',field_name='n_venta',lookup_expr='icontains')
+    ordering = django_filters.ChoiceFilter(label='Orden por precio', choices=OPCIONES, method='filter_by_order')
+
+    class Meta:
+        model = ProductoVendido
+        fields = {
+        }
+    
+    def filter_by_order(self, queryset, name, value):
+        expression = 'precio' if value == 'ascendente' else '-precio'
+        return queryset.order_by(expression)
     

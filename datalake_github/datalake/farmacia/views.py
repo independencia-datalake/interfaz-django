@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from django.http import HttpResponse
 import pandas as pd
+import json
 
 from core.models import(
     Persona,
@@ -16,21 +17,26 @@ from core.models import(
     Correo,
     Direccion,
 )
+from stock.forms import BodegaVirtualForm, BodegaVirtualIngresoStockForm
+from stock.models import BodegaVirtual
 from .models import (
     ComprobanteVenta,
     ProductoFarmacia,
     ProductoVendido,
+    Recetas,
 )
 from .forms import (
     ProductoFarmaciaForm,
     ComprobanteVentaModelForm,
     ProductoVendidoForm,
+    ProductoVendidoInformeForm,
     ProductoVendidoFormset,
     CargaProductoModelForm, #Prueba
 )
 from .filters import (
     ProductoFarmaciaFilter,
     ComprobanteVentaFilter,
+    ProductosVendidosFilter,
 )
 
 
@@ -56,6 +62,7 @@ def comprobante_venta_form(request, pk):
     form = ComprobanteVentaModelForm()
     if request.method == 'POST':
         form = ComprobanteVentaModelForm(request.POST, request.FILES)
+        files = request.FILES.getlist("file[]")
         formset = ProductoVendidoFormset(request.POST)
         if form.is_valid() and formset.is_valid():
             obj = form.save(commit=False)
@@ -64,15 +71,21 @@ def comprobante_venta_form(request, pk):
             obj.save()
             cv = obj
             cv_id = obj.id
+            
+            for f in files:
+                Recetas(receta = f,
+                comprobante_venta = cv).save()
+
             for form in formset:
                 nombre = form.cleaned_data.get('nombre')
                 cantidad = form.cleaned_data.get('cantidad')
-                print(nombre)
+                id_nombre = nombre.id
+                precio_venta = ProductoFarmacia.objects.get(id=id_nombre).precio
                 if nombre:
                     ProductoVendido(nombre=nombre,
                                     cantidad=cantidad,
-                                    n_venta=cv,
-                                    farmaceuta=request.user).save()
+                                    precio_venta = precio_venta,
+                                    n_venta=cv).save()
             
             return redirect('comprobanteventa-detail',pk=cv_id)
 
@@ -158,6 +171,15 @@ def comprobante_venta_delete(request, pk):
     }
 
     return render(request, 'farmacia/delete.html', context)
+
+class ProductosVendidosResumen(ListView):
+    model = ProductoVendido
+    ordering = ['nombre','created']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = ProductosVendidosFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 
 # PRODUCTO VENDIDO
@@ -262,23 +284,30 @@ class InicioProductoFarmacia(ListView):
 @login_required
 def crear_producto_farmacia(request):
     form = ProductoFarmaciaForm()
+    form2 = BodegaVirtualIngresoStockForm()
     
     if request.method == 'POST':
         form = ProductoFarmaciaForm(request.POST)
-        if form.is_valid():
-            ProductoFarmacia(autor=request.user,
+        form2 = BodegaVirtualIngresoStockForm(request.POST)
+        if form.is_valid() and form2.is_valid():
+            producto_farmacia = ProductoFarmacia.objects.create(autor=request.user,
                             marca_producto=form.cleaned_data.get('marca_producto'),
                             p_a=form.cleaned_data.get('p_a'),
                             dosis=form.cleaned_data.get('dosis'),
                             presentacion =form.cleaned_data.get('presentacion'),
-                            f_ven =form.cleaned_data.get('f_ven'),
-                            precio=form.cleaned_data.get('precio'),
-                            n_lote=form.cleaned_data.get('n_lote')).save()
+                            precio=form.cleaned_data.get('precio'))
+            stck = 0
+            key = ProductoFarmacia.objects.get(id=producto_farmacia.id)
+            print(key)
+            BodegaVirtual.objects.create(  nombre = key,
+                            Stock = stck,
+                            Stock_min = form2.cleaned_data.get('Stock_min'))
+            
             messages.success(request, f'El producto fue creado con exito')
-            return redirect('productofarmacia-inicio')
+            return redirect('productofarmacia-create')
 
 
-    return render(request, 'farmacia/productofarmacia_form.html')
+    return render(request, 'farmacia/productofarmacia_form.html',{"form":form,"form2":form2} )
 
 class EdicionProductoFarmacia(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model = ProductoFarmacia
@@ -387,3 +416,48 @@ def carga_datos(request):
 
     return render(request, 'farmacia/carga_datos.html', context)    
 
+def informeinicio(request):
+    
+    return render(request,'farmacia/informe_home.html')
+
+def informe_ventas(request):
+    lista_productos = []
+    cantidad_productos = []
+    with open("farmacia/Informe_ventas.json","r") as f:
+        temp = json.load(f)
+
+    for i in temp:
+        lista_productos.append(i.get('producto'))
+        cantidad_productos.append(i.get('cantidad'))
+
+    form = ProductoVendidoInformeForm
+    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+    if request.method == 'POST':
+        form = ProductoVendidoInformeForm(request.POST)
+        if request.POST.get("newItem") and form.is_valid():
+            nombre = form.cleaned_data.get('nombre')
+            cantidad = cantidad_ventas(nombre)
+            producto = nombre.marca_producto
+            update_json = {'producto': producto,'cantidad': cantidad}
+            temp.append(update_json)
+            with open("farmacia/Informe_ventas.json","w") as file:
+                json.dump(temp,file,indent=4)
+            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+
+        elif request.POST.get("clean"):
+            temp = []
+            with open("farmacia/Informe_ventas.json","w") as file:
+                json.dump(temp,file,indent=4)
+            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+        
+
+    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+    f.close()
+    return render(request, 'farmacia/informe_ventas.html', context)
+
+def cantidad_ventas(producto):
+    cantidad = 0
+    vendidos = ProductoVendido.objects.filter(nombre=producto)
+    for venta in vendidos:        
+        cantidad = cantidad + venta.cantidad
+    return cantidad

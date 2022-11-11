@@ -1,13 +1,13 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Ficha Nuevo Producto{% endblock %}
+{% block title %}Ficha Salida Stock{% endblock %}
 
 {% block content %}
 
 <div class="container cabecera-interior-tablas margin-bottom-30">
     <div class="row">
         <div class="col vertical-align-middle">
-            <h3>Crear Nuevo Producto</h3>
+            <h3>Ficha de Salida de Producto</h3>
         </div>
         <div class="col vertical-align-middle">
         </div>
@@ -16,16 +16,28 @@
 
 <form method="POST">
     {% csrf_token %}
+    <fieldset class="form-group">
     <div class="container contenedor-wrap"> 
         <div class="container">
-            
-            {{form|crispy}}
-            {{form2|crispy}} 
+            <div class="row">
+                <div class="col">
+                    {%for f in form %}
+                    <div>
+                        {{f.label_tag}} 
+                        <div>{{f}}</div> 
+                    </div>
+                    {%endfor%}
+
+                </div>
+                
+                </div>
+            </div> 
             <div class="form-group align-right">
                 <button class="btn btn-outline-info" type="submit">Subir Producto</button>
             </div>
         </div>
     </div>
+    </fieldset>
 </form>
 
 {% endblock %}

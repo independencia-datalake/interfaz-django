@@ -12,7 +12,6 @@ from django.forms.widgets import (
     RadioSelect,
 )
 
-
 class ProductoFarmaciaForm(forms.ModelForm): 
     def __init__(self, *args, **kwargs):
         super(ProductoFarmaciaForm,self).__init__(*args, **kwargs)
@@ -20,16 +19,13 @@ class ProductoFarmaciaForm(forms.ModelForm):
     class Meta:
         model = ProductoFarmacia
         fields = [
-            'active',
             'marca_producto',
             'p_a',
+            'active',
             'dosis',
             'presentacion',
-            'f_ven',
             'precio',
-            'n_lote',
             'bioequivalencia',
-            'cenabast',
         ]
         widgets = {
             'f_ven' : forms.DateInput(
@@ -44,15 +40,16 @@ class ProductoFarmaciaForm(forms.ModelForm):
 
 
 class ComprobanteVentaModelForm(forms.ModelForm):
+    # receta = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
 
     class Meta:
         model = ComprobanteVenta
         fields = [
-            'receta'
+            # 'receta'
             ]
-        labels = {
-            'receta':"Receta Medica"
-        }
+        # labels = {
+        #     'receta':"Receta Medica"
+        # }
 
         
 class ProductoVendidoForm(forms.ModelForm):
@@ -84,3 +81,11 @@ class CargaProductoModelForm(forms.ModelForm):
             'carga_producto': 'Excel Productos Farmacia',
         }
 
+class ProductoVendidoInformeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductoVendidoInformeForm,self).__init__(*args, **kwargs)
+        self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(active=True)
+
+    class Meta:
+        model = ProductoVendido
+        fields = ['nombre']
