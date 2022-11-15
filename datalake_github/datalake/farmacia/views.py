@@ -39,6 +39,9 @@ from .filters import (
     ProductosVendidosFilter,
 )
 
+#STATUS (IMITACION DE LOS JSON)
+INFORME_VENTAS_STATUS = []
+INFORME_VENTA_FECHA_STATUS = dict()
 
 # COMPROVANTE VENTA
 class InicioComprobanteVenta(ListView):
@@ -421,17 +424,22 @@ def informeinicio(request):
     return render(request,'farmacia/informe_home.html')
 
 def informe_ventas(request):
+    global INFORME_VENTAS_STATUS
+    global INFORME_VENTA_FECHA_STATUS
+
     lista_productos = []
     cantidad_productos = []
-    with open("farmacia/Informe_ventas.json","r") as f:
-        temp = json.load(f)
 
-    for i in temp:
+    # with open("farmacia/Informe_ventas.json","r") as f:
+        # temp = json.load(f)
+
+    for i in INFORME_VENTAS_STATUS:
         lista_productos.append(i.get('producto'))
         cantidad_productos.append(i.get('cantidad'))
 
+
     form = ProductoVendidoInformeForm
-    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS}
     if request.method == 'POST':
         form = ProductoVendidoInformeForm(request.POST)
         if request.POST.get("newItem") and form.is_valid():
@@ -439,20 +447,39 @@ def informe_ventas(request):
             cantidad = cantidad_ventas(nombre)
             producto = nombre.marca_producto
             update_json = {'producto': producto,'cantidad': cantidad}
-            temp.append(update_json)
-            with open("farmacia/Informe_ventas.json","w") as file:
-                json.dump(temp,file,indent=4)
-            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+
+            # temp.append(update_json)
+            # with open("farmacia/Informe_ventas.json","w") as file:
+            #     json.dump(temp,file,indent=4)
+            lista_productos.append(producto)
+            cantidad_productos.append(cantidad)
+
+            # data_aux = [producto,productos_by_cantidad_fecha(nombre)]
+            INFORME_VENTA_FECHA_STATUS[producto]= productos_by_cantidad_fecha(nombre)
+            INFORME_VENTAS_STATUS.append(update_json)
+
+            INFORME_VENTA_FECHA_STATUS.clear()
+            pez = productos_by_cantidad_fecha(nombre)
+            for i in pez:
+                INFORME_VENTA_FECHA_STATUS[i[0]]=i[1]
+
+            data_fecha = INFORME_VENTA_FECHA_STATUS
+            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos, 'form':form, 'data_fecha':data_fecha}
 
         elif request.POST.get("clean"):
-            temp = []
-            with open("farmacia/Informe_ventas.json","w") as file:
-                json.dump(temp,file,indent=4)
-            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
+            lista_productos = []
+            cantidad_productos = []
+            INFORME_VENTAS_STATUS = []
+
+            INFORME_VENTA_FECHA_STATUS.clear()
+            # with open("farmacia/Informe_ventas.json","w") as file:
+            #     json.dump(temp,file,indent=4)
+
+            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS}
         
 
-    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form}
-    f.close()
+  
+    # f.close()
     return render(request, 'farmacia/informe_ventas.html', context)
 
 def cantidad_ventas(producto):
@@ -461,3 +488,12 @@ def cantidad_ventas(producto):
     for venta in vendidos:        
         cantidad = cantidad + venta.cantidad
     return cantidad
+def productos_by_cantidad_fecha(producto):
+    cantidad =[]
+    fecha = []
+    producto = ProductoVendido.objects.filter(nombre=producto) 
+    data = []
+    for i in producto:
+        data_aux = [i.created, i.cantidad]
+        data.append(data_aux)
+    return data

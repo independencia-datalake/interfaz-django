@@ -499,6 +499,11 @@ table#datos-vis.tabla-block{
 canvas{
 	margin-top: -100px;
 }
-
-
+.hide{
+	display: none;
+}
+contenedor-grafico{
+	width: 700px;
+	overflow: hidden;
+}
 

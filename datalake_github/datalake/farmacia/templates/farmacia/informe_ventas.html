@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
+
 {% block title %}Informe de ventas{% endblock %}
 
 {% block content %}
@@ -44,10 +45,19 @@
     <div class="container contenedor-wrap"> 
         <div class="container">
             <h4 style="text-align: center;">Grafico bonito</h4>
-            <button onclick="update_chart()" class="btn btn-outline-info" name ="update", value ="update" form = "form_out" >update</button>
-            <button type="submit" class="btn btn-outline-info" name ="clean", value ="clean" form = "form_out">Remove data</button>
-            <button onclick="update_chart(myChart)">Click me</button>
-            <canvas id="myChart" style="height:500px !important; width:600px !important;margin: 0 auto;"></canvas>
+            <button type="submit" class="btn btn-outline-info" style="float: right" name ="clean", value ="clean" form = "form_out">Remove data</button>
+            
+
+            <div>
+                <input type="radio" value = "Grafico 1" id="graf1" name="show_chart" onclick="showChart2(this)" data-chart-name='myChart'>
+                <label for="graf1">Grafico 1</label><br>
+                <input type="radio" value = "Grafico 2" id="graf2" name="show_chart" onclick="showChart2(this)" data-chart-name="myChart2">
+                <label for="graf2">Grafico 2</label><br>
+            </div>
+            <div class="chart-container" style="text-align: center; height:500px; width:700px;margin: 0 auto">
+              <canvas  id="myChart" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
+              <canvas hidden="hidden" id="myChart2" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
+            </div>
 
         </div>
     </div>
@@ -91,15 +101,79 @@
                 },
                 responsive: false,
                 maintainAspectRatio: false,
+            },
+            scales: {
+              y: {
+                ticks: {
+                  stepSize: 1
+                }
+              }
             }
         }
     });
 
-  function update_chart(chart) {
-    myChart.options.title.text = "Poggies";
-    console.log(5+6)
-    myChart.update();
-}
+    var myChart = new Chart(document.getElementById("myChart2"), {
+        type: 'line',
+        data: {
+        // labels: [ {% for key in data_fecha.keys %} '{{ key }}', {% endfor %} ],
+        labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
+        datasets: [
+            {
+            label: '{{ lista_productos|last }}',
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: [ {% for cantidad in data_fecha.values %} '{{ cantidad }}', {% endfor %} ],
+            }
+        ]
+        },
+        options: {
+            plugins: {
+                legend: { display: true },
+                title: {
+                    display: true,
+                    text: 'Ventas Por Fecha'
+                },
+                responsive: true,
+                maintainAspectRatio: true,
+            },
+            scales: {
+              y: {
+                ticks: {
+                  stepSize: 1,
+                },
+                beginAtZero: true
+              }
+            }
+        }
+    });
+
+  function showChart(checkbox){
+    const chartid = document.getElementById(checkbox.dataset.chartName);
+    let hidden = chartid.getAttribute("hidden");
+
+    if (hidden) {
+      chartid.removeAttribute("hidden");
+
+    } else {
+      chartid.setAttribute("hidden", "hidden");
+    }
+
+    chartid.classList.toggle('hide');
+  }
+
+  function showChart2(checkbox) {
+    const grafo1 = document.getElementById('myChart');
+    const grafo2 = document.getElementById('myChart2');
+    if(document.getElementById('graf1').checked) {
+      grafo1.removeAttribute("hidden");
+      grafo2.setAttribute("hidden", "hidden");
+    } else {
+      grafo1.setAttribute("hidden", "hidden");      
+      grafo2.removeAttribute("hidden");
+    }
+    grafo1.classList.toggle('hide');
+    grafo2.classList.toggle('hide');
+  }
+
 {% endblock %}
 </script>
 
