@@ -23,6 +23,11 @@ from .forms import (
 from .filters import (
     Stockfilter,
 )
+
+
+#STATUS (IMITACION DE LOS JSON)
+INGRESO_STOCK_STATUS = []
+
 # Create your views here.
 
 class InicioStock(ListView):
@@ -89,13 +94,15 @@ def salida_producto_stock(request):
     return render(request, 'stock/Stock_salida.html',{"form":form})
 
 def ingreso_producto_stock(response):
-    
+    global INGRESO_STOCK_STATUS
+
     orden_ingreso_actual = OrdenIngresoProducto.objects.latest('id')
     if orden_ingreso_actual.estado == True:
         orden_ingreso_actual = OrdenIngresoProducto.objects.create()
     ls = orden_ingreso_actual.id
-    with open("stock/ListaIngreso.json","r") as f:
-        temp = json.load(f)
+    # with open("stock/ListaIngreso.json","r") as f:
+    #     temp = json.load(f)
+    temp = INGRESO_STOCK_STATUS
     
     form = BodegaVirtualIngresoProductoForm
     form2 = ComprobanteVentaModelForm()
@@ -112,14 +119,15 @@ def ingreso_producto_stock(response):
                         n_venta = orden_ingreso_actual,
                         cenabast = i.get('cenabast'),
                         proveedor = i.get('proveedor')).save()
-            temp = []
-            with open("stock/ListaIngreso.json","w") as file:
-                json.dump(temp,file,indent=4)
+            # temp = []
+            # with open("stock/ListaIngreso.json","w") as file:
+            #     json.dump(temp,file,indent=4)
+            INGRESO_STOCK_STATUS = []
             orden_ingreso_actual.estado = True
             orden_ingreso_actual.farmaceuta = response.user
             orden_ingreso_actual.save()
             messages.success(response, f'El producto fue ingresado con exito')
-            f.close()
+            # f.close()
             return render(response, "stock/Stock_home.html")
             # return render(response, "stock/Stock_ingreso.html")
 
@@ -137,17 +145,19 @@ def ingreso_producto_stock(response):
 
             # ls.productoingresado_set.create(n_venta = n_venta, nombre = nombre, cantidad = cantidad, precio_compra = precio_compra, proveedor = proveedor, laboratorio = laboratorio)
             update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'cenabast': cenabast, 'proovedor':proveedor, 'laboratorio':str(laboratorio), 'id_lab':id_lab}
-            temp.append(update_json)
-            with open("stock/ListaIngreso.json","w") as file:
-                json.dump(temp,file,indent=4)
+            # temp.append(update_json)
+            INGRESO_STOCK_STATUS.append(update_json)
+            # with open("stock/ListaIngreso.json","w") as file:
+            #     json.dump(temp,file,indent=4)
 
         elif response.POST.get("cancel"):
             temp = []
-            with open("stock/ListaIngreso.json","w") as file:
-                json.dump(temp,file,indent=4)
+            INGRESO_STOCK_STATUS = []
+            # with open("stock/ListaIngreso.json","w") as file:
+            #     json.dump(temp,file,indent=4)
             context = {"ls":ls,"form":form,"temp":temp, "form2":form2}
 
 
-    f.close()
+    # f.close()
     return render(response, "stock/Stock_ingreso.html",context)
 

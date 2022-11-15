@@ -74,6 +74,10 @@ class BodegaVirtualsalidaForm(forms.ModelForm):
 class BodegaVirtualIngresoProductoForm(forms.ModelForm): 
     def __init__(self, *args, **kwargs):
         super(BodegaVirtualIngresoProductoForm,self).__init__(*args, **kwargs)
+        nombre_ids = BodegaVirtual.objects.values_list('nombre_id', flat=True)
+        self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(id__in=nombre_ids)        
+
+
     class Meta:
         model = ProductoIngresado
         fields = [
