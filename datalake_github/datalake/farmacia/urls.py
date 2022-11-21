@@ -24,7 +24,7 @@ urlpatterns = [
     path('ComprobanteDeVenta/<int:pk>/crear/',views.comprobante_venta_form, name='comprobanteventa-create'),
     path('ComprobanteDeVenta/<int:pk>/',views.comprobante_venta_detail, name='comprobanteventa-detail'),
     path('ComprobanteDeVenta/<int:pk>/edicion-identificacion/',EdicionComprobanteVenta.as_view(), name='comprobanteventa-update'),
-    path('ComprobanteDeVenta/<int:pk>/edicion/',views.comprobante_venta_edicion, name='comprobanteventa-edicion'),
+    # path('ComprobanteDeVenta/<int:pk>/edicion/',views.comprobante_venta_edicion, name='comprobanteventa-edicion'),
     path('ComprobanteDeVenta/<int:pk>/delete/',views.comprobante_venta_delete, name='comprobanteventa-delete'),
     path('DescargarComprobantes',views.descargar_comprobantes, name='descargar-comprobantes'),
     #PRODUCTO VENDIDO

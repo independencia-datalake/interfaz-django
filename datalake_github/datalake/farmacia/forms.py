@@ -7,6 +7,7 @@ from .models import (
     ProductoVendido,
     CargaProducto,
 )
+from stock.models import BodegaVirtual
 from django.forms import inlineformset_factory
 from django.forms.widgets import (
     RadioSelect,
@@ -55,11 +56,26 @@ class ComprobanteVentaModelForm(forms.ModelForm):
 class ProductoVendidoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProductoVendidoForm,self).__init__(*args, **kwargs)
-        self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(active=True)
+        # self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(active=True)
+        nombre_ids = BodegaVirtual.objects.values_list('nombre_id', flat=True)
+        self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(id__in=nombre_ids)
 
     class Meta:
         model = ProductoVendido
         fields = ['nombre', 'cantidad']
+
+class ProductoVendidoEdicionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductoVendidoEdicionForm,self).__init__(*args, **kwargs)
+        # self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(active=True)
+        var = self.fields['nombre']
+        var.disabled = True
+        self.fields['cantidad']
+
+    class Meta:
+        model = ProductoVendido
+        fields = ['nombre', 'cantidad']
+
 
 ProductoVendidoFormset = inlineformset_factory(ComprobanteVenta,
                                                 ProductoVendido,

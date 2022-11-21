@@ -27,16 +27,29 @@ def update_bodega_by_mermado(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=ProductoVendido)
 def update_bodega_by_venta(sender, instance, **kwargs):
-
-    key = instance.nombre.id
-    cantidad_vendida = instance.cantidad
-    bodvirt = BodegaVirtual.objects.get(nombre_id=key)
-    if bodvirt:
-        stock_actual = bodvirt.Stock
-        nuevo_stock = stock_actual - cantidad_vendida
-        bodvirt.Stock = nuevo_stock
-        bodvirt.save()
-
+    num = ProductoVendido.objects.filter(pk=instance.pk).count()
+    if num == 0:        
+        key = instance.nombre.id
+        cantidad_vendida = instance.cantidad
+        bodvirt = BodegaVirtual.objects.get(nombre_id=key)
+        if bodvirt:
+            stock_actual = bodvirt.Stock
+            nuevo_stock = stock_actual - cantidad_vendida
+            bodvirt.Stock = nuevo_stock
+            bodvirt.save()
+            
+    else:
+        key = instance.nombre.id
+        cantidad_antigua = ProductoVendido.objects.get(pk=instance.pk).cantidad
+        cantidad_vendida = instance.cantidad
+        cantidad_update = cantidad_vendida - cantidad_antigua
+        bodvirt = BodegaVirtual.objects.get(nombre_id=key)
+        if bodvirt:
+            stock_actual = bodvirt.Stock
+            nuevo_stock = stock_actual - cantidad_update
+            bodvirt.Stock = nuevo_stock
+            bodvirt.save()        
+    
 @receiver(pre_save, sender = ProductoIngresado)
 def update_bodega_by_ingreso(sender, instance, **kwargs):
     key = instance.nombre.id
