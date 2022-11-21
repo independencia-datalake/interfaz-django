@@ -44,19 +44,31 @@
 
     <div class="container contenedor-wrap"> 
         <div class="container">
-            <h4 style="text-align: center;">Grafico bonito</h4>
+            <h4 style="text-align: center;">Grafico de ventas</h4>
             <button type="submit" class="btn btn-outline-info" style="float: right" name ="clean", value ="clean" form = "form_out">Remove data</button>
             
 
             <div>
-                <input type="radio" value = "Grafico 1" id="graf1" name="show_chart" onclick="showChart2(this)" data-chart-name='myChart'>
+                <input type="radio" value = "Grafico 1" id="graf1" name="show_chart" onclick="showChart(this)" data-chart-name='myChart'>
                 <label for="graf1">Grafico 1</label><br>
-                <input type="radio" value = "Grafico 2" id="graf2" name="show_chart" onclick="showChart2(this)" data-chart-name="myChart2">
+                <input type="radio" value = "Grafico 2" id="graf2" name="show_chart" onclick="showChart(this)" data-chart-name="myChart2">
                 <label for="graf2">Grafico 2</label><br>
             </div>
             <div class="chart-container" style="text-align: center; height:500px; width:700px;margin: 0 auto">
               <canvas  id="myChart" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
               <canvas hidden="hidden" id="myChart2" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
+              <div class="container" id="startdate-container" hidden="hidden">
+                <span style="float: left;">
+                  <label for="startdate">Fecha inicio:</label>
+                  <input onchange="filterData()" type="date" id="startdate" value="2022-01-01">
+                </span>
+                <span style="float: right;">
+                  <label for="enddate">Fecha fin:</label>
+                  <input onchange="filterData()" type="date" id="enddate">
+                </span>
+
+
+              </div>
             </div>
 
         </div>
@@ -75,6 +87,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
 {% endblock %}
 
@@ -112,16 +125,23 @@
         }
     });
 
+
     var myChart = new Chart(document.getElementById("myChart2"), {
         type: 'line',
         data: {
-        // labels: [ {% for key in data_fecha.keys %} '{{ key }}', {% endfor %} ],
         labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
         datasets: [
             {
-            label: '{{ lista_productos|last }}',
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            label: 'Ventas por dia',
+            backgroundColor: "#3e95cd",
+            borderColor: "#3e95cd",
             data: [ {% for cantidad in data_fecha.values %} '{{ cantidad }}', {% endfor %} ],
+            },
+            {
+            label: 'Ventas acumuladas',
+            backgroundColor: "#8e5ea2",
+            borderColor: "#8e5ea2",
+            data: [ {% for cantidad in cantidad_acumulada.values %} '{{ cantidad }}', {% endfor %} ],
             }
         ]
         },
@@ -130,12 +150,19 @@
                 legend: { display: true },
                 title: {
                     display: true,
-                    text: 'Ventas Por Fecha'
+                    text: 'Ventas Por Fecha de {{ lista_productos|last }}'
                 },
                 responsive: true,
                 maintainAspectRatio: true,
             },
             scales: {
+              x: {
+                display: true,
+                type: 'time',
+                time: {
+                  unit: 'day',
+                }
+              },
               y: {
                 ticks: {
                   stepSize: 1,
@@ -146,32 +173,24 @@
         }
     });
 
-  function showChart(checkbox){
-    const chartid = document.getElementById(checkbox.dataset.chartName);
-    let hidden = chartid.getAttribute("hidden");
-
-    if (hidden) {
-      chartid.removeAttribute("hidden");
-
-    } else {
-      chartid.setAttribute("hidden", "hidden");
-    }
-
-    chartid.classList.toggle('hide');
-  }
-
-  function showChart2(checkbox) {
+  function showChart(checkbox) {
     const grafo1 = document.getElementById('myChart');
     const grafo2 = document.getElementById('myChart2');
+    const date1 = document.getElementById('startdate-container');
     if(document.getElementById('graf1').checked) {
       grafo1.removeAttribute("hidden");
       grafo2.setAttribute("hidden", "hidden");
+      date1.setAttribute("hidden", "hidden");
     } else {
       grafo1.setAttribute("hidden", "hidden");      
       grafo2.removeAttribute("hidden");
+      date1.removeAttribute("hidden");
     }
     grafo1.classList.toggle('hide');
     grafo2.classList.toggle('hide');
+  }
+  function filderData() {
+    
   }
 
 {% endblock %}

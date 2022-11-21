@@ -10,6 +10,8 @@ from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from django.http import HttpResponse
 import pandas as pd
 import json
+from datetime import datetime
+from collections import OrderedDict
 
 from core.models import(
     Persona,
@@ -29,6 +31,7 @@ from .forms import (
     ProductoFarmaciaForm,
     ComprobanteVentaModelForm,
     ProductoVendidoForm,
+    ProductoVendidoEdicionForm,
     ProductoVendidoInformeForm,
     ProductoVendidoFormset,
     CargaProductoModelForm, #Prueba
@@ -122,39 +125,21 @@ def comprobante_venta_detail(request, pk):
 
     return render(request, 'farmacia/comprobanteventa_detail.html', context)
 
-@login_required
-def comprobante_venta_edicion(request, pk):
-    c_venta = ComprobanteVenta.objects.get(pk=pk)
-    p_vendido = ProductoVendido.objects.filter(n_venta=pk)
-    persona = c_venta.comprador
-
-    productos = [producto for producto in p_vendido.values()]
-    total = calcular_total(p_vendido, productos)
-    st = calcular_subtotales(p_vendido, productos)
-
-    context = {
-        'c_detail': c_venta,
-        'pv_detail': p_vendido,
-        'total': total,
-        'persona': persona
-    }
-
-    return render(request, 'farmacia/comprobanteventa_edicion.html', context)
-
 class EdicionComprobanteVenta(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
-    model = ComprobanteVenta    
-    form_class = ComprobanteVentaModelForm
+    model = ProductoVendido 
+    form_class = ProductoVendidoEdicionForm
     template_name='farmacia/comprobanteventa_update.html'
 
-    def form_valid(self, form):
-        form.instance.farmaceuta = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.autor = self.request.user
+    #     return super().form_valid(form)
 
     def test_func(self):
-        formulario = self.get_object()
-        if self.request.user == formulario.farmaceuta:
-            return True
-        return False
+        # formulario = self.get_object()
+        # if self.request.user == formulario.autor:
+        #     return True
+        # return False
+        return True
 
 @login_required
 def comprobante_venta_delete(request, pk):
@@ -200,8 +185,8 @@ def producto_vendido_crear(request, pk):
             cantidad = form.cleaned_data.get('cantidad')
             ProductoVendido(nombre=nombre,
                             cantidad=cantidad,
-                            n_venta=cv,
-                            farmaceuta=request.user).save()
+                            precio_venta = ProductoFarmacia.objects.get(id=nombre.id).precio,
+                            n_venta=cv).save()
 
             messages.success(request, f'El Producto {nombre} fue agregado con exito!!')
             return redirect('comprobanteventa-detail', pk=n_venta)
@@ -448,23 +433,27 @@ def informe_ventas(request):
             producto = nombre.marca_producto
             update_json = {'producto': producto,'cantidad': cantidad}
 
-            # temp.append(update_json)
-            # with open("farmacia/Informe_ventas.json","w") as file:
-            #     json.dump(temp,file,indent=4)
             lista_productos.append(producto)
             cantidad_productos.append(cantidad)
 
-            # data_aux = [producto,productos_by_cantidad_fecha(nombre)]
-            INFORME_VENTA_FECHA_STATUS[producto]= productos_by_cantidad_fecha(nombre)
+            # INFORME_VENTA_FECHA_STATUS[producto]= productos_by_cantidad_fecha(nombre)
             INFORME_VENTAS_STATUS.append(update_json)
 
             INFORME_VENTA_FECHA_STATUS.clear()
-            pez = productos_by_cantidad_fecha(nombre)
-            for i in pez:
-                INFORME_VENTA_FECHA_STATUS[i[0]]=i[1]
+            var = productos_by_cantidad_fecha(nombre)
+            for i in var:
+                if i[0] in INFORME_VENTA_FECHA_STATUS.keys():
+                    INFORME_VENTA_FECHA_STATUS[i[0]] = INFORME_VENTA_FECHA_STATUS[i[0]] + i[1]
+                else:
+                    INFORME_VENTA_FECHA_STATUS[i[0]]=i[1]
 
             data_fecha = INFORME_VENTA_FECHA_STATUS
-            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos, 'form':form, 'data_fecha':data_fecha}
+            var = productos_by_cantidad_fecha_acumulado(nombre)
+            cantidad_acumulada = dict()
+            for i in var:
+                cantidad_acumulada[i[0]]=i[1]
+
+            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos, 'form':form, 'data_fecha':data_fecha, 'cantidad_acumulada':cantidad_acumulada}
 
         elif request.POST.get("clean"):
             lista_productos = []
@@ -472,14 +461,9 @@ def informe_ventas(request):
             INFORME_VENTAS_STATUS = []
 
             INFORME_VENTA_FECHA_STATUS.clear()
-            # with open("farmacia/Informe_ventas.json","w") as file:
-            #     json.dump(temp,file,indent=4)
 
             context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS}
         
-
-  
-    # f.close()
     return render(request, 'farmacia/informe_ventas.html', context)
 
 def cantidad_ventas(producto):
@@ -489,11 +473,20 @@ def cantidad_ventas(producto):
         cantidad = cantidad + venta.cantidad
     return cantidad
 def productos_by_cantidad_fecha(producto):
-    cantidad =[]
-    fecha = []
-    producto = ProductoVendido.objects.filter(nombre=producto) 
+    producto = ProductoVendido.objects.filter(nombre=producto).order_by('created')
     data = []
     for i in producto:
-        data_aux = [i.created, i.cantidad]
+        date = i.created.strftime("%Y-%m-%d")
+        data_aux = [date, i.cantidad]
+        data.append(data_aux)
+    return data
+def productos_by_cantidad_fecha_acumulado(producto):
+    producto = ProductoVendido.objects.filter(nombre=producto).order_by('created')
+    data = []
+    cantidad_aux = 0 
+    for i in producto:
+        date = i.created.strftime("%Y-%m-%d")
+        cantidad_aux = cantidad_aux + i.cantidad
+        data_aux = [date,cantidad_aux]
         data.append(data_aux)
     return data

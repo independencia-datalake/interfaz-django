@@ -158,10 +158,10 @@ document.getElementById("add_file").onclick=function (ev) {
     <div class="container contenedor-wrap"> 
         <h3>Productos</h3>
         <div id="files">
-            <input type="file" name = "file[]"><br><br>
+            <input  type="file" name = "file[]"><br><br>
                 </div>
         
-            <input type ="button" name="add_file" id="add_file" value = "Add File">
+            <input class='btn btn-primary ver-o-editar' type ="button" name="add_file" id="add_file" value = "+">
         {{c_form|crispy}}
         {{ formset.management_form }}
         {% for form in formset %}
@@ -173,10 +173,10 @@ document.getElementById("add_file").onclick=function (ev) {
             {{ formset.empty_form|crispy }}
         </div>
 
-        <div class='btn-group'>
-            <a class='btn btn-link add-new-form ver-o-editar' href='#'>+</a>
-            <div style="float: left; width:50vw"></div>
-            <input class='btn btn-primary ver-o-editar' type='submit' value='Siguiente'> 
+        <div class='btn-group' style="float: left;">
+            <a class='btn btn-link add-new-form ver-o-editar' href='#' style="float: left;">+</a>
+            <div style="float: left; width:61vw"></div>
+            <input class='btn btn-primary ver-o-editar' type='submit' style="float: right;" value='Siguiente'> 
         </div>
 </form>
     <br/>
