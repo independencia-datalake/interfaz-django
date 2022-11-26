@@ -6,6 +6,7 @@ from .models import (
     Persona,
     CallesIndependencia,
     Direccion,
+    PersonaInfoSalud
 )
 from .forms import (
     PersonaModelForm,
@@ -13,6 +14,7 @@ from .forms import (
     TelefonoModelForm,
     CorreoModelForm,
     DireccionModelForm,
+    PersonaInfoSaludModelForm,
 )
 
 @login_required
@@ -77,18 +79,21 @@ def persona_crear(request, pk, n_iden,ty_iden):
     telefono = TelefonoModelForm()
     correo = CorreoModelForm()
     direccion = DireccionModelForm()
+    info_salud = PersonaInfoSaludModelForm()
 
     if request.method == 'POST':
         form_persona = PersonaModelForm(request.POST)
         form_telefono = TelefonoModelForm(request.POST)
         form_correo = CorreoModelForm(request.POST)
         form_direccion = DireccionModelForm(request.POST)
+        form_info_salud = PersonaInfoSaludModelForm(request.POST)
         forms = [
             form_telefono,
             form_correo,
             form_direccion,
+            form_info_salud,
             ]
-        if form_persona.is_valid() and form_telefono.is_valid() and form_correo.is_valid() and form_direccion.is_valid():
+        if form_persona.is_valid() and form_telefono.is_valid() and form_correo.is_valid() and form_direccion.is_valid() and form_info_salud.is_valid():
             persona = form_persona.save(commit=False)
             persona.save()
             pk = persona.id
@@ -118,6 +123,7 @@ def persona_crear(request, pk, n_iden,ty_iden):
         'telefono':telefono,
         'correo':correo,
         'direccion':direccion,
+        'info_salud':info_salud,
     }
 
     return render(request, 'core/persona_form.html', context)

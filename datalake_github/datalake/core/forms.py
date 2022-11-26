@@ -13,6 +13,7 @@ from .models import (
     Telefono,
     Correo,
     Direccion,
+    PersonaInfoSalud,
 )
 
 TIPOS_DE_IDENTIFICACION = [
@@ -62,21 +63,21 @@ class TelefonoModelForm(forms.ModelForm):
         fields = [
             'tipo_telefono',
             'telefono',
+            'tipo_telefono_secundario',
+            'telefono_secundario',
         ]
         widgets = {
             'tipo_telefono': RadioSelect(),
+            'tipo_telefono_secundario': RadioSelect(),
         }
 
 class CorreoModelForm(forms.ModelForm):
     class Meta:
         model = Correo
         fields = [
-            'tipo_correo',
             'correo',
         ]
-        widgets = {
-            'tipo_correo': RadioSelect(),
-        }
+
 
 class DireccionModelForm(forms.ModelForm):
     class Meta:
@@ -86,3 +87,19 @@ class DireccionModelForm(forms.ModelForm):
             'numero',
             'complemento_direccion',
         ]
+
+class PersonaInfoSaludModelForm(forms.ModelForm):
+    class Meta:
+        model = PersonaInfoSalud
+        fields = [
+            'prevision',
+            'comentarios',
+        ]
+        widgets = {
+            'prevision' : forms.Select(),
+            'comentarios': forms.Textarea(
+                attrs={
+                    'rows': 4, 
+                    }
+                ),
+        }

@@ -31,28 +31,75 @@
   <div>
     <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
         <td>Nombre del Producto</td>
+        <td>Proveedor</td>
         <td>Componente Activo</td> 
         <td>Dosis</td>
         <td>Presentacion</td>
+        <td>Cenabast</td>
         <td>Bioequivalencia</td>
-        <td>Precio</td>
-        <td>  </td>
-    {%for object in filter.qs %}
+        <td>Laboratorio</td>
+        <td> </td>
+    {%for object in filtrados %}
     <tr>
         <td>{{ object.marca_producto }}</td>
+        <td>{{ object.proveedor }}</td>
         <td>{{ object.p_a }}</td>
         <td>{{ object.dosis }}</td>
         <td>{{ object.presentacion }}</td>
+        {% if object.cenabast == True%}
+        <td>{{ 'Si' }}</td>
+        {% else %}
+        <td>{{ 'No' }}</td>
+        {% endif %}
         {% if object.bioequivalencia == True%}
         <td>{{ 'Si' }}</td>
         {% else %}
         <td>{{ 'No' }}</td>
         {% endif %}
-        <td>${{ object.precio }}</td>
+        <td>{{ object.laboratorio }}</td>
+        {% if request.user.groups.all %}
+        {% for group in request.user.groups.all %}
+        {% if group.name == "Farmacia-Farmaceuta"%}
+
+        
         <td><a class="btn ver-o-editar" href="{% url 'productofarmacia-update' object.id %}">VER O EDITAR</a></td>
-    </tr>
+        {% else %}
+        <td> </td>
+        {% endif %}
+        
+        {% endfor %}
+        {% else %}
+        <td> </td>
+        {% endif %}
+      </tr>
     {%endfor%}
     </table>
+
+    <div class="pagination" style="display: flex; justify-content: center;">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a class="btn ver-o-editar" href="?page=1">&laquo; primero</a>
+              <a class="btn ver-o-editar" href="?page={{ page_obj.previous_page_number }}">anterior</a>
+          {% else %} 
+              <button style="visibility: hidden; width: 98.24px;"></button>
+              <button  style="visibility: hidden; width: 89.19px;"></button>      
+          {% endif %}
+  
+          <span class="btn ver-o-editar">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+  
+          {% if page_obj.has_next %}
+              <a class="btn ver-o-editar" href="?page={{ page_obj.next_page_number }}">siguiente</a>
+              <a class="btn ver-o-editar" href="?page={{ page_obj.paginator.num_pages }}">ultimo &raquo;</a>
+          {% else %}
+              <button style="visibility: hidden; width: 96.9px;"></button>
+              <button  style="visibility: hidden; width: 88.74px;"></button>
+          {% endif %}
+      </span>
+  </div>
+
+
   </div>
 </div>
 {% endblock %}

@@ -43,7 +43,7 @@
         <td>Holgura de Stock</td>
         <td>  </td>
         <td>  </td>
-    {%for object in filter.qs %}
+    {%for object in filtrados %}
     <tr>
         <td>{{ object.nombre.marca_producto }}</td>
         <td>{{ object.Stock }}</td>
@@ -59,6 +59,31 @@
     </tr>
     {%endfor%}
     </table>
+
+    <div class="pagination" style="display: flex; justify-content: center;">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a class="btn ver-o-editar" href="?page=1">&laquo; primero</a>
+              <a class="btn ver-o-editar" href="?page={{ page_obj.previous_page_number }}">anterior</a>
+          {% else %} 
+              <button style="visibility: hidden; width: 98.24px;"></button>
+              <button  style="visibility: hidden; width: 89.19px;"></button>  
+          {% endif %}
+  
+          <span class="btn ver-o-editar">
+              Pag {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+          </span>
+  
+          {% if page_obj.has_next %}
+              <a class="btn ver-o-editar" href="?page={{ page_obj.next_page_number }}">siguiente</a>
+              <a class="btn ver-o-editar" href="?page={{ page_obj.paginator.num_pages }}">ultimo &raquo;</a>
+          {% else %}
+              <button style="visibility: hidden; width: 96.9px;"></button>
+              <button  style="visibility: hidden; width: 88.74px;"></button>   
+          {% endif %}
+      </span>
+  </div>
+
   </div>
 </div>
 {% endblock %}

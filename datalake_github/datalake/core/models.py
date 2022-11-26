@@ -209,6 +209,7 @@ class Persona(models.Model):
 class Telefono(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
     telefono = models.CharField(null=True, blank=True, max_length=200, verbose_name='Teléfono')
+    telefono_secundario = models.CharField(null=True, blank=True, max_length=200, verbose_name='Teléfono Secundario')
     tipo_telefono = models.CharField(
         null=True,
         blank=False,
@@ -222,6 +223,20 @@ class Telefono(models.Model):
             ),
         verbose_name='Tipo de Teléfono'
         )
+    tipo_telefono_secundario = models.CharField(
+      null=True,
+      blank=False,
+      default='NO APLICA',
+      max_length=200,
+      choices=(
+          ('MOVIL','Movil'),
+          ('CASA','Casa'),
+          ('TRABAJO','Trabajo'),
+          ('OTRO','Otro'),
+          ('NO APLICA', 'No Aplica'),
+          ),
+      verbose_name='Tipo de Teléfono Secundario'
+      )
 
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
@@ -237,20 +252,6 @@ class Telefono(models.Model):
 class Correo(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
     correo = models.EmailField(max_length=40, verbose_name="Email")
-    tipo_correo = models.CharField(
-        null=True,
-        blank=False,
-        default='PERSONAL',
-        max_length=200,
-        choices=(
-            ('PERSONAL','Personal'),
-            ('TRABAJO','Trabajo'),
-            ('ESCUELA','Escuela'),
-            ('OTRO','Otro'),
-            ),
-        verbose_name='Tipo de Correo'
-        )
-
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
 
@@ -260,7 +261,7 @@ class Correo(models.Model):
         ordering = ['created']
 
     def __str__(self):
-            return f'{self.persona} - {self.tipo_correo} - {self.correo}' 
+            return f'{self.persona} - {self.correo}' 
 
 class Direccion(models.Model):
   active = models.BooleanField(default=True, verbose_name="Activo",null=True)
@@ -289,3 +290,35 @@ class Direccion(models.Model):
   def __str__(self):
           return f'{self.persona} - {self.uv} - {self.calle} {self.numero} - {self.active}' 
 
+class PersonaInfoSalud(models.Model):
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
+    prevision = models.CharField(
+        max_length=30, 
+        default= 'NINGUNA',
+        choices=(
+            ('FONASA','Fonasa'),
+            ('DIPRECA-CAPREDENA','Dipreca-Capredena'),
+            ('ISAPRE: BANMEDICA','Isapre: Banmedica'),
+            ('ISAPRE: ISALUD','Isapre: Isalud'),
+            ('ISAPRE: COLMENA','Isapre: Colmena'),
+            ('ISAPRE: CONSALUD','Isapre: Consalud'),
+            ('ISAPRE: CRUZBLANCA','Isapre: Cruz Blanca'),
+            ('ISAPRE: CRUZ DEL NORTE','Isapre: Cruz del Norte'),
+            ('ISAPRE: NUEVA MASVIDA','Isapre: Nueva Masvida'),
+            ('ISAPRE: FUNDACION','Isapre: Fundacion'),
+            ('ISAPRE: VIDA TRES','Isapre: Vida Tres'),
+            ('ISAPRE: ESENCIAL','Isapre: Esencial'),
+            ('NINGUNA','Ninguna'),
+            ),
+        verbose_name="Prevision de Salud")
+    comentarios = models.CharField(max_length=200, verbose_name="Comentarios ", null=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
+    updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
+
+    class Meta:
+      verbose_name = 'Informacion de salud Persona'
+      verbose_name_plural = 'Informacion de salud Personas'
+      ordering = ['created']
+
+    def __str__(self):
+      return f'{self.persona}'

@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, pre_delete
 from django.contrib.auth.models import User
 from django.core.signals import request_finished
 from django.dispatch import receiver
@@ -49,6 +49,18 @@ def update_bodega_by_venta(sender, instance, **kwargs):
             nuevo_stock = stock_actual - cantidad_update
             bodvirt.Stock = nuevo_stock
             bodvirt.save()        
+
+@receiver(pre_delete, sender=ProductoVendido)
+def update_bodega_by_venta_ondelete(sender, instance, **kwargs):
+        key = instance.nombre.id
+        cantidad_vendida_cancelada = instance.cantidad
+        bodvirt = BodegaVirtual.objects.get(nombre_id=key)
+        if bodvirt:
+            stock_actual = bodvirt.Stock
+            nuevo_stock = stock_actual + cantidad_vendida_cancelada
+            bodvirt.Stock = nuevo_stock
+            bodvirt.save()
+
     
 @receiver(pre_save, sender = ProductoIngresado)
 def update_bodega_by_ingreso(sender, instance, **kwargs):

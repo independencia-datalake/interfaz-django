@@ -22,11 +22,12 @@ class ProductoFarmaciaForm(forms.ModelForm):
         fields = [
             'marca_producto',
             'p_a',
-            'active',
             'dosis',
             'presentacion',
-            'precio',
             'bioequivalencia',
+            'cenabast',
+            'proveedor',
+            # 'laboratorio',
         ]
         widgets = {
             'f_ven' : forms.DateInput(
@@ -100,7 +101,7 @@ class CargaProductoModelForm(forms.ModelForm):
 class ProductoVendidoInformeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProductoVendidoInformeForm,self).__init__(*args, **kwargs)
-        self.fields['nombre'].queryset = ProductoFarmacia.objects.filter(active=True)
+        self.fields['nombre'].queryset = ProductoFarmacia.objects.all()
 
     class Meta:
         model = ProductoVendido
