@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='bodegavirtual',
-            name='Stock',
+            name='stock',
             field=models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(0)]),
         ),
     ]

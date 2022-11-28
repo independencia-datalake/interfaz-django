@@ -49,9 +49,9 @@ def crear_producto_Stock(request):
         form = BodegaVirtualcrearForm(request.POST)
         if form.is_valid():
             BodegaVirtual(nombre=form.cleaned_data.get('nombre'),
-                            Stock=form.cleaned_data.get('Stock'),
-                            Stock_min=form.cleaned_data.get('Stock_min'),
-                            Stock_max =form.cleaned_data.get('Stock_max')).save()
+                            stock=form.cleaned_data.get('stock'),
+                            stock_min=form.cleaned_data.get('stock_min'),
+                            stock_max =form.cleaned_data.get('stock_max')).save()
             messages.success(request, f'El producto fue creado con exito')
             return redirect('Stock-inicio')
 

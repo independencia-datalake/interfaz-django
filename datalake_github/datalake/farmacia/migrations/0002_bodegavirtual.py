@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
             name='bodegavirtual',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('Stock', models.IntegerField(blank=True, null=True)),
-                ('Stock_min', models.IntegerField(blank=True, null=True)),
-                ('Stock_max', models.IntegerField(blank=True, null=True)),
+                ('stock', models.IntegerField(blank=True, null=True)),
+                ('stock_min', models.IntegerField(blank=True, null=True)),
+                ('stock_max', models.IntegerField(blank=True, null=True)),
                 ('nombre', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='farmacia.productofarmacia', verbose_name='Nombre Producto')),
             ],
         ),

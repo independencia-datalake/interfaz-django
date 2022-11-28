@@ -46,10 +46,10 @@
     {%for object in filtrados %}
     <tr>
         <td>{{ object.nombre.marca_producto }}</td>
-        <td>{{ object.Stock }}</td>
-        <td>{{ object.Stock_min }}</td>
-        <!-- <td>{{ object.Stock_max }}</td> -->
-        {% if object.Stock > object.Stock_min%}
+        <td>{{ object.stock }}</td>
+        <td>{{ object.stock_min }}</td>
+        <!-- <td>{{ object.stock_max }}</td> -->
+        {% if object.stock > object.stock_min%}
         <td>{{ object.holgura }}</td>
         {% else %}
         <td> {{object.holgura }} &nbsp {{ 'Stock bajo el minimo !!' }} &#128721</td>

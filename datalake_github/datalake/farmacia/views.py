@@ -29,6 +29,7 @@ from .models import (
     ComprobanteVenta,
     ProductoFarmacia,
     ProductoVendido,
+    Laboratorios,
     Recetas,
 
 )
@@ -40,11 +41,13 @@ from .forms import (
     ProductoVendidoInformeForm,
     ProductoVendidoFormset,
     CargaProductoModelForm, #Prueba
+    ProductoFarmaciaModelForm
 )
 from .filters import (
     ProductoFarmaciaFilter,
     ComprobanteVentaFilter,
-    ProductosVendidosFilter,
+    ProductosVendidosFilter
+
 )
 
 #STATUS (IMITACION DE LOS JSON)
@@ -81,7 +84,7 @@ def comprobante_venta_form(request, pk):
             for form_rev in formset:
                 nombre = form_rev.cleaned_data.get('nombre')
                 cantidad = form_rev.cleaned_data.get('cantidad')    
-                stock_actual = BodegaVirtual.objects.get(nombre=nombre).Stock          
+                stock_actual = BodegaVirtual.objects.get(nombre=nombre).stock          
                 if cantidad > stock_actual:
                     messages.warning(request, f'No hay Stock suficiente del Producto {nombre}, ya que solo quedan {stock_actual} unidades')
                     return redirect('comprobanteventa-create', pk=1)
@@ -316,19 +319,43 @@ def crear_producto_farmacia(request):
     form2 = BodegaVirtualIngresoStockForm()
     
     if request.method == 'POST':
-        form = ProductoFarmaciaForm(request.POST)
+        laboratorio = request.POST.get('laboratorio')
+        try:
+            laboratorio = Laboratorios.objects.get(nombre_laboratorio=laboratorio)
+            print(laboratorio)
+            print('ya existe')
+        except:
+            laboratorio = Laboratorios.objects.create(nombre_laboratorio=laboratorio)
+            print(laboratorio)
+            print('ya existe')
+
+        updated_request = request.POST.copy()
+        updated_request['laboratorio'] = laboratorio
+        print(updated_request)
+        form = ProductoFarmaciaModelForm(updated_request)
         form2 = BodegaVirtualIngresoStockForm(request.POST)
+        print(form)
         if form.is_valid() and form2.is_valid():
-            producto_farmacia = ProductoFarmacia.objects.create(autor=request.user,
-                            marca_producto=form.cleaned_data.get('marca_producto'),
-                            p_a=form.cleaned_data.get('p_a'),
-                            dosis=form.cleaned_data.get('dosis'),
-                            presentacion =form.cleaned_data.get('presentacion'))
-            stck = 0
+            producto_farmacia = ProductoFarmacia.objects.create(
+                autor=request.user,
+                marca_producto=form.cleaned_data.get('marca_producto'),
+                p_a=form.cleaned_data.get('p_a'),
+                dosis=form.cleaned_data.get('dosis'),
+                presentacion =form.cleaned_data.get('presentacion'),
+                proveedor = form.cleaned_data.get('proveedor'),
+                cenabast = form.cleaned_data.get('cenabast'),
+                bioequivalencia = form.cleaned_data.get('bioequivalencia'),
+                laboratorio = form.cleaned_data.get('laboratorio'),
+                )
+            stock = 0
             key = ProductoFarmacia.objects.get(id=producto_farmacia.id)
+            if form2.cleaned_data.get('stock_min'):
+                stock_min = form2.cleaned_data.get('stock_min')
+            else:
+                stock_min = 0
             BodegaVirtual.objects.create(  nombre = key,
-                            Stock = stck,
-                            Stock_min = form2.cleaned_data.get('Stock_min'))
+                            stock = stock,
+                            stock_min = stock_min)
             
             messages.success(request, f'El producto fue creado con exito')
             return redirect('productofarmacia-create')

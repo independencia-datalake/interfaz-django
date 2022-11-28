@@ -40,10 +40,20 @@ class PersonaModelForm(forms.ModelForm):
         fields = [
             'tipo_identificacion',
             'numero_identificacion',
+            'nacionalidad',
             'nombre_persona',
             'apellido_paterno',
             'apellido_materno',
             'fecha_nacimiento',
+            'estado_civil',
+            'hijos',
+            'enfermedad',
+            'medicamento',
+            'lugar_de_atencion',
+            'discapacidad',
+            'certificado_compin',
+            'embarazo',
+            'certificado_embarazo',
         ]
         widgets = {
             'tipo_identificacion': RadioSelect(),
@@ -93,6 +103,7 @@ class PersonaInfoSaludModelForm(forms.ModelForm):
         model = PersonaInfoSalud
         fields = [
             'prevision',
+            'isapre',
             'comentarios',
         ]
         widgets = {

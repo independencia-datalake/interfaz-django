@@ -19,9 +19,9 @@ def update_bodega_by_mermado(sender, instance, **kwargs):
     nombre = instance.nombre
     bodvirt = BodegaVirtual.objects.get(nombre_id=key)
     if bodvirt:
-        stock_actual = bodvirt.Stock 
+        stock_actual = bodvirt.stock 
         nuevo_stock = stock_actual - cantidad_mermada
-        bodvirt.Stock = nuevo_stock
+        bodvirt.stock = nuevo_stock
         bodvirt.save()
 
 
@@ -33,9 +33,9 @@ def update_bodega_by_venta(sender, instance, **kwargs):
         cantidad_vendida = instance.cantidad
         bodvirt = BodegaVirtual.objects.get(nombre_id=key)
         if bodvirt:
-            stock_actual = bodvirt.Stock
+            stock_actual = bodvirt.stock
             nuevo_stock = stock_actual - cantidad_vendida
-            bodvirt.Stock = nuevo_stock
+            bodvirt.stock = nuevo_stock
             bodvirt.save()
             
     else:
@@ -45,9 +45,9 @@ def update_bodega_by_venta(sender, instance, **kwargs):
         cantidad_update = cantidad_vendida - cantidad_antigua
         bodvirt = BodegaVirtual.objects.get(nombre_id=key)
         if bodvirt:
-            stock_actual = bodvirt.Stock
+            stock_actual = bodvirt.stock
             nuevo_stock = stock_actual - cantidad_update
-            bodvirt.Stock = nuevo_stock
+            bodvirt.stock = nuevo_stock
             bodvirt.save()        
 
 @receiver(pre_delete, sender=ProductoVendido)
@@ -56,9 +56,9 @@ def update_bodega_by_venta_ondelete(sender, instance, **kwargs):
         cantidad_vendida_cancelada = instance.cantidad
         bodvirt = BodegaVirtual.objects.get(nombre_id=key)
         if bodvirt:
-            stock_actual = bodvirt.Stock
+            stock_actual = bodvirt.stock
             nuevo_stock = stock_actual + cantidad_vendida_cancelada
-            bodvirt.Stock = nuevo_stock
+            bodvirt.stock = nuevo_stock
             bodvirt.save()
 
     
@@ -68,9 +68,9 @@ def update_bodega_by_ingreso(sender, instance, **kwargs):
     cantidad_ingresada = instance.cantidad
     bodvirt = BodegaVirtual.objects.get(nombre_id=key)
     if bodvirt:
-        stock_actual = bodvirt.Stock
+        stock_actual = bodvirt.stock
         nuevo_stock = stock_actual + cantidad_ingresada
-        bodvirt.Stock = nuevo_stock
+        bodvirt.stock = nuevo_stock
         bodvirt.save()    
 
 

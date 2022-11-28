@@ -14,10 +14,13 @@ from django.forms.widgets import (
 )
 
 class ProductoFarmaciaForm(forms.ModelForm): 
+    laboratorio = forms.CharField(max_length= 200)
+
     def __init__(self, *args, **kwargs):
         super(ProductoFarmaciaForm,self).__init__(*args, **kwargs)
 
     class Meta:
+        
         model = ProductoFarmacia
         fields = [
             'marca_producto',
@@ -27,7 +30,36 @@ class ProductoFarmaciaForm(forms.ModelForm):
             'bioequivalencia',
             'cenabast',
             'proveedor',
-            # 'laboratorio',
+            'laboratorio',
+        ]
+        widgets = {
+            'f_ven' : forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'class': 'form-control', 
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                    }
+                ),
+        }
+
+class ProductoFarmaciaModelForm(forms.ModelForm): 
+
+    def __init__(self, *args, **kwargs):
+        super(ProductoFarmaciaModelForm,self).__init__(*args, **kwargs)
+
+    class Meta:
+        
+        model = ProductoFarmacia
+        fields = [
+            'marca_producto',
+            'p_a',
+            'dosis',
+            'presentacion',
+            'bioequivalencia',
+            'cenabast',
+            'proveedor',
+            'laboratorio',
         ]
         widgets = {
             'f_ven' : forms.DateInput(

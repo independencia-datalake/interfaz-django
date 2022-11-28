@@ -12,9 +12,9 @@ from farmacia.models import ProductoFarmacia
 
 class BodegaVirtual(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
-    Stock = models.IntegerField(null=True, blank=True, verbose_name="Stock del producto")
-    Stock_min =  models.IntegerField(null=True, blank=True,verbose_name="Stock minimo del producto")
-    Stock_max = models.IntegerField(null=True, blank=True,verbose_name="Stock maximo del producto")
+    stock = models.IntegerField(null=True, blank=True, verbose_name="Stock del producto")
+    stock_min =  models.IntegerField(null=True, blank=True,verbose_name="Stock minimo del producto")
+    stock_max = models.IntegerField(null=True, blank=True,verbose_name="Stock maximo del producto")
     holgura = models.IntegerField(null=True, blank=True,verbose_name="Holgura del Stock")
 
     def __str__(self):
@@ -24,7 +24,7 @@ class BodegaVirtual(models.Model):
         verbose_name_plural = "Bodega Virtual"
         db_table = "BodegaVirtual"
     def save(self, *args, **kwargs):
-        self.holgura = self.Stock - self.Stock_min
+        self.holgura = self.stock - self.stock_min
         return super(BodegaVirtual, self).save(*args, **kwargs)    
     def  get_absolute_url(self):
         return reverse("Stock-inicio")      
