@@ -61,7 +61,7 @@ class Persona(models.Model):
     nacionalidad = models.CharField(max_length=200, verbose_name="Nacionalidad",null=True, blank=True)
     enfermedad = models.CharField(max_length=200, verbose_name="Enfermedad",null=True, blank=True)
     medicamento = models.CharField(max_length=200, verbose_name="Medicamento",null=True, blank=True)
-    lugar_de_atencion = models.CharField(max_length=200, verbose_name="lLugar De Atencion",null=True, blank=True)
+    lugar_de_atencion = models.CharField(max_length=200, verbose_name="Lugar De Atencion",null=True, blank=True)
     discapacidad = models.BooleanField(default = False, verbose_name = "Discapacidad",null=True, blank=True)
     certificado_compin = models.BooleanField(default = False, verbose_name = "Certificado Compin",null=True, blank=True)
     embarazo = models.BooleanField(default = False, verbose_name = "Embarazo",null=True, blank=True)
