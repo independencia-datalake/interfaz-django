@@ -13,8 +13,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['sistema.independenciaciudadana.cl','www.sistema.independenciaciudadana.cl', '54.94.42.27']
 
 # Application definition
 
@@ -81,23 +81,23 @@ WSGI_APPLICATION = 'datalake.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-  'default': {
-      'ENGINE': 'django.db.backends.sqlite3',
-      'NAME': BASE_DIR / 'datalake_db',
-  }
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': os.environ.get('DATABASES_USER'),
-#         'PASSWORD': os.environ.get('DATABASES_PASSWORD'),
-#         'HOST': os.environ.get('DATABASES_HOST'),
-#         'PORT': 5432
-#     }
+#   'default': {
+#       'ENGINE': 'django.db.backends.sqlite3',
+#       'NAME': BASE_DIR / 'datalake_db',
+#   }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': os.environ.get('DATABASES_USER'),
+        'PASSWORD': os.environ.get('DATABASES_PASSWORD'),
+        'HOST': os.environ.get('DATABASES_HOST'),
+        'PORT': 5432
+    }
+}
 
 
 # Password validation
@@ -136,15 +136,15 @@ USE_TZ = False
 
 # HTTPS CONFIGURATIONS
 
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 # HSTS settings
 
-# SECURE_HSTS_SECONDS = 31536000 # 1 AÑO
-# SECURE_HSTS_PRELOAD = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_SECONDS = 31536000 # 1 AÑO
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -166,12 +166,12 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 #CONFIGURACION DEL S3 AWS
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-# AWS_LOCATION = 'media/'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_LOCATION = 'media/'
