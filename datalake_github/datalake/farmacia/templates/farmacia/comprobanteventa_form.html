@@ -98,7 +98,6 @@ document.getElementById("add_file").onclick=function (ev) {
     
         }
 
-
 {% endblock %}
 
 </script>
@@ -135,6 +134,8 @@ document.getElementById("add_file").onclick=function (ev) {
                 <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }}</p>
                 <h4 class="magenta">Nº de Teléfono</h4>
                 <p>{{ telefono.telefono}}</p>
+                <h4 class="magenta"> N° de Teléfono Secundario</h4>
+                <p>{{ telefono.telefono_secundario }}</p>
                 <h4 class="magenta">Correo:</h4>
                 <p>{{correo.correo}}</p>
             </div>
@@ -147,6 +148,13 @@ document.getElementById("add_file").onclick=function (ev) {
                 {% if direccion.complemento_direccion %}
                  | {{ direccion.complemento_direccion }}
                 {% endif %}
+                <h2>Antecedentes de Salud</h2>
+                <h4 class="magenta">Prevision</h4>
+                <p>{{ info_salud.prevision }}</p>
+                <h4 class="magenta">Isapre</h4>
+                <p>{{ info_salud.isapre }}</p>
+                <h4 class="magenta">Observaciones</h4>
+                <p>{{ info_salud.comentarios }}</p>
                 </p>
             </div>
         </div>
@@ -177,7 +185,9 @@ document.getElementById("add_file").onclick=function (ev) {
             <a class='btn btn-link add-new-form ver-o-editar' href='#' style="float: left;">+</a>
             <div style="float: left; width:61vw"></div>
             <input class='btn btn-primary ver-o-editar' type='submit' style="float: right;" value='Siguiente'> 
+        
         </div>
+
 </form>
     <br/>
     <br/>

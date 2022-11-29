@@ -4,7 +4,8 @@ from .models import (
     ProductoVendido,
     ComprobanteVenta,
     CargaProducto,
-    Recetas
+    Recetas,
+    Laboratorios,
 )
 
 class ProductoFarmaciaAdmin(admin.ModelAdmin):
@@ -22,3 +23,4 @@ admin.site.register(ProductoVendido, ProductoVendidoAdmin)
 admin.site.register(ComprobanteVenta, ComprobanteVentaAdmin) 
 admin.site.register(CargaProducto) 
 admin.site.register(Recetas)  
+admin.site.register(Laboratorios)

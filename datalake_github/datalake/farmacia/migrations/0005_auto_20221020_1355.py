@@ -12,17 +12,17 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='bodegavirtual',
-            name='Stock',
+            name='stock',
             field=models.IntegerField(blank=True, null=True, verbose_name='Stock del producto'),
         ),
         migrations.AlterField(
             model_name='bodegavirtual',
-            name='Stock_max',
+            name='stock_max',
             field=models.IntegerField(blank=True, null=True, verbose_name='Stock maximo del producto'),
         ),
         migrations.AlterField(
             model_name='bodegavirtual',
-            name='Stock_min',
+            name='stock_min',
             field=models.IntegerField(blank=True, null=True, verbose_name='Stock minimo del producto'),
         ),
         migrations.AlterModelTable(

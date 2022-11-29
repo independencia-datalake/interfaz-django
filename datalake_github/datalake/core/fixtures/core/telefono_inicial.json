@@ -1,0 +1,15 @@
+[
+{
+    "model": "core.telefono",
+    "pk": 1,
+    "fields": {
+        "persona": 1,
+        "telefono": null,
+        "telefono_secundario": null,
+        "tipo_telefono": "MOVIL",
+        "tipo_telefono_secundario": "NO APLICA",
+        "created": "2022-11-28T12:59:11.333",
+        "updated": "2022-11-28T12:59:11.333"
+    }
+}
+]

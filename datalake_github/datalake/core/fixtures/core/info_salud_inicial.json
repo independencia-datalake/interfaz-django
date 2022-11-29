@@ -1,0 +1,14 @@
+[
+{
+    "model": "core.personainfosalud",
+    "pk": 1,
+    "fields": {
+        "persona": 1,
+        "prevision": "NINGUNA",
+        "isapre": "NO APLICA",
+        "comentarios": null,
+        "created": "2022-11-28T13:00:11.065",
+        "updated": "2022-11-28T13:00:11.065"
+    }
+}
+]

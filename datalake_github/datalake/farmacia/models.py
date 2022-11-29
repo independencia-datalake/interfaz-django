@@ -7,14 +7,24 @@ from core.models import(
     Persona,
 )
 
-class ProductoFarmacia(models.Model): 
+class Laboratorios(models.Model):
+    nombre_laboratorio = models.CharField(max_length=50, verbose_name="Nombre del Laboratorio",null=True, blank=True)
 
-    active = models.BooleanField(default=True, verbose_name="Activo",null=True, blank=True)
+    class Meta:
+        verbose_name = "Laboratorio"
+        verbose_name_plural = "Laboratorios"
+    def __str__(self):
+        return f'{self.nombre_laboratorio}'
+
+class ProductoFarmacia(models.Model): 
     marca_producto = models.CharField(max_length=200, verbose_name="Nombre del Producto",null=True, blank=True)
+    proveedor = models.CharField(max_length=25, verbose_name="Proveedor",null=True, blank=True)
     p_a =  models.CharField(max_length=200, verbose_name="Componente Activo",null=True, blank=True)
     dosis = models.CharField(max_length=200, verbose_name="Dosis del Producto",null=True, blank=True)
     presentacion = models.CharField(max_length=200, verbose_name="Presentacion del Producto",null=True, blank=True)
     precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True, blank=True)
+    laboratorio = models.ForeignKey(Laboratorios, on_delete=models.PROTECT, verbose_name="Laboratorio")
+    cenabast = models.BooleanField(default = False, verbose_name = "Cenabast",null=True, blank=True)
     bioequivalencia = models.BooleanField(default = False, verbose_name = "Bioequivalencia",null=True, blank=True)
     
     autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)     
@@ -27,7 +37,7 @@ class ProductoFarmacia(models.Model):
         ordering = ['marca_producto','dosis']
 
     def __str__(self):
-        return f'{self.marca_producto} | Precio: ${self.precio} '
+        return f'{self.marca_producto} | Proveedor: {self.proveedor} '
 
     def  get_absolute_url(self):
         return reverse("productofarmacia-inicio")  

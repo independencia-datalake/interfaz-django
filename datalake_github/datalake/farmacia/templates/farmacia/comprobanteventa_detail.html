@@ -25,8 +25,10 @@
                     <h4 class="magenta">Nº de Identificación:</h4>
                     <p>{{ persona.tipo_identificacion }} - {{ persona.numero_identificacion }} | <a href="{% url 'comprobanteventa-update' c_detail.id %}">Editar</a></p>
                     <h4 class="magenta">Receta:</h4>
-                    {% if c_detail.receta %}
-                    <p><a href="{{ c_detail.receta.url }}" target="_blank">Link Receta Medica</a></p>
+                    {% if recetas %}
+                        {% for recip in recetas %}
+                            <u><p style="color: rgb(51, 102, 204);"><a href="{{ recip.receta.url }}" target="_blank">Receta N°{{ forloop.counter }}</a></p></u>
+                        {%endfor%}
                     {% else %}
                     <p>Esta venta no tiene receta</p>
                     {% endif %}
@@ -46,11 +48,12 @@
     <table style="width:100%" border="1" cellpadding="5" cellspacing="5">
         <tbody>
         <tr>
-            <td width="46%">Producto</td>
+            <td width="43%">Producto</td>
             <td width="29%">Valor unitario</td>
             <td width="10%">Cantidad</td>
             <td width="12%">Total</td>
             <td width="3%">&nbsp;</td>
+            <td width="3%"> </td>
         </tr>
         {%for object in pv_detail %}
             <tr>
@@ -59,9 +62,7 @@
                 <td>{{ object.cantidad }}</td>
                 <td>{{ object.subtotal }}</td>
                 <td><a class="btn ver-o-editar" href="{% url 'comprobanteventa-update' object.id %}">EDITAR</a></td>
-                {% if user == object.farmaceuta%}
                 <td><a href="{% url 'productovendido-delete' object.id %}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-trash-alt fa-w-14 fa-2x"><path fill="currentColor" d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" class=""></path></svg></a></td>
-                {% endif %}
             </tr>
         {%endfor%}     
         </tbody>
@@ -84,3 +85,21 @@
     <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 
 {% endblock %}
+
+
+<script>
+{% block script %}
+var json = '{{ holgura_ctx|escapejs }}';
+console.log(json);
+var holgura_ctx = JSON.parse(json);
+console.log(holgura_ctx.msj);
+function AlertaStock(holgura_ctx) {
+    if (holgura_ctx.flag) {
+        alert(holgura_ctx.msj)
+    }
+
+}
+AlertaStock(holgura_ctx)
+
+{% endblock %}
+</script>

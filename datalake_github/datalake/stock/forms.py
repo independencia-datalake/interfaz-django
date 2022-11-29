@@ -23,15 +23,15 @@ class BodegaVirtualForm(forms.ModelForm):
         model = BodegaVirtual
         fields = [
             'nombre',
-            'Stock',
-            'Stock_min',
-            'Stock_max',
+            'stock',
+            'stock_min',
+            'stock_max',
         ]
         widgets = {
              'nombre': forms.Select(attrs={'style': 'width: 670px','readonly':True}),
-             'Stock': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
-             'Stock_min': forms.NumberInput(attrs={'style': 'width: 670px', 'min':0}),
-             'Stock_max': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
+             'stock': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
+             'stock_min': forms.NumberInput(attrs={'style': 'width: 670px', 'min':0}),
+             'stock_max': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
             }
 class BodegaVirtualcrearForm(forms.ModelForm): 
     def __init__(self, *args, **kwargs):
@@ -43,15 +43,15 @@ class BodegaVirtualcrearForm(forms.ModelForm):
         model = BodegaVirtual
         fields = [
             'nombre',
-            'Stock',
-            'Stock_min',
-            'Stock_max',
+            'stock',
+            'stock_min',
+            'stock_max',
         ]
         widgets = {
              'nombre': forms.Select(attrs={'style': 'width: 670px'}),
-             'Stock': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
-             'Stock_min': forms.NumberInput(attrs={'style': 'width: 670px', 'min':0}),
-             'Stock_max': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
+             'stock': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
+             'stock_min': forms.NumberInput(attrs={'style': 'width: 670px', 'min':0}),
+             'stock_max': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
             }
 class BodegaVirtualsalidaForm(forms.ModelForm): 
     def __init__(self, *args, **kwargs):
@@ -69,7 +69,7 @@ class BodegaVirtualsalidaForm(forms.ModelForm):
         widgets = {
              'nombre': forms.Select(attrs={'style': 'width: 670px'}),
              'cantidad': forms.NumberInput(attrs={'style': 'width: 670px','min':0}),
-             'motivo': forms.TextInput(attrs={'style': 'width: 670px', 'min':0}),
+             'motivo': RadioSelect(),
             }
 class BodegaVirtualIngresoProductoForm(forms.ModelForm): 
     def __init__(self, *args, **kwargs):
@@ -84,16 +84,17 @@ class BodegaVirtualIngresoProductoForm(forms.ModelForm):
             'nombre',
             'cantidad',
             'precio_compra',
-            'laboratorio',
-            'cenabast',
-            'proveedor',
+            'precio_venta',
+            # 'laboratorio',
+            # 'cenabast',
+            # 'proveedor',
         ]
         widgets = {
             #  'nombre': forms.Select(attrs={'style': 'width: 670px'}),
              'cantidad': forms.NumberInput(attrs={'min':1}),
              'precio_compra': forms.NumberInput(attrs={'min':0}),
             #  'laboratorio': forms.Select(attrs={'style': 'width: 670px'}),
-             'proveedor': forms.TextInput(attrs={'size':84}),
+            #  'proveedor': forms.TextInput(attrs={'size':84}),
             }
 
 class BodegaVirtualIngresoStockForm(forms.ModelForm): 
@@ -102,6 +103,6 @@ class BodegaVirtualIngresoStockForm(forms.ModelForm):
     class Meta:
         model = BodegaVirtual
         fields = [
-            'Stock_min',
+            'stock_min',
         ]
         

@@ -14,11 +14,12 @@
 					<div class="row">
 						<div class="col">
 							{{ persona|crispy }}
-							{{ direccion|crispy }}
 						</div>
 						<div class="col">
+                            {{ direccion|crispy }}
 							{{ telefono|crispy }}
 							{{ correo|crispy }}
+                            {{ info_salud|crispy }}
 						</div>
 					</div>
 				</div>
