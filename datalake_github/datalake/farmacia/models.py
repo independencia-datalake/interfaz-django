@@ -22,7 +22,7 @@ class ProductoFarmacia(models.Model):
     p_a =  models.CharField(max_length=200, verbose_name="Componente Activo",null=True, blank=True)
     dosis = models.CharField(max_length=200, verbose_name="Dosis del Producto",null=True, blank=True)
     presentacion = models.CharField(max_length=200, verbose_name="Presentacion del Producto",null=True, blank=True)
-    # precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True, blank=True)
+    precio = models.PositiveIntegerField(default=1, verbose_name="Precio Producto",null=True, blank=True)
     laboratorio = models.ForeignKey(Laboratorios, on_delete=models.PROTECT, verbose_name="Laboratorio")
     cenabast = models.BooleanField(default = False, verbose_name = "Cenabast",null=True, blank=True)
     bioequivalencia = models.BooleanField(default = False, verbose_name = "Bioequivalencia",null=True, blank=True)

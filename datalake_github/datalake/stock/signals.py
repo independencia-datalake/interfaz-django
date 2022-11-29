@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 from django.core.signals import request_finished
 from django.dispatch import receiver
 
-from farmacia.models import ProductoVendido
+from farmacia.models import (
+    ProductoFarmacia,
+    ProductoVendido,
+)
 from .models import (
     BodegaVirtual,
     ProductoMermado,
@@ -72,6 +75,14 @@ def update_bodega_by_ingreso(sender, instance, **kwargs):
         nuevo_stock = stock_actual + cantidad_ingresada
         bodvirt.stock = nuevo_stock
         bodvirt.save()    
+
+    precio_venta_ingreso = instance.precio_venta
+    prod_farm = ProductoFarmacia.objects.get(id=key)
+    precio_venta_producto = prod_farm.precio
+    if precio_venta_ingreso != precio_venta_producto:
+        prod_farm.precio = precio_venta_ingreso
+        prod_farm.save()
+
 
 
 

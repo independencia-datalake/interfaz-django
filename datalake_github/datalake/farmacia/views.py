@@ -106,7 +106,7 @@ def comprobante_venta_form(request, pk):
                 nombre = form.cleaned_data.get('nombre')
                 cantidad = form.cleaned_data.get('cantidad')
                 id_nombre = nombre.id
-                precio_venta = ProductoIngresado.objects.get(nombre_id=id_nombre).precio_venta
+                precio_venta = ProductoFarmacia.objects.get(id=id_nombre).precio
                 if nombre:
                     ProductoVendido(nombre=nombre,
                                     cantidad=cantidad,
@@ -146,12 +146,10 @@ def comprobante_venta_detail(request, pk):
             msj = msj + "-"+str(i.nombre) +"\n"
             holgura_flag = True
     holgura_ctx = {
-        # "holguras":holguras,
         "msj":msj,
         "flag":holgura_flag,
     }
     holgura_ctx = json.dumps(holgura_ctx)
-    print(holgura_ctx)
 
     context = {
         'c_detail': c_venta,
@@ -258,10 +256,10 @@ def producto_vendido_delete(request, pk):
     n_venta = p_vendido.n_venta
 
     if request.method == 'POST':
-        if request.user == p_vendido.farmaceuta:
+        if request.user: #!todo previamente "if request.user == p_vendido.farmaceuta:"
             p_vendido.delete()
             messages.success(request, f'El producto vendido fue eliminado con exito')
-            return redirect('farmacia-home', pk=n_venta)
+            return redirect('comprobanteventa-detail', pk=n_venta)
         else:
             messages.warning(request, f'No esta autorizado para eliminar el producto vendido')
             return redirect('comprobanteventa-inicio')
@@ -302,7 +300,7 @@ class InicioProductoFarmacia(ListView):
     model = ProductoFarmacia
     context_object_name= 'filtrados'
     ordering = ['marca_producto','dosis']
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -436,8 +434,7 @@ def calcular_total(productos_queryset, productos):
     total = 0
     for producto in productos:
         p_farmacia = ProductoFarmacia.objects.get(pk=producto['nombre_id'])
-        # precio = p_farmacia.precio #todo REVISAR ESTE POSIBLE PROBLEMA
-        precio = 1000
+        precio = p_farmacia.precio 
         cantidad = producto['cantidad']
         total = total + (precio*cantidad)
 
@@ -448,8 +445,7 @@ def calcular_subtotales(productos_queryset, productos):
     subtotales = []
 
     for producto in productos_queryset:        
-        # precio = ProductoFarmacia.objects.get(pk=producto.nombre_id).precio #todo REVISAR ESTE POSIBLE PROBLEMA
-        precio = 1000
+        precio = ProductoFarmacia.objects.get(pk=producto.nombre_id).precio
         producto.v_unitario = precio
         producto.subtotal = precio*producto.cantidad
 

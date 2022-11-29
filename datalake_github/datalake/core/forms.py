@@ -99,6 +99,7 @@ class DireccionModelForm(forms.ModelForm):
         ]
 
 class PersonaInfoSaludModelForm(forms.ModelForm):
+
     class Meta:
         model = PersonaInfoSalud
         fields = [
@@ -107,10 +108,18 @@ class PersonaInfoSaludModelForm(forms.ModelForm):
             'comentarios',
         ]
         widgets = {
-            'prevision' : forms.Select(),
+            'prevision' : forms.RadioSelect(),
+            'isapre': forms.Select(),
             'comentarios': forms.Textarea(
                 attrs={
                     'rows': 4, 
                     }
                 ),
         }
+    def clean(self):
+        data = super().clean()
+        prevision = self.cleaned_data.get('prevision')
+        isapre = self.cleaned_data.get('isapre')
+        if prevision == 'ISAPRE' and isapre == 'NO APLICA':
+            raise forms.ValidationError('Seleccione una Prevision valida porfavor \n O en su defecto una Isapre Valida ')
+        return data

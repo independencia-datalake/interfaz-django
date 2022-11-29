@@ -190,24 +190,22 @@ class PersonaInfoSalud(models.Model):
             ('NINGUNA','Ninguna'),
             ),
         verbose_name="Prevision de Salud")
-    isapre = models.CharField(
-        max_length=30, 
-        default= 'NO APLICA',
+    isapre = models.CharField(default="NO APLICA" ,max_length=30, null=True,blank=False,
         choices=(
+            ('NO APLICA', 'No Aplica'),
             ('BANMEDICA','Banmedica'),
             ('ISALUD','Isalud'),
             ('COLMENA','Colmena'),
             ('CONSALUD','Consalud'),
             ('CRUZBLANCA','Cruz Blanca'),
             ('CRUZ DEL NORTE','Cruz del Norte'),
-            ('NUEVA MASVIDA','Nueva Masvida'),
+            ('NUEVA MASVIDA', 'Nueva Masvida'),
             ('FUNDACION','Fundacion'),
             ('VIDA TRES','Vida Tres'),
             ('ESENCIAL','Esencial'),
-            ('NO APLICA','No Aplica'),
             ),
-        verbose_name="Isapre")
-    comentarios = models.CharField(max_length=200, verbose_name="Comentarios ", null=True, blank=True)
+            verbose_name="Isapre")
+    comentarios = models.CharField(max_length=200, verbose_name="Comentarios ", null=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
 
@@ -227,3 +225,10 @@ class PersonaInfoSalud(models.Model):
     def __str__(self):
       return f'{self.persona}'
 
+    def save(self, *args, **kwargs):
+      if self.prevision != 'ISAPRE':
+        self.isapre = 'NO APLICA'
+        return super(PersonaInfoSalud, self).save(*args, **kwargs)
+      else:
+        return super(PersonaInfoSalud, self).save(*args, **kwargs)
+      

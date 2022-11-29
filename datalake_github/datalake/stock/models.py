@@ -45,12 +45,9 @@ class ProductoIngresado(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
     cantidad = models.PositiveIntegerField(default=1, verbose_name="Cantidad Ingresada al Stock")
     lote = models.CharField(max_length=30,verbose_name="Numero de Lote", null=True, blank=True)
-    # laboratorio = models.ForeignKey(Laboratorios, on_delete=models.PROTECT, verbose_name="Laboratorio")
     precio_compra = models.PositiveIntegerField(default=0, verbose_name="Precio Compra Producto",null=True, blank=True)
     precio_venta = models.PositiveIntegerField(default=0, verbose_name="Precio Venta Producto",null=True, blank=True)
     n_venta = models.ForeignKey(OrdenIngresoProducto, on_delete=models.CASCADE)
-    # cenabast = models.BooleanField(default = False, verbose_name = "Cenabast",null=True, blank=True)
-    # proveedor = models.CharField(max_length=25, verbose_name="Proveedor",null=True, blank=True) #todo eliminar?????????????
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
 

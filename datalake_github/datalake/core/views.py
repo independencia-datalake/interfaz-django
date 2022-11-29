@@ -66,7 +66,7 @@ def persona(request):
 @login_required
 def persona_crear(request, pk, n_iden,ty_iden):
     ruta = pk
-    persona = PersonaModelForm(initial={
+    form_persona = PersonaModelForm(initial={ #anteriormente persona
         'numero_identificacion': n_iden,
         'tipo_identificacion':ty_iden,
         })
@@ -77,17 +77,17 @@ def persona_crear(request, pk, n_iden,ty_iden):
 
     if request.method == 'POST':
         form_persona = PersonaModelForm(request.POST)
-        form_telefono = TelefonoModelForm(request.POST)
-        form_correo = CorreoModelForm(request.POST)
-        form_direccion = DireccionModelForm(request.POST)
-        form_info_salud = PersonaInfoSaludModelForm(request.POST)
+        telefono = TelefonoModelForm(request.POST) #anteriormente form_telefono
+        correo = CorreoModelForm(request.POST) #anteriormente form_correo
+        direccion = DireccionModelForm(request.POST) #anteriormente form_direccion
+        info_salud = PersonaInfoSaludModelForm(request.POST)  # anteriormente form_info_salud
         forms = [
-            form_telefono,
-            form_correo,
-            form_direccion,
-            form_info_salud,
+            telefono, #anteriormente form_telefono
+            correo, #anteriormente form_persona
+            direccion, #anteriormente form_direccion
+            info_salud, # anteriormente form_info_salud
             ]
-        if form_persona.is_valid() and form_telefono.is_valid() and form_correo.is_valid() and form_direccion.is_valid() and form_info_salud.is_valid():
+        if form_persona.is_valid() and telefono.is_valid() and correo.is_valid() and direccion.is_valid() and info_salud.is_valid():
             persona = form_persona.save(commit=False)
             persona.save()
             pk = persona.id
@@ -113,7 +113,7 @@ def persona_crear(request, pk, n_iden,ty_iden):
                 return redirect('core-home')
 
     context = {
-        'persona': persona,
+        'persona': form_persona,
         'telefono':telefono,
         'correo':correo,
         'direccion':direccion,
