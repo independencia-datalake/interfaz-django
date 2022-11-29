@@ -13,6 +13,7 @@ from .models import (
     Telefono,
     Correo,
     Direccion,
+    PersonaInfoSalud,
 )
 
 TIPOS_DE_IDENTIFICACION = [
@@ -39,10 +40,20 @@ class PersonaModelForm(forms.ModelForm):
         fields = [
             'tipo_identificacion',
             'numero_identificacion',
+            'nacionalidad',
             'nombre_persona',
             'apellido_paterno',
             'apellido_materno',
             'fecha_nacimiento',
+            'estado_civil',
+            'hijos',
+            'enfermedad',
+            'medicamento',
+            'lugar_de_atencion',
+            'discapacidad',
+            'certificado_compin',
+            'embarazo',
+            'certificado_embarazo',
         ]
         widgets = {
             'tipo_identificacion': RadioSelect(),
@@ -62,21 +73,21 @@ class TelefonoModelForm(forms.ModelForm):
         fields = [
             'tipo_telefono',
             'telefono',
+            'tipo_telefono_secundario',
+            'telefono_secundario',
         ]
         widgets = {
             'tipo_telefono': RadioSelect(),
+            'tipo_telefono_secundario': RadioSelect(),
         }
 
 class CorreoModelForm(forms.ModelForm):
     class Meta:
         model = Correo
         fields = [
-            'tipo_correo',
             'correo',
         ]
-        widgets = {
-            'tipo_correo': RadioSelect(),
-        }
+
 
 class DireccionModelForm(forms.ModelForm):
     class Meta:
@@ -86,3 +97,29 @@ class DireccionModelForm(forms.ModelForm):
             'numero',
             'complemento_direccion',
         ]
+
+class PersonaInfoSaludModelForm(forms.ModelForm):
+
+    class Meta:
+        model = PersonaInfoSalud
+        fields = [
+            'prevision',
+            'isapre',
+            'comentarios',
+        ]
+        widgets = {
+            'prevision' : forms.RadioSelect(),
+            'isapre': forms.Select(),
+            'comentarios': forms.Textarea(
+                attrs={
+                    'rows': 4, 
+                    }
+                ),
+        }
+    def clean(self):
+        data = super().clean()
+        prevision = self.cleaned_data.get('prevision')
+        isapre = self.cleaned_data.get('isapre')
+        if prevision == 'ISAPRE' and isapre == 'NO APLICA':
+            raise forms.ValidationError('Seleccione una Prevision valida porfavor \n O en su defecto una Isapre Valida ')
+        return data

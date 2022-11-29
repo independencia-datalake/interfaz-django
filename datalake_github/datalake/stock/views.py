@@ -3,8 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from django.contrib import messages
-import json
-
 from farmacia.models import ProductoFarmacia
 from farmacia.forms import ComprobanteVentaModelForm
 from .models import (
@@ -12,7 +10,6 @@ from .models import (
     OrdenIngresoProducto,
     ProductoIngresado,
     ProductoMermado,
-    Laboratorios,
 )
 from .forms import (
     BodegaVirtualForm,
@@ -31,13 +28,18 @@ INGRESO_STOCK_STATUS = []
 # Create your views here.
 
 class InicioStock(ListView):
-    model = BodegaVirtual
     template_name = "stock/Stock.html"
+    context_object_name = 'filtrados'
+    paginate_by = 10
+    model = BodegaVirtual
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = Stockfilter(self.request.GET, queryset=self.get_queryset())
         return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return Stockfilter(self.request.GET, queryset=queryset).qs
 
 @login_required
 def crear_producto_Stock(request):
@@ -47,9 +49,9 @@ def crear_producto_Stock(request):
         form = BodegaVirtualcrearForm(request.POST)
         if form.is_valid():
             BodegaVirtual(nombre=form.cleaned_data.get('nombre'),
-                            Stock=form.cleaned_data.get('Stock'),
-                            Stock_min=form.cleaned_data.get('Stock_min'),
-                            Stock_max =form.cleaned_data.get('Stock_max')).save()
+                            stock=form.cleaned_data.get('stock'),
+                            stock_min=form.cleaned_data.get('stock_min'),
+                            stock_max =form.cleaned_data.get('stock_max')).save()
             messages.success(request, f'El producto fue creado con exito')
             return redirect('Stock-inicio')
 
@@ -112,11 +114,9 @@ def ingreso_producto_stock(response):
                 ProductoIngresado(
                         nombre = ProductoFarmacia.objects.get(id=i.get('id_nombre')),
                         cantidad = i.get('cantidad'),
-                        laboratorio = Laboratorios.objects.get(id=i.get('id_lab')),
                         precio_compra = i.get('precio'),
-                        n_venta = orden_ingreso_actual,
-                        cenabast = i.get('cenabast'),
-                        proveedor = i.get('proveedor')).save()
+                        precio_venta = i.get('precio_venta'),
+                        n_venta = orden_ingreso_actual).save()
 
             INGRESO_STOCK_STATUS = []
             orden_ingreso_actual.estado = True
@@ -130,12 +130,10 @@ def ingreso_producto_stock(response):
             id_nombre = nombre.id
             cantidad = form.cleaned_data.get('cantidad')
             precio_compra = form.cleaned_data.get('precio_compra')
-            proveedor = form.cleaned_data.get('proveedor')
-            laboratorio = form.cleaned_data.get('laboratorio')
+            precio_venta = form.cleaned_data.get('precio_venta')
             n_venta = orden_ingreso_actual
-            cenabast = form.cleaned_data.get('cenabast')
-            id_lab = Laboratorios.objects.get(nombre_laboratorio=laboratorio).id
-            update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'cenabast': cenabast, 'proovedor':proveedor, 'laboratorio':str(laboratorio), 'id_lab':id_lab}
+            # id_lab = Laboratorios.objects.get(nombre_laboratorio=laboratorio).id #todo LO DEL LABORATORIO
+            update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta}
             INGRESO_STOCK_STATUS.append(update_json)
 
         elif response.POST.get("cancel"):

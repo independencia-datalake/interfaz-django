@@ -62,9 +62,9 @@ class Migration(migrations.Migration):
             name='BodegaVirtual',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('Stock', models.IntegerField(blank=True, null=True, verbose_name='Stock del producto')),
-                ('Stock_min', models.IntegerField(blank=True, null=True, verbose_name='Stock minimo del producto')),
-                ('Stock_max', models.IntegerField(blank=True, null=True, verbose_name='Stock maximo del producto')),
+                ('stock', models.IntegerField(blank=True, null=True, verbose_name='Stock del producto')),
+                ('stock_min', models.IntegerField(blank=True, null=True, verbose_name='Stock minimo del producto')),
+                ('stock_max', models.IntegerField(blank=True, null=True, verbose_name='Stock maximo del producto')),
                 ('holgura', models.IntegerField(blank=True, null=True, verbose_name='Holgura del Stock')),
                 ('nombre', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='farmacia.productofarmacia', verbose_name='Nombre Producto')),
             ],

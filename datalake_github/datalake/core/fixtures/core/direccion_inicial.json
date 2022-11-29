@@ -3,13 +3,14 @@
     "model": "core.direccion",
     "pk": 1,
     "fields": {
+        "active": true,
         "persona": 1,
         "uv": 1,
         "calle": "LA PAZ",
         "numero": 482,
-        "complemento_direccion": "DATALAKE",
-        "created": "2021-11-10T17:10:55.412",
-        "updated": "2021-11-10T17:10:55.412"
+        "complemento_direccion": null,
+        "created": "2022-11-28T12:59:40.795",
+        "updated": "2022-11-28T12:59:40.795"
     }
 }
 ]

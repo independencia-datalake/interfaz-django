@@ -6,6 +6,7 @@ from .models import (
     Telefono,
     Correo,
     Direccion,
+    PersonaInfoSalud
 )
 
 #QUE LAS CALLES SEAN SOLO DE LECTURA
@@ -32,4 +33,5 @@ admin.site.register(UV, UVAdmin)
 admin.site.register(Telefono, TelefonoAdmin)
 admin.site.register(Correo, CorreoAdmin)
 admin.site.register(Direccion, DireccionAdmin)
+admin.site.register(PersonaInfoSalud)
 

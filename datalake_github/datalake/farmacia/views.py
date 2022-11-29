@@ -18,14 +18,20 @@ from core.models import(
     Telefono,
     Correo,
     Direccion,
+    PersonaInfoSalud,
 )
 from stock.forms import BodegaVirtualForm, BodegaVirtualIngresoStockForm
-from stock.models import BodegaVirtual
+from stock.models import (
+    BodegaVirtual,
+    ProductoIngresado
+)
 from .models import (
     ComprobanteVenta,
     ProductoFarmacia,
     ProductoVendido,
+    Laboratorios,
     Recetas,
+
 )
 from .forms import (
     ProductoFarmaciaForm,
@@ -35,11 +41,13 @@ from .forms import (
     ProductoVendidoInformeForm,
     ProductoVendidoFormset,
     CargaProductoModelForm, #Prueba
+    ProductoFarmaciaModelForm
 )
 from .filters import (
     ProductoFarmaciaFilter,
     ComprobanteVentaFilter,
-    ProductosVendidosFilter,
+    ProductosVendidosFilter
+
 )
 
 #STATUS (IMITACION DE LOS JSON)
@@ -63,6 +71,7 @@ def comprobante_venta_form(request, pk):
     telefono = Telefono.objects.get(persona=persona)
     correo = Correo.objects.get(persona=persona)
     direccion = Direccion.objects.get(persona=persona)
+    info_salud = PersonaInfoSalud.objects.get(persona=persona)
 
     formset = ProductoVendidoFormset()
     form = ComprobanteVentaModelForm()
@@ -71,13 +80,24 @@ def comprobante_venta_form(request, pk):
         files = request.FILES.getlist("file[]")
         formset = ProductoVendidoFormset(request.POST)
         if form.is_valid() and formset.is_valid():
+
+            for form_rev in formset:
+                nombre = form_rev.cleaned_data.get('nombre')
+                cantidad = form_rev.cleaned_data.get('cantidad')    
+                stock_actual = BodegaVirtual.objects.get(nombre=nombre).stock          
+                if cantidad > stock_actual:
+                    messages.warning(request, f'No hay Stock suficiente del Producto {nombre}, ya que solo quedan {stock_actual} unidades')
+                    return redirect('comprobanteventa-create', pk=1)
+            # del nombre, cantidad, stock_actual
+
             obj = form.save(commit=False)
             obj.comprador = persona
             obj.farmaceuta = request.user
             obj.save()
             cv = obj
             cv_id = obj.id
-            
+
+
             for f in files:
                 Recetas(receta = f,
                 comprobante_venta = cv).save()
@@ -101,6 +121,7 @@ def comprobante_venta_form(request, pk):
         'telefono':telefono,
         'correo':correo,
         'direccion':direccion,
+        'info_salud':info_salud,
         'formset':formset,
     }
 
@@ -111,16 +132,32 @@ def comprobante_venta_detail(request, pk):
     c_venta = ComprobanteVenta.objects.get(pk=pk)
     p_vendido = ProductoVendido.objects.filter(n_venta=pk)
     persona = c_venta.comprador
-
+    recetas = Recetas.objects.filter(comprobante_venta=c_venta)
     productos = [producto for producto in p_vendido.values()]
     total = calcular_total(p_vendido, productos)
     st = calcular_subtotales(p_vendido, productos)
+    
+    holguras = dict()
+    msj = "Advertencia \n Los siguientes productos quedaran con bajo Stock despues de la venta\n"
+    holgura_flag = False
+    for i in p_vendido:
+        if BodegaVirtual.objects.get(nombre=i.nombre).holgura <=0:
+            holguras[i.nombre]=BodegaVirtual.objects.get(nombre=i.nombre).holgura
+            msj = msj + "-"+str(i.nombre) +"\n"
+            holgura_flag = True
+    holgura_ctx = {
+        "msj":msj,
+        "flag":holgura_flag,
+    }
+    holgura_ctx = json.dumps(holgura_ctx)
 
     context = {
         'c_detail': c_venta,
         'pv_detail': p_vendido,
         'total': total,
-        'persona': persona
+        'persona': persona,
+        'recetas': recetas,
+        'holgura_ctx':holgura_ctx
     }
 
     return render(request, 'farmacia/comprobanteventa_detail.html', context)
@@ -219,7 +256,7 @@ def producto_vendido_delete(request, pk):
     n_venta = p_vendido.n_venta
 
     if request.method == 'POST':
-        if request.user == p_vendido.farmaceuta:
+        if request.user: #!todo previamente "if request.user == p_vendido.farmaceuta:"
             p_vendido.delete()
             messages.success(request, f'El producto vendido fue eliminado con exito')
             return redirect('comprobanteventa-detail', pk=n_venta)
@@ -261,12 +298,17 @@ def producto_vendido_delete_edicion(request, pk):
 # PRODUCTO FARMACIA
 class InicioProductoFarmacia(ListView):
     model = ProductoFarmacia
+    context_object_name= 'filtrados'
     ordering = ['marca_producto','dosis']
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = ProductoFarmaciaFilter(self.request.GET, queryset=self.get_queryset())
         return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return ProductoFarmaciaFilter(self.request.GET, queryset=queryset).qs
 
 
 @login_required
@@ -275,21 +317,43 @@ def crear_producto_farmacia(request):
     form2 = BodegaVirtualIngresoStockForm()
     
     if request.method == 'POST':
-        form = ProductoFarmaciaForm(request.POST)
+        laboratorio = request.POST.get('laboratorio')
+        try:
+            laboratorio = Laboratorios.objects.get(nombre_laboratorio=laboratorio)
+            print(laboratorio)
+            print('ya existe')
+        except:
+            laboratorio = Laboratorios.objects.create(nombre_laboratorio=laboratorio)
+            print(laboratorio)
+            print('ya existe')
+
+        updated_request = request.POST.copy()
+        updated_request['laboratorio'] = laboratorio
+        print(updated_request)
+        form = ProductoFarmaciaModelForm(updated_request)
         form2 = BodegaVirtualIngresoStockForm(request.POST)
+        print(form)
         if form.is_valid() and form2.is_valid():
-            producto_farmacia = ProductoFarmacia.objects.create(autor=request.user,
-                            marca_producto=form.cleaned_data.get('marca_producto'),
-                            p_a=form.cleaned_data.get('p_a'),
-                            dosis=form.cleaned_data.get('dosis'),
-                            presentacion =form.cleaned_data.get('presentacion'),
-                            precio=form.cleaned_data.get('precio'))
-            stck = 0
+            producto_farmacia = ProductoFarmacia.objects.create(
+                autor=request.user,
+                marca_producto=form.cleaned_data.get('marca_producto'),
+                p_a=form.cleaned_data.get('p_a'),
+                dosis=form.cleaned_data.get('dosis'),
+                presentacion =form.cleaned_data.get('presentacion'),
+                proveedor = form.cleaned_data.get('proveedor'),
+                cenabast = form.cleaned_data.get('cenabast'),
+                bioequivalencia = form.cleaned_data.get('bioequivalencia'),
+                laboratorio = form.cleaned_data.get('laboratorio'),
+                )
+            stock = 0
             key = ProductoFarmacia.objects.get(id=producto_farmacia.id)
-            print(key)
+            if form2.cleaned_data.get('stock_min'):
+                stock_min = form2.cleaned_data.get('stock_min')
+            else:
+                stock_min = 0
             BodegaVirtual.objects.create(  nombre = key,
-                            Stock = stck,
-                            Stock_min = form2.cleaned_data.get('Stock_min'))
+                            stock = stock,
+                            stock_min = stock_min)
             
             messages.success(request, f'El producto fue creado con exito')
             return redirect('productofarmacia-create')
@@ -370,7 +434,7 @@ def calcular_total(productos_queryset, productos):
     total = 0
     for producto in productos:
         p_farmacia = ProductoFarmacia.objects.get(pk=producto['nombre_id'])
-        precio = p_farmacia.precio
+        precio = p_farmacia.precio 
         cantidad = producto['cantidad']
         total = total + (precio*cantidad)
 
@@ -414,10 +478,6 @@ def informe_ventas(request):
 
     lista_productos = []
     cantidad_productos = []
-
-    # with open("farmacia/Informe_ventas.json","r") as f:
-        # temp = json.load(f)
-
     for i in INFORME_VENTAS_STATUS:
         lista_productos.append(i.get('producto'))
         cantidad_productos.append(i.get('cantidad'))
