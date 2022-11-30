@@ -507,3 +507,14 @@ contenedor-grafico{
 	overflow: hidden;
 }
 
+.custom-seleccionador {
+	background-color:transparent;
+}
+
+.custom-seleccionador select {
+	color: #fff;
+    background-color: #FC3D59 !important;
+	border-radius: 0 !important;
+    padding: 6px 20px;
+    font-size: 0.8em;
+}
