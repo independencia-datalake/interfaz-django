@@ -264,7 +264,7 @@ button.navbar-toggler:hover, button.navbar-toggler:active, button.navbar-toggler
 }
 select{
 	padding: .375rem .75rem;
-	background-color:#FFF !important;
+	background-color:#FFF ;
 	border:1px solid #ADADAD;
 	border-radius:0 !important;
 }
