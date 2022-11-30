@@ -40,6 +40,9 @@ class InicioStock(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return Stockfilter(self.request.GET, queryset=queryset).qs
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get('paginate_by', self.paginate_by)
 
 @login_required
 def crear_producto_Stock(request):

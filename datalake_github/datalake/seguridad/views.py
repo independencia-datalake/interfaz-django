@@ -29,12 +29,19 @@ class InicioRequerimineto(ListView):
     model = Requerimiento
     ordering = ['-created']
     context_object_name = 'post'
+    paginate_by = 10
     template_name = 'seguridad/denuncia_inicio.html'
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
         context['filter'] = RequerimientoFilter(self.request.GET, queryset=self.get_queryset())
         return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return RequerimientoFilter(self.request.GET, queryset=queryset).qs
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get('paginate_by', self.paginate_by)
 
 @login_required
 def requerimiento_form(request, nr):
