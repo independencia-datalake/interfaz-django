@@ -48,6 +48,7 @@ from django.http import HttpResponse
 
 class InicioEsterilizacion(ListView):
     model = Procedimiento
+    paginate_by: 10
     ordering = ['-created']
     context_object_name = 'post'
     template_name = 'dimap/esterilizacion_inicio.html'
@@ -56,6 +57,12 @@ class InicioEsterilizacion(ListView):
         context = super().get_context_data(*args,**kwargs)
         context['filter'] = ProcedimientoFilter(self.request.GET, queryset=self.get_queryset())
         return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return ProcedimientoFilter(self.request.GET, queryset=queryset).qs
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get('paginate_by', self.paginate_by)        
 
 @login_required
 def esterilizacion_verificacion_identidad(request):
