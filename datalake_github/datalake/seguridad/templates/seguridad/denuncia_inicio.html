@@ -41,7 +41,7 @@
           <td>Profesional</td>
           <td> </td>
           <td>---</td>
-      {%for object in filter.qs %}
+      {%for object in filtrados %}
       <tr>
           <td>{{ object.numero_requerimiento.fecha_ingreso|date:"d/m/Y - H:i" }}</td>
           <td>{{ object.numero_requerimiento.numero_requerimiento }}</td>

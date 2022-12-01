@@ -28,7 +28,7 @@ from django.http import HttpResponse
 class InicioRequerimineto(ListView):
     model = Requerimiento
     ordering = ['-created']
-    context_object_name = 'post'
+    context_object_name = 'filtrados'
     paginate_by = 10
     template_name = 'seguridad/denuncia_inicio.html'
 

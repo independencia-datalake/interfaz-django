@@ -48,9 +48,9 @@ from django.http import HttpResponse
 
 class InicioEsterilizacion(ListView):
     model = Procedimiento
-    paginate_by: 10
+    paginate_by: 2
     ordering = ['-created']
-    context_object_name = 'post'
+    context_object_name = 'filtrados'
     template_name = 'dimap/esterilizacion_inicio.html'
 
     def get_context_data(self, *args,**kwargs):
