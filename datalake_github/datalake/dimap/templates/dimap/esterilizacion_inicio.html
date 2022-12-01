@@ -43,7 +43,7 @@
           <td>Profesional</td>
           <td> </td>
           <td> </td>
-      {%for object in filter.qs %}
+      {%for object in filtrados %}
       <tr>
           <td>{{ object }}</td>
           <td>{{ object.get_estatus_display }}</td>
@@ -86,7 +86,7 @@
           <div class="custom-seleccionador">
           <select name="paginate_by" onchange="this.form.submit()">
              <option>N°</option>
-             <option>5</option>
+             <option>2</option>
              <option>10</option>
              <option>20</option>
              <option>30</option>
