@@ -48,8 +48,8 @@ from django.http import HttpResponse
 
 class InicioEsterilizacion(ListView):
     model = Procedimiento
-    paginate_by: 2
-    ordering = ['-created']
+    paginate_by: 10
+    # ordering = ['-created']
     context_object_name = 'filtrados'
     template_name = 'dimap/esterilizacion_inicio.html'
 
@@ -217,13 +217,20 @@ def esterilizacion_edicion(request,pk):
 class InicioControlPlaga(ListView):                 # CLASE QUE MUESTRA EL INICIO DE CONTROL DE PLAGA
     model = ControlPlaga
     ordering = ['-created']
-    context_object_name = 'post'
+    context_object_name = 'filtrados'
+    paginate_by = 10
     template_name = 'dimap/controldeplaga_inicio.html'
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
         context['filter'] = ControlPlagaFilter(self.request.GET, queryset=self.get_queryset())
         return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return ControlPlagaFilter(self.request.GET, queryset=queryset).qs
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get('paginate_by', self.paginate_by)
 
 @login_required
 def controldeplaga_verificacion_identidad(request): # FUNCION PARA VERIFICAR LA IDENTIDAD CONTROL DE PLAGA
@@ -355,13 +362,20 @@ class EdicionControlPlaga(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
 class InicioSeguridadDIMAP(ListView):
     model = SeguridadDIMAP
     ordering = ['-created']
-    context_object_name = 'post'
+    context_object_name = 'filtrados'
+    paginate_by = 10
     template_name = 'dimap/seguridad_inicio.html'
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
         context['filter'] = SeguridadDIMAPFilter(self.request.GET, queryset=self.get_queryset())
         return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return SeguridadDIMAPFilter(self.request.GET, queryset=queryset).qs
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get('paginate_by', self.paginate_by)
 
 @login_required
 def seguridad_verificacion_identidad(request):

@@ -19,6 +19,10 @@
   </div>
 
   <hr>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#filtro" aria-controls="filtro" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon burger-toggler"></span>
+  </button>
+  <div class="collapse" id="filtro">
   <div class="contenedor-wrap">
     <div class="espaciador padding-right-30">
     <h3>Buscador</h3>
@@ -29,6 +33,8 @@
     </div>
   </div>
   <hr>
+  </div>
+
   <div>
     <div class="titulo-tabla">
         <h3>Formularios Denuncias Higiene Ambiental</h3>
@@ -42,7 +48,7 @@
           <td>Notificacion</td>
           <td></td>
           <td>---</td>
-      {%for object in filter.qs %}
+      {%for object in filtrados %}
       <tr>
           <td>{{ object.f_ingreso }}</td>
           <td>{{ object.get_estatus_display }}</td>
@@ -60,6 +66,42 @@
       </tr>
       {%endfor%}
       </table>
+
+      <div class="pagination" style="display: flex; justify-content: center;">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a class="btn ver-o-editar" href="#" onclick="document.location.href=PaginadorDinamico(1)">&laquo; primero</a>
+                <a class="btn ver-o-editar" href="#"  onclick="document.location.href=PaginadorDinamico({{ page_obj.previous_page_number }})">anterior</a>
+            {% else %} 
+                <button style="visibility: hidden; width: 98.24px;"></button>
+                <button  style="visibility: hidden; width: 89.19px;"></button>  
+            {% endif %}
+    
+            <span class="btn ver-o-editar">
+                Pag {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a class="btn ver-o-editar" href="#" onclick="document.location.href=PaginadorDinamico({{ page_obj.next_page_number }})">siguiente</a>
+                <a class="btn ver-o-editar" href="#" onclick="document.location.href=PaginadorDinamico({{ page_obj.paginator.num_pages }})">ultimo &raquo;</a>
+            {% else %}
+                <button style="visibility: hidden; width: 96.9px;"></button>
+                <button  style="visibility: hidden; width: 88.74px;"></button>   
+            {% endif %}
+        </span>
+        <form action="." method="get" >
+          <div class="custom-seleccionador">
+          <select name="paginate_by" onchange="this.form.submit()">
+             <option>N°</option>
+             <option>5</option>
+             <option>10</option>
+             <option>20</option>
+             <option>30</option>
+          </select>
+          </div>
+        </form>
+    </div>
+
     <a href="{% url 'descargar-seguridad-dimap' %}"><button class="btn btn-outline-info">Descargar Excel</button></a>
   </div>
 </div>
@@ -75,3 +117,37 @@
     <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 
 {% endblock %}
+
+<script >
+  {% block script %}
+
+  function PaginadorDinamico(ref)
+  {
+    console.log(ref)
+    var urlPagina = document.URL;
+    let paramString = urlPagina.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+    let urlString =urlPagina.split('?')[0]+"?"; 
+    let pageStatus = false
+    for(let pair of queryString.entries()){
+      if (pair[0]!="page") {
+        urlString = urlString + pair[0]+"="+pair[1]+"&"
+      } else {
+        urlString = urlString + pair[0]+"="+ref+"&"
+        pageStatus = true
+      }
+    }
+    if (pageStatus == false) {
+      urlString = urlString + "page="+ref+"&"
+    }
+    urlString = urlString.slice(0,-1)
+    console.log(urlString)
+
+
+    let newUrl = urlString
+    
+  return newUrl
+  }
+
+  {% endblock %}
+</script>
