@@ -48,8 +48,8 @@ from django.http import HttpResponse
 
 class InicioEsterilizacion(ListView):
     model = Procedimiento
-    paginate_by: 10
-    # ordering = ['-created']
+    paginate_by = 10
+    ordering = ['-created']
     context_object_name = 'filtrados'
     template_name = 'dimap/esterilizacion_inicio.html'
 
