@@ -19,19 +19,25 @@
   </div>
 
   <hr>
-  <div class="contenedor-wrap">
-    <div class="espaciador padding-right-30">
-    <h3>Buscador</h3>
-      <form method="GET">
-          {{ filter.form|crispy }}
-          <button type="submit" class="btn btn-outline-info">Buscar</button>
-      </form>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#filtro" aria-controls="filtro" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon burger-toggler"></span>
+  </button>
+  <div class="collapse" id="filtro">
+    <div class="contenedor-wrap">
+      <div class="espaciador padding-right-30">
+      <h3>Buscador</h3>
+        <form method="GET">
+            {{ filter.form|crispy }}
+            <button type="submit" class="btn btn-outline-info">Buscar</button>
+        </form>
+      </div>
     </div>
-  </div>
   <hr>
+  </div>
+
   <div>
     <div class="titulo-tabla">
-        <h3>Forularios Esterilizacion</h3>
+        <h3>Formularios Esterilizacion</h3>
     </div> 
       <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
           <td>Fecha ingreso</td>
@@ -86,7 +92,7 @@
           <div class="custom-seleccionador">
           <select name="paginate_by" onchange="this.form.submit()">
              <option>N°</option>
-             <option>2</option>
+             <option>5</option>
              <option>10</option>
              <option>20</option>
              <option>30</option>
