@@ -119,6 +119,8 @@ def ingreso_producto_stock(response):
                         cantidad = i.get('cantidad'),
                         precio_compra = i.get('precio'),
                         precio_venta = i.get('precio_venta'),
+                        lote = i.get('lote'),
+                        n_factura = i.get('n_factura'),
                         n_venta = orden_ingreso_actual).save()
 
             INGRESO_STOCK_STATUS = []
@@ -135,8 +137,10 @@ def ingreso_producto_stock(response):
             precio_compra = form.cleaned_data.get('precio_compra')
             precio_venta = form.cleaned_data.get('precio_venta')
             n_venta = orden_ingreso_actual
+            lote = form.cleaned_data.get('lote')
+            n_factura = form.cleaned_data.get('n_factura')
             # id_lab = Laboratorios.objects.get(nombre_laboratorio=laboratorio).id #todo LO DEL LABORATORIO
-            update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta}
+            update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta, 'lote':lote, 'n_factura':n_factura}
             INGRESO_STOCK_STATUS.append(update_json)
 
         elif response.POST.get("cancel"):

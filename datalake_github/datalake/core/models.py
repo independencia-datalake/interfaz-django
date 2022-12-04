@@ -61,7 +61,7 @@ class Persona(models.Model):
     nacionalidad = models.CharField(max_length=200, verbose_name="Nacionalidad",null=True, blank=True)
     enfermedad = models.CharField(max_length=200, verbose_name="Enfermedad",null=True, blank=True)
     medicamento = models.CharField(max_length=200, verbose_name="Medicamento",null=True, blank=True)
-    lugar_de_atencion = models.CharField(max_length=200, verbose_name="lLugar De Atencion",null=True, blank=True)
+    lugar_de_atencion = models.CharField(max_length=200, verbose_name="Lugar De Atencion",null=True, blank=True)
     discapacidad = models.BooleanField(default = False, verbose_name = "Discapacidad",null=True, blank=True)
     certificado_compin = models.BooleanField(default = False, verbose_name = "Certificado Compin",null=True, blank=True)
     embarazo = models.BooleanField(default = False, verbose_name = "Embarazo",null=True, blank=True)
@@ -205,7 +205,7 @@ class PersonaInfoSalud(models.Model):
             ('ESENCIAL','Esencial'),
             ),
             verbose_name="Isapre")
-    comentarios = models.CharField(max_length=200, verbose_name="Comentarios ", null=True)
+    comentarios = models.CharField(max_length=200, verbose_name="Comentarios ", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación', editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición', editable=False)
 
@@ -232,3 +232,12 @@ class PersonaInfoSalud(models.Model):
       else:
         return super(PersonaInfoSalud, self).save(*args, **kwargs)
       
+class PersonaArchivos(models.Model):
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
+    archivo = models.FileField(blank=True, null=True,upload_to='archivos_personas/%Y/%m/%d/')
+
+    class Meta:
+      verbose_name = "Archivo de persona"
+      verbose_name_plural = "Archivos de persona"
+    def __str__(self):
+        return f'Archivo N°:  {self.pk} || Asociada a la persona:  {self.persona}'

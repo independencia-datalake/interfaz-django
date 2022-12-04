@@ -6,7 +6,8 @@ from .models import (
     Telefono,
     Correo,
     Direccion,
-    PersonaInfoSalud
+    PersonaInfoSalud,
+    PersonaArchivos
 )
 
 #QUE LAS CALLES SEAN SOLO DE LECTURA
@@ -34,4 +35,5 @@ admin.site.register(Telefono, TelefonoAdmin)
 admin.site.register(Correo, CorreoAdmin)
 admin.site.register(Direccion, DireccionAdmin)
 admin.site.register(PersonaInfoSalud)
+admin.site.register(PersonaArchivos)
 

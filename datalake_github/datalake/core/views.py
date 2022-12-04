@@ -9,7 +9,8 @@ from .models import (
     Persona,
     CallesIndependencia,
     Direccion,
-    PersonaInfoSalud
+    PersonaInfoSalud,
+    PersonaArchivos
 )
 from .forms import (
     PersonaModelForm,
@@ -18,6 +19,7 @@ from .forms import (
     CorreoModelForm,
     DireccionModelForm,
     PersonaInfoSaludModelForm,
+    PersonaArchivosModelForm
 )
 
 @login_required
@@ -74,6 +76,7 @@ def persona_crear(request, pk, n_iden,ty_iden):
     correo = CorreoModelForm()
     direccion = DireccionModelForm()
     info_salud = PersonaInfoSaludModelForm()
+    archivos = PersonaArchivosModelForm()
 
     if request.method == 'POST':
         form_persona = PersonaModelForm(request.POST)
@@ -81,6 +84,8 @@ def persona_crear(request, pk, n_iden,ty_iden):
         correo = CorreoModelForm(request.POST) #anteriormente form_correo
         direccion = DireccionModelForm(request.POST) #anteriormente form_direccion
         info_salud = PersonaInfoSaludModelForm(request.POST)  # anteriormente form_info_salud
+        archivos = PersonaArchivosModelForm(request.POST, request.FILES)
+        files = request.FILES.getlist("file[]")
         forms = [
             telefono, #anteriormente form_telefono
             correo, #anteriormente form_persona
@@ -100,6 +105,12 @@ def persona_crear(request, pk, n_iden,ty_iden):
             uv_nueva = direccion_nueva.uv
             persona.uv = uv_nueva
             persona.save()
+
+            for f in files:
+                print(str(f))
+                PersonaArchivos(archivo = f,
+                persona = persona).save()
+
             messages.success(request, f'La persona fue creado con exito')
             if ruta == 1:
                 return redirect('comprobanteventa-create', pk=pk)
@@ -118,6 +129,7 @@ def persona_crear(request, pk, n_iden,ty_iden):
         'correo':correo,
         'direccion':direccion,
         'info_salud':info_salud,
+        'archivos':archivos,
     }
 
     return render(request, 'core/persona_form.html', context)

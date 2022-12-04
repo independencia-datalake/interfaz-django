@@ -53,18 +53,22 @@
                 <label for="graf1">Grafico 1</label><br>
                 <input type="radio" value = "Grafico 2" id="graf2" name="show_chart" onclick="showChart(this)" data-chart-name="myChart2">
                 <label for="graf2">Grafico 2</label><br>
+                <input type="radio" value = "Grafico 3" id="graf3" name="show_chart" onclick="showChart(this)" data-chart-name="myChart3">
+                <label for="graf3">Grafico 3</label><br>
             </div>
             <div class="chart-container" style="text-align: center; height:500px; width:700px;margin: 0 auto">
               <canvas  id="myChart" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
               <canvas hidden="hidden" id="myChart2" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
+              <canvas hidden="hidden" id="myChart3" style="height:500px; width:700px ;margin: 0 auto;"></canvas>
+            
               <div class="container" id="startdate-container" hidden="hidden">
                 <span style="float: left;">
                   <label for="startdate">Fecha inicio:</label>
-                  <input onchange="filterData()" type="date" id="startdate" value="2022-01-01">
+                  <input onchange="filterDataStart(this)" type="date" id="startdate" value="2022-10-01">
                 </span>
                 <span style="float: right;">
                   <label for="enddate">Fecha fin:</label>
-                  <input onchange="filterData()" type="date" id="enddate">
+                  <input onchange="filterDataEnd(this)" type="date" id="enddate">
                 </span>
 
 
@@ -93,6 +97,9 @@
 
 <script >
 {% block script %}
+
+    const fecha = new Date();
+
     var myChart = new Chart(document.getElementById("myChart"), {
         type: 'bar',
         data: {
@@ -127,17 +134,18 @@
 
 
     var myChart = new Chart(document.getElementById("myChart2"), {
-        type: 'line',
         data: {
         labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
         datasets: [
             {
+            type: 'bar',
             label: 'Ventas por dia',
             backgroundColor: "#3e95cd",
             borderColor: "#3e95cd",
             data: [ {% for cantidad in data_fecha.values %} '{{ cantidad }}', {% endfor %} ],
             },
             {
+            type: 'line',  
             label: 'Ventas acumuladas',
             backgroundColor: "#8e5ea2",
             borderColor: "#8e5ea2",
@@ -158,6 +166,8 @@
             scales: {
               x: {
                 display: true,
+                min: '2022-10-01',
+                max: fecha,
                 type: 'time',
                 time: {
                   unit: 'day',
@@ -173,25 +183,89 @@
         }
     });
 
+    var colores =["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"];
+    
+  
+    console.log(`{{ data_fecha_all_js }}`)
+    var data3 = {
+      labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
+      datasets: [{% for i in data_fecha_all %}
+        {
+        label: `{{ i|last }}.values`,
+        data: ['{{forloop.counter}}','{{forloop.counter}}','{{forloop.counter}}'],
+        backgroundColor: colores['{{forloop.counter}}'],
+        borderColor: colores['{{forloop.counter}}'],
+        borderWidth: 1
+        },
+        {% endfor %}
+    ]
+    };
+
+    const config3 = {
+      type: 'line',
+      data: data3,
+      options: {
+        scales: {
+          x: {
+            display: true,
+            min: '2022-10-01',
+            max: fecha,
+            type: 'time',
+            time: {
+              unit: 'day',
+            }
+          },          
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    }
+    var myChart3 = new Chart(document.getElementById("myChart3"), 
+      config3
+    );
+
   function showChart(checkbox) {
     const grafo1 = document.getElementById('myChart');
     const grafo2 = document.getElementById('myChart2');
     const date1 = document.getElementById('startdate-container');
+    const grafo3 = document.getElementById('myChart3');
     if(document.getElementById('graf1').checked) {
       grafo1.removeAttribute("hidden");
       grafo2.setAttribute("hidden", "hidden");
       date1.setAttribute("hidden", "hidden");
-    } else {
+      grafo3.setAttribute("hidden", "hidden");
+    } else if (document.getElementById('graf2').checked) {
       grafo1.setAttribute("hidden", "hidden");      
       grafo2.removeAttribute("hidden");
       date1.removeAttribute("hidden");
+      grafo3.setAttribute("hidden", "hidden");
+    } else {
+      grafo1.setAttribute("hidden", "hidden");    
+      grafo2.setAttribute("hidden", "hidden");
+      date1.removeAttribute("hidden");
+      grafo3.removeAttribute("hidden");
     }
     grafo1.classList.toggle('hide');
     grafo2.classList.toggle('hide');
+    grafo3.classList.toggle('hide');
   }
-  function filderData() {
-    
+  function filterDataStart(date) {
+    const startDate = `${date.value}`;
+    myChart.options.scales.x.min = startDate;
+    myChart.update();
+    myChart3.options.scales.x.min = startDate;
+    myChart3.update();
   }
+
+  function filterDataEnd(date) {
+    const endDate = `${date.value}`;
+    myChart.options.scales.x.max = endDate;
+    myChart.update();
+    myChart3.options.scales.x.max = endDate;
+    myChart3.update();    
+  }
+
 
 {% endblock %}
 </script>
