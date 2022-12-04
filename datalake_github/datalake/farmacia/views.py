@@ -11,7 +11,7 @@ from django.http import HttpResponse
 import pandas as pd
 import json
 from datetime import datetime
-from collections import OrderedDict
+
 
 from core.models import(
     Persona,
@@ -53,6 +53,8 @@ from .filters import (
 #STATUS (IMITACION DE LOS JSON)
 INFORME_VENTAS_STATUS = []
 INFORME_VENTA_FECHA_STATUS = dict()
+INFORME_VENTA_FECHA_STATUS_ALL = dict()
+cantidad_acumulada = dict()
 
 # COMPROVANTE VENTA
 class InicioComprobanteVenta(ListView):
@@ -477,6 +479,8 @@ def informeinicio(request):
 def informe_ventas(request):
     global INFORME_VENTAS_STATUS
     global INFORME_VENTA_FECHA_STATUS
+    global INFORME_VENTA_FECHA_STATUS_ALL
+    global cantidad_acumulada
 
     lista_productos = []
     cantidad_productos = []
@@ -486,7 +490,7 @@ def informe_ventas(request):
 
 
     form = ProductoVendidoInformeForm
-    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS}
+    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS, 'cantidad_acumulada': cantidad_acumulada}
     if request.method == 'POST':
         form = ProductoVendidoInformeForm(request.POST)
         if request.POST.get("newItem") and form.is_valid():
@@ -508,14 +512,25 @@ def informe_ventas(request):
                     INFORME_VENTA_FECHA_STATUS[i[0]] = INFORME_VENTA_FECHA_STATUS[i[0]] + i[1]
                 else:
                     INFORME_VENTA_FECHA_STATUS[i[0]]=i[1]
-
+            data_fecha_all = []
+            for i in lista_productos:
+                producto_aux = productos_by_cantidad_fecha(nombre)
+                for j in producto_aux:
+                    if j[0] in INFORME_VENTA_FECHA_STATUS_ALL.keys():
+                        INFORME_VENTA_FECHA_STATUS_ALL[j[0]] = INFORME_VENTA_FECHA_STATUS_ALL[j[0]] + j[1]
+                    else:
+                        INFORME_VENTA_FECHA_STATUS_ALL[j[0]]=j[1]
+                dict_aux = INFORME_VENTA_FECHA_STATUS_ALL
+                dict_aux = json.dumps(dict_aux)
+                data_fecha_all.append([i,dict_aux])
             data_fecha = INFORME_VENTA_FECHA_STATUS
             var = productos_by_cantidad_fecha_acumulado(nombre)
             cantidad_acumulada = dict()
             for i in var:
                 cantidad_acumulada[i[0]]=i[1]
+            print(data_fecha_all[0][-1])
 
-            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos, 'form':form, 'data_fecha':data_fecha, 'cantidad_acumulada':cantidad_acumulada}
+            context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos, 'form':form, 'data_fecha':data_fecha,'data_fecha_all':data_fecha_all, 'cantidad_acumulada':cantidad_acumulada}
 
         elif request.POST.get("clean"):
             lista_productos = []

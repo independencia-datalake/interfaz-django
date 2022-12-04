@@ -48,6 +48,7 @@ class ProductoIngresado(models.Model):
     precio_compra = models.PositiveIntegerField(default=0, verbose_name="Precio Compra Producto",null=True, blank=True)
     precio_venta = models.PositiveIntegerField(default=0, verbose_name="Precio Venta Producto",null=True, blank=True)
     n_venta = models.ForeignKey(OrdenIngresoProducto, on_delete=models.CASCADE)
+    n_factura = models.CharField(max_length=30,verbose_name="Numero de factura", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación", editable=False)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición", editable=False)
 
