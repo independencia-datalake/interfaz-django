@@ -6,7 +6,7 @@ from django.contrib.admin.widgets import(
 from django.forms.widgets import (
     RadioSelect,
 )
-
+from farmacia.models import ComprobanteVenta
 from .models import (
     CallesIndependencia,
     Persona,
@@ -14,6 +14,7 @@ from .models import (
     Correo,
     Direccion,
     PersonaInfoSalud,
+    PersonaArchivos,
 )
 
 TIPOS_DE_IDENTIFICACION = [
@@ -123,3 +124,11 @@ class PersonaInfoSaludModelForm(forms.ModelForm):
         if prevision == 'ISAPRE' and isapre == 'NO APLICA':
             raise forms.ValidationError('Seleccione una Prevision valida porfavor \n O en su defecto una Isapre Valida ')
         return data
+
+class PersonaArchivosModelForm(forms.ModelForm):
+
+    class Meta:
+        model = PersonaArchivos
+        fields = [
+            # 'archivo',
+        ]

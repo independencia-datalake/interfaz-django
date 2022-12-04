@@ -6,7 +6,7 @@
 
 <div class="container contenedor-wrap"> 
     <div class="content-section">
-        <form method="POST">
+        <form action='' method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Crear Perfil Persona</legend>
@@ -20,6 +20,12 @@
 							{{ telefono|crispy }}
 							{{ correo|crispy }}
                             {{ info_salud|crispy }}
+
+                            <div id="files">
+                                <input type="file" name = "file[]" style="width: 100%;"><br><br>
+                            </div>
+                            <input class='file-adicional' type ="button" name="add_file" id="add_file" value = "+">
+                            
 						</div>
 					</div>
 				</div>
@@ -38,5 +44,23 @@
 $( "#id_calle" ).autocomplete({
     source: '{% url 'autocompete_calles' %}'
 });      
+
+document.getElementById("add_file").onclick=function (ev) {
+            var image = document.getElementById("files");
+    
+            var newInput = document.createElement("input");
+            newInput.type="file";
+            newInput.name = "file[]";
+            newInput.style = "width: 100%";
+    
+            var br=document.createElement("br");
+            var br1=document.createElement("br");
+    
+            image.appendChild(newInput);
+            image.appendChild(br);
+            image.appendChild(br1);
+    
+        }
+
 {% endblock %}
 </script>

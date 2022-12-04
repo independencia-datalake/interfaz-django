@@ -85,6 +85,8 @@ class BodegaVirtualIngresoProductoForm(forms.ModelForm):
             'cantidad',
             'precio_compra',
             'precio_venta',
+            'lote',
+            'n_factura'
             # 'laboratorio',
             # 'cenabast',
             # 'proveedor',
