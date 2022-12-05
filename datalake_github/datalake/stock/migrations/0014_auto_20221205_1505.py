@@ -29,11 +29,6 @@ class Migration(migrations.Migration):
             field=models.IntegerField(blank=True, null=True, verbose_name='Stock minimo del producto'),
         ),
         migrations.AddField(
-            model_name='ordeningresoproducto',
-            name='farmaceuta',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='Profesional'),
-        ),
-        migrations.AddField(
             model_name='productoingresado',
             name='n_factura',
             field=models.CharField(blank=True, max_length=30, null=True, verbose_name='Numero de factura'),
