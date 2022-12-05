@@ -13,11 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='ordeningresoproducto',
-            name='farmaceuta',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='Profesional'),
-        ),
         migrations.AlterField(
             model_name='productomermado',
             name='motivo',
