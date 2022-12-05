@@ -188,11 +188,13 @@
   
     console.log(`{{ data_fecha_all_js }}`)
     var data3 = {
-      labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
-      datasets: [{% for i in data_fecha_all %}
+      // labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
+      datasets: [{% for i, j in data_fecha_all.items%}
         {
-        label: `{{ i|last }}.values`,
-        data: ['{{forloop.counter}}','{{forloop.counter}}','{{forloop.counter}}'],
+        label: `{{ i }}`,
+        // data: ['{{forloop.counter}}','{{forloop.counter}}','{{forloop.counter}}'],
+        data: [ {% for k in j %} ['{{ k|first }}','{{ k|last }}' ], {% endfor %} ],
+        labels: ['fecha', 'cantidad'], 
         backgroundColor: colores['{{forloop.counter}}'],
         borderColor: colores['{{forloop.counter}}'],
         borderWidth: 1
