@@ -11,7 +11,7 @@ from django.http import HttpResponse
 import pandas as pd
 import json
 from datetime import datetime
-
+from collections import OrderedDict
 
 from core.models import(
     Persona,
@@ -53,7 +53,7 @@ from .filters import (
 #STATUS (IMITACION DE LOS JSON)
 INFORME_VENTAS_STATUS = []
 INFORME_VENTA_FECHA_STATUS = dict()
-INFORME_VENTA_FECHA_STATUS_ALL = dict()
+INFORME_VENTA_FECHA_STATUS_ALL = OrderedDict()
 cantidad_acumulada = dict()
 
 # COMPROVANTE VENTA
@@ -188,7 +188,7 @@ def comprobante_venta_delete(request, pk):
         if request.user == c_venta.farmaceuta:
             c_venta.delete()
             messages.success(request, f'El comporbante de venta fue eliminado con exito')
-            return redirect('comprobanteventa-inicio')
+            return redirect('farmacia-home')
         else:
             messages.warning(request, f'No esta autorizado para eliminar el comprobante de venta')
             return redirect('comprobanteventa-inicio')
@@ -386,7 +386,7 @@ def producto_farmacia_delete(request, pk):
 
     if request.method == 'POST':
         producto_farmacia.delete()
-        return redirect('productofarmacia-inicio')
+        return redirect('farmacia-home')
 
     context = {
         'object': producto_farmacia,
@@ -512,23 +512,35 @@ def informe_ventas(request):
                     INFORME_VENTA_FECHA_STATUS[i[0]] = INFORME_VENTA_FECHA_STATUS[i[0]] + i[1]
                 else:
                     INFORME_VENTA_FECHA_STATUS[i[0]]=i[1]
-            data_fecha_all = []
+            data_fecha_all = dict()
             for i in lista_productos:
-                producto_aux = productos_by_cantidad_fecha(nombre)
+                name = ProductoFarmacia.objects.get(marca_producto=i)
+                producto_aux = productos_by_cantidad_fecha(name)
                 for j in producto_aux:
                     if j[0] in INFORME_VENTA_FECHA_STATUS_ALL.keys():
                         INFORME_VENTA_FECHA_STATUS_ALL[j[0]] = INFORME_VENTA_FECHA_STATUS_ALL[j[0]] + j[1]
                     else:
                         INFORME_VENTA_FECHA_STATUS_ALL[j[0]]=j[1]
+                lista_falsa = []
+
+                for k in INFORME_VENTA_FECHA_STATUS_ALL.keys():
+                    lista_falsa.append([k,INFORME_VENTA_FECHA_STATUS_ALL[k]])
+
                 dict_aux = INFORME_VENTA_FECHA_STATUS_ALL
                 dict_aux = json.dumps(dict_aux)
-                data_fecha_all.append([i,dict_aux])
-            data_fecha = INFORME_VENTA_FECHA_STATUS
+                dict_aux = lista_falsa
+                
+                # data_fecha_all.append([i,dict_aux])
+                data_fecha_all[i]=dict_aux
+                dict_aux = OrderedDict()
+                data_fecha = INFORME_VENTA_FECHA_STATUS_ALL
+                INFORME_VENTA_FECHA_STATUS_ALL = OrderedDict()
+            if data_fecha == False: dict()
             var = productos_by_cantidad_fecha_acumulado(nombre)
-            cantidad_acumulada = dict()
+            cantidad_acumulada = OrderedDict()
             for i in var:
                 cantidad_acumulada[i[0]]=i[1]
-            print(data_fecha_all[0][-1])
+            
 
             context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos, 'form':form, 'data_fecha':data_fecha,'data_fecha_all':data_fecha_all, 'cantidad_acumulada':cantidad_acumulada}
 
