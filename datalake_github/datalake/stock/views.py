@@ -101,6 +101,8 @@ def salida_producto_stock(request):
 def ingreso_producto_stock(response):
     global INGRESO_STOCK_STATUS
 
+    
+
     orden_ingreso_actual = OrdenIngresoProducto.objects.latest('id')
     if orden_ingreso_actual.estado == True:
         orden_ingreso_actual = OrdenIngresoProducto.objects.create()

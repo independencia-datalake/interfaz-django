@@ -1,6 +1,7 @@
 from ayuda_funciones.rut import calculadora_rut
 from ayuda_funciones.uv import obtener_uv
 from django.db import models
+from django.urls import reverse
 
   # FUNCIONES PARA EL CALCULO DE LA UNIDAD VECINAL
 
@@ -214,14 +215,6 @@ class PersonaInfoSalud(models.Model):
       verbose_name_plural = 'Informacion de salud Personas'
       ordering = ['created']
 
-
-    def save(self, *args, **kwargs):
-        prevision = self.prevision
-        if prevision != 'ISAPRE':
-          self.isapre = 'NO APLICA'
-        return super(PersonaInfoSalud, self).save(*args, **kwargs)
-
-
     def __str__(self):
       return f'{self.persona}'
 
@@ -231,6 +224,8 @@ class PersonaInfoSalud(models.Model):
         return super(PersonaInfoSalud, self).save(*args, **kwargs)
       else:
         return super(PersonaInfoSalud, self).save(*args, **kwargs)
+    def  get_absolute_url(self):
+        return reverse("personainfosalud-informe")
       
 class PersonaArchivos(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')

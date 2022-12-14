@@ -45,7 +45,7 @@
     <div class="container contenedor-wrap"> 
         <div class="container">
             <h4 style="text-align: center;">Grafico de ventas</h4>
-            <button type="submit" class="btn btn-outline-info" style="float: right" name ="clean", value ="clean" form = "form_out">Remove data</button>
+            <button type="submit" class="btn btn-outline-info" style="float: right" name ="clean" onclick="update_grafico(this)" value ="clean" form = "form_out">Remove data</button>
             
 
             <div>
@@ -185,8 +185,6 @@
 
     var colores =["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"];
     
-  
-    console.log(`{{ data_fecha_all_js }}`)
     var data3 = {
       // labels: [ {% for fecha in data_fecha.keys %} '{{ fecha }}', {% endfor %} ],
       datasets: [{% for i, j in data_fecha_all.items%}
@@ -268,6 +266,10 @@
     myChart3.update();    
   }
 
+  function update_grafico(chart) {
+
+    chart.update();
+}
 
 {% endblock %}
 </script>

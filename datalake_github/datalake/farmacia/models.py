@@ -62,7 +62,7 @@ class ComprobanteVenta(models.Model):
 
 class Recetas(models.Model):
     receta = models.FileField(blank=True, null=True,upload_to='farmacia/receta_medica/%Y/%m/%d/')
-    comprobante_venta = models.ForeignKey(ComprobanteVenta, on_delete=models.PROTECT, verbose_name="Venta asociada")
+    comprobante_venta = models.ForeignKey(ComprobanteVenta, on_delete=models.CASCADE, verbose_name="Venta asociada")
 
     class Meta:
         verbose_name = "Receta Medica"
