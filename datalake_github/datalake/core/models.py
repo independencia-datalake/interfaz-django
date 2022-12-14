@@ -226,7 +226,6 @@ class PersonaInfoSalud(models.Model):
         return super(PersonaInfoSalud, self).save(*args, **kwargs)
     def  get_absolute_url(self):
         return reverse("personainfosalud-informe")
-      
 class PersonaArchivos(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Persona')
     archivo = models.FileField(blank=True, null=True,upload_to='archivos_personas/%Y/%m/%d/')
