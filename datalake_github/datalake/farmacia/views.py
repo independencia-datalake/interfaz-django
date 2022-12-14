@@ -589,7 +589,7 @@ def productos_by_cantidad_fecha_acumulado(producto):
 class PersonaInfoSaludList(ListView):
     model = PersonaInfoSalud
     context_object_name= 'filtrados'
-    ordering = []
+    ordering = ['persona']
     paginate_by = 10
     template_name = 'farmacia/personasalud_list.html'
 
