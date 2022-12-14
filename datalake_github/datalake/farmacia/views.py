@@ -41,12 +41,14 @@ from .forms import (
     ProductoVendidoInformeForm,
     ProductoVendidoFormset,
     CargaProductoModelForm, #Prueba
-    ProductoFarmaciaModelForm
+    ProductoFarmaciaModelForm,
+    PersonaInfoSaludEdicionForm
 )
 from .filters import (
     ProductoFarmaciaFilter,
     ComprobanteVentaFilter,
-    ProductosVendidosFilter
+    ProductosVendidosFilter,
+    PersonaInfoSaludFilter
 
 )
 
@@ -55,6 +57,7 @@ INFORME_VENTAS_STATUS = []
 INFORME_VENTA_FECHA_STATUS = dict()
 INFORME_VENTA_FECHA_STATUS_ALL = OrderedDict()
 cantidad_acumulada = dict()
+LAST_FECHA_DATA_ALL = OrderedDict()
 
 # COMPROVANTE VENTA
 class InicioComprobanteVenta(ListView):
@@ -481,6 +484,7 @@ def informe_ventas(request):
     global INFORME_VENTA_FECHA_STATUS
     global INFORME_VENTA_FECHA_STATUS_ALL
     global cantidad_acumulada
+    global LAST_FECHA_DATA_ALL
 
     lista_productos = []
     cantidad_productos = []
@@ -490,7 +494,7 @@ def informe_ventas(request):
 
 
     form = ProductoVendidoInformeForm
-    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS, 'cantidad_acumulada': cantidad_acumulada}
+    context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS, 'data_fecha_all': LAST_FECHA_DATA_ALL, 'cantidad_acumulada': cantidad_acumulada}
     if request.method == 'POST':
         form = ProductoVendidoInformeForm(request.POST)
         if request.POST.get("newItem") and form.is_valid():
@@ -532,6 +536,7 @@ def informe_ventas(request):
                 
                 # data_fecha_all.append([i,dict_aux])
                 data_fecha_all[i]=dict_aux
+                LAST_FECHA_DATA_ALL = data_fecha_all
                 dict_aux = OrderedDict()
                 data_fecha = INFORME_VENTA_FECHA_STATUS_ALL
                 INFORME_VENTA_FECHA_STATUS_ALL = OrderedDict()
@@ -550,9 +555,10 @@ def informe_ventas(request):
             INFORME_VENTAS_STATUS = []
 
             INFORME_VENTA_FECHA_STATUS.clear()
+            LAST_FECHA_DATA_ALL.clear()
 
             context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS}
-        
+    
     return render(request, 'farmacia/informe_ventas.html', context)
 
 def cantidad_ventas(producto):
@@ -579,3 +585,37 @@ def productos_by_cantidad_fecha_acumulado(producto):
         data_aux = [date,cantidad_aux]
         data.append(data_aux)
     return data
+
+class PersonaInfoSaludList(ListView):
+    model = PersonaInfoSalud
+    context_object_name= 'filtrados'
+    ordering = []
+    paginate_by = 10
+    template_name = 'farmacia/personasalud_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = PersonaInfoSaludFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return PersonaInfoSaludFilter(self.request.GET, queryset=queryset).qs
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get('paginate_by', self.paginate_by)
+
+class EdicionPersonaInfoSalud(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
+    model = PersonaInfoSalud
+    form_class = PersonaInfoSaludEdicionForm
+    template_name = 'farmacia/personainfosalud_update.html'
+
+    def form_valid(self, form):
+        form.instance.autor = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        formulario = self.get_object()
+        # if self.request.user == formulario.autor:
+        #     return True
+        # return False
+        return True

@@ -22,7 +22,6 @@ from carga.models import(
 )
 
 
-
 def inicio_vis(request):
     filtro_tiempo=FiltroTiempo(request.POST or None)
 
@@ -325,7 +324,7 @@ def dimap_vis(request,categoria):
                             GROUP BY a.created, a.uc
                             order by a.created;'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in ComprobanteVenta.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
@@ -733,7 +732,7 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             order by sr.created asc'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in ComprobanteVenta.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')

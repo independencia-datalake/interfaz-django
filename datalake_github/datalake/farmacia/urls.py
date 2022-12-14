@@ -13,6 +13,8 @@ from .views import (
     InicioProductoFarmacia,
     EdicionProductoFarmacia,
     ProductosVendidosResumen,
+    PersonaInfoSaludList,
+    EdicionPersonaInfoSalud,
 
 )
 
@@ -41,4 +43,7 @@ urlpatterns = [
     #GENERADOR DE INFORMES
     path('Informes',views.informeinicio, name='Informes'),
     path('InformesVentas',views.informe_ventas,name='Informe-ventas'),
+    path('InformesPersonaInfoSalud',PersonaInfoSaludList.as_view(), name= 'personainfosalud-informe'),
+    #EDICION
+    path('PersonaInfoSalud/<int:pk>/edicion/',EdicionPersonaInfoSalud.as_view(),name="personainfosalud-update"),
 ]

@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Stock{% endblock %}
+{% block title %}Informe Info Salud{% endblock %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
   <div class="container cabecera-interior-tablas">
     <div class="row">
       <div class="col-sm vertical-align-middle">
-        <h3>Resumen Stock de Productos</h3>
+        <h3>Resumen Persona y su informacion de Salud</h3>
       </div>
       <div class="col-sm vertical-align-middle">
         
@@ -37,29 +37,27 @@
     <div>
 
     <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
-        <td>Marca del Producto</td>
-        <td>Stock actual</td> 
-        <td>Stock minimo</td>
+        <td>Nombre</td>
+        <td>Rut</td>
+        <td>Prevision</td> 
+        <td>Isapre</td>
         <!-- <td>Stock maximo</td> -->
-        <td>Holgura de Stock</td>
+        <td>Comentarios</td>
         <td>  </td>
         <!-- <td>  </td> -->
     {%for object in filtrados %}
     <tr>
-        <td>{{ object.nombre.marca_producto }}</td>
-        <td>{{ object.stock }}</td>
-        <td>{{ object.stock_min }}</td>
-        <!-- <td>{{ object.stock_max }}</td> -->
-        {% if object.stock > object.stock_min%}
-        <td>{{ object.holgura }}</td>
-        {% else %}
-        <td> {{object.holgura }} &nbsp {{ 'Stock bajo el minimo !!' }} &#128721</td>
-        {% endif %}
+        <td>{{ object.persona.nombre_persona}} {{ object.persona.apellido_paterno }} {{ object.persona.apellido_materno }}</td>
+        <td>{{ object.persona }} </td>
+        <td>{{ object.prevision }}</td>
+        <td>{{ object.isapre }}</td>
+        <td>{{ object.comentarios }}</td>
+
         
         {% if request.user.groups.all %}
         {% for group in request.user.groups.all %}
         {% if group.name == "Farmacia-Farmaceuta"%}        
-        <td><a class="btn ver-o-editar" href="{% url 'Stock-update' object.id %}">VER O EDITAR</a></td>
+        <td><a class="btn ver-o-editar" href="{% url 'personainfosalud-update' object.id %}">VER O EDITAR</a></td>
         <!-- <td> <a href="{% url 'Stock-update' object.id %}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-trash-alt fa-w-14 fa-2x"><path fill="currentColor" d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" class=""></path></svg></a></td> -->
        
         {% else %}
@@ -69,6 +67,7 @@
         {% endfor %}
         {% else %}
         <td> </td>
+
         {% endif %}  
     </tr>
     {%endfor%}

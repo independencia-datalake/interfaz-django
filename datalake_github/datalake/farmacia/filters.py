@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 import django_filters
 from core.models import(
     Persona,
+    PersonaInfoSalud,
 )
 from .models import (
     ComprobanteVenta,
@@ -55,4 +56,23 @@ class ProductosVendidosFilter(django_filters.FilterSet):
     def filter_by_order(self, queryset, name, value):
         expression = 'precio' if value == 'ascendente' else '-precio'
         return queryset.order_by(expression)
+
+class PersonaInfoSaludFilter(django_filters.FilterSet):
+    OPCIONES = (
+        ('ascendente','Ascendente'),
+        ('descendente','Descendente'),
+    )
     
+    persona_filtro = django_filters.CharFilter(label="Rut Persona", field_name='persona', lookup_expr='icontains')
+    prevision_filtro = django_filters.CharFilter(label="Prevision", field_name='prevision', lookup_expr='icontains') 
+    isapre_filtro =  django_filters.CharFilter(label="Isapre", field_name='isapre', lookup_expr='icontains')
+    ordering = django_filters.ChoiceFilter(label='Orden por precio', choices=OPCIONES, method='filter_by_order')
+
+    class Meta:
+        model = PersonaInfoSalud
+        fields = {
+
+        }
+    def filter_by_order(self, queryset, name, value):
+        expression = 'persona' if value == 'ascendente' else '-persona'
+        return queryset.order_by(expression)
