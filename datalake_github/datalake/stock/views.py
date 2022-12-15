@@ -8,7 +8,7 @@ from farmacia.forms import ComprobanteVentaModelForm
 from .models import (
     BodegaVirtual,
     OrdenIngresoProducto,
-    OrdenIngresoList,
+    OrdenIngresoLista,
     ProductoIngresado,
     ProductoMermado,
 )
@@ -157,7 +157,7 @@ def salida_producto_stock(request):
 
 def ingreso_producto_stock(response):
     INGRESO_STOCK_LIST = []
-    qs = OrdenIngresoList.objects.all()
+    qs = OrdenIngresoLista.objects.all()
     for i in qs:
         id_aux = 1
         update = {'producto': i.producto, 'cantidad': i.cantidad_ingresada, 'precio': i.precio_compra,'precio_venta': i.precio_venta, 'lote':i.n_lote, 'n_factura':i.n_factura}
@@ -177,7 +177,7 @@ def ingreso_producto_stock(response):
         if response.POST.get("save"):
             for i in temp:
                 ProductoIngresado(
-                        nombre = ProductoFarmacia.objects.get(id=i.get('id_nombre')),
+                        nombre = i.get('producto'),
                         cantidad = i.get('cantidad'),
                         precio_compra = i.get('precio'),
                         precio_venta = i.get('precio_venta'),
@@ -185,7 +185,8 @@ def ingreso_producto_stock(response):
                         n_factura = i.get('n_factura'),
                         n_venta = orden_ingreso_actual).save()
 
-            INGRESO_STOCK_STATUS = []
+            temp = []
+            OrdenIngresoLista.objects.all().delete()
             orden_ingreso_actual.estado = True
             orden_ingreso_actual.farmaceuta = response.user
             orden_ingreso_actual.save()
@@ -203,7 +204,7 @@ def ingreso_producto_stock(response):
             n_factura = form.cleaned_data.get('n_factura')
             # id_lab = Laboratorios.objects.get(nombre_laboratorio=laboratorio).id #todo LO DEL LABORATORIO
             update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta, 'lote':lote, 'n_factura':n_factura}
-            OrdenIngresoList(
+            OrdenIngresoLista(
                 producto = nombre,
                 cantidad_ingresada = cantidad,
                 precio_compra = precio_compra,
@@ -215,7 +216,7 @@ def ingreso_producto_stock(response):
             temp.append(update)
         elif response.POST.get("cancel"):
             temp = []
-            OrdenIngresoList.objects.all().delete()
+            OrdenIngresoLista.objects.all().delete()
             context = {"ls":ls,"form":form,"temp":temp, "form2":form2}
 
     return render(response, "stock/Stock_ingreso.html",context)
