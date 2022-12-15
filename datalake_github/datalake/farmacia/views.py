@@ -92,7 +92,7 @@ def comprobante_venta_form(request, pk):
                 stock_actual = BodegaVirtual.objects.get(nombre=nombre).stock          
                 if cantidad > stock_actual:
                     messages.warning(request, f'No hay Stock suficiente del Producto {nombre}, ya que solo quedan {stock_actual} unidades')
-                    return redirect('comprobanteventa-create', pk=1)
+                    return redirect('comprobanteventa-create', pk=pk)
             # del nombre, cantidad, stock_actual
 
             obj = form.save(commit=False)

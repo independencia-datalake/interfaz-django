@@ -41,6 +41,17 @@ class OrdenIngresoProducto(models.Model):
     def __str__(self):
         return f'{self.id}'
 
+class OrdenIngresoList(models.Model):
+    producto = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
+    cantidad_ingresada = models.PositiveIntegerField(default=1, verbose_name="Cantidad Ingresada al Stock")
+    precio_compra = models.PositiveIntegerField(default=0, verbose_name="Precio Compra Producto",null=True, blank=True)
+    precio_venta = models.PositiveIntegerField(default=0, verbose_name="Precio Venta Producto",null=True, blank=True)
+    n_lote = models.CharField(max_length=30,verbose_name="Numero de Lote", null=True, blank=True)
+    n_factura = models.CharField(max_length=30,verbose_name="Numero de factura", null=True, blank=True)
+    
+    def __str__(self):
+        return f'{self.producto} || Cantidad Ingresada:  {self.cantidad_ingresada} || N° de lote: {self.n_lote}' 
+
 class ProductoIngresado(models.Model):
     nombre = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
     cantidad = models.PositiveIntegerField(default=1, verbose_name="Cantidad Ingresada al Stock")

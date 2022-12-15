@@ -8,6 +8,7 @@ from farmacia.forms import ComprobanteVentaModelForm
 from .models import (
     BodegaVirtual,
     OrdenIngresoProducto,
+    OrdenIngresoList,
     ProductoIngresado,
     ProductoMermado,
 )
@@ -98,16 +99,75 @@ def salida_producto_stock(request):
         form = BodegaVirtualsalidaForm()
     return render(request, 'stock/Stock_salida.html',{"form":form})
 
-def ingreso_producto_stock(response):
-    global INGRESO_STOCK_STATUS
+# def ingreso_producto_stock(response):
+#     global INGRESO_STOCK_STATUS
 
     
+
+#     orden_ingreso_actual = OrdenIngresoProducto.objects.latest('id')
+#     if orden_ingreso_actual.estado == True:
+#         orden_ingreso_actual = OrdenIngresoProducto.objects.create()
+#     ls = orden_ingreso_actual.id
+#     temp = INGRESO_STOCK_STATUS
+    
+#     form = BodegaVirtualIngresoProductoForm
+#     form2 = ComprobanteVentaModelForm()
+#     context = {"ls":ls,"form":form,"temp":temp, "form2":form2}
+#     if response.method == "POST":
+#         form = BodegaVirtualIngresoProductoForm(response.POST)
+#         if response.POST.get("save"):
+#             for i in temp:
+#                 ProductoIngresado(
+#                         nombre = ProductoFarmacia.objects.get(id=i.get('id_nombre')),
+#                         cantidad = i.get('cantidad'),
+#                         precio_compra = i.get('precio'),
+#                         precio_venta = i.get('precio_venta'),
+#                         lote = i.get('lote'),
+#                         n_factura = i.get('n_factura'),
+#                         n_venta = orden_ingreso_actual).save()
+
+#             INGRESO_STOCK_STATUS = []
+#             orden_ingreso_actual.estado = True
+#             orden_ingreso_actual.farmaceuta = response.user
+#             orden_ingreso_actual.save()
+#             messages.success(response, f'El producto fue ingresado con exito')
+#             return render(response, "stock/Stock_home.html")
+
+#         elif response.POST.get("newItem") and form.is_valid():
+#             nombre = form.cleaned_data.get('nombre')
+#             id_nombre = nombre.id
+#             cantidad = form.cleaned_data.get('cantidad')
+#             precio_compra = form.cleaned_data.get('precio_compra')
+#             precio_venta = form.cleaned_data.get('precio_venta')
+#             n_venta = orden_ingreso_actual
+#             lote = form.cleaned_data.get('lote')
+#             n_factura = form.cleaned_data.get('n_factura')
+#             # id_lab = Laboratorios.objects.get(nombre_laboratorio=laboratorio).id #todo LO DEL LABORATORIO
+#             update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta, 'lote':lote, 'n_factura':n_factura}
+#             INGRESO_STOCK_STATUS.append(update_json)
+
+#         elif response.POST.get("cancel"):
+#             temp = []
+#             INGRESO_STOCK_STATUS = []
+#             context = {"ls":ls,"form":form,"temp":temp, "form2":form2}
+
+#     temp = INGRESO_STOCK_STATUS
+#     context["temp"]=temp
+#     return render(response, "stock/Stock_ingreso.html",context)
+
+def ingreso_producto_stock(response):
+    INGRESO_STOCK_LIST = []
+    qs = OrdenIngresoList.objects.all()
+    for i in qs:
+        id_aux = 1
+        update = {'producto': i.producto, 'cantidad': i.cantidad_ingresada, 'precio': i.precio_compra,'precio_venta': i.precio_venta, 'lote':i.n_lote, 'n_factura':i.n_factura}
+        INGRESO_STOCK_LIST.append(update)
 
     orden_ingreso_actual = OrdenIngresoProducto.objects.latest('id')
     if orden_ingreso_actual.estado == True:
         orden_ingreso_actual = OrdenIngresoProducto.objects.create()
     ls = orden_ingreso_actual.id
-    temp = INGRESO_STOCK_STATUS
+    temp = INGRESO_STOCK_LIST
     
     form = BodegaVirtualIngresoProductoForm
     form2 = ComprobanteVentaModelForm()
@@ -143,12 +203,19 @@ def ingreso_producto_stock(response):
             n_factura = form.cleaned_data.get('n_factura')
             # id_lab = Laboratorios.objects.get(nombre_laboratorio=laboratorio).id #todo LO DEL LABORATORIO
             update_json = {'producto': str(nombre),'id_nombre': id_nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta, 'lote':lote, 'n_factura':n_factura}
-            INGRESO_STOCK_STATUS.append(update_json)
-
+            OrdenIngresoList(
+                producto = nombre,
+                cantidad_ingresada = cantidad,
+                precio_compra = precio_compra,
+                precio_venta = precio_venta,
+                n_lote = lote,
+                n_factura = n_factura
+            ).save()
+            update = {'producto': nombre, 'cantidad': cantidad, 'precio': precio_compra,'precio_venta': precio_venta, 'lote':lote, 'n_factura':n_factura}
+            temp.append(update)
         elif response.POST.get("cancel"):
             temp = []
-            INGRESO_STOCK_STATUS = []
+            OrdenIngresoList.objects.all().delete()
             context = {"ls":ls,"form":form,"temp":temp, "form2":form2}
 
     return render(response, "stock/Stock_ingreso.html",context)
-
