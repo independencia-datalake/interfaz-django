@@ -20,8 +20,7 @@ from carga.models import(
     ExencionAseo,
     DOM
 )
-import locale
-locale.setlocale(locale.LC_ALL,'es_ES.UTF-8')
+
 
 def inicio_vis(request):
     filtro_tiempo=FiltroTiempo(request.POST or None)
