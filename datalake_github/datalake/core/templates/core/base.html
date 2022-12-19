@@ -50,7 +50,7 @@
     {% endif %}
     {% if request.user.groups.all %}
     {% for group in request.user.groups.all %}
-        {% if group.name == 'farmacia' %}
+        {% if group.name == 'farmacia' or group.name == 'Farmacia-Farmaceuta' or group.name == 'Farmacia-Vendedor' %}
           <li><a href="{% url 'farmacia-home' %}" class="link-inicio">Pagina Principal</a></li>
         {% elif group.name == 'dimap' %}
           <li><a href="{% url 'dimap-home' %}" class="link-inicio">Pagina Principal</a></li>
@@ -105,7 +105,7 @@
             <div class="container">
                 {% if request.user.groups.all %}
                 {% for group in request.user.groups.all %}
-                    {% if group.name == 'farmacia' %}
+                    {% if group.name == 'farmacia' or group.name == 'Farmacia-Farmaceuta' or group.name == 'Farmacia-Vendedor' %}
                       <a class="nav-link" href="{% url 'farmacia-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>
                     {% elif group.name == 'dimap' %}
                       <a class="nav-link" href="{% url 'dimap-home' %}"><img src="{% static 'core/css/img/form-independencia.png' %}"/></a>

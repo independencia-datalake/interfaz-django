@@ -26,12 +26,13 @@
                     <h4>Ficha de ingreso N°{{ls}}</h4>
                     <ol>
                         {%for dict in temp %}
-                        <li>
+                        <li style="margin: 2px 0;">
                             {{'Producto: '}} {{dict.producto}} {{'|| Cantidad: '}} {{dict.cantidad}}
+                             <button class="btn eliminar-lista float-right" type="submit" name='{{ forloop.counter }}' value="eliminar-lista" form = "form_out">X</button>
                         </li>
                         {%endfor%}
                     </ol>
-
+ 
                     <h4>Producto a ingresar</h4>
 
                     {{form|crispy}}

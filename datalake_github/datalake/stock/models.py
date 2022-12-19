@@ -41,7 +41,7 @@ class OrdenIngresoProducto(models.Model):
     def __str__(self):
         return f'{self.id}'
 
-class OrdenIngresoList(models.Model):
+class OrdenIngresoLista(models.Model):
     producto = models.ForeignKey(ProductoFarmacia, on_delete=models.PROTECT, verbose_name="Nombre Producto")
     cantidad_ingresada = models.PositiveIntegerField(default=1, verbose_name="Cantidad Ingresada al Stock")
     precio_compra = models.PositiveIntegerField(default=0, verbose_name="Precio Compra Producto",null=True, blank=True)
