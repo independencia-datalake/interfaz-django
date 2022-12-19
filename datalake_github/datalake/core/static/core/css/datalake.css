@@ -529,3 +529,16 @@ contenedor-grafico{
     border-color: #FC3D59;
 }
 .file-adicional:hover{ background-color:#000; border:1px solid #000; color:#FFF;}
+
+.eliminar-lista{
+	border-radius: 0 !important;
+    padding: 1px 5px !important;
+    font-size: 0.8em;
+	color: #fff;
+    background-color: #FC3D59;
+    background-image: none;
+    border-color: #000000;
+
+
+}
+.eliminar-lista:hover{ background-color:#000; border:1px solid #000; color:#FFF;}
