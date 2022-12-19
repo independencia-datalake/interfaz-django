@@ -20,8 +20,7 @@ from carga.models import(
     ExencionAseo,
     DOM
 )
-import locale
-locale.setlocale(locale.LC_ALL,'es_ES.UTF-8')
+
 
 def inicio_vis(request):
     filtro_tiempo=FiltroTiempo(request.POST or None)
@@ -74,24 +73,27 @@ def farmacia_vis(request):
 
 
         tiempo = []
-        query_tiempo = '''select u.id, u.numero_uv, max(fc.created) max, min(fc.created) min
+        query_tiempo = '''select u.id, u.numero_uv, fc.created ,max(fc.created) max, min(fc.created) min
                         from farmacia_comprobanteventa fc
                         left join core_persona p
                             on fc.comprador_id = p.id
                         left join core_uv u
                             on p.uv_id = u.id 
-                        order by fc.created asc;'''
+                        GROUP BY u.id, fc.created;'''
 
         for c in ComprobanteVenta.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+        #fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        #fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': 'farmacia'
         }
         
@@ -319,19 +321,20 @@ def dimap_vis(request,categoria):
                             left join core_uv cu
                                 on cp.uv_id = cu.id
                             where cu.numero_uv <> 0) a
-                            order by created asc'''
+                            GROUP BY a.created, a.uc
+                            order by a.created;'''
 
         for c in ComprobanteVenta.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': filtro_mapa[categoria]
         }
 
