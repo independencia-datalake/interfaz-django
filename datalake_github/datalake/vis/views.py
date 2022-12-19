@@ -324,7 +324,7 @@ def dimap_vis(request,categoria):
                             GROUP BY a.created, a.uc
                             order by a.created;'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
+        for c in SeguridadDIMAP.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
@@ -732,7 +732,7 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             order by sr.created asc'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
+        for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
@@ -1113,7 +1113,7 @@ def exencion_vis(request, categoria):
                             where ce.uv_id <> 0
                             order by ce.marca_temporal asc;'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in ExencionAseo.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S')
@@ -1477,7 +1477,7 @@ def entrega_pandemia_vis(request, categoria):
                             where ce.uv_id <> 1
                             order by ce.fecha asc;'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in EntregasPandemia.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
@@ -1923,7 +1923,7 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             order by ce.created asc;'''
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in Empresas.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
@@ -2240,7 +2240,7 @@ def transito_vis(request, categoria):
                           ORDER BY fecha'''
 
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in LicenciaConducir.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
@@ -2721,7 +2721,7 @@ def obras_municipales_vis(request,categoria):
                             order by cd.created asc;'''
 
 
-        for c in ComprobanteVenta.objects.raw(query_tiempo):
+        for c in DOM.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
