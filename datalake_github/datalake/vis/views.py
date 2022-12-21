@@ -739,13 +739,11 @@ def seguridad_vis(request, categoria):
 
         fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
         fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
-
-        # fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
-        # fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')        
+       
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': filtro_mapa[categoria]
         }
 
