@@ -730,7 +730,9 @@ def seguridad_vis(request, categoria):
                             left join core_uv cu
                                 on sr.uv_id = cu.id
                             where sr.uv_id <> 0
-                            order by sr.created asc'''
+                            GROUP BY cu.id, sr.created;'''
+
+                            #order by sr.created asc'''
 
         for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
