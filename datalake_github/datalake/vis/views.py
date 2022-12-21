@@ -735,8 +735,11 @@ def seguridad_vis(request, categoria):
         for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+        # fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        # fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')        
 
         fechas_categoria = {
             'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
