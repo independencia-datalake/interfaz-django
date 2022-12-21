@@ -738,7 +738,7 @@ def seguridad_vis(request, categoria):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         # fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
         # fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')        
