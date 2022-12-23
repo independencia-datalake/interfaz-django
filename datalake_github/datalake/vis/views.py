@@ -1121,12 +1121,12 @@ def exencion_vis(request, categoria):
         for c in ExencionAseo.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S')
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': filtro_mapa[categoria]
         }
 
