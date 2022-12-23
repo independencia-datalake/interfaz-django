@@ -324,7 +324,8 @@ def dimap_vis(request,categoria):
                             GROUP BY a.created, a.uc
                             order by a.created;'''
 
-        for c in SeguridadDIMAP.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
+        
+        for c in SeguridadDIMAP.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
@@ -1114,7 +1115,8 @@ def exencion_vis(request, categoria):
                                 ce.marca_temporal, max(ce.marca_temporal) max, min(ce.marca_temporal) min
                             from carga_exencionaseo ce
                             where ce.uv_id <> 0
-                            order by ce.marca_temporal asc;'''
+                            GROUP BY ce.uv_id, marca_temporal  
+                            order by ce.marca_temporal asc;''' #todo SE AGREGO GROUP BY
 
         for c in ExencionAseo.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
