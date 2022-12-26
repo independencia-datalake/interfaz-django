@@ -73,13 +73,14 @@ def farmacia_vis(request):
 
 
         tiempo = []
-        query_tiempo = '''select u.id, u.numero_uv, fc.created ,max(fc.created) max, min(fc.created) min
+        query_tiempo = '''select 1 as id, max(fc.created) max, min(fc.created) min
+                        from (select u.id, u.numero_uv, fc.created ,max(fc.created) max, min(fc.created) min
                         from farmacia_comprobanteventa fc
                         left join core_persona p
                             on fc.comprador_id = p.id
                         left join core_uv u
                             on p.uv_id = u.id 
-                        GROUP BY u.id, fc.created;'''
+                        GROUP BY u.id, fc.created) as fc'''
 
         for c in ComprobanteVenta.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
@@ -294,8 +295,9 @@ def dimap_vis(request,categoria):
         
         
         tiempo = []
-        query_tiempo = '''select a.uc as id, a.created, max(a.created) max, min(a.created) min from
-                            (select cu.numero_uv as uc, dc.created
+        query_tiempo = '''select 1 as id, max(a.created) max, min(a.created) min 
+                            from (select a.uc as id, a.created
+							from(select cu.numero_uv as uc, dc.created
                             from dimap_controlplaga dc
                             left join core_persona cp 
                                 on dc.persona_id = cp.id
@@ -322,7 +324,7 @@ def dimap_vis(request,categoria):
                                 on cp.uv_id = cu.id
                             where cu.numero_uv <> 0) a
                             GROUP BY a.created, a.uc
-                            order by a.created;'''
+                            order by a.created) as a'''
 
         
         for c in SeguridadDIMAP.objects.raw(query_tiempo):
@@ -1121,12 +1123,12 @@ def exencion_vis(request, categoria):
             lista_mapa = lista_mapa_1
 
         tiempo = []
-        query_tiempo = '''select ce.uv_id as id,
-                                ce.marca_temporal, max(ce.marca_temporal) max, min(ce.marca_temporal) min
+        query_tiempo = '''select 1 as id, max(ce.marca_temporal) max, min(ce.marca_temporal) min
+                            from (select ce.uv_id as id, ce.marca_temporal
                             from carga_exencionaseo ce
                             where ce.uv_id <> 0
                             GROUP BY ce.uv_id, marca_temporal  
-                            order by ce.marca_temporal asc;''' #todo SE AGREGO GROUP BY
+                            order by ce.marca_temporal asc) as ce''' #todo SE AGREGO GROUP BY
 
         for c in ExencionAseo.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
@@ -1486,11 +1488,11 @@ def entrega_pandemia_vis(request, categoria):
 
 
         tiempo = []
-        query_tiempo = '''select ce.uv_id as id,
-                                ce.fecha, max(ce.fecha) max, min(ce.fecha) min
+        query_tiempo = '''select 1 as id, max(ce.fecha) max, min(ce.fecha) min
+                            from (select ce.uv_id as id, ce.fecha
                             from carga_entregaspandemia ce 
                             where ce.uv_id <> 1
-                            order by ce.fecha asc;''' #todo se agrego group by
+                            order by ce.fecha asc) as ce''' #todo se agrego group by
 
         for c in EntregasPandemia.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
