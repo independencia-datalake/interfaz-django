@@ -735,7 +735,7 @@ def seguridad_vis(request, categoria):
 
                             #order by sr.created asc'''
 
-        query_tiempo_date = '''select 1 as id max(sr.created), max, min(sr.created) min
+        query_tiempo_date = '''select 1 as id, max(sr.created) max, min(sr.created) min
                             from (select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
                             from seguridad_requerimiento sr 
                             left join core_uv cu
