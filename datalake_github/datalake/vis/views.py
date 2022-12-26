@@ -735,8 +735,12 @@ def seguridad_vis(request, categoria):
 
                             #order by sr.created asc'''
 
-        for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
+        query_date = '''SELECT 1 as id, min(sr.created) min, max(sr.created) max
+                from seguridad_requerimiento sr'''
+        for c in Requerimiento.objects.raw(query_date): 
             tiempo = {"max":c.max,"min": c.min}
+        # for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
+        #     tiempo = {"max":c.max,"min": c.min}
 
         fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
         fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
