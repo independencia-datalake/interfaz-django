@@ -1480,17 +1480,17 @@ def entrega_pandemia_vis(request, categoria):
                                 ce.fecha, max(ce.fecha) max, min(ce.fecha) min
                             from carga_entregaspandemia ce 
                             where ce.uv_id <> 1
-                            order by ce.fecha asc;'''
+                            order by ce.fecha asc;''' #todo se agrego group by
 
         for c in EntregasPandemia.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d')
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': filtro_mapa[categoria]
         }
 
@@ -1926,17 +1926,18 @@ def impuestos_derechos_vis(request,categoria):
                                 ce.created, max(ce.created) max, min(ce.created) min
                             from carga_empresas ce
                             where ce.uv_id <> 0
-                            order by ce.created asc;'''
+                            group by ce.uv_id , ce.created 
+                            order by ce.created asc;''' #todo se agrego group by
 
         for c in Empresas.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d %H:%M:%S.%f')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d %H:%M:%S.%f')
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': filtro_mapa[categoria]
         }
 
@@ -2238,22 +2239,24 @@ def transito_vis(request, categoria):
         query_tiempo = '''SELECT lc.uv_id AS id, lc.fecha AS fecha, max(lc.fecha) max, min(lc.fecha) min
                           FROM carga_licenciaconducir lc
                           WHERE lc.uv_id <> 1
+                          group by lc.uv_id , lc.fecha 
                           UNION ALL
                           SELECT c.uv_id AS id, c.fecha AS fecha, max(c.fecha) max, min(c.fecha) min
                           FROM carga_permisoscirculacion c
                           WHERE c.uv_id <> 1
-                          ORDER BY fecha'''
+                          group by c.uv_id, c.fecha 
+                          ORDER BY fecha''' #todo se agrego group by
 
 
         for c in LicenciaConducir.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
 
-        fecha_inicio = datetime.strptime(tiempo['min'], '%Y-%m-%d')
-        fecha_fin = datetime.strptime(tiempo['max'], '%Y-%m-%d')
+        fecha_inicio = datetime.strftime(tiempo['min'], '%Y-%m-%d')
+        fecha_fin = datetime.strftime(tiempo['max'], '%Y-%m-%d')
 
         fechas_categoria = {
-            'fecha_inicio': datetime.strftime(fecha_inicio, '%Y-%m-%d'),
-            'fecha_fin': datetime.strftime(fecha_fin, '%Y-%m-%d'),
+            'fecha_inicio': fecha_inicio,
+            'fecha_fin': fecha_fin,
             'categoria': filtro_mapa[categoria]
         }
 
