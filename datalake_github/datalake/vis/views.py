@@ -2723,6 +2723,7 @@ def obras_municipales_vis(request,categoria):
                                 cd.created, min(cd.created) min, max(cd.created) max
                             from carga_dom cd
                             where cd.uv_id <> 0
+                            group by cd.uv_id, cd.created 
                             order by cd.created asc;'''
 
 
