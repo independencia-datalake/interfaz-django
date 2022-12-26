@@ -735,9 +735,15 @@ def seguridad_vis(request, categoria):
 
                             #order by sr.created asc'''
 
-        query_date = '''SELECT 1 as id, min(sr.created) min, max(sr.created) max
-                from seguridad_requerimiento sr'''
-        for c in Requerimiento.objects.raw(query_date): 
+        query_tiempo_date = '''select 1 as id max(sr.created) max, min(sr.created) min
+                            from (select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                                on sr.uv_id = cu.id
+                            where sr.uv_id <> 0
+                            GROUP BY cu.id, sr.created
+                            order by sr.created asc) as sr'''
+        for c in Requerimiento.objects.raw(query_tiempo_date): 
             tiempo = {"max":c.max,"min": c.min}
         # for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
         #     tiempo = {"max":c.max,"min": c.min}
