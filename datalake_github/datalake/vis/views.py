@@ -1934,12 +1934,12 @@ def impuestos_derechos_vis(request,categoria):
 
 
         tiempo = []
-        query_tiempo = '''select ce.uv_id as id,
-                                ce.created, max(ce.created) max, min(ce.created) min
+        query_tiempo = '''select 1 as id, max(ce.created) max, min(ce.created) min
+                            from(select ce.uv_id as id, ce.created
                             from carga_empresas ce
                             where ce.uv_id <> 0
                             group by ce.uv_id , ce.created 
-                            order by ce.created asc;''' #todo se agrego group by 
+                            order by ce.created asc) as ce''' #todo se agrego group by 
 
         for c in Empresas.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
@@ -2248,16 +2248,17 @@ def transito_vis(request, categoria):
             lista_mapa = lista_mapa_vehicular
 
         tiempo = []
-        query_tiempo = '''SELECT lc.uv_id AS id, lc.fecha AS fecha, max(lc.fecha) max, min(lc.fecha) min
+        query_tiempo = '''select 1 as id, max(tabla.fecha) max, min(tabla.fecha) min
+                          from(SELECT lc.uv_id AS id, lc.fecha AS fecha
                           FROM carga_licenciaconducir lc
                           WHERE lc.uv_id <> 1
                           group by lc.uv_id , lc.fecha 
                           UNION ALL
-                          SELECT c.uv_id AS id, c.fecha AS fecha, max(c.fecha) max, min(c.fecha) min
+                          SELECT c.uv_id AS id, c.fecha AS fecha
                           FROM carga_permisoscirculacion c
                           WHERE c.uv_id <> 1
                           group by c.uv_id, c.fecha 
-                          ORDER BY fecha''' #todo se agrego group by
+                          ORDER BY fecha) tabla''' #todo se agrego group by
 
 
         for c in LicenciaConducir.objects.raw(query_tiempo):
