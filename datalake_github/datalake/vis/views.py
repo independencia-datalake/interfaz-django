@@ -266,7 +266,7 @@ def dimap_vis(request,categoria):
                             left join core_uv cu
                                 on cp.uv_id = cu.id
                             where cu.numero_uv <> 0
-                            union
+                            union all
                             select cu.numero_uv as uv,
                                 dp.created
                             from dimap_procedimiento dp
@@ -277,7 +277,7 @@ def dimap_vis(request,categoria):
                             left join core_uv cu
                                 on cp.uv_id = cu.id
                             where cu.numero_uv <> 0
-                            union
+                            union all
                             select cu.numero_uv as uv, ds.created
                             from dimap_seguridaddimap ds 
                             left join core_persona cp 
