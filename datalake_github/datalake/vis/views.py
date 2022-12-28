@@ -1939,7 +1939,7 @@ def impuestos_derechos_vis(request,categoria):
                             from carga_empresas ce
                             where ce.uv_id <> 0
                             group by ce.uv_id , ce.created 
-                            order by ce.created asc;''' #todo se agrego group by
+                            order by ce.created asc;''' #todo se agrego group by 
 
         for c in Empresas.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
@@ -2734,12 +2734,12 @@ def obras_municipales_vis(request,categoria):
 
 
         tiempo = []
-        query_tiempo = '''select cd.uv_id as id,
-                                cd.created, min(cd.created) min, max(cd.created) max
+        query_tiempo = '''select 1 as id, min(cd.created) min, max(cd.created) max
+	                        from(select cd.uv_id as id, cd.created
                             from carga_dom cd
                             where cd.uv_id <> 0
                             group by cd.uv_id, cd.created 
-                            order by cd.created asc;'''
+                            order by cd.created asc) as cd;'''
 
 
         for c in DOM.objects.raw(query_tiempo):
