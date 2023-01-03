@@ -1376,6 +1376,17 @@ def entrega_pandemia_vis(request, categoria):
                                 ce.fecha
                             from carga_entregaspandemia ce 
                             where ce.uv_id <> 1
+                            and ce.caja_mercaderia is not null 
+                            or ce.pañal_adulto  is not null 
+                            or ce.pañal_niño_m is not null 
+                            or ce.pañal_niño_g is not null
+                            or ce.pañal_niño_xg is not null 
+                            or ce.pañal_niño_xxg is not null 
+                            or ce.leche_entera is not null 
+                            or ce.leche_descremada is not null 
+                            or ce.nat_100 is not null 
+                            or ce.balon_gas is not null 
+                            or ce.parafina is not null                         
                             order by ce.fecha asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
