@@ -2368,6 +2368,19 @@ def transito_vis(request, categoria):
     if request.method == 'GET':
 
         diccionario_tabla = {}
+
+        query_tiempo = '''select 1 as id, max(tabla.fecha) max, min(tabla.fecha) min
+                          from(SELECT lc.uv_id AS id, lc.fecha AS fecha
+                          FROM carga_licenciaconducir lc
+                          WHERE lc.uv_id <> 1
+                          group by lc.uv_id , lc.fecha 
+                          UNION ALL
+                          SELECT c.uv_id AS id, c.fecha AS fecha
+                          FROM carga_permisoscirculacion c
+                          WHERE c.uv_id <> 1
+                          group by c.uv_id, c.fecha 
+                          ORDER BY fecha) tabla'''
+
         query_tabla = '''select cu.numero_uv as id,
                             coalesce(pat.cant, 0) + coalesce(per.cant, 0) as total,
                             coalesce(pat.cant, 0) as pv,
@@ -2417,6 +2430,12 @@ def transito_vis(request, categoria):
                           where c.uv_id <> 1
                           order by c.fecha asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
+                            from(select c.uv_id as id, c.fecha
+                            from carga_permisoscirculacion c
+                            where c.uv_id <> 1
+                            order by c.fecha asc) as tabla'''
+
             for c in PermisosCirculacion.objects.raw(query_mapa):
                 lista_mapa_circulacion.append({"uv":c.id-1,"created": str(c.fecha)})
 
@@ -2430,24 +2449,18 @@ def transito_vis(request, categoria):
                           where lc.uv_id <> 1
                           order by lc.fecha asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
+                            from(select lc.uv_id as id, lc.fecha
+                            from carga_licenciaconducir lc
+                            where lc.uv_id <> 1
+                            order by lc.fecha desc) as tabla'''
+
             for c in LicenciaConducir.objects.raw(query_mapa):
                 lista_mapa_vehicular.append({"uv":c.id-1,"created": str(c.fecha)})
 
             lista_mapa = lista_mapa_vehicular
 
         tiempo = []
-        query_tiempo = '''select 1 as id, max(tabla.fecha) max, min(tabla.fecha) min
-                          from(SELECT lc.uv_id AS id, lc.fecha AS fecha
-                          FROM carga_licenciaconducir lc
-                          WHERE lc.uv_id <> 1
-                          group by lc.uv_id , lc.fecha 
-                          UNION ALL
-                          SELECT c.uv_id AS id, c.fecha AS fecha
-                          FROM carga_permisoscirculacion c
-                          WHERE c.uv_id <> 1
-                          group by c.uv_id, c.fecha 
-                          ORDER BY fecha) tabla''' #todo se agrego group by
-
 
         for c in LicenciaConducir.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
