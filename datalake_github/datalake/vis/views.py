@@ -518,6 +518,15 @@ def seguridad_vis(request, categoria):
 
     if request.method == 'GET':
 
+        query_tiempo = '''select 1 as id, max(sr.created) max, min(sr.created) min
+                            from (select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                                on sr.uv_id = cu.id
+                            where sr.uv_id <> 0
+                            GROUP BY cu.id, sr.created
+                            order by sr.created asc) as sr'''
+
         diccionario_tabla = {}
         query_tabla = '''select cu.numero_uv as id,
                         coalesce(dm.cant_delito, 0) + coalesce(vif.cant_vif, 0) + coalesce(inc.cant_inc, 0) + coalesce(asx.cant_asx, 0) + coalesce(ai.cant_ai, 0) + coalesce(der.cant_der, 0) + coalesce(otro.cant_otro, 0) total,
@@ -648,6 +657,7 @@ def seguridad_vis(request, categoria):
                             order by sr.created asc) as tabla'''
             
             
+            
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_vif.append({"uv":c.id,"created": str(c.created)})
                 
@@ -740,15 +750,6 @@ def seguridad_vis(request, categoria):
        
         tiempo = []
 
-        if query_tiempo is None:
-            query_tiempo = '''select 1 as id, max(sr.created) max, min(sr.created) min
-                                from (select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
-                                from seguridad_requerimiento sr 
-                                left join core_uv cu
-                                    on sr.uv_id = cu.id
-                                where sr.uv_id <> 0
-                                GROUP BY cu.id, sr.created
-                                order by sr.created asc) as sr'''
         for c in Requerimiento.objects.raw(query_tiempo): 
             tiempo = {"max":c.max,"min": c.min}
         # for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
