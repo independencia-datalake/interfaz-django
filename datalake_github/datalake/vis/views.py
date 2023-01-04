@@ -2781,7 +2781,7 @@ def obras_municipales_vis(request,categoria):
                             from(select cd.uv_id as id, cd.created 
                             from carga_dom cd
                             where cd.uv_id <> 0
-                            and cd.tramite = 'ANEXIÓN'
+                            and cd.tramite = 'ANTIGUAS'
                             order by cd.created asc) as tabla'''
 
             for c in DOM.objects.raw(query_mapa):
@@ -2837,7 +2837,7 @@ def obras_municipales_vis(request,categoria):
                                 cd.created 
                             from carga_dom cd
                             where cd.uv_id <> 0
-                            and (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION)
+                            and (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION')
                             order by cd.created asc;'''
 
             query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
