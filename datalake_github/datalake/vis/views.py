@@ -629,6 +629,17 @@ def seguridad_vis(request, categoria):
                             and sd.clasificacion_delito_id = 1
                             order by sr.created asc'''
             
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 1
+                            order by sr.created asc) as tabla'''
+
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_delito.append({"uv":c.id,"created": str(c.created)})
                 
@@ -674,6 +685,17 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             and sd.clasificacion_delito_id = 3
                             order by sr.created asc'''
+
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 3
+                            order by sr.created asc) as tabla'''
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_inc.append({"uv":c.id,"created": str(c.created)})
@@ -691,6 +713,17 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             and sd.clasificacion_delito_id = 4
                             order by sr.created asc'''
+
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 4
+                            order by sr.created asc) as tabla'''
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_asx.append({"uv":c.id,"created": str(c.created)})
@@ -708,6 +741,17 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             and sd.clasificacion_delito_id = 5
                             order by sr.created asc'''
+
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 5
+                            order by sr.created asc) as tabla'''
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_ai.append({"uv":c.id,"created": str(c.created)})
@@ -725,6 +769,17 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             and sd.clasificacion_delito_id = 6
                             order by sr.created asc'''
+
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 6
+                            order by sr.created asc) as tabla'''
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_der.append({"uv":c.id,"created": str(c.created)})
@@ -742,6 +797,17 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             and sd.clasificacion_delito_id = 7
                             order by sr.created asc'''
+
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 7
+                            order by sr.created asc) as tabla'''
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_otro.append({"uv":c.id,"created": str(c.created)})
