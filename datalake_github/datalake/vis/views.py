@@ -1609,13 +1609,19 @@ def entrega_pandemia_vis(request, categoria):
         elif filtro_mapa[categoria] == "Parafina":
 
             lista_mapa_total = []
-            query_mapa = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
+            query_mapa = '''select ce.uv_id as id, ce.fecha 
+                            from carga_entregaspandemia ce
+                            where ce.uv_id <> 1
+                            and ce.parafina is not null
+                            order by ce.fecha asc;'''
+            
+            query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha 
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.parafina is not null
                             order by ce.fecha desc) as tabla'''
-            
+
             for c in EntregasPandemia.objects.raw(query_mapa):
                 lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                 
