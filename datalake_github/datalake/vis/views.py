@@ -2470,7 +2470,7 @@ def obras_municipales_vis(request,categoria):
                             on cu.id = fsn.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
-                            where cd.tramite = 'LEY 20,898'
+                            where cd.tramite = 'LEY 20.898'
                             group by cd.uv_id) ley
                             on cu.id = ley.uv
                         left join (select cd.uv_id as uv, count(1) as cant
@@ -2537,11 +2537,28 @@ def obras_municipales_vis(request,categoria):
 
         if filtro_mapa[categoria] == "Total":
             lista_mapa_total = []
-            query_mapa  ='''select cd.uv_id as id,
-                                cd.created 
+            query_mapa  ='''select id-1 as id, count(*)
+                            from(select cd.uv_id as id,
+                            cd.created, cd.tramite
                             from carga_dom cd
-                            where cd.uv_id <> 0
-                            order by cd.created asc;'''
+                            where (cd.uv_id <> 0 
+                            and (cd.tramite = 'ANEXIÓN'
+                            or cd.tramite = 'ANTIGUAS'
+                            or cd.tramite = 'ANULACION'
+                            or cd.tramite = 'CAMBIO DE DESTINO'
+                            or cd.tramite = 'FUSIÓN'
+                            or cd.tramite = 'LEY 20,898'
+                            or cd.tramite = 'OBRAS MENORES'
+                            or cd.tramite = 'PERMISO DE EDIFICACIÓN'
+                            or cd.tramite = 'RECEPCIÓN FINAL'
+                            or cd.tramite = 'REGULARIZACIONES'
+                            or cd.tramite = 'REGULARIZACIONES LEY 18.591'
+                            or cd.tramite = 'RESOLUCIÓN'
+                            or cd.tramite = 'SUBDIVISIONES'
+                            or cd.tramite = 'VENTA POR PISO'))                            
+                            order by cd.created asc) as tabla
+                            group by id
+                            order by id asc ;'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_total.append({"uv":c.id-1,"created": str(c.created)})
