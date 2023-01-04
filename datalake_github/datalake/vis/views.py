@@ -2464,7 +2464,7 @@ def obras_municipales_vis(request,categoria):
                             on cu.id = cdd.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
-                            where cd.tramite = 'FUSIÓN'
+                            where (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION')
                             group by cd.uv_id) fsn
                             on cu.id = fsn.uv
                         left join (select cd.uv_id as uv, count(1) as cant
@@ -2545,6 +2545,7 @@ def obras_municipales_vis(request,categoria):
                             or cd.tramite = 'ANULACION'
                             or cd.tramite = 'CAMBIO DE DESTINO'
                             or cd.tramite = 'FUSIÓN'
+                            or cd.tramite = 'FUSION'
                             or cd.tramite = 'LEY 20,898'
                             or cd.tramite = 'OBRAS MENORES'
                             or cd.tramite = 'PERMISO DE EDIFICACIÓN'
@@ -2803,7 +2804,6 @@ def obras_municipales_vis(request,categoria):
                                 coalesce(ant.cant, 0) + \
                                 coalesce(anu.cant, 0) + \
                                 coalesce(cdd.cant, 0) + \
-                                coalesce(cdd.cant, 0) + \
                                 coalesce(fsn.cant, 0) + \
                                 coalesce(ley.cant, 0) + \
                                 coalesce(oms.cant, 0) + \
@@ -2855,7 +2855,7 @@ def obras_municipales_vis(request,categoria):
                                 on cu.id = cdd.uv \
                             left join (select cd.uv_id as uv, count(1) as cant \
                                 from carga_dom cd  \
-                                where cd.tramite = 'FUSIÓN' \
+                                where (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION') \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by cd.uv_id) fsn \
                                 on cu.id = fsn.uv \
@@ -2940,7 +2940,22 @@ def obras_municipales_vis(request,categoria):
                 query_mapa  =f"select cd.uv_id as id, \
                                     cd.created  \
                                 from carga_dom cd \
-                                where cd.uv_id <> 0 \
+                                where (cd.uv_id <> 0 \
+                                and (cd.tramite = 'ANEXIÓN'\
+                                or cd.tramite = 'ANTIGUAS' \
+                                or cd.tramite = 'ANULACION'\
+                                or cd.tramite = 'CAMBIO DE DESTINO'\
+                                or cd.tramite = 'FUSIÓN'\
+                                or cd.tramite = 'FUSION'\
+                                or cd.tramite = 'LEY 20,898'\
+                                or cd.tramite = 'OBRAS MENORES'\
+                                or cd.tramite = 'PERMISO DE EDIFICACIÓN'\
+                                or cd.tramite = 'RECEPCIÓN FINAL'\
+                                or cd.tramite = 'REGULARIZACIONES'\
+                                or cd.tramite = 'REGULARIZACIONES LEY 18.591'\
+                                or cd.tramite = 'RESOLUCIÓN'\
+                                or cd.tramite = 'SUBDIVISIONES'\
+                                or cd.tramite = 'VENTA POR PISO'))  \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by cd.created asc;"
 
@@ -3015,7 +3030,7 @@ def obras_municipales_vis(request,categoria):
                                     cd.created  \
                                 from carga_dom cd \
                                 where cd.uv_id <> 0 \
-                                and cd.tramite = 'FUSIÓN' \
+                                and (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION') \
                                 and cd.created between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 order by cd.created asc;"
 
