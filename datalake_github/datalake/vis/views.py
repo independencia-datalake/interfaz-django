@@ -2589,6 +2589,14 @@ def obras_municipales_vis(request,categoria):
 
     if request.method == 'GET':
         diccionario_tabla = {}
+
+        query_tiempo = '''select 1 as id, min(cd.created) min, max(cd.created) max
+	                        from(select cd.uv_id as id, cd.created
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            group by cd.uv_id, cd.created 
+                            order by cd.created asc) as cd;'''
+
         query_tabla ='''select cu.numero_uv as id,
                             coalesce(anx.cant, 0) + 
                             coalesce(ant.cant, 0) + 
@@ -2748,6 +2756,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'ANEXIÓN'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'ANEXIÓN'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_anexion.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2761,6 +2776,13 @@ def obras_municipales_vis(request,categoria):
                             where cd.uv_id <> 0
                             and cd.tramite = 'ANTIGUAS'
                             order by cd.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'ANEXIÓN'
+                            order by cd.created asc) as tabla'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_antiguas.append({"uv":c.id-1,"created": str(c.created)})
@@ -2776,6 +2798,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'ANULACION'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'ANULACION'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_anulacion.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2790,6 +2819,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'CAMBIO DE DESTINO'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'CAMBIO DE DESTINO'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_cambio.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2801,8 +2837,16 @@ def obras_municipales_vis(request,categoria):
                                 cd.created 
                             from carga_dom cd
                             where cd.uv_id <> 0
-                            and cd.tramite = 'FUSIÓN'
+                            and (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION)
                             order by cd.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id,
+                                cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and (cd.tramite = 'FUSIÓN' or cd.tramite = 'FUSION')
+                            order by cd.created desc) as tabla'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_fusion.append({"uv":c.id-1,"created": str(c.created)})
@@ -2832,6 +2876,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'OBRAS MENORES'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'OBRAS MENORES'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_obras.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2845,6 +2896,13 @@ def obras_municipales_vis(request,categoria):
                             where cd.uv_id <> 0
                             and cd.tramite = 'PERMISO DE EDIFICACIÓN'
                             order by cd.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'PERMISO DE EDIFICACIÓN'
+                            order by cd.created asc) as tabla'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_edificacion.append({"uv":c.id-1,"created": str(c.created)})
@@ -2860,6 +2918,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'RECEPCIÓN FINAL'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'RECEPCIÓN FINAL'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_recepcion.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2873,6 +2938,13 @@ def obras_municipales_vis(request,categoria):
                             where cd.uv_id <> 0
                             and cd.tramite = 'REGULARIZACIONES'
                             order by cd.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'REGULARIZACIONES'
+                            order by cd.created asc) as tabla'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_regularizaciones.append({"uv":c.id-1,"created": str(c.created)})
@@ -2888,6 +2960,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'REGULARIZACIONES LEY 18.591'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'REGULARIZACIONES LEY 18.591'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_reg_ley.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2901,6 +2980,13 @@ def obras_municipales_vis(request,categoria):
                             where cd.uv_id <> 0
                             and cd.tramite = 'RESOLUCIÓN'
                             order by cd.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'RESOLUCIÓN'
+                            order by cd.created asc) as tabla'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_resolucion.append({"uv":c.id-1,"created": str(c.created)})
@@ -2916,6 +3002,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'SUBDIVISIONES'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'SUBDIVISIONES'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_subdivisiones.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2930,6 +3023,13 @@ def obras_municipales_vis(request,categoria):
                             and cd.tramite = 'VENTA POR PISO'
                             order by cd.created asc;'''
 
+            query_tiempo = '''select 1 as id, min(tabla.created) min, max(tabla.created) max
+                            from(select cd.uv_id as id, cd.created 
+                            from carga_dom cd
+                            where cd.uv_id <> 0
+                            and cd.tramite = 'VENTA POR PISO'
+                            order by cd.created asc) as tabla'''
+
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_venta.append({"uv":c.id-1,"created": str(c.created)})
 
@@ -2937,13 +3037,6 @@ def obras_municipales_vis(request,categoria):
 
 
         tiempo = []
-        query_tiempo = '''select 1 as id, min(cd.created) min, max(cd.created) max
-	                        from(select cd.uv_id as id, cd.created
-                            from carga_dom cd
-                            where cd.uv_id <> 0
-                            group by cd.uv_id, cd.created 
-                            order by cd.created asc) as cd;'''
-
 
         for c in DOM.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
