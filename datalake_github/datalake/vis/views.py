@@ -636,6 +636,17 @@ def seguridad_vis(request, categoria):
                             where sr.uv_id <> 0
                             and sd.clasificacion_delito_id = 2
                             order by sr.created asc'''
+            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+                            from(select cu.numero_uv as id, sr.created
+                            from seguridad_requerimiento sr 
+                            left join core_uv cu
+                            on sr.uv_id = cu.id
+                            left join seguridad_delito sd
+                            on sr.delito_id =  sd.id
+                            where sr.uv_id <> 0
+                            and sd.clasificacion_delito_id = 2
+                            order by sr.created asc) as tabla'''
+            
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_vif.append({"uv":c.id,"created": str(c.created)})
@@ -728,24 +739,17 @@ def seguridad_vis(request, categoria):
             lista_mapa = lista_mapa_otro
        
         tiempo = []
-        query_tiempo = '''select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
-                            from seguridad_requerimiento sr 
-                            left join core_uv cu
-                                on sr.uv_id = cu.id
-                            where sr.uv_id <> 0
-                            GROUP BY cu.id, sr.created;'''
 
-                            #order by sr.created asc'''
-
-        query_tiempo_date = '''select 1 as id, max(sr.created) max, min(sr.created) min
-                            from (select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
-                            from seguridad_requerimiento sr 
-                            left join core_uv cu
-                                on sr.uv_id = cu.id
-                            where sr.uv_id <> 0
-                            GROUP BY cu.id, sr.created
-                            order by sr.created asc) as sr'''
-        for c in Requerimiento.objects.raw(query_tiempo_date): 
+        if query_tiempo is None:
+            query_tiempo = '''select 1 as id, max(sr.created) max, min(sr.created) min
+                                from (select cu.numero_uv as id, sr.created, max(sr.created) max, min(sr.created) min
+                                from seguridad_requerimiento sr 
+                                left join core_uv cu
+                                    on sr.uv_id = cu.id
+                                where sr.uv_id <> 0
+                                GROUP BY cu.id, sr.created
+                                order by sr.created asc) as sr'''
+        for c in Requerimiento.objects.raw(query_tiempo): 
             tiempo = {"max":c.max,"min": c.min}
         # for c in Requerimiento.objects.raw(query_tiempo): #!todo OJO ACA // MODEL EXTRAÑO
         #     tiempo = {"max":c.max,"min": c.min}
