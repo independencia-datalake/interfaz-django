@@ -742,16 +742,16 @@ def seguridad_vis(request, categoria):
                             and sd.clasificacion_delito_id = 5
                             order by sr.created asc'''
 
-            query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
-                            from(select cu.numero_uv as id, sr.created
-                            from seguridad_requerimiento sr 
-                            left join core_uv cu
-                            on sr.uv_id = cu.id
-                            left join seguridad_delito sd
-                            on sr.delito_id =  sd.id
-                            where sr.uv_id <> 0
-                            and sd.clasificacion_delito_id = 5
-                            order by sr.created asc) as tabla'''
+            # query_tiempo = '''select 1 as id, max(tabla.created) max, min(tabla.created) min
+            #                 from(select cu.numero_uv as id, sr.created
+            #                 from seguridad_requerimiento sr 
+            #                 left join core_uv cu
+            #                 on sr.uv_id = cu.id
+            #                 left join seguridad_delito sd
+            #                 on sr.delito_id =  sd.id
+            #                 where sr.uv_id <> 0
+            #                 and sd.clasificacion_delito_id = 5
+            #                 order by sr.created asc) as tabla'''
             
             for c in Requerimiento.objects.raw(query_mapa):
                 lista_mapa_ai.append({"uv":c.id,"created": str(c.created)})
