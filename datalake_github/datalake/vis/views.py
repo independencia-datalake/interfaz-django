@@ -2417,7 +2417,6 @@ def obras_municipales_vis(request,categoria):
                             coalesce(ant.cant, 0) + 
                             coalesce(anu.cant, 0) +
                             coalesce(cdd.cant, 0) +
-                            coalesce(cdd.cant, 0) +
                             coalesce(fsn.cant, 0) +
                             coalesce(ley.cant, 0) +
                             coalesce(oms.cant, 0) +
@@ -2470,7 +2469,7 @@ def obras_municipales_vis(request,categoria):
                             on cu.id = fsn.uv
                         left join (select cd.uv_id as uv, count(1) as cant
                             from carga_dom cd 
-                            where cd.tramite = 'LEY 20.898'
+                            where cd.tramite = 'LEY 20,898'
                             group by cd.uv_id) ley
                             on cu.id = ley.uv
                         left join (select cd.uv_id as uv, count(1) as cant
