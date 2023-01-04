@@ -1846,6 +1846,15 @@ def impuestos_derechos_vis(request,categoria):
 
     if request.method == 'GET':
         diccionario_tabla = {}
+
+        query_tiempo = '''select 1 as id, max(ce.created) max, min(ce.created) min
+                            from(select ce.uv_id as id, ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            group by ce.uv_id , ce.created 
+                            order by ce.created asc) as ce''' #todo se agrego group by 
+
+
         query_tabla = '''select cu.numero_uv as id,
                             coalesce(alc.cant, 0) + 
                             coalesce(com.cant, 0) + 
@@ -1933,6 +1942,14 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             and ce.tipo = 'alcohol'
                             order by ce.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min , max(tabla.created) max
+                            from(select ce.uv_id as id,
+                            ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 'alcohol'
+                            order by ce.created desc) as tabla'''
             
             for c in Empresas.objects.raw(query_mapa):
                 lista_mapa_alcohol.append({"uv":c.id-1,"created": str(c.created)})
@@ -1948,6 +1965,14 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             and ce.tipo = 'comercial'
                             order by ce.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min , max(tabla.created) max
+                            from(select ce.uv_id as id,
+                            ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 'comercial'
+                            order by ce.created desc) as tabla'''
             
             for c in Empresas.objects.raw(query_mapa):
                 lista_mapa_comercial.append({"uv":c.id-1,"created": str(c.created)})
@@ -1963,6 +1988,14 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             and ce.tipo = 'profesional'
                             order by ce.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min , max(tabla.created) max
+                            from(select ce.uv_id as id,
+                            ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 'profesional'
+                            order by ce.created desc) as tabla'''
             
             for c in Empresas.objects.raw(query_mapa):
                 lista_mapa_profesional.append({"uv":c.id-1,"created": str(c.created)})
@@ -1978,6 +2011,14 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             and ce.tipo = 'industrial'
                             order by ce.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min , max(tabla.created) max
+                            from(select ce.uv_id as id,
+                            ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 'industrial'
+                            order by ce.created desc) as tabla'''
             
             for c in Empresas.objects.raw(query_mapa):
                 lista_mapa_industial.append({"uv":c.id-1,"created": str(c.created)})
@@ -1993,6 +2034,14 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             and ce.tipo = 'microempresa'
                             order by ce.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min , max(tabla.created) max
+                            from(select ce.uv_id as id,
+                            ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 'microempresa'
+                            order by ce.created desc) as tabla'''
             
             for c in Empresas.objects.raw(query_mapa):
                 lista_mapa_micro.append({"uv":c.id-1,"created": str(c.created)})
@@ -2008,6 +2057,14 @@ def impuestos_derechos_vis(request,categoria):
                             where ce.uv_id <> 0
                             and ce.tipo = 'estacionado'
                             order by ce.created asc;'''
+
+            query_tiempo = '''select 1 as id, min(tabla.created) min , max(tabla.created) max
+                            from(select ce.uv_id as id,
+                            ce.created
+                            from carga_empresas ce
+                            where ce.uv_id <> 0
+                            and ce.tipo = 'estacionado'
+                            order by ce.created desc) as tabla'''
             
             for c in Empresas.objects.raw(query_mapa):
                 lista_mapa_estacionada.append({"uv":c.id-1,"created": str(c.created)})
@@ -2016,12 +2073,6 @@ def impuestos_derechos_vis(request,categoria):
 
 
         tiempo = []
-        query_tiempo = '''select 1 as id, max(ce.created) max, min(ce.created) min
-                            from(select ce.uv_id as id, ce.created
-                            from carga_empresas ce
-                            where ce.uv_id <> 0
-                            group by ce.uv_id , ce.created 
-                            order by ce.created asc) as ce''' #todo se agrego group by 
 
         for c in Empresas.objects.raw(query_tiempo):
             tiempo = {"max":c.max,"min": c.min}
