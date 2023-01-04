@@ -2537,9 +2537,8 @@ def obras_municipales_vis(request,categoria):
 
         if filtro_mapa[categoria] == "Total":
             lista_mapa_total = []
-            query_mapa  ='''select id-1 as id, count(*)
-                            from(select cd.uv_id as id,
-                            cd.created, cd.tramite
+            query_mapa  ='''select cd.uv_id as id,
+                                cd.created
                             from carga_dom cd
                             where (cd.uv_id <> 0 
                             and (cd.tramite = 'ANEXIÓN'
@@ -2556,9 +2555,7 @@ def obras_municipales_vis(request,categoria):
                             or cd.tramite = 'RESOLUCIÓN'
                             or cd.tramite = 'SUBDIVISIONES'
                             or cd.tramite = 'VENTA POR PISO'))                            
-                            order by cd.created asc) as tabla
-                            group by id
-                            order by id asc ;'''
+                            order by cd.created asc;'''
 
             for c in DOM.objects.raw(query_mapa):
                 lista_mapa_total.append({"uv":c.id-1,"created": str(c.created)})
