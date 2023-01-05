@@ -43,6 +43,7 @@ class Persona(models.Model):
     nombre_persona = models.CharField(max_length=200, verbose_name="Nombre Persona")
     apellido_paterno = models.CharField(max_length=200, verbose_name="Apellido Paterno")
     apellido_materno = models.CharField(max_length=200, verbose_name="Apellido Materno")
+    nombre_completo = models.CharField(max_length=200, verbose_name="Nombre Completo")
     fecha_nacimiento = models.DateField(verbose_name='Fecha de Nacimiento', blank=True, null=True)
     estado_civil = models.CharField(
         null=True,
@@ -77,6 +78,8 @@ class Persona(models.Model):
         ordering = ['created']
 
     def save(self, *args, **kwargs):
+      self.nombre_completo = self.nombre_persona + " " + self.apellido_paterno + ' ' + self.apellido_materno
+
       if self.id == None:
         self.uv = UV.objects.get(numero_uv=0)
         if self.tipo_identificacion == "RUT":

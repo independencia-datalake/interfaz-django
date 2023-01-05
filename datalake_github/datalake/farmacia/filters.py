@@ -63,7 +63,7 @@ class PersonaInfoSaludFilter(django_filters.FilterSet):
         ('descendente','Descendente'),
     )
     
-    nombre_filtro = django_filters.CharFilter(label="Nombre Persona", field_name='persona__nombre_persona', lookup_expr='icontains')
+    nombre_filtro = django_filters.CharFilter(label="Nombre Persona", field_name='persona__nombre_completo', lookup_expr='icontains')
     persona_filtro = django_filters.CharFilter(label="Rut Persona", field_name='persona__numero_identificacion', lookup_expr='icontains')
     prevision_filtro = django_filters.CharFilter(label="Prevision", field_name='prevision', lookup_expr='icontains') 
     isapre_filtro =  django_filters.CharFilter(label="Isapre", field_name='isapre', lookup_expr='icontains')
