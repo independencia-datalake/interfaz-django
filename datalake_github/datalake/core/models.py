@@ -43,7 +43,7 @@ class Persona(models.Model):
     nombre_persona = models.CharField(max_length=200, verbose_name="Nombre Persona")
     apellido_paterno = models.CharField(max_length=200, verbose_name="Apellido Paterno")
     apellido_materno = models.CharField(max_length=200, verbose_name="Apellido Materno")
-    nombre_completo = models.CharField(max_length=200, verbose_name="Nombre Completo")
+    nombre_completo = models.CharField(max_length=200, blank=True, null=True, verbose_name="Nombre Completo")
     fecha_nacimiento = models.DateField(verbose_name='Fecha de Nacimiento', blank=True, null=True)
     estado_civil = models.CharField(
         null=True,
