@@ -559,6 +559,11 @@ def informe_ventas(request):
 
             context = {'lista_productos':lista_productos,'cantidad_productos':cantidad_productos,'form':form, 'data_fecha': INFORME_VENTA_FECHA_STATUS}
     
+        elif request.POST.get("update-date"):
+            qs = Persona.objects.all()
+            for i in qs:
+                i.save()
+
     return render(request, 'farmacia/informe_ventas.html', context)
 
 def cantidad_ventas(producto):
