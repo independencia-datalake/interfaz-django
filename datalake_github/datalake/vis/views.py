@@ -1454,7 +1454,7 @@ def entrega_pandemia_vis(request, categoria):
 							as cant 
                             from carga_entregaspandemia ce 
                             where ce.uv_id <> 1
-                            and ce.caja_mercaderia is not null 
+                            and (ce.caja_mercaderia is not null 
                             or ce.pañal_adulto  is not null 
                             or ce.pañal_niño_m is not null 
                             or ce.pañal_niño_g is not null
@@ -1464,7 +1464,7 @@ def entrega_pandemia_vis(request, categoria):
                             or ce.leche_descremada is not null 
                             or ce.nat_100 is not null 
                             or ce.balon_gas is not null 
-                            or ce.parafina is not null
+                            or ce.parafina is not null)
                             order by ce.uv_id asc;'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
@@ -1477,11 +1477,11 @@ def entrega_pandemia_vis(request, categoria):
         elif filtro_mapa[categoria] == "Caja":
 
             lista_mapa_caja = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha
+            query_mapa = '''select ce.uv_id as id, ce.fecha, ce.caja_mercaderia as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.caja_mercaderia is not null
-                            order by ce.fecha asc;'''
+                            order by ce.caja_mercaderia desc;'''
 
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha
@@ -1491,7 +1491,9 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_caja.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):
+                    lista_mapa_caja.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_caja
 
