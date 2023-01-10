@@ -1527,11 +1527,11 @@ def entrega_pandemia_vis(request, categoria):
         elif filtro_mapa[categoria] == "Pañal adulto":
 
             lista_mapa_pañal_adulto = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha 
+            query_mapa = '''select ce.uv_id as id, ce.fecha , ce.pañal_adulto as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.pañal_adulto is not null
-                            order by ce.fecha asc;'''
+                            order by fecha asc;'''
             
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha 
@@ -1541,7 +1541,9 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
 
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_pañal_adulto.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):                
+                    lista_mapa_pañal_adulto.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_pañal_adulto
 
@@ -1571,11 +1573,11 @@ def entrega_pandemia_vis(request, categoria):
         elif filtro_mapa[categoria] == "NAT100":
 
             lista_mapa_nat = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha 
+            query_mapa = '''select ce.uv_id as id, ce.fecha , ce.nat_100 as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.nat_100 is not null
-                            order by ce.fecha asc;'''
+                            order by fecha asc;'''
 
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha 
@@ -1585,18 +1587,20 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
             
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_nat.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):
+                    lista_mapa_nat.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_nat
 
         elif filtro_mapa[categoria] == "Balon de Gas":
 
             lista_mapa_balon = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha
+            query_mapa = '''select ce.uv_id as id, ce.fecha, ce.balon_gas as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.balon_gas is not null
-                            order by ce.fecha asc;'''
+                            order by fecha asc;'''
             
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha
@@ -1606,18 +1610,20 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
 
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_balon.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):
+                    lista_mapa_balon.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_balon
 
         elif filtro_mapa[categoria] == "Parafina":
 
             lista_mapa_total = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha 
+            query_mapa = '''select ce.uv_id as id, ce.fecha , ce.parafina as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.parafina is not null
-                            order by ce.fecha asc;'''
+                            order by cant desc;'''
             
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha 
@@ -1627,7 +1633,9 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
 
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):                
+                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_total
         
