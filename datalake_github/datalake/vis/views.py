@@ -1775,6 +1775,18 @@ def entrega_pandemia_vis(request, categoria):
                 lista_mapa_total = []
                 query_mapa = f"select ce.uv_id as id, \
                                     ce.fecha \
+                                coalesce(ce.caja_mercaderia,0) + \
+                                coalesce(ce.pañal_adulto,0) + \
+                                coalesce(ce.pañal_niño_m, 0) + \
+                                coalesce(ce.pañal_niño_g,0) + \
+                                coalesce(ce.pañal_niño_xg,0) + \
+                                coalesce(ce.pañal_niño_xxg,0) + \
+                                coalesce(ce.leche_entera,0) + \
+                                coalesce(ce.leche_descremada,0) + \
+                                coalesce(ce.nat_100,0) + \
+                                coalesce(ce.balon_gas,0) + \
+                                coalesce(ce.parafina,0) \
+                                as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1788,7 +1800,7 @@ def entrega_pandemia_vis(request, categoria):
             elif filtro_mapa[categoria] == "Caja":
 
                 lista_mapa_caja = []
-                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                query_mapa = f"select ce.uv_id as id, ce.fecha, ce.caja_mercaderia as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1796,7 +1808,9 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_caja.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):
+                        lista_mapa_caja.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_caja
 
@@ -1804,6 +1818,10 @@ def entrega_pandemia_vis(request, categoria):
 
                 lista_mapa_pañal_niño = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                coalesce(ce.pañal_niño_m,0) + \
+                                coalesce(ce.pañal_niño_g,0) + \
+                                coalesce(ce.pañal_niño_xg,0) + \
+                                coalesce(ce.pañal_niño_xxg,0) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1814,14 +1832,16 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_pañal_niño.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):                
+                        lista_mapa_pañal_niño.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_pañal_niño
 
             elif filtro_mapa[categoria] == "Pañal adulto":
 
                 lista_mapa_pañal_adulto = []
-                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                query_mapa = f"select ce.uv_id as id, ce.fecha, ce.pañal_adulto as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1829,7 +1849,9 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_pañal_adulto.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):                
+                        lista_mapa_pañal_adulto.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_pañal_adulto
 
@@ -1837,6 +1859,8 @@ def entrega_pandemia_vis(request, categoria):
 
                 lista_mapa_leche = []
                 query_mapa = f"select ce.uv_id as id, ce.fecha \
+                                coalesce(ce.leche_entera,0) + \
+                                coalesce(ce.leche_descremada,0) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1845,14 +1869,16 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_leche.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):                  
+                        lista_mapa_leche.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_leche
 
             elif filtro_mapa[categoria] == "NAT100":
 
                 lista_mapa_nat = []
-                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                query_mapa = f"select ce.uv_id as id, ce.fecha, ce.nat_100 as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1860,14 +1886,16 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_nat.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):
+                        lista_mapa_nat.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_nat
 
             elif filtro_mapa[categoria] == "Balon de Gas":
 
                 lista_mapa_balon = []
-                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                query_mapa = f"select ce.uv_id as id, ce.fecha, ce.balon_gas as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1875,14 +1903,16 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_balon.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):
+                        lista_mapa_balon.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_balon
 
             elif filtro_mapa[categoria] == "Parafina":
 
                 lista_mapa_total = []
-                query_mapa = f"select ce.uv_id as id, ce.fecha \
+                query_mapa = f"select ce.uv_id as id, ce.fecha, ce.parafina as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.uv_id <> 1 \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1890,7 +1920,9 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):                
+                        lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_total
             
