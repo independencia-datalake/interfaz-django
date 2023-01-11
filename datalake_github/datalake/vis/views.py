@@ -1774,7 +1774,7 @@ def entrega_pandemia_vis(request, categoria):
 
                 lista_mapa_total = []
                 query_mapa = f"select ce.uv_id as id, \
-                                    ce.fecha \
+                                    ce.fecha, \
                                 coalesce(ce.caja_mercaderia,0) + \
                                 coalesce(ce.pañal_adulto,0) + \
                                 coalesce(ce.pañal_niño_m, 0) + \
@@ -1793,7 +1793,9 @@ def entrega_pandemia_vis(request, categoria):
                                 order by ce.fecha asc;"
                 
                 for c in EntregasPandemia.objects.raw(query_mapa):
-                    lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
+                    reps = c.cant
+                    for i in range(reps):
+                        lista_mapa_total.append({"uv":c.id-1,"created": str(c.fecha)})
                     
                 lista_mapa = lista_mapa_total
 
