@@ -1703,14 +1703,14 @@ def entrega_pandemia_vis(request, categoria):
                                 case when parafina.cant is null then 0 else parafina.cant end parafina \
                             from core_uv cu \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, sum(ce.caja_mercaderia) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.caja_mercaderia is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) caja \
                                 on cu.id = caja.uv \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, (coalesce(sum(ce.pañal_niño_m),0)+coalesce(sum(ce.pañal_niño_g),0)+coalesce(sum(ce.pañal_niño_xg),0)+coalesce(sum(ce.pañal_niño_xxg),0)) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.pañal_niño_m is not null \
                                 or ce.pañal_niño_g is not null \
@@ -1720,14 +1720,14 @@ def entrega_pandemia_vis(request, categoria):
                                 group by ce.uv_id) nino \
                                 on cu.id = nino.uv \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, sum(ce.pañal_adulto) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.pañal_adulto is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) adulto \
                                 on cu.id = adulto.uv \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, coalesce(sum(ce.leche_entera),0) + coalesce(sum(ce.leche_descremada),0) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.leche_entera is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
@@ -1735,21 +1735,21 @@ def entrega_pandemia_vis(request, categoria):
                                 group by ce.uv_id) leche \
                                 on cu.id = leche.uv \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, sum(ce.nat_100) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.nat_100 is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) nat \
                                 on cu.id = nat.uv \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, sum(ce.balon_gas) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.balon_gas is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
                                 group by ce.uv_id) balon \
                                 on cu.id = balon.uv \
                             left join ( \
-                                select ce.uv_id as uv, count(1) as cant \
+                                select ce.uv_id as uv, sum(ce.parafina) as cant \
                                 from carga_entregaspandemia ce \
                                 where ce.parafina is not null \
                                 and ce.fecha between \'{fecha_inicio}\' and \'{fecha_fin}\' \
