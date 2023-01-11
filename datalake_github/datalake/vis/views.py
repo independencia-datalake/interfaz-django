@@ -1500,14 +1500,18 @@ def entrega_pandemia_vis(request, categoria):
         elif filtro_mapa[categoria] == "Pañal niño":
 
             lista_mapa_pañal_niño = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha
+            query_mapa = '''select ce.uv_id as id, ce.fecha, 
+							coalesce(ce.pañal_niño_m,0) +
+							coalesce(ce.pañal_niño_g,0) +
+							coalesce(ce.pañal_niño_xg,0) +
+							coalesce(ce.pañal_niño_xxg,0) as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.pañal_niño_m is not null
                             or ce.pañal_niño_g is not null
                             or ce.pañal_niño_xg is not null
                             or ce.pañal_niño_xxg is not null
-                            order by ce.fecha asc;'''
+                            order by fecha asc;'''
 
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha
@@ -1520,7 +1524,9 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
 
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_pañal_niño.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):                
+                    lista_mapa_pañal_niño.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_pañal_niño
 
@@ -1550,12 +1556,14 @@ def entrega_pandemia_vis(request, categoria):
         elif filtro_mapa[categoria] == "Leche":
 
             lista_mapa_leche = []
-            query_mapa = '''select ce.uv_id as id, ce.fecha 
+            query_mapa = '''select ce.uv_id as id, ce.fecha, 
+							coalesce(ce.leche_entera,0) + 
+							coalesce(ce.leche_descremada,0) as cant
                             from carga_entregaspandemia ce
                             where ce.uv_id <> 1
                             and ce.leche_entera is not null
                             or ce.leche_descremada is not null
-                            order by ce.fecha asc;'''
+                            order by fecha asc;'''
             
             query_tiempo = '''select 1 as id, min(tabla.fecha) min, max(tabla.fecha) max
                             from(select ce.uv_id as id, ce.fecha 
@@ -1566,7 +1574,9 @@ def entrega_pandemia_vis(request, categoria):
                             order by ce.fecha desc) as tabla'''
 
             for c in EntregasPandemia.objects.raw(query_mapa):
-                lista_mapa_leche.append({"uv":c.id-1,"created": str(c.fecha)})
+                reps = c.cant
+                for i in range(reps):                  
+                    lista_mapa_leche.append({"uv":c.id-1,"created": str(c.fecha)})
                 
             lista_mapa = lista_mapa_leche
 
