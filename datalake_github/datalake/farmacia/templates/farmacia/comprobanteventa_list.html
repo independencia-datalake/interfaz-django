@@ -10,7 +10,7 @@
         <h3>Ventas Farmacia</h3>
       </div>
       <div class="col-sm vertical-align-middle">
-        <a href="{% url 'productovendido-resumen' %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Resumen de ventas</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a>
+        <!-- <a href="{% url 'productovendido-resumen' %}"><button class="btn btn-outline-info boton-inverso"><span class="txt-btn">Resumen de ventas</span> <span class="relative mb3 arrow-btn"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-fw fa-2x icon-flecha"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg></span></button></a> -->
       </div>
       <div class="col-sm vertical-align-middle">
         
@@ -20,6 +20,10 @@
   </div>
 
   <hr>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#filtro" aria-controls="filtro" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon burger-toggler"></span>
+  </button>
+  <div class="collapse" id="filtro">  
   <div class="contenedor-wrap">
     <div class="espaciador padding-right-30">
     <h3>Buscador</h3>
@@ -29,6 +33,7 @@
       </form>
     </div>
   </div>
+  </div>
   <hr>
   <div>
     <div class="titulo-tabla">
@@ -37,15 +42,17 @@
       <table style="width:100%" border = "1" cellpadding= "5" cellspacing = "5">
           <td>N° de Venta</td>
           <td>N° de Identidad de la Persona</td> 
+          <td>Nombre Persona</td>
           <td>Profesional</td>
           <td> </td>
           <td> </td>
-      {%for object in filter.qs %}
+      {%for object in filtrados %}
       <tr>
           <td>{{ object.id }}</td>
           <td>{{ object.comprador }}</td>
+          <td>{{ object.comprador.nombre_completo }}</td>
           <td>{{ object.farmaceuta }}</td>
-          <td><a class="btn ver-o-editar" href="{% url 'comprobanteventa-edicion' object.id %}">VER O EDITAR</a></td>
+          <td><a class="btn ver-o-editar" href="{% url 'comprobanteventa-detail' object.id %}">VER O EDITAR</a></td>
           {% if user == object.farmaceuta%}
           <td> <a href="{% url 'comprobanteventa-delete' object.id %}"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-trash-alt fa-w-14 fa-2x"><path fill="currentColor" d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" class=""></path></svg></a></td>
           {% endif %}
@@ -53,6 +60,40 @@
       {%endfor%}
       </table>
     <a href="{% url 'descargar-comprobantes' %}"><button class="btn btn-outline-info">Descargar Excel</button></a>
+      <div class="pagination" style="display: flex; justify-content: center;">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a class="btn ver-o-editar" href="#" onclick="document.location.href=PaginadorDinamico(1)">&laquo; primero</a>
+              <a class="btn ver-o-editar" href="#"  onclick="document.location.href=PaginadorDinamico({{ page_obj.previous_page_number }})">anterior</a>
+          {% else %} 
+              <button style="visibility: hidden; width: 98.24px;"></button>
+              <button  style="visibility: hidden; width: 89.19px;"></button>  
+          {% endif %}
+  
+          <span class="btn ver-o-editar">
+              Pag {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+          </span>
+  
+          {% if page_obj.has_next %}
+              <a class="btn ver-o-editar" href="#" onclick="document.location.href=PaginadorDinamico({{ page_obj.next_page_number }})">siguiente</a>
+              <a class="btn ver-o-editar" href="#" onclick="document.location.href=PaginadorDinamico({{ page_obj.paginator.num_pages }})">ultimo &raquo;</a>
+          {% else %}
+              <button style="visibility: hidden; width: 96.9px;"></button>
+              <button  style="visibility: hidden; width: 88.74px;"></button>   
+          {% endif %}
+      </span>
+      <form action="." method="get" >
+        <div class="custom-seleccionador">
+        <select name="paginate_by" onchange="this.form.submit()">
+          <option>N°</option>
+          <option>5</option>
+          <option>10</option>
+          <option>20</option>
+          <option>30</option>
+        </select>
+        </div>
+      </form>
+  </div>
   </div>
 </div>
 
@@ -67,3 +108,37 @@
     <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 
 {% endblock %}
+
+<script >
+  {% block script %}
+
+  function PaginadorDinamico(ref)
+  {
+    console.log(ref)
+    var urlPagina = document.URL;
+    let paramString = urlPagina.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+    let urlString =urlPagina.split('?')[0]+"?"; 
+    let pageStatus = false
+    for(let pair of queryString.entries()){
+      if (pair[0]!="page") {
+        urlString = urlString + pair[0]+"="+pair[1]+"&"
+      } else {
+        urlString = urlString + pair[0]+"="+ref+"&"
+        pageStatus = true
+      }
+    }
+    if (pageStatus == false) {
+      urlString = urlString + "page="+ref+"&"
+    }
+    urlString = urlString.slice(0,-1)
+    console.log(urlString)
+
+
+    let newUrl = urlString
+    
+  return newUrl
+  }
+
+  {% endblock %}
+</script>

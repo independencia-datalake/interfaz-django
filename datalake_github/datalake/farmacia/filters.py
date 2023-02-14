@@ -32,6 +32,7 @@ class ProductoFarmaciaFilter(django_filters.FilterSet):
 class ComprobanteVentaFilter(django_filters.FilterSet):
     # numero_identificacion_filtro = django_filters.CharFilter(label='Número de Identidad',field_name='comprador',lookup_expr='icontains')
     comprador_filtro = django_filters.ModelChoiceFilter(field_name='comprador',lookup_expr='exact',queryset=Persona.objects.all(),)
+    comprador_nombre_filtro = django_filters.CharFilter(label="Nombre Persona", field_name='comprador__nombre_completo', lookup_expr='icontains')
     farmaceuta_filtro = django_filters.ModelChoiceFilter(field_name='farmaceuta',lookup_expr='exact',queryset=User.objects.all(),)
 
     class Meta:
