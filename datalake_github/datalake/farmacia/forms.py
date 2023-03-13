@@ -43,7 +43,7 @@ class ProductoFarmaciaForm(forms.ModelForm):
                 ),
         }
 
-class ProductoFarmaciaModelForm(forms.ModelForm): 
+class ProductoFarmaciaModelForm(forms.ModelForm): #se agrega precio para la edicion
 
     def __init__(self, *args, **kwargs):
         super(ProductoFarmaciaModelForm,self).__init__(*args, **kwargs)
@@ -56,6 +56,7 @@ class ProductoFarmaciaModelForm(forms.ModelForm):
             'p_a',
             'dosis',
             'presentacion',
+            'precio',
             'bioequivalencia',
             'cenabast',
             'proveedor',

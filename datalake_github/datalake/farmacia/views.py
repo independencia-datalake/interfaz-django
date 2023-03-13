@@ -344,7 +344,7 @@ def crear_producto_farmacia(request):
         updated_request = request.POST.copy()
         updated_request['laboratorio'] = laboratorio
         print(updated_request)
-        form = ProductoFarmaciaModelForm(updated_request)
+        form = ProductoFarmaciaForm(updated_request)
         form2 = BodegaVirtualIngresoStockForm(request.POST)
         print(form)
         if form.is_valid() and form2.is_valid():
@@ -377,7 +377,7 @@ def crear_producto_farmacia(request):
 
 class EdicionProductoFarmacia(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model = ProductoFarmacia
-    form_class = ProductoFarmaciaForm
+    form_class = ProductoFarmaciaModelForm
     template_name = 'farmacia/productofarmacia_update.html'
 
     def form_valid(self, form):
