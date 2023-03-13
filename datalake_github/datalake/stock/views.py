@@ -31,6 +31,7 @@ INGRESO_STOCK_STATUS = []
 class InicioStock(ListView):
     template_name = "stock/Stock.html"
     context_object_name = 'filtrados'
+    ordering = ['nombre']
     paginate_by = 10
     model = BodegaVirtual
 

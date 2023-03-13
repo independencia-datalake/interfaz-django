@@ -13,7 +13,7 @@ class Stockfilter(django_filters.FilterSet):
         ('ascendente','Ascendente'),
         ('descendente','Descendente'),
     )
-    nombre_filtro = django_filters.CharFilter(label='Marca del Producto',field_name='nombre__marca_producto',lookup_expr='contains')
+    nombre_filtro = django_filters.CharFilter(label='Marca del Producto',field_name='nombre__marca_producto',lookup_expr='icontains')
     # Stock_filtro = django_filters.CharFilter(label='Stock',field_name='Stock',lookup_expr='contains')
     ordering = django_filters.ChoiceFilter(label='Orden por holgura', choices=OPCIONES, method='filter_by_order')
 
