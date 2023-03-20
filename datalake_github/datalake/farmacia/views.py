@@ -95,6 +95,11 @@ def comprobante_venta_form(request, pk):
 
             for form_rev in formset:
                 nombre = form_rev.cleaned_data.get('nombre')
+
+                if nombre == None:
+                    messages.warning(request, f'Formulario incompleto, porfavor revisar que se hayan seleccionado correctamente los productos')
+                    return redirect('comprobanteventa-create', pk=pk)                 
+
                 cantidad = form_rev.cleaned_data.get('cantidad')    
                 stock_actual = BodegaVirtual.objects.get(nombre=nombre).stock          
                 if cantidad > stock_actual:
