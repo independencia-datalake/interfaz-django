@@ -15,7 +15,7 @@ from django.forms.widgets import (
 )
 
 class ProductoFarmaciaForm(forms.ModelForm): 
-
+    laboratorio = forms.CharField(max_length= 200)
     def __init__(self, *args, **kwargs):
         super(ProductoFarmaciaForm,self).__init__(*args, **kwargs)
 
@@ -44,7 +44,7 @@ class ProductoFarmaciaForm(forms.ModelForm):
         }
 
 class ProductoFarmaciaModelForm(forms.ModelForm): #se agrega precio para la edicion
-
+    laboratorio = forms.CharField(max_length= 200)
     def __init__(self, *args, **kwargs):
         super(ProductoFarmaciaModelForm,self).__init__(*args, **kwargs)
 
