@@ -351,7 +351,7 @@ def crear_producto_farmacia(request):
         print(updated_request)
         form = ProductoFarmaciaForm(updated_request)
         form2 = BodegaVirtualIngresoStockForm(request.POST)
-        print(form)
+        # print(form)
         if form.is_valid() and form2.is_valid():
             producto_farmacia = ProductoFarmacia.objects.create(
                 autor=request.user,
