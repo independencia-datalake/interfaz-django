@@ -336,34 +336,17 @@ def crear_producto_farmacia(request):
     form2 = BodegaVirtualIngresoStockForm()
     
     if request.method == 'POST':
-        laboratorio = request.POST.get('laboratorio')
-        try:
-            laboratorio = Laboratorios.objects.get(nombre_laboratorio=laboratorio)
-            print(laboratorio)
-            print('ya existe')
-        except:
-            laboratorio = Laboratorios.objects.create(nombre_laboratorio=laboratorio)
-            print(laboratorio)
-            print('ya existe')
 
-        updated_request = request.POST.copy()
-        updated_request['laboratorio'] = laboratorio
-        print(updated_request)
-        form = ProductoFarmaciaForm(updated_request)
+        form = ProductoFarmaciaForm(request.POST)
         form2 = BodegaVirtualIngresoStockForm(request.POST)
         # print(form)
         if form.is_valid() and form2.is_valid():
-            producto_farmacia = ProductoFarmacia.objects.create(
-                autor=request.user,
-                marca_producto=form.cleaned_data.get('marca_producto'),
-                p_a=form.cleaned_data.get('p_a'),
-                dosis=form.cleaned_data.get('dosis'),
-                presentacion =form.cleaned_data.get('presentacion'),
-                proveedor = form.cleaned_data.get('proveedor'),
-                cenabast = form.cleaned_data.get('cenabast'),
-                bioequivalencia = form.cleaned_data.get('bioequivalencia'),
-                laboratorio = form.cleaned_data.get('laboratorio'),
-                )
+            producto_farmacia = form.save(commit=False)
+            producto_farmacia.autor = request.user
+            producto_farmacia.laboratorio = form.cleaned_data['laboratorio']
+            producto_farmacia.save()
+
+
             stock = 0
             key = ProductoFarmacia.objects.get(id=producto_farmacia.id)
             if form2.cleaned_data.get('stock_min'):

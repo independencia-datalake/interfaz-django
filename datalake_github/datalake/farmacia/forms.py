@@ -6,6 +6,7 @@ from .models import (
     ComprobanteVenta,
     ProductoVendido,
     CargaProducto,
+    Laboratorios
 )
 from stock.models import BodegaVirtual
 from core.models import PersonaInfoSalud
@@ -42,6 +43,13 @@ class ProductoFarmaciaForm(forms.ModelForm):
                     }
                 ),
         }
+    def clean_laboratorio(self):
+        nombre_laboratorio = self.cleaned_data['laboratorio']
+        try:
+            laboratorio = Laboratorios.objects.get(nombre_laboratorio=nombre_laboratorio)
+        except Laboratorios.DoesNotExist:
+            laboratorio = Laboratorios.objects.create(nombre_laboratorio=nombre_laboratorio)
+        return laboratorio
 
 class ProductoFarmaciaModelForm(forms.ModelForm): #se agrega precio para la edicion
     laboratorio = forms.CharField(max_length= 200)
